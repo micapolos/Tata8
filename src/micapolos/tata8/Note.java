@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 public enum Note {
   C_0, CIS_0, D_0, DIS_0, E_0, F_0, FIS_0, G_0, GIS_0, A_0, B_0, H_0,

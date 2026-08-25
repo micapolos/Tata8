@@ -1,4 +1,4 @@
-package micapolos.synth;
+package micapolos.tata8.synth;
 
 public final class Synth extends Line {
   public final Channel[] channels = { new Channel(), new Channel(), new Channel(), new Channel() };

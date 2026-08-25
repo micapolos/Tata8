@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 public final class Color {
   public static final Color TRANSPARENT = rgba(0, 0, 0, 0);

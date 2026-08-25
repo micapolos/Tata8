@@ -1,6 +1,6 @@
-package micapolos;
+package micapolos.tata8;
 
-import micapolos.synth.Synth;
+import micapolos.tata8.synth.Synth;
 
 import javax.swing.*;
 import java.awt.*;

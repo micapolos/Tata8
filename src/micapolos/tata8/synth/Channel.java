@@ -1,4 +1,4 @@
-package micapolos.synth;
+package micapolos.tata8.synth;
 
 public final class Channel extends Line {
   public final Osc osc1 = new Osc();

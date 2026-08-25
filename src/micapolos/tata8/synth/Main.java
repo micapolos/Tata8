@@ -1,4 +1,4 @@
-import micapolos.synth.Channel;
+import micapolos.tata8.synth.Channel;
 
 void main() {
   Channel channel = new Channel();

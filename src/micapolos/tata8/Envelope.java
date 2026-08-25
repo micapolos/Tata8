@@ -1,6 +1,6 @@
-package micapolos;
+package micapolos.tata8;
 
-import micapolos.synth.Env;
+import micapolos.tata8.synth.Env;
 
 public final class Envelope {
   public volatile float attack = 0f;

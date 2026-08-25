@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 public class Random {
   public static int between(int min, int max) {

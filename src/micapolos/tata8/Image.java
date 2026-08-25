@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

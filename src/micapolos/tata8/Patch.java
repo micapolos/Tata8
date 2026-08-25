@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 public final class Patch {
   public Wave osc1Wave = Wave.SQUARE;

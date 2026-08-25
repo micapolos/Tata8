@@ -1,6 +1,6 @@
-package micapolos;
+package micapolos.tata8;
 
-import micapolos.synth.Waveform;
+import micapolos.tata8.synth.Waveform;
 
 public enum Wave {
   SINE(Waveform.SINE),

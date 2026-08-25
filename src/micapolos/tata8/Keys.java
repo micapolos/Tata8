@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,16 +18,16 @@ public final class Keys {
   final KeyListener listener = new KeyAdapter() {
     @Override
     public void keyPressed(KeyEvent e) {
-      handleKeyCode(e.getKeyCode(), micapolos.Key::press);
+      handleKeyCode(e.getKeyCode(), Key::press);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-      handleKeyCode(e.getKeyCode(), micapolos.Key::release);
+      handleKeyCode(e.getKeyCode(), Key::release);
     }
 
-    private void handleKeyCode(int keyCode, Consumer<micapolos.Key> keyConsumer) {
-      micapolos.Key key = keyForCode(keyCode);
+    private void handleKeyCode(int keyCode, Consumer<Key> keyConsumer) {
+      Key key = keyForCode(keyCode);
       if (key != null) {
         keyConsumer.accept(key);
       }

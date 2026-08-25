@@ -1,4 +1,4 @@
-import micapolos.*;
+import micapolos.tata8.*;
 
 void main() {
   Game game = new Game();
@@ -16,7 +16,7 @@ void main() {
   for (Sprite sprite : game.sprites) {
     sprite.image = quoteImage;
     sprite.isEnabled = true;
-    sprite.position.set(Random.until(320), Random.until(240));
+    sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
   }
 
   game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
@@ -27,7 +27,7 @@ void main() {
 
   game.audio.volume = 0.5f;
 
-  for (Channel channel : game.audio.channels) {
+  for (micapolos.tata8.Channel channel : game.audio.channels) {
     channel.wave = Wave.SAWTOOTH;
     Envelope envelope = channel.envelope;
     envelope.attack = 0;
@@ -41,7 +41,7 @@ void main() {
       quoteSprite.flip.x = !quoteSprite.flip.y;
     }
 
-    for (Channel channel : game.audio.channels) {
+    for (micapolos.tata8.Channel channel : game.audio.channels) {
       channel.sustain =
         game.keys.left.isPressed ||
             game.keys.right.isPressed ||
@@ -51,7 +51,7 @@ void main() {
 
     for (Sprite sprite : game.sprites) {
       sprite.position.add(
-          Random.between(-2, 2),
+          micapolos.tata8.Random.between(-2, 2),
           Random.between(-2, 2));
     }
 

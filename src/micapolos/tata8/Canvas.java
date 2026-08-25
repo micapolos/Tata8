@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.tata8;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

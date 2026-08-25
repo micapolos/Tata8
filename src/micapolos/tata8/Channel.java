@@ -1,7 +1,7 @@
-package micapolos;
+package micapolos.tata8;
 
 public final class Channel {
-  final micapolos.synth.Channel synthChannel;
+  final micapolos.tata8.synth.Channel synthChannel;
 
   public float volume = 1.0f;
   public boolean sustain;
@@ -10,7 +10,7 @@ public final class Channel {
   volatile boolean noteTrigger;
   volatile float note;
 
-  Channel(micapolos.synth.Channel synthChannel) {
+  Channel(micapolos.tata8.synth.Channel synthChannel) {
     this.synthChannel = synthChannel;
     this.envelope = new Envelope(synthChannel.env1);
   }
