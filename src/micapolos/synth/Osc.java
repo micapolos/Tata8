@@ -1,4 +1,4 @@
-package micapolos.tata8.synth;
+package micapolos.synth;
 
 public final class Osc extends Line {
   float t;

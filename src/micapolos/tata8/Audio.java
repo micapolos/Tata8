@@ -1,6 +1,6 @@
 package micapolos.tata8;
 
-import micapolos.tata8.synth.Synth;
+import micapolos.synth.Synth;
 
 public final class Audio {
   final Synth synth;
@@ -17,7 +17,7 @@ public final class Audio {
     closeRunnable = synth.listen(this::sync);
   }
 
-  static Channel newChannel(micapolos.tata8.synth.Channel synthChannel) {
+  static Channel newChannel(micapolos.synth.Channel synthChannel) {
     return new Channel(synthChannel);
   }
 

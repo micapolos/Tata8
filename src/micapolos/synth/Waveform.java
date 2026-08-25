@@ -1,4 +1,4 @@
-package micapolos.tata8.synth;
+package micapolos.synth;
 
 public interface Waveform {
   float value(float t);

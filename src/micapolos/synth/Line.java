@@ -1,4 +1,4 @@
-package micapolos.tata8.synth;
+package micapolos.synth;
 
 import javax.sound.sampled.*;
 import java.util.Arrays;
