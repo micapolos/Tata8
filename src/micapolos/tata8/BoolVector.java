@@ -1,6 +1,6 @@
 package micapolos.tata8;
 
-public class BoolVector {
+public final class BoolVector {
   public boolean x;
   public boolean y;
 }

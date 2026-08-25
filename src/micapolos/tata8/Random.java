@@ -1,6 +1,8 @@
 package micapolos.tata8;
 
 public class Random {
+  private Random() {}
+
   public static int between(int min, int max) {
     return (int) Math.round(min + Math.random() * (max - min));
   }

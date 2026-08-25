@@ -74,7 +74,7 @@ class Sandbox {
       }
 
       if (game.keys.x.isPressed) {
-        quoteSprite.rotation += 15;
+        quoteSprite.angle += 15;
       }
 
       quoteSprite.position.add(1, 0);

@@ -7,5 +7,7 @@ public final class Sprite {
   public final IntVector anchor = new IntVector();
   public final IntVector zoom = new IntVector();
   public final BoolVector flip = new BoolVector();
-  public int rotation;
+  public int angle;
+
+  Sprite() {}
 }
