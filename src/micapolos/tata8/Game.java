@@ -74,7 +74,6 @@ public final class Game {
     panel.requestFocus();
 
     timer = new Timer(16, _ -> {
-      size.set(WIDTH, HEIGHT);
       frame.setTitle(title);
       updater.update();
       panel.repaint();
