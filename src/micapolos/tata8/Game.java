@@ -28,6 +28,8 @@ public final class Game {
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
+  public static final Tile.Map backgroundTileMap = Tile.Map.create(32, 64, 16, 16);
+  public static final Tile.Map foregroundTileMap = Tile.Map.create(32, 64, 16, 16);
   public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
 
@@ -69,10 +71,12 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
+        backgroundTileMap.drawOn(compositeCanvas);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite);
         }
+        foregroundTileMap.drawOn(compositeCanvas);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
       }
