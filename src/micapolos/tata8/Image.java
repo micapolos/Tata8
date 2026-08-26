@@ -13,20 +13,26 @@ public final class Image {
     this.size = size;
   }
 
-  public Image[] slice(int width, int height) {
-    var sliceSize = new FinalSize(width, height);
-    int columnCount = size.width / width;
-    int rowCount = size.height / height;
+  public Image with(BufferedImage bufferedImage) {
+    return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
+  }
+
+  public Image subImage(int x, int y, int width, int height) {
+    return with(bufferedImage.getSubimage(x, y, width, height));
+  }
+
+  public Image[] slice(int columnCount, int rowCount) {
+    var sliceSize = new FinalSize(size.width / columnCount, size.height / rowCount);
     Image[] images = new Image[columnCount * rowCount];
     int y = 0;
     int index = 0;
     for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
       int x = 0;
       for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-        images[index++] = new Image(bufferedImage.getSubimage(x, y, width, height), sliceSize);
-        x += width;
+        images[index++] = new Image(bufferedImage.getSubimage(x, y, sliceSize.width, sliceSize.height), sliceSize);
+        x += sliceSize.width;
       }
-      y += height;
+      y += sliceSize.height;
     }
     return images;
   }
