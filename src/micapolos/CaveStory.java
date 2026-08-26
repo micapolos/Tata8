@@ -32,11 +32,8 @@ class CaveStory {
 
     Image[] images = quoteImage.slice(32, 1);
 
-    Game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
-    Game.backgroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
-
-    Game.foregroundCanvas.fillRect(0, 0, 320, 8, Color.BLUE);
-    Game.foregroundCanvas.fillRect(0, 8, 320, 1, Color.WHITE);
+    Game.foregroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
+    Game.foregroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
 
     Game.audio.volume = 0.5f;
 
@@ -52,6 +49,7 @@ class CaveStory {
     Game.onUpdate = () -> {
       if (Game.keys.z.didPress()) {
         quoteSprite.flip.x = !quoteSprite.flip.y;
+        Game.backgroundCanvas.clear();
       }
 
       for (Channel channel : Game.audio.channels) {
@@ -98,7 +96,7 @@ class CaveStory {
       quoteSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
       quoteSprite.isHidden = Game.mouse.isOutside;
       if (Game.mouse.button.isPressed()) {
-        Game.foregroundCanvas.draw(quoteSprite);
+        Game.backgroundCanvas.draw(quoteSprite);
       }
 
       quoteSprite.position.add(1, 0);
