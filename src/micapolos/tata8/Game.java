@@ -50,11 +50,13 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
+        List<Sprite> drawnSprites;
         synchronized (sprites) {
-          sprites.sort(Comparator.naturalOrder());
-          for (Sprite sprite : sprites) {
-            compositeCanvas.draw(sprite);
-          }
+          drawnSprites = new ArrayList<>(sprites);
+        }
+        drawnSprites.sort(Comparator.naturalOrder());
+        for (Sprite sprite : drawnSprites) {
+          compositeCanvas.draw(sprite);
         }
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
