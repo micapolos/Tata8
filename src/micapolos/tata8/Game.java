@@ -21,7 +21,7 @@ public final class Game {
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
-  public static Updater updater = Updater.EMPTY;
+  public static Runnable onUpdate = () -> {};
 
   public static Image loadImage(Class<?> baseClass, String fileName) {
     return Image.load(baseClass, fileName);
@@ -66,7 +66,7 @@ public final class Game {
 
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
-      updater.update();
+      onUpdate.run();
       panel.repaint();
       for (Key key : keys.array) {
         key.update();

@@ -47,7 +47,7 @@ class CaveStory {
       envelope.release = 1f;
     }
 
-    Game.updater = () -> {
+    Game.onUpdate = () -> {
       if (Game.keys.z.didPress()) {
         quoteSprite.flip.x = !quoteSprite.flip.y;
       }
