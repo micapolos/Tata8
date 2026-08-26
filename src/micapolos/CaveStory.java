@@ -96,8 +96,10 @@ class CaveStory {
       }
 
       quoteSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
-      quoteSprite.flip.x = Game.mouse.button.isPressed();
       quoteSprite.isHidden = Game.mouse.isOutside;
+      if (Game.mouse.button.isPressed()) {
+        Game.foregroundCanvas.draw(quoteSprite);
+      }
 
       quoteSprite.position.add(1, 0);
     };

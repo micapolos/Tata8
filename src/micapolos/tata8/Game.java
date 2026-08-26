@@ -96,19 +96,23 @@ public final class Game {
 
       @Override
       public void mouseEntered(MouseEvent e) {
-        mouse.isOutside = true;
+        mouse.isOutside = false;
       }
 
       @Override
       public void mouseExited(MouseEvent e) {
-        mouse.isOutside = false;
+        mouse.isOutside = true;
       }
     });
 
     panel.addMouseMotionListener(new MouseMotionAdapter() {
       @Override
       public void mouseMoved(MouseEvent e) {
-        IO.println(e);
+        mouse.position.set(e.getX() / SCALE, e.getY() / SCALE);
+      }
+
+      @Override
+      public void mouseDragged(MouseEvent e) {
         mouse.position.set(e.getX() / SCALE, e.getY() / SCALE);
       }
     });
