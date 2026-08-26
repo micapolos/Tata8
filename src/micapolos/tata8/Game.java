@@ -9,9 +9,9 @@ import java.util.List;
 public final class Game {
   static final int WIDTH = 320;
   static final int HEIGHT = 256;
+  public static final int MAX_SPRITE_COUNT = 256;
+  public static final int MAX_IMAGES_PIXEL_COUNT = 1024 * 1024;
   static final int SCALE = 3;
-  static final int MAX_SPRITE_COUNT = 256;
-  static final int MAX_IMAGE_PIXEL_COUNT = 1024 * 1024;
 
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
@@ -29,8 +29,8 @@ public final class Game {
   public static Image loadImage(Class<?> baseClass, String fileName) {
     Image image = Image.load(baseClass, fileName);
     int newLoadedImagePixelCount = loadedImagePixelCount + image.size.width * image.size.height;
-    if (newLoadedImagePixelCount > MAX_IMAGE_PIXEL_COUNT) {
-      throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGE_PIXEL_COUNT + ")");
+    if (newLoadedImagePixelCount > MAX_IMAGES_PIXEL_COUNT) {
+      throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGES_PIXEL_COUNT + ")");
     }
     return image;
   }
