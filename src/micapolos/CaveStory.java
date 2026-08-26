@@ -7,7 +7,7 @@ class CaveStory {
     Game.title = "Cave Story";
 
     var quoteImage = Game.images[0];
-    quoteImage.load("quote.png");
+    quoteImage.load(CaveStory.class, "quote.png");
 
     var quoteSprite = Game.sprites[0];
     quoteSprite.image = quoteImage;

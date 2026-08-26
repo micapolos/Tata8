@@ -24,17 +24,17 @@ public final class Image {
     return bufferedImage != null;
   }
 
-  public void load(String fileName) {
-    bufferedImage = loadBufferedImage(fileName);
+  public void load(Class<?> clazz, String fileName) {
+    bufferedImage = loadBufferedImage(clazz, fileName);
   }
 
   public void unload() {
     bufferedImage = null;
   }
 
-  static BufferedImage loadBufferedImage(String fileName) {
+  static BufferedImage loadBufferedImage(Class<?> clazz, String fileName) {
     try {
-      return ImageIO.read(new File(fileName));
+      return ImageIO.read(Resource.stream(clazz, fileName));
     } catch (IOException e) {
       throw new RuntimeException("Failed to load sprite: " + fileName);
     }
