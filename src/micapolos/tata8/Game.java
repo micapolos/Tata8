@@ -4,11 +4,15 @@ import micapolos.synth.Synth;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Game {
   static final int WIDTH = 320;
   static final int HEIGHT = 256;
   static final int SCALE = 3;
+
+  static final List<Sprite> sprites = new ArrayList<>();
 
   public static String title = "Game";
   public static final FinalSize size;
@@ -16,8 +20,6 @@ public final class Game {
   public static final Canvas backgroundCanvas;
   public static final Canvas foregroundCanvas;
   public static final Keys keys = new Keys();
-  public static final Sprite[] sprites = new Sprite[256];
-  public static final Image[] images = new Image[256];
   public static final Audio audio;
   public static Updater updater = Updater.EMPTY;
 
@@ -31,14 +33,6 @@ public final class Game {
     backgroundCanvas = new Canvas(WIDTH, HEIGHT);
     foregroundCanvas = new Canvas(WIDTH, HEIGHT);
     compositeCanvas = new Canvas(WIDTH, HEIGHT);
-
-    for (int i = 0; i < images.length; i++) {
-      images[i] = new Image();
-    }
-
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i] = new Sprite();
-    }
 
     Synth synth = new Synth();
     synth.reset();
@@ -82,6 +76,16 @@ public final class Game {
       }
     });
     timer.start();
+  }
+
+  public static Image loadImage(Class<?> baseClass, String fileName) {
+    return Image.load(baseClass, fileName);
+  }
+
+  public static Sprite newSprite() {
+    Sprite sprite = new Sprite();
+    sprites.add(sprite);
+    return sprite;
   }
 
   private Game() {}

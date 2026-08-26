@@ -2,19 +2,21 @@ package micapolos;
 
 import micapolos.tata8.*;
 
+import java.util.List;
+
 class CaveStory {
   static void main() {
     Game.title = "Cave Story";
 
-    var quoteImage = Game.images[0];
-    quoteImage.load(CaveStory.class, "quote.png");
+    var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
 
-    var quoteSprite = Game.sprites[0];
+    var quoteSprite = Game.newSprite();
     quoteSprite.image = quoteImage;
     quoteSprite.position.set(0, 180);
-    quoteSprite.anchor.set(quoteImage.size.width() / 2, quoteImage.size.height() / 2);
+    quoteSprite.anchor.set(quoteImage.size.width / 2, quoteImage.size.height / 2);
 
-    for (Sprite sprite : Game.sprites) {
+    List<Sprite> quoteSprites = List.ofLazy(128, _ -> Game.newSprite());
+    for (Sprite sprite : quoteSprites) {
       sprite.image = quoteImage;
       sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
     }
@@ -50,7 +52,7 @@ class CaveStory {
               Game.keys.down.isPressed();
       }
 
-      for (Sprite sprite : Game.sprites) {
+      for (Sprite sprite : quoteSprites) {
         sprite.position.add(
             micapolos.tata8.Random.between(-2, 2),
             Random.between(-2, 2));

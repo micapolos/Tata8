@@ -5,30 +5,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public final class Image {
-  BufferedImage bufferedImage;
+  final BufferedImage bufferedImage;
+  public final FinalSize size;
 
-  public final ReadOnlySize size = new ReadOnlySize() {
-    @Override
-    public int width() {
-      return bufferedImage != null ? bufferedImage.getWidth() : 0;
-    }
-
-    @Override
-    public int height() {
-      return bufferedImage != null ? bufferedImage.getHeight() : 0;
-    }
-  };
-
-  public boolean isLoaded() {
-    return bufferedImage != null;
+  Image(BufferedImage bufferedImage, FinalSize size) {
+    this.bufferedImage = bufferedImage;
+    this.size = size;
   }
 
-  public void load(Class<?> baseClass, String fileName) {
-    bufferedImage = loadBufferedImage(baseClass, fileName);
-  }
-
-  public void unload() {
-    bufferedImage = null;
+  static Image load(Class<?> baseClass, String fileName) {
+    BufferedImage bufferedImage = loadBufferedImage(baseClass, fileName);
+    return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
   }
 
   static BufferedImage loadBufferedImage(Class<?> baseClass, String fileName) {
