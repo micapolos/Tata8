@@ -11,12 +11,16 @@ public final class Canvas {
 
   public Color color = Color.WHITE;
 
-  Canvas(int width, int height) {
-    image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+  Canvas(BufferedImage image) {
+    this.image = image;
     graphics = image.createGraphics();
     graphics.setBackground(Color.TRANSPARENT.awtColor);
-    graphics.clearRect(0, 0, width, height);
+    graphics.clearRect(0, 0, image.getWidth(), image.getHeight());
     graphics.setColor(Color.WHITE.awtColor);
+  }
+
+  Canvas(int width, int height) {
+    this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
   }
 
   public void clear() {

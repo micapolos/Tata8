@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,6 +38,10 @@ public final class Game {
       throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGES_PIXEL_COUNT + ")");
     }
     return image;
+  }
+
+  public static Image newImage(int width, int height) {
+    return new Image(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
   }
 
   public static int spriteCount() {

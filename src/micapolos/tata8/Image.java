@@ -8,9 +8,19 @@ public final class Image {
   final BufferedImage bufferedImage;
   public final FinalSize size;
 
+  Image(BufferedImage bufferedImage) {
+    this.bufferedImage = bufferedImage;
+    this.size = new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight());
+  }
+
+
   Image(BufferedImage bufferedImage, FinalSize size) {
     this.bufferedImage = bufferedImage;
     this.size = size;
+  }
+
+  public Canvas newCanvas() {
+    return new Canvas(bufferedImage);
   }
 
   public Image with(BufferedImage bufferedImage) {
