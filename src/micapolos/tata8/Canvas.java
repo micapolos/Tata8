@@ -23,6 +23,14 @@ public final class Canvas {
     graphics.clearRect(0, 0, image.getWidth(), image.getHeight());
   }
 
+  public void drawPoint(int x, int y) {
+    drawPoint(x, y, color);
+  }
+
+  public void drawPoint(int x, int y, Color color) {
+    fillRect(x, y, 1, 1, color);
+  }
+
   public void drawRect(int x, int y, int w, int h) {
     drawRect(x, y, w, h, color);
   }
