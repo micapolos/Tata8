@@ -68,7 +68,7 @@ public final class Canvas {
 
   public void draw(Sprite sprite) {
     Image image = sprite.image;
-    if (image != null && sprite.isEnabled) {
+    if (image != null && !sprite.isHidden) {
       imageTransform.setToIdentity();
       imageTransform.translate(sprite.position.x, sprite.position.y);
       imageTransform.rotate((sprite.angle / 360f) * Math.PI * 2);

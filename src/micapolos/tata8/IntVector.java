@@ -21,4 +21,22 @@ public final class IntVector {
   public void add(IntVector v) {
     add(v.x, v.y);
   }
+
+  public ReadOnlyVector toReadonly() {
+    return new ReadOnlyVector() {
+      @Override
+      public int x() {
+        return x;
+      }
+
+      @Override
+      public int y() {
+        return y;
+      }
+    };
+  }
+
+  public FinalVector toFinal() {
+    return new FinalVector(x, y);
+  }
 }

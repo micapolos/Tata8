@@ -2,7 +2,7 @@ package micapolos.tata8;
 
 public final class Sprite {
   public Image image;
-  public boolean isEnabled;
+  public boolean isHidden;
   public final IntVector position = new IntVector();
   public final IntVector anchor = new IntVector();
   public final IntVector zoom = new IntVector();

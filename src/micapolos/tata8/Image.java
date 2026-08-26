@@ -8,13 +8,28 @@ import java.io.IOException;
 public final class Image {
   BufferedImage bufferedImage;
 
-  public boolean isLoaded;
-  public final Size size = new Size();
+  public final ReadOnlySize size = new ReadOnlySize() {
+    @Override
+    public int width() {
+      return bufferedImage != null ? bufferedImage.getWidth() : 0;
+    }
+
+    @Override
+    public int height() {
+      return bufferedImage != null ? bufferedImage.getHeight() : 0;
+    }
+  };
+
+  public boolean isLoaded() {
+    return bufferedImage != null;
+  }
 
   public void load(String fileName) {
     bufferedImage = loadBufferedImage(fileName);
-    size.set(bufferedImage.getWidth(), bufferedImage.getHeight());
-    isLoaded = true;
+  }
+
+  public void unload() {
+    bufferedImage = null;
   }
 
   static BufferedImage loadBufferedImage(String fileName) {

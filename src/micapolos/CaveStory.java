@@ -1,6 +1,8 @@
-package micapolos.tata8;
+package micapolos;
 
-class Sandbox {
+import micapolos.tata8.*;
+
+class CaveStory {
   static void main() {
     Game game = new Game();
     game.title = "Cave Story";
@@ -10,13 +12,11 @@ class Sandbox {
 
     var quoteSprite = game.sprites[0];
     quoteSprite.image = quoteImage;
-    quoteSprite.isEnabled = true;
     quoteSprite.position.set(0, 180);
-    quoteSprite.anchor.set(16, 16);
+    quoteSprite.anchor.set(quoteImage.size.width() / 2, quoteImage.size.height() / 2);
 
     for (Sprite sprite : game.sprites) {
       sprite.image = quoteImage;
-      sprite.isEnabled = true;
       sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
     }
 
@@ -39,16 +39,16 @@ class Sandbox {
     ;
 
     game.updater = () -> {
-      if (game.keys.z.didPress) {
+      if (game.keys.z.didPress()) {
         quoteSprite.flip.x = !quoteSprite.flip.y;
       }
 
       for (micapolos.tata8.Channel channel : game.audio.channels) {
         channel.sustain =
-            game.keys.left.isPressed ||
-                game.keys.right.isPressed ||
-                game.keys.up.isPressed ||
-                game.keys.down.isPressed;
+          game.keys.left.isPressed() ||
+              game.keys.right.isPressed() ||
+              game.keys.up.isPressed() ||
+              game.keys.down.isPressed();
       }
 
       for (Sprite sprite : game.sprites) {
@@ -57,23 +57,23 @@ class Sandbox {
             Random.between(-2, 2));
       }
 
-      if (game.keys.left.didPress) {
+      if (game.keys.left.didPress()) {
         game.audio.channels[0].play(Note.C_2);
       }
 
-      if (game.keys.up.didPress) {
+      if (game.keys.up.didPress()) {
         game.audio.channels[1].play(Note.C_2.plusSemitones(3));
       }
 
-      if (game.keys.down.didPress) {
+      if (game.keys.down.didPress()) {
         game.audio.channels[2].play(Note.C_2.plusSemitones(7));
       }
 
-      if (game.keys.right.didPress) {
+      if (game.keys.right.didPress()) {
         game.audio.channels[3].play(Note.C_2.plusSemitones(12));
       }
 
-      if (game.keys.x.isPressed) {
+      if (game.keys.x.isPressed()) {
         quoteSprite.angle += 15;
       }
 

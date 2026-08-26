@@ -11,7 +11,7 @@ public final class Game {
   static final int SCALE = 3;
 
   public String title = "Game";
-  public final Size size = new Size();
+  public final FinalSize size;
   public Color backgroundColor = Color.BLACK;
   public final Canvas backgroundCanvas;
   public final Canvas foregroundCanvas;
@@ -26,7 +26,7 @@ public final class Game {
   final Timer timer;
 
   public Game() {
-    size.set(WIDTH, HEIGHT);
+    size = new FinalSize(WIDTH, HEIGHT);
 
     backgroundCanvas = new Canvas(WIDTH, HEIGHT);
     foregroundCanvas = new Canvas(WIDTH, HEIGHT);
