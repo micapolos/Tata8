@@ -2,7 +2,6 @@ package micapolos.tata8;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public final class Image {
@@ -24,17 +23,17 @@ public final class Image {
     return bufferedImage != null;
   }
 
-  public void load(Class<?> clazz, String fileName) {
-    bufferedImage = loadBufferedImage(clazz, fileName);
+  public void load(Class<?> baseClass, String fileName) {
+    bufferedImage = loadBufferedImage(baseClass, fileName);
   }
 
   public void unload() {
     bufferedImage = null;
   }
 
-  static BufferedImage loadBufferedImage(Class<?> clazz, String fileName) {
+  static BufferedImage loadBufferedImage(Class<?> baseClass, String fileName) {
     try {
-      return ImageIO.read(Resource.stream(clazz, fileName));
+      return ImageIO.read(Resource.stream(baseClass, fileName));
     } catch (IOException e) {
       throw new RuntimeException("Failed to load sprite: " + fileName);
     }
