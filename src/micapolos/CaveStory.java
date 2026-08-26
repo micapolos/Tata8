@@ -4,31 +4,30 @@ import micapolos.tata8.*;
 
 class CaveStory {
   static void main() {
-    Game game = new Game();
-    game.title = "Cave Story";
+    Game.title = "Cave Story";
 
-    var quoteImage = game.images[0];
+    var quoteImage = Game.images[0];
     quoteImage.load("quote.png");
 
-    var quoteSprite = game.sprites[0];
+    var quoteSprite = Game.sprites[0];
     quoteSprite.image = quoteImage;
     quoteSprite.position.set(0, 180);
     quoteSprite.anchor.set(quoteImage.size.width() / 2, quoteImage.size.height() / 2);
 
-    for (Sprite sprite : game.sprites) {
+    for (Sprite sprite : Game.sprites) {
       sprite.image = quoteImage;
       sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
     }
 
-    game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
-    game.backgroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
+    Game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
+    Game.backgroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
 
-    game.foregroundCanvas.fillRect(0, 0, 320, 8, Color.BLUE);
-    game.foregroundCanvas.fillRect(0, 8, 320, 1, Color.WHITE);
+    Game.foregroundCanvas.fillRect(0, 0, 320, 8, Color.BLUE);
+    Game.foregroundCanvas.fillRect(0, 8, 320, 1, Color.WHITE);
 
-    game.audio.volume = 0.5f;
+    Game.audio.volume = 0.5f;
 
-    for (micapolos.tata8.Channel channel : game.audio.channels) {
+    for (micapolos.tata8.Channel channel : Game.audio.channels) {
       channel.wave = Wave.SAWTOOTH;
       Envelope envelope = channel.envelope;
       envelope.attack = 0;
@@ -38,42 +37,42 @@ class CaveStory {
     }
     ;
 
-    game.updater = () -> {
-      if (game.keys.z.didPress()) {
+    Game.updater = () -> {
+      if (Game.keys.z.didPress()) {
         quoteSprite.flip.x = !quoteSprite.flip.y;
       }
 
-      for (micapolos.tata8.Channel channel : game.audio.channels) {
+      for (micapolos.tata8.Channel channel : Game.audio.channels) {
         channel.sustain =
-          game.keys.left.isPressed() ||
-              game.keys.right.isPressed() ||
-              game.keys.up.isPressed() ||
-              game.keys.down.isPressed();
+          Game.keys.left.isPressed() ||
+              Game.keys.right.isPressed() ||
+              Game.keys.up.isPressed() ||
+              Game.keys.down.isPressed();
       }
 
-      for (Sprite sprite : game.sprites) {
+      for (Sprite sprite : Game.sprites) {
         sprite.position.add(
             micapolos.tata8.Random.between(-2, 2),
             Random.between(-2, 2));
       }
 
-      if (game.keys.left.didPress()) {
-        game.audio.channels[0].play(Note.C_2);
+      if (Game.keys.left.didPress()) {
+        Game.audio.channels[0].play(Note.C_2);
       }
 
-      if (game.keys.up.didPress()) {
-        game.audio.channels[1].play(Note.C_2.plusSemitones(3));
+      if (Game.keys.up.didPress()) {
+        Game.audio.channels[1].play(Note.C_2.plusSemitones(3));
       }
 
-      if (game.keys.down.didPress()) {
-        game.audio.channels[2].play(Note.C_2.plusSemitones(7));
+      if (Game.keys.down.didPress()) {
+        Game.audio.channels[2].play(Note.C_2.plusSemitones(7));
       }
 
-      if (game.keys.right.didPress()) {
-        game.audio.channels[3].play(Note.C_2.plusSemitones(12));
+      if (Game.keys.right.didPress()) {
+        Game.audio.channels[3].play(Note.C_2.plusSemitones(12));
       }
 
-      if (game.keys.x.isPressed()) {
+      if (Game.keys.x.isPressed()) {
         quoteSprite.angle += 15;
       }
 

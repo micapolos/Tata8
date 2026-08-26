@@ -10,22 +10,22 @@ public final class Game {
   static final int HEIGHT = 256;
   static final int SCALE = 3;
 
-  public String title = "Game";
-  public final FinalSize size;
-  public Color backgroundColor = Color.BLACK;
-  public final Canvas backgroundCanvas;
-  public final Canvas foregroundCanvas;
-  public final Keys keys = new Keys();
-  public final Sprite[] sprites = new Sprite[256];
-  public final Image[] images = new Image[256];
-  public final Audio audio;
-  public Updater updater = Updater.EMPTY;
+  public static String title = "Game";
+  public static final FinalSize size;
+  public static Color backgroundColor = Color.BLACK;
+  public static final Canvas backgroundCanvas;
+  public static final Canvas foregroundCanvas;
+  public static final Keys keys = new Keys();
+  public static final Sprite[] sprites = new Sprite[256];
+  public static final Image[] images = new Image[256];
+  public static final Audio audio;
+  public static Updater updater = Updater.EMPTY;
 
-  final Canvas compositeCanvas;
-  final JFrame frame;
-  final Timer timer;
+  static final Canvas compositeCanvas;
+  static final JFrame frame;
+  static final Timer timer;
 
-  public Game() {
+  static {
     size = new FinalSize(WIDTH, HEIGHT);
 
     backgroundCanvas = new Canvas(WIDTH, HEIGHT);
@@ -84,12 +84,5 @@ public final class Game {
     timer.start();
   }
 
-  public void exit() {
-    frame.setVisible(false);
-    frame.dispose();
-    timer.stop();
-    audio.stop();
-    // Remove this once every resource is closed properly.
-    System.exit(0);
-  }
+  private Game() {}
 }
