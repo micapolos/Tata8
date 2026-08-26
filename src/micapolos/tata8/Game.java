@@ -10,9 +10,12 @@ public final class Game {
   static final int WIDTH = 320;
   static final int HEIGHT = 256;
   static final int SCALE = 3;
+  static final int MAX_SPRITE_COUNT = 256;
+  static final int MAX_IMAGE_PIXEL_COUNT = 1024 * 1024;
 
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
+  static int loadedImagePixelCount;
 
   public static String title = "Game";
   public static final FinalSize size = new FinalSize(WIDTH, HEIGHT);
@@ -24,10 +27,22 @@ public final class Game {
   public static Runnable onUpdate = () -> {};
 
   public static Image loadImage(Class<?> baseClass, String fileName) {
-    return Image.load(baseClass, fileName);
+    Image image = Image.load(baseClass, fileName);
+    int newLoadedImagePixelCount = loadedImagePixelCount + image.size.width * image.size.height;
+    if (newLoadedImagePixelCount > MAX_IMAGE_PIXEL_COUNT) {
+      throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGE_PIXEL_COUNT + ")");
+    }
+    return image;
+  }
+
+  public static int spriteCount() {
+    return sprites.size();
   }
 
   public static Sprite newSprite() {
+    if (sprites.size() == MAX_SPRITE_COUNT) {
+      throw new RuntimeException("Could not create new sprite (max is " + MAX_SPRITE_COUNT + ")");
+    }
     Sprite sprite = new Sprite();
     sprites.add(sprite);
     return sprite;
