@@ -26,7 +26,7 @@ class CaveStory {
     for (Sprite sprite : curlySprites) {
       sprite.image = curlyImage;
       sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
-      sprite.scale.set(0.0625f, 0.0625f);
+      sprite.scale.set(0.0875f, 0.0875f);
       sprite.zIndex = -1;
     }
 
@@ -88,5 +88,7 @@ class CaveStory {
 
       quoteSprite.position.add(1, 0);
     };
+
+    Game.start();
   }
 }

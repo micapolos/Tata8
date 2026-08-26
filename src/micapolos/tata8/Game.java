@@ -1,7 +1,5 @@
 package micapolos.tata8;
 
-import micapolos.synth.Synth;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,32 +12,29 @@ public final class Game {
   static final int SCALE = 3;
 
   static final List<Sprite> sprites = new ArrayList<>();
+  static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
 
   public static String title = "Game";
-  public static final FinalSize size;
+  public static final FinalSize size = new FinalSize(WIDTH, HEIGHT);
   public static Color backgroundColor = Color.BLACK;
-  public static final Canvas backgroundCanvas;
-  public static final Canvas foregroundCanvas;
+  public static final Canvas backgroundCanvas = new Canvas(WIDTH, HEIGHT);
+  public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
-  public static final Audio audio;
+  public static final Audio audio = Audio.create();
   public static Updater updater = Updater.EMPTY;
 
-  static final Canvas compositeCanvas;
-  static final JFrame frame;
-  static final Timer timer;
+  public static Image loadImage(Class<?> baseClass, String fileName) {
+    return Image.load(baseClass, fileName);
+  }
 
-  static {
-    size = new FinalSize(WIDTH, HEIGHT);
+  public static Sprite newSprite() {
+    Sprite sprite = new Sprite();
+    sprites.add(sprite);
+    return sprite;
+  }
 
-    backgroundCanvas = new Canvas(WIDTH, HEIGHT);
-    foregroundCanvas = new Canvas(WIDTH, HEIGHT);
-    compositeCanvas = new Canvas(WIDTH, HEIGHT);
-
-    Synth synth = new Synth();
-    synth.reset();
-    audio = new Audio(synth);
-
-    frame = new JFrame(title);
+  public static void start() {
+    JFrame frame = new JFrame(title);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setResizable(false);
 
@@ -50,12 +45,8 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        List<Sprite> drawnSprites;
-        synchronized (sprites) {
-          drawnSprites = new ArrayList<>(sprites);
-        }
-        drawnSprites.sort(Comparator.naturalOrder());
-        for (Sprite sprite : drawnSprites) {
+        sprites.sort(Comparator.naturalOrder());
+        for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite);
         }
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
@@ -73,7 +64,7 @@ public final class Game {
 
     panel.requestFocus();
 
-    timer = new Timer(16, _ -> {
+    Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
       updater.update();
       panel.repaint();
@@ -82,18 +73,6 @@ public final class Game {
       }
     });
     timer.start();
-  }
-
-  public static Image loadImage(Class<?> baseClass, String fileName) {
-    return Image.load(baseClass, fileName);
-  }
-
-  public static Sprite newSprite() {
-    Sprite sprite = new Sprite();
-    synchronized (sprites) {
-      sprites.add(sprite);
-    }
-    return sprite;
   }
 
   private Game() {}
