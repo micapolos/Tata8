@@ -9,16 +9,25 @@ class CaveStory {
     Game.title = "Cave Story";
 
     var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
+    var curlyImage = Game.loadImage(CaveStory.class, "curly.png");
 
     var quoteSprite = Game.newSprite();
     quoteSprite.image = quoteImage;
     quoteSprite.position.set(0, 180);
     quoteSprite.anchor.set(quoteImage.size.width / 2f, quoteImage.size.height / 2f);
 
-    List<Sprite> quoteSprites = List.ofLazy(128, _ -> Game.newSprite());
+    List<Sprite> quoteSprites = List.ofLazy(32, _ -> Game.newSprite());
     for (Sprite sprite : quoteSprites) {
       sprite.image = quoteImage;
       sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
+    }
+
+    List<Sprite> curlySprites = List.ofLazy(32, _ -> Game.newSprite());
+    for (Sprite sprite : curlySprites) {
+      sprite.image = curlyImage;
+      sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
+      sprite.scale.set(0.0625f, 0.0625f);
+      sprite.zIndex = -1;
     }
 
     Game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
@@ -37,7 +46,6 @@ class CaveStory {
       envelope.sustain = 0.3f;
       envelope.release = 1f;
     }
-    ;
 
     Game.updater = () -> {
       if (Game.keys.z.didPress()) {

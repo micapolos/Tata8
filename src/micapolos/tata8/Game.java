@@ -5,6 +5,7 @@ import micapolos.synth.Synth;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public final class Game {
@@ -49,8 +50,11 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        for (Sprite sprite : sprites) {
-          compositeCanvas.draw(sprite);
+        synchronized (sprites) {
+          sprites.sort(Comparator.naturalOrder());
+          for (Sprite sprite : sprites) {
+            compositeCanvas.draw(sprite);
+          }
         }
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
@@ -84,7 +88,9 @@ public final class Game {
 
   public static Sprite newSprite() {
     Sprite sprite = new Sprite();
-    sprites.add(sprite);
+    synchronized (sprites) {
+      sprites.add(sprite);
+    }
     return sprite;
   }
 
