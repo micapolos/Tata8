@@ -6,7 +6,7 @@ public final class FloatVector {
 
   public FloatVector() {}
 
-  public FloatVector(int x, int y) {
+  public FloatVector(float x, float y) {
     this.x = x;
     this.y = y;
   }

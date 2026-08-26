@@ -15,11 +15,11 @@ public final class Color {
     this.awtColor = awtColor;
   }
 
-  public static Color rgb(int r, int g, int b) {
+  public static Color rgb(float r, float g, float b) {
     return rgba(r, g, b, 1);
   }
 
-  public static Color rgba(int r, int g, int b, int a) {
+  public static Color rgba(float r, float g, float b, float a) {
     return new Color(new java.awt.Color(r, g, b, a));
   }
 }

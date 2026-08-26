@@ -73,7 +73,7 @@ public final class Canvas {
       imageTransform.translate(sprite.position.x, sprite.position.y);
       imageTransform.rotate((sprite.angle / 360f) * Math.PI * 2);
       imageTransform.scale(sprite.flip.x ? -1 : 1, sprite.flip.y ? -1 : 1);
-      imageTransform.scale(1 << sprite.zoom.x, 1 << sprite.zoom.y);
+      imageTransform.scale(sprite.scale.x, sprite.scale.y);
       imageTransform.translate(-sprite.anchor.x, -sprite.anchor.y);
       graphics.drawImage(image.bufferedImage, imageTransform, null);
     }

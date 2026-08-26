@@ -3,11 +3,11 @@ package micapolos.tata8;
 public final class Sprite {
   public Image image;
   public boolean isHidden;
-  public final IntVector position = new IntVector();
-  public final IntVector anchor = new IntVector();
-  public final IntVector zoom = new IntVector();
+  public final FloatVector position = new FloatVector();
+  public final FloatVector anchor = new FloatVector();
+  public final FloatVector scale = new FloatVector(1f, 1f);
   public final BoolVector flip = new BoolVector();
-  public int angle;
+  public float angle;
 
   Sprite() {}
 }

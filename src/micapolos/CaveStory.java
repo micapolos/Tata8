@@ -13,7 +13,7 @@ class CaveStory {
     var quoteSprite = Game.newSprite();
     quoteSprite.image = quoteImage;
     quoteSprite.position.set(0, 180);
-    quoteSprite.anchor.set(quoteImage.size.width / 2, quoteImage.size.height / 2);
+    quoteSprite.anchor.set(quoteImage.size.width / 2f, quoteImage.size.height / 2f);
 
     List<Sprite> quoteSprites = List.ofLazy(128, _ -> Game.newSprite());
     for (Sprite sprite : quoteSprites) {
