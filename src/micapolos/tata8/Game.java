@@ -2,6 +2,9 @@ package micapolos.tata8;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +28,7 @@ public final class Game {
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
   public static Runnable onUpdate = () -> {};
+  public static final Mouse mouse = new Mouse();
 
   public static Image loadImage(Class<?> baseClass, String fileName) {
     Image image = Image.load(baseClass, fileName);
@@ -79,6 +83,36 @@ public final class Game {
 
     panel.requestFocus();
 
+    panel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        mouse.button.press();
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        mouse.button.release();
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        mouse.isOutside = true;
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        mouse.isOutside = false;
+      }
+    });
+
+    panel.addMouseMotionListener(new MouseMotionAdapter() {
+      @Override
+      public void mouseMoved(MouseEvent e) {
+        IO.println(e);
+        mouse.position.set(e.getX() / SCALE, e.getY() / SCALE);
+      }
+    });
+
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
       onUpdate.run();
@@ -86,6 +120,7 @@ public final class Game {
       for (Key key : keys.array) {
         key.update();
       }
+      mouse.update();
     });
     timer.start();
   }

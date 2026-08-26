@@ -2,8 +2,6 @@ package micapolos;
 
 import micapolos.tata8.*;
 
-import java.util.List;
-
 class CaveStory {
   static int imageIndex;
 
@@ -18,19 +16,19 @@ class CaveStory {
     quoteSprite.position.set(0, 180);
     quoteSprite.anchor.set(quoteImage.size.width / 2f, quoteImage.size.height / 2f);
 
-    List<Sprite> quoteSprites = List.ofLazy(32, _ -> Game.newSprite());
-    for (Sprite sprite : quoteSprites) {
-      sprite.image = quoteImage;
-      sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
-    }
-
-    List<Sprite> curlySprites = List.ofLazy(32, _ -> Game.newSprite());
-    for (Sprite sprite : curlySprites) {
-      sprite.image = curlyImage;
-      sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
-      sprite.scale.set(0.0875f, 0.0875f);
-      sprite.zIndex = -1;
-    }
+//    List<Sprite> quoteSprites = List.ofLazy(32, _ -> Game.newSprite());
+//    for (Sprite sprite : quoteSprites) {
+//      sprite.image = quoteImage;
+//      sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
+//    }
+//
+//    List<Sprite> curlySprites = List.ofLazy(32, _ -> Game.newSprite());
+//    for (Sprite sprite : curlySprites) {
+//      sprite.image = curlyImage;
+//      sprite.position.set(micapolos.tata8.Random.until(320), micapolos.tata8.Random.until(240));
+//      sprite.scale.set(0.0875f, 0.0875f);
+//      sprite.zIndex = -1;
+//    }
 
     Image[] images = quoteImage.slice(32, 1);
 
@@ -64,14 +62,14 @@ class CaveStory {
               Game.keys.down.isPressed();
       }
 
-      for (Sprite sprite : quoteSprites) {
-        sprite.position.add(
-            micapolos.tata8.Random.between(-2, 2),
-            Random.between(-2, 2));
-
-        sprite.image = images[imageIndex];
-      }
-
+//      for (Sprite sprite : quoteSprites) {
+//        sprite.position.add(
+//            micapolos.tata8.Random.between(-2, 2),
+//            Random.between(-2, 2));
+//
+//        sprite.image = images[imageIndex];
+//      }
+//
       imageIndex++;
       if (imageIndex >= images.length) {
         imageIndex = 0;
@@ -96,6 +94,10 @@ class CaveStory {
       if (Game.keys.x.isPressed()) {
         quoteSprite.angle += 15;
       }
+
+      quoteSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
+      quoteSprite.flip.x = Game.mouse.button.isPressed();
+      quoteSprite.isHidden = Game.mouse.isOutside;
 
       quoteSprite.position.add(1, 0);
     };
