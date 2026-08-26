@@ -71,7 +71,7 @@ public final class Canvas {
     if (image != null && !sprite.isHidden) {
       imageTransform.setToIdentity();
       imageTransform.translate(sprite.position.x, sprite.position.y);
-      imageTransform.rotate((sprite.angle / 360f) * Math.PI * 2);
+      imageTransform.rotate((sprite.angle / 360f) * Math.TAU);
       imageTransform.scale(sprite.flip.x ? -1 : 1, sprite.flip.y ? -1 : 1);
       imageTransform.scale(sprite.scale.x, sprite.scale.y);
       imageTransform.translate(-sprite.anchor.x, -sprite.anchor.y);
