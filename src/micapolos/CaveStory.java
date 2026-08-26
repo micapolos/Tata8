@@ -38,7 +38,7 @@ class CaveStory {
 
     Game.audio.volume = 0.5f;
 
-    for (micapolos.tata8.Channel channel : Game.audio.channels) {
+    for (Channel channel : Game.audio.channels) {
       channel.wave = Wave.SAWTOOTH;
       Envelope envelope = channel.envelope;
       envelope.attack = 0;
@@ -52,7 +52,7 @@ class CaveStory {
         quoteSprite.flip.x = !quoteSprite.flip.y;
       }
 
-      for (micapolos.tata8.Channel channel : Game.audio.channels) {
+      for (Channel channel : Game.audio.channels) {
         channel.sustain =
           Game.keys.left.isPressed() ||
               Game.keys.right.isPressed() ||
