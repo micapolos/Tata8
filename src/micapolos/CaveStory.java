@@ -5,6 +5,8 @@ import micapolos.tata8.*;
 import java.util.List;
 
 class CaveStory {
+  static int imageIndex;
+
   static void main() {
     Game.title = "Cave Story";
 
@@ -29,6 +31,8 @@ class CaveStory {
       sprite.scale.set(0.0875f, 0.0875f);
       sprite.zIndex = -1;
     }
+
+    Image[] images = quoteImage.slice(32, 1);
 
     Game.backgroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
     Game.backgroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
@@ -64,6 +68,13 @@ class CaveStory {
         sprite.position.add(
             micapolos.tata8.Random.between(-2, 2),
             Random.between(-2, 2));
+
+        sprite.image = images[imageIndex];
+      }
+
+      imageIndex++;
+      if (imageIndex >= images.length) {
+        imageIndex = 0;
       }
 
       if (Game.keys.left.didPress()) {
