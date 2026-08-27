@@ -146,11 +146,15 @@ public final class Game {
   }
 
   public static void log(String label, Object object) {
-    logStrings.add(String.format("%s: %s", label, object));
+    log(String.format("%s: %s", label, object));
   }
 
   public static void log(Object object) {
-    logStrings.add(String.valueOf(object));
+    log(String.valueOf(object));
+  }
+
+  public static void log(String string) {
+    logStrings.add(string);
   }
 
   private Game() {}

@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 
 public final class Font {
   public static final Font system = load();
-  public final int height;
 
+  public final int height;
   final BufferedImage bufferedImage;
 
   Font(BufferedImage bufferedImage) {
@@ -15,7 +15,7 @@ public final class Font {
   }
 
   static Font load() {
-    Image image = Game.loadImage(Font.class, "font.png");
+    Image image = Image.load(Font.class, "font.png");
     return new Font(image.bufferedImage);
   }
 

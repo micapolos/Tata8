@@ -93,10 +93,12 @@ public final class Canvas {
   }
 
   public void draw(String text, int x, int y) {
-    font.draw(graphics, text, x, y);
+    draw(text, x, y, font);
   }
 
   public void draw(String text, int x, int y, Font font) {
-    font.draw(graphics, text, x, y);
+    if (font != null) {
+      font.draw(graphics, text, x, y);
+    }
   }
 }
