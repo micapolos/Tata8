@@ -1,15 +1,17 @@
 package micapolos;
 
-import micapolos.tata8.Game;
-import micapolos.tata8.TileMap;
-import micapolos.tata8.TileSet;
+import micapolos.tata8.*;
 
 public class TileMapDemo {
   static final TileSet tileSet = Game.loadTileSet(TileMapDemo.class, "tilemap.png");
+  static final Image image = Game.loadImage(TileMapDemo.class, "quote.png");
+  static final Sprite sprite = Game.newSprite();
 
   static {
     TileMap tileMap = Game.backgroundTileMap;
     tileMap.draw9Patch(1, 12, 15, 15, tileSet, 0, 0);
+    sprite.position.set(100, 161);
+    sprite.image = image;
   }
 
   static void update() {
@@ -18,10 +20,12 @@ public class TileMapDemo {
 
     if (Game.keys.left.isPressed()) {
       Game.camera.position.x -= 2;
+      sprite.position.x -= 2;
     }
 
     if (Game.keys.right.isPressed()) {
       Game.camera.position.x += 2;
+      sprite.position.x += 2;
     }
 
     if (Game.keys.up.isPressed()) {
