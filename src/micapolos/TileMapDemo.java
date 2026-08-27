@@ -9,7 +9,6 @@ public class TileMapDemo {
 
   static {
     TileMap tileMap = Game.backgroundTileMap;
-
     tileMap.draw9Patch(1, 12, 15, 15, tileSet, 0, 0);
   }
 
