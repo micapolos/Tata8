@@ -16,6 +16,16 @@ public final class TileMap {
     return Arrays.get(cells, x, y);
   }
 
+  public void draw9Patch(int x1, int y1, int x2, int y2, TileSet tileSet, int tx, int ty) {
+    for (int x = x1; x <= x2; x++) {
+      for (int y = y1; y <= y2; y++) {
+        cell(x, y).tile = tileSet.tile(
+            tx + (x == x1 ? 0 : x == x2 ? 2 : 1),
+            ty + (y == y1 ? 0 : y == y2 ? 2 : 1));
+      }
+    }
+  }
+
   static TileMap create(int width, int height, int tileWidth, int tileHeight) {
     Cell[][] cells = new Cell[width][height];
     for (int x = 0; x < width; x++) {

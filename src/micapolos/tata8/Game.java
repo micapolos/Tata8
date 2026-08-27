@@ -28,8 +28,8 @@ public final class Game {
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
-  public static final TileMap backTileMap = TileMap.create(64, 32, 16, 16);
-  public static final TileMap frontTileMap = TileMap.create(64, 32, 16, 16);
+  public static final TileMap backgroundTileMap = TileMap.create(64, 32, 16, 16);
+  public static final TileMap foregroundTileMap = TileMap.create(64, 32, 16, 16);
   public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
   static final ArrayList<String> logStrings = new ArrayList<>();
@@ -79,12 +79,12 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        backTileMap.drawOn(compositeCanvas);
+        backgroundTileMap.drawOn(compositeCanvas);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite);
         }
-        frontTileMap.drawOn(compositeCanvas);
+        foregroundTileMap.drawOn(compositeCanvas);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {

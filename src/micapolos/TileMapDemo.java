@@ -8,37 +8,29 @@ public class TileMapDemo {
   static final TileSet tileSet = Game.loadTileSet(TileMapDemo.class, "tilemap.png");
 
   static {
-    TileMap tileMap = Game.backTileMap;
+    TileMap tileMap = Game.backgroundTileMap;
 
-    for (int x = 0; x < 64; x++) {
-    for (int y = 12; y < 16; y++) {
-        boolean isBox = x > 0 && x < 63 && y > 12 && y < 15 && Math.random() < 0.1f;
-        tileMap.cell(x, y).tile =
-            isBox
-                ? tileSet.tile(0, 7)
-                : tileSet.tile(x == 0 ? 0 : x == 63 ? 2 : 1, y == 12 ? 0 : y == 15 ? 2 : 1);
-      }
-    }
+    tileMap.draw9Patch(1, 12, 15, 15, tileSet, 0, 0);
   }
 
   static void update() {
     Game.log(tileSet);
-    Game.log(Game.backTileMap);
+    Game.log(Game.backgroundTileMap);
 
     if (Game.keys.left.isPressed()) {
-      Game.backTileMap.camera.x -= 2;
+      Game.backgroundTileMap.camera.x -= 2;
     }
 
     if (Game.keys.right.isPressed()) {
-      Game.backTileMap.camera.x += 2;
+      Game.backgroundTileMap.camera.x += 2;
     }
 
     if (Game.keys.up.isPressed()) {
-      Game.backTileMap.camera.y -= 2;
+      Game.backgroundTileMap.camera.y -= 2;
     }
 
     if (Game.keys.down.isPressed()) {
-      Game.backTileMap.camera.y += 2;
+      Game.backgroundTileMap.camera.y += 2;
     }
   }
 
