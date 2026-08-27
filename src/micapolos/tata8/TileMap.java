@@ -4,7 +4,6 @@ public final class TileMap {
   final Cell[][] cells;
   public final FinalSize size;
   public final FinalSize tileSize;
-  public final FloatVector camera = new FloatVector();
 
   TileMap(FinalSize size, FinalSize tileSize, Cell[][] cells) {
     this.size = size;
@@ -39,31 +38,31 @@ public final class TileMap {
         cells);
   }
 
-  void drawOn(Canvas canvas) {
-    int startRow = (int) Math.floor(camera.y / tileSize.height);
-    int startY = (int) Math.round(startRow * tileSize.height - camera.y);
-    int startColumn = (int) Math.floor(camera.x / tileSize.width);
-    int startX = (int) Math.round(startColumn * tileSize.width - camera.x);
-    int y = startY;
+  void drawOn(Canvas canvas, float x, float y) {
+    int startRow = (int) Math.floor(y / tileSize.height);
+    int startY = (int) Math.round(startRow * tileSize.height - y);
+    int startColumn = (int) Math.floor(x / tileSize.width);
+    int startX = (int) Math.round(startColumn * tileSize.width - x);
+    int tileY = startY;
     int row = startRow;
-    while (y < Game.HEIGHT) {
-      int x = startX;
+    while (tileY < Game.HEIGHT) {
+      int tileX = startX;
       int column = startColumn;
-      while (x < Game.WIDTH) {
+      while (tileX < Game.WIDTH) {
         Cell cell = cell(column, row);
         if (cell != null) {
           Tile tile = cell.tile;
           if (tile != null) {
             Image image = tile.image;
             if (image != null) {
-              canvas.draw(image, x, y, cell.flip.x, cell.flip.y);
+              canvas.draw(image, tileX, tileY, cell.flip.x, cell.flip.y);
             }
           }
         }
-        x += tileSize.width;
+        tileX += tileSize.width;
         column++;
       }
-      y += tileSize.height;
+      tileY += tileSize.height;
       row++;
     }
   }

@@ -26,6 +26,7 @@ public final class Game {
   public static Color backgroundColor = Color.BLACK;
   public static final Canvas backgroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
+  public static final FloatVector camera = new FloatVector();
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
   public static final TileMap backgroundTileMap = TileMap.create(64, 32, 16, 16);
@@ -79,12 +80,12 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        backgroundTileMap.drawOn(compositeCanvas);
+        backgroundTileMap.drawOn(compositeCanvas, camera.x, camera.y);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
-          compositeCanvas.draw(sprite);
+          compositeCanvas.draw(sprite, camera.x, camera.y);
         }
-        foregroundTileMap.drawOn(compositeCanvas);
+        foregroundTileMap.drawOn(compositeCanvas, camera.x, camera.y);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {
