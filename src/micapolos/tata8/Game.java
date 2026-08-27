@@ -165,8 +165,8 @@ public final class Game {
   static void main() {
     onUpdate = () -> {
       log(info());
-      log(Game.mouse);
-      log(Game.keys);
+      log(mouse);
+      log(keys);
     };
     start();
   }
