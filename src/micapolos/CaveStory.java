@@ -1,104 +1,90 @@
 package micapolos;
 
 import micapolos.tata8.*;
+import micapolos.tata8.Math;
 
-class CaveStory {
-  static int imageIndex;
+public class CaveStory {
+  static final int GROUND = 0;
+  static float dy;
+  static float dx;
+  static boolean isJumping;
+  static final Position cameraPosition = new Position();
 
-  static void main() {
-    Game.title = "Cave Story";
+  static final TileSet tileSet = Game.loadTileSet(CaveStory.class, "tilemap.png");
+  static final Image image = Game.loadImage(CaveStory.class, "quote.png");
+  static final Sprite sprite = Game.newSprite();
 
-    Game.foreground.canvas.draw("This is my Cave Story remake!", 2, 30, Color.RED);
-    Game.foreground.canvas.draw("Do you like it?", 2, 30 + Font.system.height, Color.GREEN);
+  static {
+    tileSet.tile(0, 0).flags[GROUND] = true;
+    tileSet.tile(1, 0).flags[GROUND] = true;
+    tileSet.tile(2, 0).flags[GROUND] = true;
 
-    var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
+    TileMap tileMap = Game.background.tileMap;
+    tileMap.draw9Patch(1, 12, 10, 13, tileSet, 0, 0);
+    tileMap.draw9Patch(13, 14, 17, 15, tileSet, 0, 0);
+    tileMap.draw9Patch(4, 18, 14, 20, tileSet, 0, 0);
+    tileMap.draw9Patch(22, 17, 25, 18, tileSet, 0, 0);
+    tileMap.draw9Patch(30, 14, 42, 15, tileSet, 0, 0);
+    tileMap.draw9Patch(45, 11, 48, 12, tileSet, 0, 0);
+    tileMap.draw9Patch(35, 8, 40, 9, tileSet, 0, 0);
+    tileMap.draw9Patch(45, 5, 50, 6, tileSet, 0, 0);
+    tileMap.draw9Patch(35, 2, 39, 3, tileSet, 0, 0);
+    tileMap.draw9Patch(28, -1, 29, 8, tileSet, 0, 0);
+    tileMap.draw9Patch(22, -4, 23, 8, tileSet, 0, 0);
+    tileMap.draw9Patch(16, -7, 17, -6, tileSet, 0, 0);
+    tileMap.draw9Patch(20, -10, 22, -9, tileSet, 0, 0);
+    tileMap.draw9Patch(17, -12, 18, -11, tileSet, 0, 0);
+    sprite.position.set(100, 100);
+    sprite.anchor.set(16, 32);
+    sprite.image = image;
 
-    var image = Game.newImage(3, 3);
-    var canvas = image.newCanvas();
-    canvas.drawPoint(1, 0);
-    canvas.drawPoint(0, 1);
-    canvas.drawPoint(1, 1);
-    canvas.drawPoint(2, 1);
-    canvas.drawPoint(1, 2);
+    cameraPosition.set(sprite.position.x - 160, sprite.position.y - 128);
+    Game.camera.position.set(cameraPosition);
+  }
 
-    var cursorSprite = Game.newSprite();
-    cursorSprite.image = image;
-    cursorSprite.anchor.set(1, 1);
-
-    var quoteSprite = Game.newSprite();
-    quoteSprite.image = quoteImage;
-    quoteSprite.position.set(0, 180);
-    quoteSprite.anchor.set(quoteImage.size.width / 2f, quoteImage.size.height / 2f);
-
-    Image[] images = quoteImage.slice(32, 1);
-
-    Game.foreground.canvas.fillRect(0, 200, 320, 1, Color.WHITE);
-    Game.foreground.canvas.fillRect(0, 201, 320, 55, Color.RED);
-
-    Game.audio.volume = 0.5f;
-
-    for (Channel channel : Game.audio.channels) {
-      channel.wave = Wave.SAWTOOTH;
-      Envelope envelope = channel.envelope;
-      envelope.attack = 0;
-      envelope.decay = 0.2f;
-      envelope.sustain = 0.3f;
-      envelope.release = 1f;
+  static void update() {
+    if (Game.keys.up.didPress() && !isJumping) {
+      dy = -5f;
+      isJumping = true;
     }
 
-    Game.onUpdate = () -> {
-      if (Game.keys.z.didPress()) {
-        quoteSprite.flip.x = !quoteSprite.flip.y;
-        Game.background.canvas.clear();
+    sprite.position.y += dy;
+    sprite.position.x += dx;
+
+    int cellX = (int) Math.floor(sprite.position.x / 16);
+    int cellY = (int) Math.floor(sprite.position.y / 16);
+    boolean hasGround = Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND];
+    if (!hasGround) {
+      dy = Math.clamp(dy + 0.25f, -8, 8);
+    } else if (dy >= 0) {
+      sprite.position.y = cellY * 16;
+      dy = 0;
+      isJumping = false;
+    }
+    cameraPosition.set(sprite.position.x - 160, sprite.position.y - 128);
+    Game.camera.position.setElastic(cameraPosition);
+
+    if (Game.keys.left.isPressed()) {
+      dx = Math.elastic(dx, -3);
+      sprite.flip.x = true;
+    }
+
+    if (Game.keys.right.isPressed()) {
+      dx = Math.elastic(dx, 3);
+      sprite.flip.x = false;
+    }
+
+    if (!Game.keys.right.isPressed() && !Game.keys.left.isPressed()) {
+      if (!isJumping) {
+        dx = Math.elastic(dx, 0, Math.ELASTIC_FACTOR * 2);
+      } else {
+        dx *= 0.75f;
       }
+    }
+  }
 
-      for (Channel channel : Game.audio.channels) {
-        channel.sustain =
-          Game.keys.left.isPressed() ||
-              Game.keys.right.isPressed() ||
-              Game.keys.up.isPressed() ||
-              Game.keys.down.isPressed();
-      }
-
-      imageIndex++;
-      if (imageIndex >= images.length) {
-        imageIndex = 0;
-      }
-
-      if (Game.keys.left.didPress()) {
-        Game.audio.channels[0].play(Note.C_2);
-      }
-
-      if (Game.keys.up.didPress()) {
-        Game.audio.channels[1].play(Note.C_2.plusSemitones(3));
-      }
-
-      if (Game.keys.down.didPress()) {
-        Game.audio.channels[2].play(Note.C_2.plusSemitones(7));
-      }
-
-      if (Game.keys.right.didPress()) {
-        Game.audio.channels[3].play(Note.C_2.plusSemitones(12));
-      }
-
-      if (Game.keys.x.isPressed()) {
-        quoteSprite.angle += 15;
-      }
-
-      quoteSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
-      cursorSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
-      quoteSprite.isHidden = Game.mouse.isOutside;
-      if (Game.mouse.button.isPressed()) {
-        Game.background.canvas.draw(quoteSprite);
-      }
-
-      quoteSprite.position.add(1, 0);
-
-      Game.log("game", Game.info());
-      Game.log("mouse.position", Game.mouse.position);
-      Game.log("mouse.pressed", Game.mouse.button.isPressed());
-    };
-
+  static void main() {
+    Game.onUpdate = CaveStory::update;
     Game.start();
   }
 }
