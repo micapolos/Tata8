@@ -28,8 +28,8 @@ public final class Game {
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
-  public static final Tile.Map backgroundTileMap = Tile.Map.create(32, 64, 16, 16);
-  public static final Tile.Map foregroundTileMap = Tile.Map.create(32, 64, 16, 16);
+  public static final TileMap BACKGROUND_TILE_MAP = TileMap.create(32, 64, 16, 16);
+  public static final TileMap FOREGROUND_TILE_MAP = TileMap.create(32, 64, 16, 16);
   public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
   static final ArrayList<String> logStrings = new ArrayList<>();
@@ -43,6 +43,11 @@ public final class Game {
       throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGES_PIXEL_COUNT + ")");
     }
     return image;
+  }
+
+  public static TileSet loadTileSet(Class<?> baseClass, String fileName, int width, int height) {
+    Image image = loadImage(baseClass, fileName);
+    return TileSet.slice(image, width, height);
   }
 
   public static Image newImage(int width, int height) {
@@ -74,12 +79,12 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        backgroundTileMap.drawOn(compositeCanvas);
+        BACKGROUND_TILE_MAP.drawOn(compositeCanvas);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite);
         }
-        foregroundTileMap.drawOn(compositeCanvas);
+        FOREGROUND_TILE_MAP.drawOn(compositeCanvas);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {

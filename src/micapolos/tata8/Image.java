@@ -59,4 +59,20 @@ public final class Image {
       throw new RuntimeException("Failed to load sprite: " + fileName);
     }
   }
+
+  static void main() {
+    Image image = Image.load(Image.class, "quote.png");
+
+    Image[] images = image.slice(32, 1);
+    for (int i = 0; i < images.length; i++) {
+      Game.backgroundCanvas.draw(images[i], i * 2, 0);
+    }
+
+    Image[] images2 = image.slice(1, 32);
+    for (int i = 0; i < images2.length; i++) {
+      Game.backgroundCanvas.draw(images2[i], 0, 32 + i * 2);
+    }
+
+    Game.start();
+  }
 }
