@@ -40,6 +40,11 @@ public final class Position {
     scale(t, t);
   }
 
+  public void setElastic(Position position) {
+    x += (position.x - x) * 0.125f;
+    y += (position.y - y) * 0.125f;
+  }
+
   @Override
   public String toString() {
     return "vector(" + x + ", " + y + ")";
