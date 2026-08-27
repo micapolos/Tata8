@@ -20,20 +20,26 @@ public final class Game {
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
   static int loadedImagePixelCount;
+  static final ArrayList<String> logStrings = new ArrayList<>();
 
   public static String title = "Game";
   public static final FinalSize size = new FinalSize(WIDTH, HEIGHT);
-  public static Color backgroundColor = Color.BLACK;
-  public static final Canvas backgroundCanvas = new Canvas(WIDTH, HEIGHT);
-  public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
+  public static Background background = new Background(new Canvas(WIDTH, HEIGHT),  TileMap.create(64, 32, 16, 16));
+  public static Foreground foreground = new Foreground(new Canvas(WIDTH, HEIGHT),  TileMap.create(64, 32, 16, 16));
   public static final Camera camera = new Camera();
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
-  public static final TileMap backgroundTileMap = TileMap.create(64, 32, 16, 16);
-  public static final TileMap foregroundTileMap = TileMap.create(64, 32, 16, 16);
-  public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
-  static final ArrayList<String> logStrings = new ArrayList<>();
+  public static Runnable onUpdate = () -> {};
+
+  @Deprecated(forRemoval = true)
+  public static final Canvas backgroundCanvas = background.canvas;
+  @Deprecated(forRemoval = true)
+  public static final Canvas foregroundCanvas = foreground.canvas;
+  @Deprecated(forRemoval = true)
+  public static final TileMap backgroundTileMap = background.tileMap;
+  @Deprecated(forRemoval = true)
+  public static final TileMap foregroundTileMap = foreground.tileMap;
 
   private Game() {}
 
@@ -77,16 +83,16 @@ public final class Game {
       @Override
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
+        compositeCanvas.graphics.setBackground(background.color.awtColor);
         compositeCanvas.clear();
-        compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        backgroundTileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
+        compositeCanvas.graphics.drawImage(background.canvas.image, null, null);
+        background.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite, -camera.position.x, -camera.position.y);
         }
-        foregroundTileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
-        compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
+        foreground.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
+        compositeCanvas.graphics.drawImage(foreground.canvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {
           compositeCanvas.draw(string, 1, y, Color.YELLOW, Font.system, true);

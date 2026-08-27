@@ -23,4 +23,9 @@ public final class Color {
   public static Color rgba(float r, float g, float b, float a) {
     return new Color(new java.awt.Color(r, g, b, a));
   }
+
+  @Override
+  public String toString() {
+    return String.format("color(%d,%d,%d,%d)", awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue(), awtColor.getAlpha());
+  }
 }

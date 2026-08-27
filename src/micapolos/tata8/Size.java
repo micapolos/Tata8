@@ -63,6 +63,6 @@ public final class Size {
 
   @Override
   public String toString() {
-    return "size(" + width + ", " + height + ")";
+    return String.format("size(%d,%d)", width, height);
   }
 }

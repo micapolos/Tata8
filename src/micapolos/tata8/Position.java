@@ -1,12 +1,12 @@
 package micapolos.tata8;
 
-public final class FloatVector {
+public final class Position {
   public float x;
   public float y;
 
-  public FloatVector() {}
+  public Position() {}
 
-  public FloatVector(float x, float y) {
+  public Position(float x, float y) {
     this.x = x;
     this.y = y;
   }
@@ -20,7 +20,7 @@ public final class FloatVector {
     this.y = y;
   }
 
-  public void set(FloatVector vector) {
+  public void set(Position vector) {
     set(vector.x, vector.y);
   }
 
@@ -28,7 +28,7 @@ public final class FloatVector {
     set(this.x + x, this.y + y);
   }
 
-  public void add(FloatVector vector) {
+  public void add(Position vector) {
     add(vector.x, vector.y);
   }
 

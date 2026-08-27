@@ -86,7 +86,7 @@ public final class Font {
 
   static void main() {
     Font.system.drawOn(
-        Game.backgroundCanvas.image,
+        Game.background.canvas.image,
         "This is a very interesting string, and ***I LIKE IT***!!! 123456",
         10, 10,
         0xff2288dd);

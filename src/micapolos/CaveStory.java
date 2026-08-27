@@ -8,8 +8,8 @@ class CaveStory {
   static void main() {
     Game.title = "Cave Story";
 
-    Game.foregroundCanvas.draw("This is my Cave Story remake!", 2, 30, Color.RED);
-    Game.foregroundCanvas.draw("Do you like it?", 2, 30 + Font.system.height, Color.GREEN);
+    Game.foreground.canvas.draw("This is my Cave Story remake!", 2, 30, Color.RED);
+    Game.foreground.canvas.draw("Do you like it?", 2, 30 + Font.system.height, Color.GREEN);
 
     var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
 
@@ -32,8 +32,8 @@ class CaveStory {
 
     Image[] images = quoteImage.slice(32, 1);
 
-    Game.foregroundCanvas.fillRect(0, 200, 320, 1, Color.WHITE);
-    Game.foregroundCanvas.fillRect(0, 201, 320, 55, Color.RED);
+    Game.foreground.canvas.fillRect(0, 200, 320, 1, Color.WHITE);
+    Game.foreground.canvas.fillRect(0, 201, 320, 55, Color.RED);
 
     Game.audio.volume = 0.5f;
 
@@ -49,7 +49,7 @@ class CaveStory {
     Game.onUpdate = () -> {
       if (Game.keys.z.didPress()) {
         quoteSprite.flip.x = !quoteSprite.flip.y;
-        Game.backgroundCanvas.clear();
+        Game.background.canvas.clear();
       }
 
       for (Channel channel : Game.audio.channels) {
@@ -89,7 +89,7 @@ class CaveStory {
       cursorSprite.position.set(Game.mouse.position.x, Game.mouse.position.y);
       quoteSprite.isHidden = Game.mouse.isOutside;
       if (Game.mouse.button.isPressed()) {
-        Game.backgroundCanvas.draw(quoteSprite);
+        Game.background.canvas.draw(quoteSprite);
       }
 
       quoteSprite.position.add(1, 0);

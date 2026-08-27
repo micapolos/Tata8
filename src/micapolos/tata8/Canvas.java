@@ -122,4 +122,9 @@ public final class Canvas {
       font.drawOn(image, text, x, y, rgb);
     }
   }
+
+  @Override
+  public String toString() {
+    return "canvas";
+  }
 }
