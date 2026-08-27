@@ -39,10 +39,10 @@ public final class TileMap {
   }
 
   void drawOn(Canvas canvas, float x, float y) {
-    int startRow = (int) Math.floor(y / tileSize.height);
-    int startY = (int) Math.round(startRow * tileSize.height - y);
-    int startColumn = (int) Math.floor(x / tileSize.width);
-    int startX = (int) Math.round(startColumn * tileSize.width - x);
+    int startRow = (int) Math.floor(-y / tileSize.height);
+    int startY = (int) Math.round(startRow * tileSize.height + y);
+    int startColumn = (int) Math.floor(-x / tileSize.width);
+    int startX = (int) Math.round(startColumn * tileSize.width + x);
     int tileY = startY;
     int row = startRow;
     while (tileY < Game.HEIGHT) {

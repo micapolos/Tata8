@@ -18,19 +18,19 @@ public class TileMapDemo {
     Game.log(Game.backgroundTileMap);
 
     if (Game.keys.left.isPressed()) {
-      Game.camera.x -= 2;
+      Game.camera.position.x -= 2;
     }
 
     if (Game.keys.right.isPressed()) {
-      Game.camera.x += 2;
+      Game.camera.position.x += 2;
     }
 
     if (Game.keys.up.isPressed()) {
-      Game.camera.y -= 2;
+      Game.camera.position.y -= 2;
     }
 
     if (Game.keys.down.isPressed()) {
-      Game.camera.y += 2;
+      Game.camera.position.y += 2;
     }
   }
 
