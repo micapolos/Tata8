@@ -32,6 +32,7 @@ public final class Game {
   public static final Tile.Map foregroundTileMap = Tile.Map.create(32, 64, 16, 16);
   public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
+  static final ArrayList<String> logStrings = new ArrayList<>();
 
   public static Image loadImage(Class<?> baseClass, String fileName) {
     Image image = Image.load(baseClass, fileName);
@@ -78,6 +79,12 @@ public final class Game {
         }
         foregroundTileMap.drawOn(compositeCanvas);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
+        int y = 0;
+        for (String string : logStrings) {
+          compositeCanvas.draw(string, 1, y);
+          y += 8;
+        }
+        logStrings.clear();
         g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
       }
     };
@@ -136,6 +143,14 @@ public final class Game {
       mouse.update();
     });
     timer.start();
+  }
+
+  public static void log(String label, Object object) {
+    logStrings.add(String.format("%s: %s", label, object));
+  }
+
+  public static void log(Object object) {
+    logStrings.add(String.valueOf(object));
   }
 
   private Game() {}

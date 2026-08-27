@@ -8,6 +8,9 @@ class CaveStory {
   static void main() {
     Game.title = "Cave Story";
 
+    Game.foregroundCanvas.draw("This is my Cave Story remake!", 2, 30);
+    Game.foregroundCanvas.draw("Do you like it?", 2, 30 + Font.system.height);
+
     var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
     var curlyImage = Game.loadImage(CaveStory.class, "curly.png");
 
@@ -91,6 +94,9 @@ class CaveStory {
       }
 
       quoteSprite.position.add(1, 0);
+
+      Game.log(String.format("Mouse: %d, %d", Game.mouse.position.x, Game.mouse.position.y));
+      Game.log("Pressed", Game.mouse.button.isPressed());
     };
 
     Game.start();

@@ -10,6 +10,7 @@ public final class Canvas {
   final AffineTransform imageTransform = new AffineTransform();
 
   public Color color = Color.WHITE;
+  public Font font = Font.system;
 
   Canvas(BufferedImage image) {
     this.image = image;
@@ -89,5 +90,13 @@ public final class Canvas {
       imageTransform.translate(-sprite.anchor.x, -sprite.anchor.y);
       graphics.drawImage(image.bufferedImage, imageTransform, null);
     }
+  }
+
+  public void draw(String text, int x, int y) {
+    font.draw(graphics, text, x, y);
+  }
+
+  public void draw(String text, int x, int y, Font font) {
+    font.draw(graphics, text, x, y);
   }
 }
