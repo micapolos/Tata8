@@ -10,4 +10,9 @@ public final class Mouse {
   void update() {
     button.update();
   }
+
+  @Override
+  public String toString() {
+    return "mouse(" + position + ", pressed: " + button.isPressed + ", isOutside: " + isOutside + ")";
+  }
 }

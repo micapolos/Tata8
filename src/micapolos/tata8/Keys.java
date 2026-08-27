@@ -45,4 +45,16 @@ public final class Keys {
       default -> null;
     };
   }
+
+  @Override
+  public String toString() {
+    return String.format(
+        "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s)",
+        left.isPressed,
+        right.isPressed,
+        up.isPressed,
+        down.isPressed,
+        z.isPressed,
+        x.isPressed);
+  }
 }

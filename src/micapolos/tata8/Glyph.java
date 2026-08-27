@@ -76,7 +76,9 @@ public final class Glyph {
   static void main() {
     Image image = Image.load(Glyph.class, "font.png");
     Glyph glyph = Glyph.read(image.bufferedImage, 6, 1);
-    glyph.draw(Game.foregroundCanvas.image, 10, 10, 8, 0xff559911);
+    if (glyph != null) {
+      glyph.draw(Game.foregroundCanvas.image, 10, 10, 8, 0xff559911);
+    }
     Game.start();
   }
 }

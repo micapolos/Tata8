@@ -34,6 +34,8 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
   static final ArrayList<String> logStrings = new ArrayList<>();
 
+  private Game() {}
+
   public static Image loadImage(Class<?> baseClass, String fileName) {
     Image image = Image.load(baseClass, fileName);
     int newLoadedImagePixelCount = loadedImagePixelCount + image.size.width * image.size.height;
@@ -154,8 +156,18 @@ public final class Game {
   }
 
   public static String info() {
-    return "sprites: " + spriteCount() + "/" + MAX_SPRITE_COUNT + ", pixels:" + loadedImagePixelCount + "/" + MAX_IMAGES_PIXEL_COUNT;
+    return String.format(
+        "game(sprites: %d / %d, imagePixels: %d / %d)",
+        spriteCount(), MAX_SPRITE_COUNT,
+        loadedImagePixelCount, MAX_IMAGES_PIXEL_COUNT);
   }
 
-  private Game() {}
+  static void main() {
+    onUpdate = () -> {
+      log(info());
+      log(Game.mouse);
+      log(Game.keys);
+    };
+    start();
+  }
 }

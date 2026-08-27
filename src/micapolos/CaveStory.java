@@ -12,7 +12,6 @@ class CaveStory {
     Game.foregroundCanvas.draw("Do you like it?", 2, 30 + Font.system.height, Color.GREEN);
 
     var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
-    var curlyImage = Game.loadImage(CaveStory.class, "curly.png");
 
     var image = Game.newImage(3, 3);
     var canvas = image.newCanvas();
