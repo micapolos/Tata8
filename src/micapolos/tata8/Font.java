@@ -1,6 +1,5 @@
 package micapolos.tata8;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public final class Font {
@@ -8,13 +7,33 @@ public final class Font {
   static int GLYPH_SPACING = 1;
 
   public static final Font system = load(Image.loadBufferedImage(Font.class, "font.png"));
-  public final Glyph[] glyphs;
 
+  final Glyph[] glyphs;
   public final int height;
 
   Font(Glyph[] glyphs, int height) {
     this.glyphs = glyphs;
     this.height = height;
+  }
+
+  public Glyph glyph(char ch) {
+    int index = glyphIndex(ch);
+    return index >= 0 && index < glyphs.length ? glyphs[index] : null;
+  }
+
+  public int width(String string) {
+    int width = 0;
+    for (int i = 0; i < string.length(); i++) {
+      char ch = string.charAt(i);
+      Glyph glyph = glyph(ch);
+      if (i != 0) width += GLYPH_SPACING;
+      if (glyph == null) {
+        width += SPACE_WIDTH;
+      } else {
+        width += glyph.width;
+      }
+    }
+    return width;
   }
 
   static Font load(BufferedImage image) {
@@ -40,26 +59,21 @@ public final class Font {
     return ch - 33;
   }
 
-  private Glyph glyph(char ch) {
+  private Glyph unsafeGlyph(char ch) {
     return glyphs[glyphIndex(ch)];
   }
 
-  private Glyph glyphOrNull(char ch) {
-    int index = glyphIndex(ch);
-    return index >= 0 && index < glyphs.length ? glyphs[index] : null;
-  }
-
-  void draw(BufferedImage image, char ch, int x, int y, int color) {
-    Glyph glyph = glyphOrNull(ch);
+  void drawOn(BufferedImage image, char ch, int x, int y, int color) {
+    Glyph glyph = glyph(ch);
     if (glyph != null) {
       glyph.draw(image, x, y, height, color);
     }
   }
 
-  void draw(BufferedImage image, String string, int x, int y, int color) {
+  void drawOn(BufferedImage image, String string, int x, int y, int color) {
     for (int i = 0; i < string.length(); i++) {
       char ch = string.charAt(i);
-      Glyph glyph = glyphOrNull(ch);
+      Glyph glyph = glyph(ch);
       if (i != 0) x += GLYPH_SPACING;
       if (glyph == null) {
         x += 2;
@@ -70,23 +84,8 @@ public final class Font {
     }
   }
 
-  public int width(String string) {
-    int width = 0;
-    for (int i = 0; i < string.length(); i++) {
-      char ch = string.charAt(i);
-      Glyph glyph = glyphOrNull(ch);
-      if (i != 0) width += GLYPH_SPACING;
-      if (glyph == null) {
-        width += SPACE_WIDTH;
-      } else {
-        width += glyph.width;
-      }
-    }
-    return width;
-  }
-
   static void main() {
-    Font.system.draw(Game.backgroundCanvas.image, "This is a very interesting string, and ***I LIKE IT***!!!", 10, 10, 0xff2288dd);
+    Font.system.drawOn(Game.backgroundCanvas.image, "This is a very interesting string, and ***I LIKE IT***!!!", 10, 10, 0xff2288dd);
     Game.start();
   }
 }

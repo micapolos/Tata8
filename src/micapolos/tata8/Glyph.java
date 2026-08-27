@@ -13,28 +13,28 @@ public final class Glyph {
 
   static Glyph read(BufferedImage image, int x, int parts) {
     int[] vLines = new int[8];
-    int width = fillVLines(vLines, image, x, parts, image.getHeight());
+    int width = readVLinesWidth(vLines, image, x, parts, image.getHeight());
     return width == 0 ? null : new Glyph(vLines, width);
   }
 
-  static int fillVLines(int[] vLines, BufferedImage image, int x, int parts, int height) {
-    int index = 0;
+  static int readVLinesWidth(int[] vLines, BufferedImage image, int x, int parts, int height) {
+    int width = 0;
     while (true) {
       if (x == image.getWidth()) break;
-      int line = createVLine(image, x, height);
+      int line = readVLine(image, x, height);
       if (line == 0) {
         parts--;
         if (parts == 0) break;
       }
-      vLines[index] = line;
+      vLines[width] = line;
       x++;
-      index++;
-      if (index == vLines.length) break;
+      width++;
+      if (width == vLines.length) break;
     }
-    return index;
+    return width;
   }
 
-  static int createVLine(BufferedImage image, int x, int height) {
+  static int readVLine(BufferedImage image, int x, int height) {
     int vLine = 0;
     int y = height;
     while (height != 0) {

@@ -110,12 +110,12 @@ public final class Canvas {
     int blackRgb = Color.BLACK.awtColor.getRGB();
     if (font != null) {
       if (shadow) {
-        font.draw(image, text, x, y - 1, blackRgb);
-        font.draw(image, text, x - 1, y, blackRgb);
-        font.draw(image, text, x + 1, y, blackRgb);
-        font.draw(image, text, x, y + 1, blackRgb);
+        font.drawOn(image, text, x, y - 1, blackRgb);
+        font.drawOn(image, text, x - 1, y, blackRgb);
+        font.drawOn(image, text, x + 1, y, blackRgb);
+        font.drawOn(image, text, x, y + 1, blackRgb);
       }
-      font.draw(image, text, x, y, rgb);
+      font.drawOn(image, text, x, y, rgb);
     }
   }
 }
