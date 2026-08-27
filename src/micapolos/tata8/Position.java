@@ -41,8 +41,7 @@ public final class Position {
   }
 
   public void setElastic(Position position) {
-    x += (position.x - x) * 0.125f;
-    y += (position.y - y) * 0.125f;
+    set(Math.elastic(x, position.x), Math.elastic(y, position.y));
   }
 
   @Override

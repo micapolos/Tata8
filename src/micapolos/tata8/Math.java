@@ -32,5 +32,14 @@ public final class Math {
     return f - floor(f);
   }
 
+  public static float elastic(float from, float to) {
+    float next = from + (to - from) * 0.25f;
+    return abs(next - from) <= 0.25f ? to : next;
+  }
+
+  public static float abs(float f) {
+    return java.lang.Math.abs(f);
+  }
+
   private Math() {}
 }
