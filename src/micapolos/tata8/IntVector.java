@@ -39,4 +39,9 @@ public final class IntVector {
   public FinalVector toFinal() {
     return new FinalVector(x, y);
   }
+
+  @Override
+  public String toString() {
+    return "vector(" + x + ", " + y + ")";
+  }
 }

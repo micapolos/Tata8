@@ -39,4 +39,9 @@ public final class FloatVector {
   public void scale(float t) {
     scale(t, t);
   }
+
+  @Override
+  public String toString() {
+    return "vector(" + x + ", " + y + ")";
+  }
 }

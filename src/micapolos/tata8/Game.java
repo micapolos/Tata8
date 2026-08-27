@@ -150,11 +150,11 @@ public final class Game {
   }
 
   public static void log(Object object) {
-    log(String.valueOf(object));
+    logStrings.add(String.valueOf(object));
   }
 
-  public static void log(String string) {
-    logStrings.add(string);
+  public static String info() {
+    return "sprites: " + spriteCount() + "/" + MAX_SPRITE_COUNT + ", pixels:" + loadedImagePixelCount + "/" + MAX_IMAGES_PIXEL_COUNT;
   }
 
   private Game() {}

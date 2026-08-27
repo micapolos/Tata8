@@ -95,8 +95,9 @@ class CaveStory {
 
       quoteSprite.position.add(1, 0);
 
-      Game.log(String.format("Mouse: %d, %d", Game.mouse.position.x, Game.mouse.position.y));
-      Game.log("Pressed", Game.mouse.button.isPressed());
+      Game.log("game", Game.info());
+      Game.log("mouse.position", Game.mouse.position);
+      Game.log("mouse.pressed", Game.mouse.button.isPressed());
     };
 
     Game.start();

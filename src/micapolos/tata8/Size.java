@@ -60,4 +60,9 @@ public final class Size {
   public int area() {
     return area(width, height);
   }
+
+  @Override
+  public String toString() {
+    return "size(" + width + ", " + height + ")";
+  }
 }
