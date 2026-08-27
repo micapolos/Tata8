@@ -8,8 +8,8 @@ class CaveStory {
   static void main() {
     Game.title = "Cave Story";
 
-    Game.foregroundCanvas.draw("This is my Cave Story remake!", 2, 30);
-    Game.foregroundCanvas.draw("Do you like it?", 2, 30 + Font.system.height);
+    Game.foregroundCanvas.draw("This is my Cave Story remake!", 2, 30, Color.RED);
+    Game.foregroundCanvas.draw("Do you like it?", 2, 30 + Font.system.height, Color.GREEN);
 
     var quoteImage = Game.loadImage(CaveStory.class, "quote.png");
     var curlyImage = Game.loadImage(CaveStory.class, "curly.png");

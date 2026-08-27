@@ -81,7 +81,7 @@ public final class Game {
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {
-          compositeCanvas.draw(string, 1, y);
+          compositeCanvas.draw(string, 1, y, Color.YELLOW, Font.system, true);
           y += 8;
         }
         logStrings.clear();

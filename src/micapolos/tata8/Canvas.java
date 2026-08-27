@@ -11,6 +11,7 @@ public final class Canvas {
 
   public Color color = Color.WHITE;
   public Font font = Font.system;
+  public boolean textHasShadow;
 
   Canvas(BufferedImage image) {
     this.image = image;
@@ -93,12 +94,28 @@ public final class Canvas {
   }
 
   public void draw(String text, int x, int y) {
-    draw(text, x, y, font);
+    draw(text, x, y, color);
   }
 
-  public void draw(String text, int x, int y, Font font) {
+  public void draw(String text, int x, int y, Color color) {
+    draw(text, x, y, color, font);
+  }
+
+  public void draw(String text, int x, int y, Color color, Font font) {
+    draw(text, x, y, color, font, textHasShadow);
+  }
+
+  public void draw(String text, int x, int y, Color color, Font font, boolean shadow) {
+    int rgb = color.awtColor.getRGB();
+    int blackRgb = Color.BLACK.awtColor.getRGB();
     if (font != null) {
-      font.draw(graphics, text, x, y);
+      if (shadow) {
+        font.draw(image, text, x, y - 1, blackRgb);
+        font.draw(image, text, x - 1, y, blackRgb);
+        font.draw(image, text, x + 1, y, blackRgb);
+        font.draw(image, text, x, y + 1, blackRgb);
+      }
+      font.draw(image, text, x, y, rgb);
     }
   }
 }
