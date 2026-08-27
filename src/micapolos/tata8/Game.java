@@ -28,8 +28,8 @@ public final class Game {
   public static final Canvas foregroundCanvas = new Canvas(WIDTH, HEIGHT);
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
-  public static final TileMap BACKGROUND_TILE_MAP = TileMap.create(32, 64, 16, 16);
-  public static final TileMap FOREGROUND_TILE_MAP = TileMap.create(32, 64, 16, 16);
+  public static final TileMap backTileMap = TileMap.create(64, 32, 16, 16);
+  public static final TileMap frontTileMap = TileMap.create(64, 32, 16, 16);
   public static Runnable onUpdate = () -> {};
   public static final Mouse mouse = new Mouse();
   static final ArrayList<String> logStrings = new ArrayList<>();
@@ -45,9 +45,9 @@ public final class Game {
     return image;
   }
 
-  public static TileSet loadTileSet(Class<?> baseClass, String fileName, int width, int height) {
+  public static TileSet loadTileSet(Class<?> baseClass, String fileName) {
     Image image = loadImage(baseClass, fileName);
-    return TileSet.slice(image, width, height);
+    return TileSet.slice(image);
   }
 
   public static Image newImage(int width, int height) {
@@ -79,12 +79,12 @@ public final class Game {
         compositeCanvas.graphics.setBackground(backgroundColor.awtColor);
         compositeCanvas.clear();
         compositeCanvas.graphics.drawImage(backgroundCanvas.image, null, null);
-        BACKGROUND_TILE_MAP.drawOn(compositeCanvas);
+        backTileMap.drawOn(compositeCanvas);
         sprites.sort(Comparator.naturalOrder());
         for (Sprite sprite : sprites) {
           compositeCanvas.draw(sprite);
         }
-        FOREGROUND_TILE_MAP.drawOn(compositeCanvas);
+        frontTileMap.drawOn(compositeCanvas);
         compositeCanvas.graphics.drawImage(foregroundCanvas.image, null, null);
         int y = 0;
         for (String string : logStrings) {

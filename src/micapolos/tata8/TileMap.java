@@ -3,10 +3,12 @@ package micapolos.tata8;
 public final class TileMap {
   final Cell[][] cells;
   public final FinalSize size;
+  public final FinalSize tileSize;
   public final FloatVector camera = new FloatVector();
 
-  TileMap(FinalSize tileSize, Cell[][] cells) {
-    this.size = tileSize;
+  TileMap(FinalSize size, FinalSize tileSize, Cell[][] cells) {
+    this.size = size;
+    this.tileSize = tileSize;
     this.cells = cells;
   }
 
@@ -14,37 +16,31 @@ public final class TileMap {
     return Arrays.get(cells, x, y);
   }
 
-  static TileMap create(int rowCount, int columnCount, int tileWidth, int tileHeight) {
-    Cell[][] cells = new Cell[rowCount][columnCount];
-    for (Cell[] cellRow : cells) {
-      for (int i = 0; i < cellRow.length; i++) {
-        cellRow[i] = new Cell();
+  static TileMap create(int width, int height, int tileWidth, int tileHeight) {
+    Cell[][] cells = new Cell[width][height];
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        cells[x][y] = new Cell();
       }
     }
-    return new TileMap(new FinalSize(tileWidth, tileHeight), cells);
-  }
-
-
-  Cell cellOrNull(int row, int column) {
-    Cell[] cellRow = row >= 0 && row < cells.length ? cells[row] : null;
-    if (cellRow == null) {
-      return null;
-    }
-    return column >= 0 && column < cellRow.length ? cellRow[column] : null;
+    return new TileMap(
+        new FinalSize(width, height),
+        new FinalSize(tileWidth, tileHeight),
+        cells);
   }
 
   void drawOn(Canvas canvas) {
-    int startRow = (int) Math.floor(camera.y / size.height);
-    int startY = (int) Math.round(startRow * size.height - camera.y);
-    int startColumn = (int) Math.floor(camera.x / size.width);
-    int startX = (int) Math.round(startColumn * size.width - camera.x);
+    int startRow = (int) Math.floor(camera.y / tileSize.height);
+    int startY = (int) Math.round(startRow * tileSize.height - camera.y);
+    int startColumn = (int) Math.floor(camera.x / tileSize.width);
+    int startX = (int) Math.round(startColumn * tileSize.width - camera.x);
     int y = startY;
     int row = startRow;
     while (y < Game.HEIGHT) {
       int x = startX;
       int column = startColumn;
       while (x < Game.WIDTH) {
-        Cell cell = cellOrNull(row, column);
+        Cell cell = cell(column, row);
         if (cell != null) {
           Tile tile = cell.tile;
           if (tile != null) {
@@ -54,11 +50,16 @@ public final class TileMap {
             }
           }
         }
-        x += size.width;
+        x += tileSize.width;
         column++;
       }
-      y += size.height;
+      y += tileSize.height;
       row++;
     }
+  }
+
+  @Override
+  public String toString() {
+    return String.format("tileMap(%s), tile(%s))", size, tileSize);
   }
 }

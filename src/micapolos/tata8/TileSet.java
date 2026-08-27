@@ -1,9 +1,11 @@
 package micapolos.tata8;
 
 public final class TileSet {
+  public final FinalSize size;
   final Tile[][] tiles;
 
-  TileSet(Tile[][] tiles) {
+  TileSet(FinalSize size, Tile[][] tiles) {
+    this.size = size;
     this.tiles = tiles;
   }
 
@@ -15,7 +17,9 @@ public final class TileSet {
     Arrays.set(tiles, x, y, tile);
   }
 
-  static TileSet slice(Image image, int width, int height) {
+  static TileSet slice(Image image) {
+    int width = image.size.width / 16;
+    int height = image.size.height / 16;
     Tile[][] tiles = new Tile[width][height];
     Image[] images = image.slice(width, height);
     int index = 0;
@@ -24,6 +28,11 @@ public final class TileSet {
         tiles[x][y] = new Tile(images[index++]);
       }
     }
-    return new TileSet(tiles);
+    return new TileSet(new FinalSize(width, height), tiles);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("tileSet(%s)", size);
   }
 }

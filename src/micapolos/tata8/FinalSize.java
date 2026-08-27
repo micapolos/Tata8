@@ -32,4 +32,9 @@ public final class FinalSize {
   public FinalSize minus(FinalSize size) {
     return minus(size.width, size.height);
   }
+
+  @Override
+  public String toString() {
+    return String.format("size(%d, %d)", width, height);
+  }
 }
