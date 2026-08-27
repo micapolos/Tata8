@@ -24,6 +24,11 @@ public class TileMapDemo {
     tileMap.draw9Patch(13, 14, 17, 15, tileSet, 0, 0);
     tileMap.draw9Patch(4, 18, 16, 20, tileSet, 0, 0);
     tileMap.draw9Patch(20, 17, 25, 18, tileSet, 0, 0);
+    tileMap.draw9Patch(30, 14, 42, 15, tileSet, 0, 0);
+    tileMap.draw9Patch(45, 11, 48, 12, tileSet, 0, 0);
+    tileMap.draw9Patch(35, 8, 40, 9, tileSet, 0, 0);
+    tileMap.draw9Patch(45, 5, 50, 6, tileSet, 0, 0);
+    tileMap.draw9Patch(35, 2, 39, 3, tileSet, 0, 0);
     sprite.position.set(100, 100);
     sprite.anchor.set(16, 32);
     sprite.image = image;
@@ -33,10 +38,6 @@ public class TileMapDemo {
   }
 
   static void update() {
-    Game.log("dx", dx);
-    Game.log("dy", dy);
-    Game.log("jump", isJumping);
-
     if (Game.keys.up.didPress() && !isJumping) {
       dy = -5f;
       isJumping = true;
@@ -49,7 +50,7 @@ public class TileMapDemo {
     int cellY = (int) Math.floor(sprite.position.y / 16);
     boolean hasGround = Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND];
     if (!hasGround) {
-      dy = Math.clamp(dy + 0.25f, -10, 10);
+      dy = Math.clamp(dy + 0.25f, -8, 8);
     } else if (dy >= 0) {
       sprite.position.y = cellY * 16;
       dy = 0;
@@ -59,18 +60,18 @@ public class TileMapDemo {
     Game.camera.position.setElastic(cameraPosition);
 
     if (Game.keys.left.isPressed()) {
-      dx = Math.clamp(dx - 0.125f, -3, 3);
+      dx = Math.elastic(dx, -3);
       sprite.flip.x = true;
     }
 
     if (Game.keys.right.isPressed()) {
-      dx = Math.clamp(dx + 0.125f, -3, 3);
+      dx = Math.elastic(dx, 3);
       sprite.flip.x = false;
     }
 
     if (!Game.keys.right.isPressed() && !Game.keys.left.isPressed()) {
       if (!isJumping) {
-        dx = 0;
+        dx = Math.elastic(dx, 0, Math.ELASTIC_FACTOR * 2);
       } else {
         dx *= 0.75f;
       }

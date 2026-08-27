@@ -32,9 +32,15 @@ public final class Math {
     return f - floor(f);
   }
 
+  public static final float ELASTIC_FACTOR = 0.25f;
+
   public static float elastic(float from, float to) {
-    float next = from + (to - from) * 0.25f;
-    return abs(next - from) <= 0.25f ? to : next;
+    return elastic(from, to, ELASTIC_FACTOR);
+  }
+
+  public static float elastic(float from, float to, float factor) {
+    float next = from + (to - from) * factor;
+    return abs(next - from) <= factor ? to : next;
   }
 
   public static float abs(float f) {
