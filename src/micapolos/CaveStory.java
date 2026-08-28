@@ -6,6 +6,7 @@ import micapolos.tata8.Math;
 class CaveStory {
   static final int GROUND = 0;
   static final TileSet tileSet = Game.loadTileSet(CaveStory.class, "tilemap.png");
+  static final TileSet tileSetKornelka = Game.loadTileSet(CaveStory.class, "tilemap-kornelka.png");
   static final Image image = Game.loadImage(CaveStory.class, "quote.png");
 
   final Position cameraPosition = new Position();
@@ -23,12 +24,20 @@ class CaveStory {
     tileSet.tile(4, 0).flags[GROUND] = true;
     tileSet.tile(5, 0).flags[GROUND] = true;
 
+    tileSetKornelka.tile(2, 1).flags[GROUND] = true;
+    tileSetKornelka.tile(3, 1).flags[GROUND] = true;
+    tileSetKornelka.tile(4, 1).flags[GROUND] = true;
+
     TileMap tileMap = Game.background.tileMap;
     TilePatch tilePatch = tileSet.newPatch(0, 0, 3, 3);
     Tile9Patch ninePatch = tileSet.new9Patch(0, 0);
     Tile9Patch threePatch = tileSet.new9Patch(3, 0, 3, 1, 1, 1);
 
+    Tile9Patch ninePatchKornelka = tileSetKornelka.new9Patch(2, 0, 3, 4, 1, 2);
+
     tileMap.draw(tilePatch, 0, 0);
+
+    Game.foreground.tileMap.draw(ninePatchKornelka, -12, 9, 10, 4);
 
     tileMap.draw(ninePatch, 1, 12, 10, 2);
     tileMap.draw(ninePatch, 13, 14, 4, 2);
@@ -70,7 +79,7 @@ class CaveStory {
 
     int cellX = (int) Math.floor(sprite.position.x / 16);
     int cellY = (int) Math.floor(sprite.position.y / 16);
-    boolean hasGround = Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND];
+    boolean hasGround = Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND] || Game.foreground.tileMap.cell(cellX, cellY).tile.flags[GROUND];
     if (!hasGround) {
       speed.y = Math.clamp(speed.y + 0.25f, -8, 8);
     } else if (speed.y >= 0) {

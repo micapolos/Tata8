@@ -44,10 +44,18 @@ public final class TileMap {
     for (int dx = 0; dx < width; dx++) {
       for (int dy = 0; dy < height; dy++) {
         cell(x + dx, y + dy).tile = tileSet.tile(
-            patchX + (dx < cornerWidth ? dx : dx < width - (patchWidth - cornerWidth - 1) ? cornerWidth : dx - width + (patchWidth - cornerWidth + 1)),
-            patchY + (dy < cornerHeight ? dy : dy < height - (patchHeight - cornerHeight - 1) ? cornerHeight : dy - height + (patchHeight - cornerHeight + 1)));
+            patchX + threePatchCoord(dx, width, patchWidth, cornerWidth),
+            patchY + threePatchCoord(dy, height, patchHeight, cornerHeight));
       }
     }
+  }
+
+  private int threePatchCoord(int x, int width, int patchWidth, int cornerWidth) {
+    return x < cornerWidth
+        ? x
+        : x > width - patchWidth + cornerWidth
+            ? x - width + patchWidth
+            : cornerWidth;
   }
 
   static TileMap create(int width, int height, int tileWidth, int tileHeight) {
