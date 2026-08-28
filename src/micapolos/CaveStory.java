@@ -19,9 +19,14 @@ class CaveStory {
     tileSet.tile(1, 0).flags[GROUND] = true;
     tileSet.tile(2, 0).flags[GROUND] = true;
 
+    tileSet.tile(3, 0).flags[GROUND] = true;
+    tileSet.tile(4, 0).flags[GROUND] = true;
+    tileSet.tile(5, 0).flags[GROUND] = true;
+
     TileMap tileMap = Game.background.tileMap;
     TilePatch tilePatch = tileSet.newPatch(0, 0, 3, 3);
     Tile9Patch ninePatch = tileSet.new9Patch(0, 0);
+    Tile9Patch threePatch = tileSet.new9Patch(3, 0, 3, 1, 1, 1);
 
     tileMap.draw(tilePatch, 0, 0);
 
@@ -39,6 +44,8 @@ class CaveStory {
     tileMap.draw(ninePatch, 16, -7, 2, 2);
     tileMap.draw(ninePatch, 20, -10, 3, 2);
     tileMap.draw(ninePatch, 17, -12, 2, 2);
+
+    tileMap.draw(threePatch, 7, 2, 12, 1);
 
     sprite.position.set(100, 100);
     sprite.anchor.set(16, 32);
