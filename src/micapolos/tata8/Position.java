@@ -28,18 +28,6 @@ public final class Position {
     set(this.x + x, this.y + y);
   }
 
-  public void add(Position vector) {
-    add(vector.x, vector.y);
-  }
-
-  public void scale(float x, float y) {
-    set(this.x * x, this.y * y);
-  }
-
-  public void scale(float t) {
-    scale(t, t);
-  }
-
   public void add(Speed speed) {
     set(x + speed.x, y + speed.y);
   }

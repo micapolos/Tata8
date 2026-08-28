@@ -35,20 +35,6 @@ public final class Size {
     };
   }
 
-  public WriteOnlySize toWriteOnly() {
-    return new WriteOnlySize() {
-      @Override
-      public void setWidth(int newWidth) {
-        width = newWidth;
-      }
-
-      @Override
-      public void setHeight(int newHeight) {
-        height = newHeight;
-      }
-    };
-  };
-
   public FinalSize toFinal() {
     return new FinalSize(width, height);
   }
