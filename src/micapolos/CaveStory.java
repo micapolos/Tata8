@@ -74,15 +74,16 @@ class CaveStory {
       isJumping = true;
     }
 
+    boolean hadGround = hasGround();
+
     sprite.position.y += speed.y;
     sprite.position.x += speed.x;
 
-    int cellX = (int) Math.floor(sprite.position.x / 16);
-    int cellY = (int) Math.floor(sprite.position.y / 16);
-    boolean hasGround = Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND] || Game.foreground.tileMap.cell(cellX, cellY).tile.flags[GROUND];
-    if (!hasGround) {
+    boolean hasGround = hasGround();
+    if (!hasGround || (isJumping && hadGround)) {
       speed.y = Math.clamp(speed.y + 0.25f, -8, 8);
     } else if (speed.y >= 0) {
+      int cellY = (int) Math.floor(sprite.position.y / 16);
       sprite.position.y = cellY * 16;
       speed.y = 0;
       isJumping = false;
@@ -115,6 +116,16 @@ class CaveStory {
     if (Game.keys.x.didPress()) {
       Game.screen.shader = null;
     }
+  }
+
+  boolean hasGround() {
+    return hasGround(sprite.position.x - 6, sprite.position.y) || hasGround(sprite.position.x + 6, sprite.position.y);
+  }
+
+  static boolean hasGround(float x, float y) {
+    int cellX = (int) Math.floor(x / 16);
+    int cellY = (int) Math.floor(y / 16);
+    return Game.background.tileMap.cell(cellX, cellY).tile.flags[GROUND] || Game.foreground.tileMap.cell(cellX, cellY).tile.flags[GROUND];
   }
 
   static void main() {
