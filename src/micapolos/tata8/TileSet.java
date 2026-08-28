@@ -42,11 +42,10 @@ public final class TileSet {
     int width = image.size.width / 16;
     int height = image.size.height / 16;
     Tile[][] tiles = new Tile[width][height];
-    Image[] images = image.slice(width, height);
-    int index = 0;
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        tiles[x][y] = new Tile(images[index++]);
+    Image[][] images = image.slice(width, height);
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        tiles[x][y] = new Tile(images[x][y]);
       }
     }
     return new TileSet(new FinalSize(width, height), tiles);
