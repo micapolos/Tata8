@@ -26,9 +26,15 @@ public final class TileSet {
   }
 
   public Tile9Patch new9Patch(int x, int y) {
+    return new9Patch(x, y, 3, 3, 1, 1);
+  }
+
+  public Tile9Patch new9Patch(int x, int y, int w, int h, int cw, int ch) {
     Tile9Patch tile9Patch = new Tile9Patch();
     tile9Patch.tileSet = this;
     tile9Patch.position.set(x, y);
+    tile9Patch.size.set(w, h);
+    tile9Patch.cornerSize.set(cw, ch);
     return tile9Patch;
   }
 

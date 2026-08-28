@@ -25,15 +25,27 @@ public final class TileMap {
   }
 
   public void draw(Tile9Patch patch, int x, int y, int width, int height) {
-    draw9Patch(x, y, x + width - 1, y + height - 1, patch.tileSet, patch.position.x, patch.position.y);
+    draw9Patch(
+        x, y,
+        width, height,
+        patch.tileSet,
+        patch.position.x, patch.position.y,
+        patch.size.width, patch.size.height,
+        patch.cornerSize.width, patch.cornerSize.height);
   }
 
-  public void draw9Patch(int x1, int y1, int x2, int y2, TileSet tileSet, int tx, int ty) {
-    for (int x = x1; x <= x2; x++) {
-      for (int y = y1; y <= y2; y++) {
-        cell(x, y).tile = tileSet.tile(
-            tx + (x == x1 ? 0 : x == x2 ? 2 : 1),
-            ty + (y == y1 ? 0 : y == y2 ? 2 : 1));
+  public void draw9Patch(
+      int x, int y,
+      int width, int height,
+      TileSet tileSet,
+      int patchX, int patchY,
+      int patchWidth, int patchHeight,
+      int cornerWidth, int cornerHeight) {
+    for (int dx = 0; dx < width; dx++) {
+      for (int dy = 0; dy < height; dy++) {
+        cell(x + dx, y + dy).tile = tileSet.tile(
+            patchX + (dx < cornerWidth ? dx : dx < width - (patchWidth - cornerWidth - 1) ? cornerWidth : dx - width + (patchWidth - cornerWidth + 1)),
+            patchY + (dy < cornerHeight ? dy : dy < height - (patchHeight - cornerHeight - 1) ? cornerHeight : dy - height + (patchHeight - cornerHeight + 1)));
       }
     }
   }

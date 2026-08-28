@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +32,7 @@ public final class Game {
   public static final Audio audio = Audio.create();
   public static final Mouse mouse = new Mouse();
   public static Runnable onUpdate = () -> {};
+  public static final Screen screen = new Screen();
 
   @Deprecated(forRemoval = true)
   public static final Canvas backgroundCanvas = background.canvas;
@@ -99,7 +101,13 @@ public final class Game {
           y += 8;
         }
         logStrings.clear();
-        g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
+        Graphics2D g2d = (Graphics2D)g;
+        BufferedImageOp imageOp = screen.imageOp();
+        if (imageOp == null) {
+          g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
+        } else {
+          g2d.drawImage(compositeCanvas.image, imageOp, 0, 0);
+        }
       }
     };
 
