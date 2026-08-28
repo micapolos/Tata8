@@ -40,6 +40,10 @@ public final class Position {
     scale(t, t);
   }
 
+  public void add(Speed speed) {
+    set(x + speed.x, y + speed.y);
+  }
+
   public void setElastic(Position position) {
     set(Math.elastic(x, position.x), Math.elastic(y, position.y));
   }
