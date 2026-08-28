@@ -1,6 +1,6 @@
 package micapolos.tata8;
 
-public final class IntVector {
+public final class IntPosition {
   public int x;
   public int y;
 
@@ -9,7 +9,7 @@ public final class IntVector {
     this.y = y;
   }
 
-  public void set(IntVector v) {
+  public void set(IntPosition v) {
     set(v.x, v.y);
   }
 
@@ -18,7 +18,7 @@ public final class IntVector {
     this.y += y;
   }
 
-  public void add(IntVector v) {
+  public void add(IntPosition v) {
     add(v.x, v.y);
   }
 

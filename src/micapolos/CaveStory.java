@@ -20,21 +20,25 @@ class CaveStory {
     tileSet.tile(2, 0).flags[GROUND] = true;
 
     TileMap tileMap = Game.background.tileMap;
+    TilePatch tilePatch = tileSet.newPatch(0, 0, 3, 3);
+    Tile9Patch ninePatch = tileSet.new9Patch(0, 0);
 
-    tileMap.draw9Patch(1, 12, 10, 13, tileSet, 0, 0);
-    tileMap.draw9Patch(13, 14, 17, 15, tileSet, 0, 0);
-    tileMap.draw9Patch(4, 18, 14, 20, tileSet, 0, 0);
-    tileMap.draw9Patch(22, 17, 25, 18, tileSet, 0, 0);
-    tileMap.draw9Patch(30, 14, 42, 15, tileSet, 0, 0);
-    tileMap.draw9Patch(45, 11, 48, 12, tileSet, 0, 0);
-    tileMap.draw9Patch(35, 8, 40, 9, tileSet, 0, 0);
-    tileMap.draw9Patch(45, 5, 50, 6, tileSet, 0, 0);
-    tileMap.draw9Patch(35, 2, 39, 3, tileSet, 0, 0);
-    tileMap.draw9Patch(28, -1, 29, 8, tileSet, 0, 0);
-    tileMap.draw9Patch(22, -4, 23, 8, tileSet, 0, 0);
-    tileMap.draw9Patch(16, -7, 17, -6, tileSet, 0, 0);
-    tileMap.draw9Patch(20, -10, 22, -9, tileSet, 0, 0);
-    tileMap.draw9Patch(17, -12, 18, -11, tileSet, 0, 0);
+    tileMap.draw(tilePatch, 0, 0);
+
+    tileMap.draw(ninePatch, 1, 12, 10, 2);
+    tileMap.draw(ninePatch, 13, 14, 4, 2);
+    tileMap.draw(ninePatch, 4, 18, 10, 3);
+    tileMap.draw(ninePatch, 22, 17, 4, 2);
+    tileMap.draw(ninePatch, 30, 14, 13, 2);
+    tileMap.draw(ninePatch, 45, 11, 4, 2);
+    tileMap.draw(ninePatch, 35, 8, 6, 2);
+    tileMap.draw(ninePatch, 45, 5, 6, 2);
+    tileMap.draw(ninePatch, 35, 2, 5, 2);
+    tileMap.draw(ninePatch, 28, -1, 2, 10);
+    tileMap.draw(ninePatch, 22, -4, 2, 13);
+    tileMap.draw(ninePatch, 16, -7, 2, 2);
+    tileMap.draw(ninePatch, 20, -10, 3, 2);
+    tileMap.draw(ninePatch, 17, -12, 2, 2);
 
     sprite.position.set(100, 100);
     sprite.anchor.set(16, 32);

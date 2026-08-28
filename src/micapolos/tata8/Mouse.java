@@ -1,7 +1,7 @@
 package micapolos.tata8;
 
 public final class Mouse {
-  public final IntVector position = new IntVector();
+  public final IntPosition position = new IntPosition();
   public final Button button = new Button();
   public boolean isOutside = false;
 

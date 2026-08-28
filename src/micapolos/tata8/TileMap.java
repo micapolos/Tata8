@@ -15,6 +15,19 @@ public final class TileMap {
     return Arrays.get(cells, x, y);
   }
 
+  public void draw(TilePatch patch, int x, int y) {
+    for (int dx = 0; dx < patch.size.width; dx++) {
+      for (int dy = 0; dy < patch.size.height; dy++) {
+        cell(x + dx, y + dy).tile =
+            patch.tileSet.tile(patch.position.x + dx, patch.position.y + dy);
+      }
+    }
+  }
+
+  public void draw(Tile9Patch patch, int x, int y, int width, int height) {
+    draw9Patch(x, y, x + width - 1, y + height - 1, patch.tileSet, patch.position.x, patch.position.y);
+  }
+
   public void draw9Patch(int x1, int y1, int x2, int y2, TileSet tileSet, int tx, int ty) {
     for (int x = x1; x <= x2; x++) {
       for (int y = y1; y <= y2; y++) {

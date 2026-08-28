@@ -17,6 +17,21 @@ public final class TileSet {
     Arrays.set(tiles, x, y, tile);
   }
 
+  public TilePatch newPatch(int x, int y, int width, int height) {
+    TilePatch tilePatch = new TilePatch();
+    tilePatch.tileSet = this;
+    tilePatch.position.set(x, y);
+    tilePatch.size.set(width, height);
+    return tilePatch;
+  }
+
+  public Tile9Patch new9Patch(int x, int y) {
+    Tile9Patch tile9Patch = new Tile9Patch();
+    tile9Patch.tileSet = this;
+    tile9Patch.position.set(x, y);
+    return tile9Patch;
+  }
+
   static TileSet slice(Image image) {
     int width = image.size.width / 16;
     int height = image.size.height / 16;
