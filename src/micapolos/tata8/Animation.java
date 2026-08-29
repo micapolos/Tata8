@@ -1,9 +1,7 @@
 package micapolos.tata8;
 
-import java.util.function.BooleanSupplier;
-
 public abstract class Animation {
-  abstract void start();
+  public abstract void start();
 
   abstract float advance(float seconds);
 
@@ -11,47 +9,11 @@ public abstract class Animation {
     return advance(1/60f) > 0;
   }
 
-  public static Animation set(Sprite sprite, Image image) {
-    return run(() -> sprite.image = image);
-  }
-
-  public static Animation elastic(Position src, Position dst) {
-    return run(() -> src.setElastic(dst));
-  }
-
-  public static Animation play(Channel channel, Note note) {
-    return run(() -> channel.play(note));
-  }
-
-  public Animation startWhen(BooleanSupplier booleanSupplier) {
-    return new Animation() {
-      boolean didStart;
-
-      @Override
-      void start() {
-
-      }
-
-      @Override
-      float advance(float seconds) {
-        if (booleanSupplier.getAsBoolean()) {
-          didStart = true;
-          Animation.this.start();
-        }
-        return didStart ? Animation.this.advance(seconds) : 0;
-      }
-    };
-  }
-
-  public Animation startWhenPressed(Key key) {
-    return startWhen(key::didPress);
-  }
-
-  public static Animation run(Runnable runnable) {
+  public static Animation instant(Action action) {
     return new Animation() {
       @Override
-      void start() {
-        runnable.run();
+      public void start() {
+        action.execute();
       }
 
       @Override
@@ -61,45 +23,58 @@ public abstract class Animation {
     };
   }
 
-  public static Animation begin() {
-    return new Animation() {
-      @Override
-      void start() {
-
-      }
-
-      @Override
-      float advance(float seconds) {
-        return seconds;
-      }
-    };
+  public static Animation instant() {
+    return instant(() -> {});
   }
 
-  public static Animation stop() {
+  public static Animation continuous(Updater updater) {
     return new Animation() {
       @Override
-      void start() {
+      public void start() {
 
       }
 
       @Override
       float advance(float seconds) {
+        updater.update(seconds);
         return 0;
       }
     };
   }
 
-  public static Animation pause(Duration duration) {
+  public static Animation continuous() {
+    return continuous(seconds -> {});
+  }
+
+  public static Animation step(float seconds, Action action) {
+    return instant(action).then(pause(seconds));
+  }
+
+  public Animation stretch(float scale) {
+    return new Animation() {
+      @Override
+      public void start() {
+        Animation.this.start();
+      }
+
+      @Override
+      float advance(float seconds) {
+        return Animation.this.advance(seconds / scale);
+      }
+    };
+  }
+
+  public static Animation pause(float pauseSeconds) {
     return new Animation() {
       float remainingSeconds;
 
       @Override
       public void start() {
-        remainingSeconds = duration.seconds;
+        remainingSeconds = pauseSeconds;
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         float diff = remainingSeconds - seconds;
         if (diff >= 0) {
           remainingSeconds = diff;
@@ -112,14 +87,18 @@ public abstract class Animation {
     };
   }
 
+  public Animation startWhen(Event event) {
+    return start(when(event, this));
+  }
+
   public final Animation then(Animation secondAnimation) {
     return new Animation() {
       boolean isRunningFirst;
 
       @Override
-      void start() {
-        isRunningFirst = true;
+      public void start() {
         Animation.this.start();
+        isRunningFirst = true;
       }
 
       @Override
@@ -145,7 +124,7 @@ public abstract class Animation {
       int index;
 
       @Override
-      void start() {
+      public void start() {
         index = 0;
         Animation animation = current();
         if (animation != null) {
@@ -180,18 +159,10 @@ public abstract class Animation {
     };
   }
 
-  public final Animation repeat(int times) {
-    Animation animation = begin();
-    for (int i = 0; i < times; i++) {
-      animation = animation.then(Animation.this);
-    }
-    return animation;
-  }
-
-  public final Animation loop() {
+  public final Animation repeat() {
     return new Animation() {
       @Override
-      void start() {
+      public void start() {
         Animation.this.start();
       }
 
@@ -209,12 +180,42 @@ public abstract class Animation {
     };
   }
 
+  public final Animation repeat(int times) {
+    return new Animation() {
+      int counter;
+
+      @Override
+      public void start() {
+        Animation.this.start();
+        counter = times;
+      }
+
+      @Override
+      float advance(float seconds) {
+        while (true) {
+          float overflow = Animation.this.advance(seconds);
+          if (overflow == 0) {
+            return 0;
+          } else {
+            counter--;
+            if (counter == 0) {
+              return 0;
+            } else {
+              Animation.this.start();
+              seconds = overflow;
+            }
+          }
+        }
+      };
+    };
+  }
+
   public static Animation random(Animation... animations) {
     return new Animation() {
       Animation current;
 
       @Override
-      void start() {
+      public void start() {
         if (animations.length == 0) {
           current = null;
         } else {
@@ -228,6 +229,105 @@ public abstract class Animation {
         return current == null
             ? seconds
             : current.advance(seconds);
+      }
+    };
+  }
+
+  public static When when(Event event, Animation animation) {
+    return new When(event, animation);
+  }
+
+  public record When(Event event, Animation animation) {}
+
+  public static Animation start(When... whenCases) {
+    return new Animation() {
+      Animation currentAnimation;
+
+      @Override
+      public void start() {}
+
+      @Override
+      float advance(float seconds) {
+        for (When option : whenCases) {
+          if (option.event.didHappen()) {
+            currentAnimation = option.animation;
+            currentAnimation.start();
+            break;
+          }
+        }
+
+        return currentAnimation == null
+            ? 0
+            : currentAnimation.advance(seconds);
+      }
+    };
+  }
+
+  public Animation stopWhen(Event event) {
+    return new Animation() {
+      boolean isRunning = false;
+
+      @Override
+      public void start() {
+        Animation.this.start();
+        isRunning = true;
+      }
+
+      @Override
+      float advance(float seconds) {
+        if (isRunning) {
+          if (event.didHappen()) {
+            isRunning = false;
+            return 0;
+          } else {
+            return Animation.this.advance(seconds);
+          }
+        } else {
+          return 0;
+        }
+      }
+    };
+  }
+
+  public Animation runWhile(Condition condition) {
+    return new Animation() {
+      @Override
+      public void start() {
+        Animation.this.start();
+      }
+
+      @Override
+      float advance(float seconds) {
+        return condition.isHappening()
+          ? Animation.this.advance(seconds)
+          : 0;
+      }
+    };
+  }
+
+  public static Option during(Condition condition, Animation animation) {
+    return new Option(condition, animation);
+  }
+
+  public record Option(Condition condition, Animation animation) {}
+
+  public static Animation oneOf(Option... options) {
+    return new Animation() {
+      @Override
+      public void start() {
+        for (Option option : options) {
+          option.animation.start();
+        }
+      }
+
+      @Override
+      float advance(float seconds) {
+        for (Option option : options) {
+          if (option.condition().isHappening()) {
+            return option.animation.advance(seconds);
+          }
+        }
+        return 0;
       }
     };
   }

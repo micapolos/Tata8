@@ -23,4 +23,8 @@ public final class Sprite implements Comparable<Sprite> {
         ? "sprite(hidden)"
         : String.format("sprite(%s,%s,...)", position, flip);
   }
+
+  public Action setAction(Image image) {
+    return () -> this.image = image;
+  }
 }

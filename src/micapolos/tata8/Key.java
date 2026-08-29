@@ -13,6 +13,14 @@ public final class Key {
     return didPress;
   }
 
+  public Event didPressEvent() {
+    return () -> didPress;
+  }
+
+  public Condition isPressedCondition() {
+    return () -> isPressed;
+  }
+
   void press() {
     isPressed = true;
   }

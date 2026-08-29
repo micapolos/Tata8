@@ -3,25 +3,19 @@ package micapolos;
 import micapolos.tata8.Animation;
 import micapolos.tata8.Game;
 
-import static micapolos.tata8.Duration.seconds;
-
 public final class AnimationDemo {
   static void main() {
-    var images = Game.loadImage(AnimationDemo.class, "tilemap.png").sliceVertically(7);
+    var images = Game.loadImage(AnimationDemo.class, "tilemap.png").slice(7, 11);
+    var image = Game.loadImage(AnimationDemo.class, "quote.png");
     var sprite = Game.newSprite();
+    sprite.image = image;
+    sprite.anchor.set(16, 0);
+    sprite.position.set(0, 0);
 
     Animation animation =
-        Animation.random(
-            Animation.set(sprite, images[0]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[1]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[2]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[3]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[4]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[5]).then(Animation.pause(seconds(1))),
-            Animation.set(sprite, images[6]).then(Animation.pause(seconds(1)))).startWhen(Game.keys.z::didPress);
+      Animation.continuous(dt -> sprite.position.x += dt * 60).startWhen(Game.keys.right::isPressed);
 
     Game.add(animation);
-
     Game.start();
   }
 }

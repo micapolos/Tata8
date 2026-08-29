@@ -40,4 +40,5 @@ public final class Position {
   public String toString() {
     return "vector(" + x + ", " + y + ")";
   }
+
 }
