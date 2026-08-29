@@ -170,6 +170,26 @@ public abstract class Clip {
     };
   }
 
+  public static Clip parallel(Clip... clips) {
+    return new Clip() {
+      @Override
+      void start() {
+        for (Clip clip : clips) {
+          clip.start();
+        }
+      }
+
+      @Override
+      float advance(float seconds) {
+        float overflow = Float.POSITIVE_INFINITY;
+        for (Clip clip : clips) {
+          overflow = java.lang.Math.min(overflow, clip.advance(seconds));
+        }
+        return overflow;
+      }
+    };
+  }
+
   public final Clip repeat() {
     return new Clip() {
       @Override
