@@ -159,7 +159,7 @@ public final class Game {
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
       for (Animation animation : animations) {
-        animation.update(1/60f);
+        animation.advance(1/60f);
       }
       onUpdate.run();
       panel.repaint();
@@ -187,6 +187,7 @@ public final class Game {
   }
 
   public static void add(Animation animation) {
+    animation.start();
     animations.add(animation);
   }
 
