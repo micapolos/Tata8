@@ -4,7 +4,7 @@ public abstract class Clip {
   /**
    * Starts the clip.
    */
-  public abstract void start();
+  abstract void start();
 
   /**
    * Advances the clip.
@@ -12,20 +12,12 @@ public abstract class Clip {
    * @param seconds the number of seconds to advance the clip.
    * @return the number of remaining seconds to advance, if the clip finished in this step.
    */
-  public abstract float advance(float seconds);
-
-  /**
-   * Advances the clip by one animation frame.
-   * @return whether the clip finished
-   */
-  public final boolean update() {
-    return advance(1 / 60f) > 0;
-  }
+  abstract float advance(float seconds);
 
   public static Clip instant(Action action) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         action.execute();
       }
 
@@ -44,7 +36,7 @@ public abstract class Clip {
   public static Clip continuous(Updater updater) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
 
       }
 
@@ -68,7 +60,7 @@ public abstract class Clip {
   public Clip stretch(float scale) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
@@ -88,7 +80,7 @@ public abstract class Clip {
       float remainingSeconds;
 
       @Override
-      public void start() {
+      void start() {
         remainingSeconds = pauseSeconds;
       }
 
@@ -115,7 +107,7 @@ public abstract class Clip {
       boolean isRunningFirst;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         isRunningFirst = true;
       }
@@ -143,7 +135,7 @@ public abstract class Clip {
       int index;
 
       @Override
-      public void start() {
+      void start() {
         index = 0;
         Clip clip = current();
         if (clip != null) {
@@ -181,7 +173,7 @@ public abstract class Clip {
   public final Clip repeat() {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
@@ -204,7 +196,7 @@ public abstract class Clip {
       int counter;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         counter = times;
       }
@@ -236,7 +228,7 @@ public abstract class Clip {
       Clip current;
 
       @Override
-      public void start() {
+      void start() {
         if (clips.length == 0) {
           current = null;
         } else {
@@ -266,7 +258,7 @@ public abstract class Clip {
       Clip currentClip;
 
       @Override
-      public void start() {
+      void start() {
       }
 
       @Override
@@ -291,7 +283,7 @@ public abstract class Clip {
       boolean isRunning = false;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         isRunning = true;
       }
@@ -315,7 +307,7 @@ public abstract class Clip {
   public Clip runWhile(Condition condition) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
@@ -338,7 +330,7 @@ public abstract class Clip {
   public static Clip oneOf(Option... options) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         for (Option option : options) {
           option.clip.start();
         }
