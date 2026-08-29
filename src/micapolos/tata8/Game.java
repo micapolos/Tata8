@@ -33,7 +33,7 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
   public static Runnable onUpdate = () -> {};
   public static final Screen screen = new Screen();
-  static List<Clip> clips = new ArrayList<>();
+  public static Clip clip = Clip.instant();
 
   @Deprecated(forRemoval = true)
   public static final Canvas backgroundCanvas = background.canvas;
@@ -158,9 +158,7 @@ public final class Game {
 
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
-      for (Clip animation : clips) {
-        animation.advance(1/60f);
-      }
+      clip.advance(1/60f);
       onUpdate.run();
       panel.repaint();
       for (Key key : keys.array) {
@@ -184,11 +182,6 @@ public final class Game {
         "game(sprites: %d / %d, imagePixels: %d / %d)",
         spriteCount(), MAX_SPRITE_COUNT,
         loadedImagePixelCount, MAX_IMAGES_PIXEL_COUNT);
-  }
-
-  public static void add(Clip clip) {
-    clip.start();
-    clips.add(clip);
   }
 
   static void main() {

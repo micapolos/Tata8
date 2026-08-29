@@ -12,10 +12,7 @@ public final class ClipDemo {
     sprite.anchor.set(16, 0);
     sprite.position.set(0, 0);
 
-    Clip clip =
-      Clip.continuous(dt -> sprite.position.x += dt * 60).runWhile(Game.keys.right::isPressed);
-
-    Game.add(clip);
+    Game.clip = Clip.continuous(dt -> sprite.position.x += dt * 60).runWhile(Game.keys.right::isPressed);
     Game.start();
   }
 }
