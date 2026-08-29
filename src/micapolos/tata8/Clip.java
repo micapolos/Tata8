@@ -46,7 +46,7 @@ public abstract class Clip {
     return continuous(seconds -> {});
   }
 
-  public static Clip step(float seconds, Action action) {
+  public static Clip frame(float seconds, Action action) {
     return instant(action).then(pause(seconds));
   }
 
