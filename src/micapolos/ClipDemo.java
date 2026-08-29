@@ -13,7 +13,7 @@ public final class ClipDemo {
     sprite.position.set(0, 0);
 
     Clip clip =
-      Clip.continuous(dt -> sprite.position.x += dt * 60).startWhen(Game.keys.right::isPressed);
+      Clip.continuous(dt -> sprite.position.x += dt * 60).runWhile(Game.keys.right::isPressed);
 
     Game.add(clip);
     Game.start();

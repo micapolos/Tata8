@@ -1,12 +1,25 @@
 package micapolos.tata8;
 
 public abstract class Clip {
+  /**
+   * Starts the clip.
+   */
   public abstract void start();
 
-  abstract float advance(float seconds);
+  /**
+   * Advances the clip.
+   *
+   * @param seconds the number of seconds to advance the clip.
+   * @return the number of remaining seconds to advance, if the clip finished in this step.
+   */
+  public abstract float advance(float seconds);
 
+  /**
+   * Advances the clip by one animation frame.
+   * @return whether the clip finished
+   */
   public final boolean update() {
-    return advance(1/60f) > 0;
+    return advance(1 / 60f) > 0;
   }
 
   public static Clip instant(Action action) {
@@ -24,7 +37,8 @@ public abstract class Clip {
   }
 
   public static Clip instant() {
-    return instant(() -> {});
+    return instant(() -> {
+    });
   }
 
   public static Clip continuous(Updater updater) {
@@ -43,7 +57,8 @@ public abstract class Clip {
   }
 
   public static Clip continuous() {
-    return continuous(seconds -> {});
+    return continuous(seconds -> {
+    });
   }
 
   public static Clip frame(float seconds, Action action) {
@@ -210,7 +225,9 @@ public abstract class Clip {
             }
           }
         }
-      };
+      }
+
+      ;
     };
   }
 
@@ -231,8 +248,8 @@ public abstract class Clip {
       @Override
       float advance(float seconds) {
         return current == null
-            ? seconds
-            : current.advance(seconds);
+          ? seconds
+          : current.advance(seconds);
       }
     };
   }
@@ -241,14 +258,16 @@ public abstract class Clip {
     return new When(event, clip);
   }
 
-  public record When(Event event, Clip clip) {}
+  public record When(Event event, Clip clip) {
+  }
 
   public static Clip start(When... whenCases) {
     return new Clip() {
       Clip currentClip;
 
       @Override
-      public void start() {}
+      public void start() {
+      }
 
       @Override
       float advance(float seconds) {
@@ -261,8 +280,8 @@ public abstract class Clip {
         }
 
         return currentClip == null
-            ? 0
-            : currentClip.advance(seconds);
+          ? 0
+          : currentClip.advance(seconds);
       }
     };
   }
@@ -313,7 +332,8 @@ public abstract class Clip {
     return new Option(condition, clip);
   }
 
-  public record Option(Condition condition, Clip clip) {}
+  public record Option(Condition condition, Clip clip) {
+  }
 
   public static Clip oneOf(Option... options) {
     return new Clip() {
