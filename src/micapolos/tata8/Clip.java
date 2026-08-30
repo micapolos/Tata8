@@ -245,22 +245,17 @@ public interface Clip {
       @Override
       public float advance(float seconds) {
         while (true) {
+          if (counter == 0) {
+            return 0;
+          }
           float overflow = Clip.this.advance(seconds);
           if (overflow == 0) {
             return 0;
           } else {
             counter--;
-            if (counter == 0) {
-              return 0;
-            } else {
-              Clip.this.start();
-              seconds = overflow;
-            }
           }
         }
       }
-
-      ;
     };
   }
 

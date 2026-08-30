@@ -156,6 +156,8 @@ public final class Game {
       }
     });
 
+    clip.start();
+
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
       clip.advance(1/60f);
