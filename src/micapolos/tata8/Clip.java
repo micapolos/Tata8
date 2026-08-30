@@ -9,7 +9,7 @@ public interface Clip {
   /**
    * Advances the clip.
    *
-   * @param seconds the number of seconds to advance the clip.
+   * @param seconds the number Aof seconds to advance the clip.
    * @return the number of remaining seconds if the clip finished while advancing.
    */
   float advance(float seconds);
