@@ -1,21 +1,19 @@
 package micapolos;
 
-import micapolos.tata8.Clip;
-import micapolos.tata8.Game;
+import static micapolos.tata8.Animation.*;
+import static micapolos.tata8.Clip.*;
+import static micapolos.tata8.Game.*;
 
 public final class ClipDemo {
   static void main() {
-    var images = Game.loadImage(ClipDemo.class, "tilemap.png").slice(7, 11);
-    var image = Game.loadImage(ClipDemo.class, "quote.png");
-    var sprite = Game.newSprite();
+    var images = loadImage(ClipDemo.class, "tilemap.png").slice(7, 11);
+    var image = loadImage(ClipDemo.class, "quote.png");
+    var sprite = newSprite();
     sprite.image = image;
     sprite.anchor.set(16, 0);
     sprite.position.set(0, 0);
 
-    Game.clip = Clip.with(seconds -> {
-      sprite.position.x += seconds * 60;
-      sprite.position.y += seconds * 60;
-    });
-    Game.start();
+    clip = with(moveX(sprite.position, 60f));
+    start();
   }
 }

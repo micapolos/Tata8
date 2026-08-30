@@ -5,10 +5,22 @@ public interface Animation {
 
   Animation EMPTY = _ -> {};
 
-  static Animation move(Position position, Speed speed) {
+  static Animation moveX(Position position, float speed) {
+    return seconds -> position.x += speed * seconds;
+  }
+
+  static Animation moveY(Position position, float speed) {
+    return seconds -> position.y += speed * seconds;
+  }
+
+  static Animation move(Position position, float speedX, float speedY) {
     return seconds -> {
-      position.x += speed.x * seconds;
-      position.y += speed.y * seconds;
+      position.x += speedX * seconds;
+      position.y += speedX * seconds;
     };
+  }
+
+  static Animation move(Position position, Speed speed) {
+    return move(position, speed.x, speed.y);
   }
 }
