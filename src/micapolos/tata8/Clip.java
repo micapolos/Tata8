@@ -314,13 +314,13 @@ public interface Clip {
       @Override
       public float advance(float seconds) {
         for (EventOption option : options) {
-          option.selected = option.event.didHappen();
-          if (option.selected) {
+          if (option.event.didHappen()) {
+            option.selected = true;
             option.clip.start();
           }
         }
 
-        Float remaining = Float.POSITIVE_INFINITY;
+        float remaining = Float.POSITIVE_INFINITY;
         for (EventOption option : options) {
           if (option.selected) {
             remaining = Math.min(remaining, option.clip.advance(seconds));
