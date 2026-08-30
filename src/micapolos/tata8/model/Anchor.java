@@ -17,7 +17,7 @@ public final class Anchor implements Showable {
 
   public void set(double x, double y) {
     this.x.set(x);
-    this.x.set(y);
+    this.y.set(y);
   }
 
   public void set(Number x, Number y) {

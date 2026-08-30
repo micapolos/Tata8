@@ -19,8 +19,8 @@ public final class Sprite implements Showable {
 
   void sync() {
     state.image = image.get();
-    state.position.set((float) position.x.get(), (float) position.y.get());
     state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
+    state.position.set((float) position.x.get(), (float) position.y.get());
     state.flip.set(flip.x.get(), flip.y.get());
     state.angle = (float) angle.get();
   }
@@ -34,7 +34,9 @@ public final class Sprite implements Showable {
     Sprite sprite = newSprite();
     Image image = loadImage(Game.class, "depressedChicken.png").sliceVertically(8)[0];
     sprite.image.set(image);
-    sprite.position.set(seconds.times(60), constant(128));
+    sprite.anchor.set(16, 16);
+    sprite.position.set(160, 128);
+    sprite.angle.set(seconds.times(360));
     sprite.show();
   }
 }

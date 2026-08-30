@@ -64,6 +64,10 @@ public final class Number implements Showable {
     set(number::get, 0);
   }
 
+  public void add(double d) {
+    set(get() + d);
+  }
+
   void set(DoubleSupplier supplier, double defaultValue) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
