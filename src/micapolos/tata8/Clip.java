@@ -99,10 +99,6 @@ public interface Clip {
     };
   }
 
-  default Clip startWhen(Event event) {
-    return select(option(event, this));
-  }
-
   default Clip then(Clip secondClip) {
     return new Clip() {
       boolean isRunningFirst;
@@ -294,7 +290,6 @@ public interface Clip {
   final class EventOption {
     final Event event;
     final Clip clip;
-    boolean selected;
 
     EventOption(Event event, Clip clip) {
       this.event = event;
@@ -302,37 +297,28 @@ public interface Clip {
     }
   }
 
-  static Clip select(EventOption... options) {
+  default Clip thenSelect(EventOption... options) {
     return new Clip() {
+      EventOption selectedOption;
+
       @Override
       public void start() {
-        for (EventOption option : options) {
-          option.selected = false;
-        }
+        Clip.this.start();
       }
 
       @Override
       public float advance(float seconds) {
         for (EventOption option : options) {
           if (option.event.didHappen()) {
-            option.selected = true;
             option.clip.start();
+            selectedOption = option;
           }
         }
 
-        float remaining = Float.POSITIVE_INFINITY;
-        for (EventOption option : options) {
-          if (option.selected) {
-            remaining = Math.min(remaining, option.clip.advance(seconds));
-          }
-        }
-        return remaining;
+        Clip clip = selectedOption != null ? selectedOption.clip : Clip.this;
+        return clip.advance(seconds);
       }
     };
-  }
-
-  default Clip start(Event event) {
-    return select(option(event, this));
   }
 
   default Clip stop(Event event) {
