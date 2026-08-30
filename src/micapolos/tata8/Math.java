@@ -47,5 +47,13 @@ public final class Math {
     return java.lang.Math.abs(f);
   }
 
+  public static float min(float a, float b) {
+    return java.lang.Math.min(a, b);
+  }
+
+  public static float max(float a, float b) {
+    return java.lang.Math.max(a, b);
+  }
+
   private Math() {}
 }
