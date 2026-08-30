@@ -20,6 +20,13 @@ public final class Sprite implements Showable {
     this.state = state;
   }
 
+  public static Sprite sprite(Image image) {
+    Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
+    sprite.image.init(image);
+    add(sprite::sync);
+    return sprite;
+  }
+
   public static Sprite sprite() {
     Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
     add(sprite::sync);

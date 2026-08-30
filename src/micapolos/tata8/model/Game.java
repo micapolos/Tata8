@@ -26,14 +26,27 @@ public final class Game {
 
   public static final Event started = () -> startedValue;
 
-  static void show() {
+  public static void show() {
     onUpdate = () -> {
       for (Runnable component : components) {
         component.run();
       }
       startedValue = keys.reset.pressed();
+      if (startedValue) {
+        secondsValue = 0;
+      }
     };
     micapolos.tata8.Game.start();
+  }
+
+  public static void when(Event event, Action... actions) {
+    add(() -> {
+      if (event.didHappen()) {
+        for (Action action : actions) {
+          action.execute();
+        }
+      }
+    });
   }
 
   static void main() {

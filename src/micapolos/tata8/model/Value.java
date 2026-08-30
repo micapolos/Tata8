@@ -1,5 +1,7 @@
 package micapolos.tata8.model;
 
+import micapolos.tata8.Random;
+
 import java.util.function.Supplier;
 
 public final class Value<T> implements Showable {
@@ -47,6 +49,10 @@ public final class Value<T> implements Showable {
 
   public Action set(Value<T> value) {
     return () -> init(value);
+  }
+
+  public Action setRandomOf(T... values) {
+    return () -> init(values[Random.until(values.length)]);
   }
 
   @Override
