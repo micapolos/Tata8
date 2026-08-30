@@ -322,7 +322,9 @@ public interface Clip {
 
         Float remaining = Float.POSITIVE_INFINITY;
         for (EventOption option : options) {
-          remaining = Math.min(remaining, option.clip.advance(seconds));
+          if (option.selected) {
+            remaining = Math.min(remaining, option.clip.advance(seconds));
+          }
         }
         return remaining;
       }

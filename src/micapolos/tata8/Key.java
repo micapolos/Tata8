@@ -3,22 +3,17 @@ package micapolos.tata8;
 public final class Key {
   boolean wasPressed;
   boolean isPressed;
-  boolean didPress;
 
   public boolean isPressed() {
     return isPressed;
   }
 
-  public boolean didPress() {
-    return didPress;
+  public boolean pressed() {
+    return !wasPressed && isPressed;
   }
 
-  public Event didPressEvent() {
-    return () -> didPress;
-  }
-
-  public Condition isPressedCondition() {
-    return () -> isPressed;
+  public boolean released() {
+    return wasPressed && !isPressed;
   }
 
   void press() {
@@ -30,7 +25,6 @@ public final class Key {
   }
 
   void update() {
-    didPress = !wasPressed && isPressed;
     wasPressed = isPressed;
   }
 }

@@ -1,7 +1,13 @@
 package micapolos.tata8;
 
+import java.util.function.BooleanSupplier;
+
 public interface Condition {
   boolean isHappening();
+
+  static Condition onlyIf(BooleanSupplier supplier) {
+    return supplier::getAsBoolean;
+  }
 
   static Condition all(Condition... conditions) {
     return () -> {

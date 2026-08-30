@@ -69,7 +69,7 @@ class CaveStory {
   }
 
   void update() {
-    if (Game.keys.up.didPress() && !isJumping) {
+    if (Game.keys.up.pressed() && !isJumping) {
       speed.y = -5f;
       isJumping = true;
     }
@@ -109,11 +109,11 @@ class CaveStory {
       }
     }
 
-    if (Game.keys.z.didPress()) {
+    if (Game.keys.z.pressed()) {
       Game.screen.shader = Shader.MAME;
     }
 
-    if (Game.keys.x.didPress()) {
+    if (Game.keys.x.pressed()) {
       Game.screen.shader = null;
     }
   }

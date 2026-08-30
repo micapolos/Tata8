@@ -2,6 +2,7 @@ package micapolos;
 
 import static micapolos.tata8.Animation.*;
 import static micapolos.tata8.Clip.*;
+import static micapolos.tata8.Event.when;
 import static micapolos.tata8.Game.*;
 
 public final class ClipDemo {
@@ -13,7 +14,9 @@ public final class ClipDemo {
     sprite.anchor.set(16, 0);
     sprite.position.set(0, 0);
 
-    clip = with(movingX(sprite.position, 60f));
+    clip = select(
+      option(when(keys.right::pressed), with(movingX(sprite.position, 60f))),
+      option(when(keys.right::released), with(movingX(sprite.position, 0))));
     start();
   }
 }
