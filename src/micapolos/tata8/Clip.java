@@ -100,7 +100,7 @@ public interface Clip {
   }
 
   default Clip startWhen(Event event) {
-    return start(option(event, this));
+    return select(option(event, this));
   }
 
   default Clip then(Clip secondClip) {
@@ -191,7 +191,7 @@ public interface Clip {
     };
   }
 
-  static Clip parallel(ConditionOption... conditionOptions) {
+  static Clip select(ConditionOption... conditionOptions) {
     return new Clip() {
       @Override
       public void start() {
@@ -302,7 +302,7 @@ public interface Clip {
     }
   }
 
-  static Clip start(EventOption... options) {
+  static Clip select(EventOption... options) {
     return new Clip() {
       @Override
       public void start() {
@@ -329,7 +329,11 @@ public interface Clip {
     };
   }
 
-  default Clip stopWhen(Event event) {
+  default Clip start(Event event) {
+    return select(option(event, this));
+  }
+
+  default Clip stop(Event event) {
     return new Clip() {
       boolean isRunning = false;
 
@@ -376,26 +380,5 @@ public interface Clip {
   }
 
   record ConditionOption(Condition condition, Clip clip) {
-  }
-
-  static Clip first(ConditionOption... options) {
-    return new Clip() {
-      @Override
-      public void start() {
-        for (ConditionOption option : options) {
-          option.clip.start();
-        }
-      }
-
-      @Override
-      public float advance(float seconds) {
-        for (ConditionOption option : options) {
-          if (option.condition().isHappening()) {
-            return option.clip.advance(seconds);
-          }
-        }
-        return 0;
-      }
-    };
   }
 }
