@@ -1,7 +1,5 @@
 package micapolos.tata8.model;
 
-import micapolos.tata8.Image;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
@@ -16,14 +14,10 @@ public final class Game {
     components.add(runnable);
   }
 
-  public static Number zero = with(0);
+  public static Number zero = constant(0);
 
-  public static Number with(double d) {
+  public static Number constant(double d) {
     return Number.with(d);
-  }
-
-  public static Number number(DoubleSupplier supplier) {
-    return Number.with(supplier);
   }
 
   static double secondsValue;

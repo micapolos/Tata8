@@ -27,6 +27,16 @@ public final class Position implements Showable {
     return with(Number.variable(), Number.variable());
   }
 
+  public void set(double x, double y) {
+    this.x.set(x);
+    this.y.set(y);
+  }
+
+  public void set(Number x, Number y) {
+    this.x.set(x);
+    this.y.set(y);
+  }
+
   @Override
   public String toString() {
     return String.format("position(x: %s, y: %s)", x, y);
