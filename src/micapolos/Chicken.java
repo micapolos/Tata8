@@ -5,7 +5,6 @@ import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.Game.loadImage;
-import static micapolos.tata8.model.Action.sequence;
 import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
@@ -27,7 +26,7 @@ final class Chicken {
     Action flipRight = isLeft.set(false);
     Action move = x.add(step);
 
-    Clip walk = Clip.sequence(
+    Clip walk = sequence(
       frame(sprite.image.set(images[3]).then(move)),
       frame(sprite.image.set(images[4]).then(move)),
       frame(sprite.image.set(images[5]).then(move)),
