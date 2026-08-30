@@ -31,20 +31,20 @@ public final class Position implements Showable {
     return new Position(true, Number.variable(x), Number.variable(y));
   }
 
-  public void set(double x, double y) {
+  public void init(double x, double y) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
     }
-    this.x.set(x);
-    this.y.set(y);
+    this.x.init(x);
+    this.y.init(y);
   }
 
-  public void set(Number x, Number y) {
+  public void init(Number x, Number y) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
     }
-    this.x.set(x);
-    this.y.set(y);
+    this.x.init(x);
+    this.y.init(y);
   }
 
   @Override

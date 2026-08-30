@@ -1,7 +1,5 @@
 package micapolos.tata8.model;
 
-import micapolos.tata8.Image;
-
 public final class Anchor implements Showable {
   public final Number x;
   public final Number y;
@@ -15,14 +13,14 @@ public final class Anchor implements Showable {
     return new Anchor(Number.variable(), Number.variable());
   }
 
-  public void set(double x, double y) {
-    this.x.set(x);
-    this.y.set(y);
+  public void init(double x, double y) {
+    this.x.init(x);
+    this.y.init(y);
   }
 
-  public void set(Number x, Number y) {
-    this.x.set(x);
-    this.y.set(y);
+  public void init(Number x, Number y) {
+    this.x.init(x);
+    this.y.init(y);
   }
 
   @Override

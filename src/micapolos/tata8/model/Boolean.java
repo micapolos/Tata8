@@ -21,40 +21,50 @@ public final class Boolean implements Showable {
   static final Boolean YES = with(true);
   static final Boolean NO = with(false);
 
-  static Boolean with(boolean value) {
+  public static Boolean with(boolean value) {
     return new Boolean(false, null, value);
   }
 
-  static Boolean with(BooleanSupplier supplier) {
+  public static Boolean with(BooleanSupplier supplier) {
     return new Boolean(false, supplier, false);
   }
 
-  static Boolean variable() {
+  public static Boolean variable() {
     return variable(false);
   }
 
-  static Boolean variable(boolean value) {
+  public static Boolean variable(boolean value) {
     return new Boolean(true, null, value);
   }
 
-  static Boolean variable(BooleanSupplier supplier) {
+  public static Boolean variable(BooleanSupplier supplier) {
     return new Boolean(true, supplier, false);
   }
 
-  public void set(boolean x) {
-    set(null, x);
+  public Action set(boolean x) {
+    return set(null, x);
   }
 
-  public void set(Boolean number) {
-    set(number::get, false);
+  public Action set(Boolean number) {
+    return set(number::get, false);
   }
 
-  void set(BooleanSupplier supplier, boolean defaultValue) {
+  Action set(BooleanSupplier supplier, boolean defaultValue) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
     }
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+    return () -> {
+      this.supplier = supplier;
+      this.defaultValue = defaultValue;
+    };
+  }
+
+  public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
+    return Value.with(() -> get() ? trueValue.get() : falseValue.get());
+  }
+
+  public Number select(Number trueNumber, Number falseNumber) {
+    return Number.with(() -> get() ? trueNumber.get() : falseNumber.get());
   }
 
   @Override

@@ -1,9 +1,6 @@
 package micapolos.tata8.model;
 
-import micapolos.tata8.Game;
 import micapolos.tata8.Random;
-
-import static micapolos.tata8.Game.*;
 
 public abstract class Clip {
   /**
@@ -387,8 +384,8 @@ public abstract class Clip {
 
   public final void show() {
     start();
-    onUpdate = () -> advance(1/60f);
-    Game.start();
+    Game.add(() -> advance(1/60f));
+    Game.show();
   }
 
   static void main() {

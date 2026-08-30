@@ -18,25 +18,25 @@ public final class Number implements Showable {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  static final Number zero = with(0);
+  public static final Number zero = with(0);
 
-  static Number with(double value) {
+  public static Number with(double value) {
     return new Number(false, null, value);
   }
 
-  static Number with(DoubleSupplier supplier) {
+  public static Number with(DoubleSupplier supplier) {
     return new Number(false, supplier, 0);
   }
 
-  static Number variable() {
+  public static Number variable() {
     return variable(0);
   }
 
-  static Number variable(double value) {
+  public static Number variable(double value) {
     return new Number(true, null, value);
   }
 
-  static Number variable(DoubleSupplier supplier) {
+  public static Number variable(DoubleSupplier supplier) {
     return new Number(true, supplier, 0);
   }
 
@@ -56,24 +56,36 @@ public final class Number implements Showable {
     return with(() -> get() * n.get());
   }
 
-  public void set(double x) {
-    set(null, x);
+  public void init(double x) {
+    init(null, x);
   }
 
-  public void set(Number number) {
-    set(number::get, 0);
+  public void init(Number number) {
+    init(number::get, 0);
   }
 
-  public void add(double d) {
-    set(get() + d);
-  }
-
-  void set(DoubleSupplier supplier, double defaultValue) {
+  void init(DoubleSupplier supplier, double defaultValue) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
     }
     this.supplier = supplier;
     this.defaultValue = defaultValue;
+  }
+
+  public Action set(double x) {
+    return () -> init(null, x);
+  }
+
+  public Action set(Number number) {
+    return () -> init(number::get, 0);
+  }
+
+  public Action add(double d) {
+    return () -> init(get() + d);
+  }
+
+  public Action add(Number number) {
+    return () -> init(get() + number.get());
   }
 
   @Override
