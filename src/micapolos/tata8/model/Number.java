@@ -56,15 +56,15 @@ public final class Number implements Showable {
     return with(() -> get() * n.get());
   }
 
-  public void init(double x) {
-    init(null, x);
+  public void set(double x) {
+    set(null, x);
   }
 
-  public void init(Number number) {
-    init(number::get, 0);
+  public void set(Number number) {
+    set(number::get, 0);
   }
 
-  void init(DoubleSupplier supplier, double defaultValue) {
+  void set(DoubleSupplier supplier, double defaultValue) {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable.");
     }
@@ -72,20 +72,12 @@ public final class Number implements Showable {
     this.defaultValue = defaultValue;
   }
 
-  public Action set(double x) {
-    return () -> init(null, x);
+  public void add(double d) {
+    set(get() + d);
   }
 
-  public Action set(Number number) {
-    return () -> init(number::get, 0);
-  }
-
-  public Action add(double d) {
-    return () -> init(get() + d);
-  }
-
-  public Action add(Number number) {
-    return () -> init(get() + number.get());
+  public void add(Number n) {
+    set(get() + n.get());
   }
 
   @Override

@@ -3,12 +3,10 @@ package micapolos.tata8.model;
 import java.util.function.BooleanSupplier;
 
 public final class Boolean implements Showable {
-  final boolean isVariable;
   BooleanSupplier supplier;
   boolean defaultValue;
 
-  Boolean(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
-    this.isVariable = isVariable;
+  Boolean(BooleanSupplier supplier, boolean defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -18,45 +16,25 @@ public final class Boolean implements Showable {
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }
 
-  static final Boolean YES = with(true);
-  static final Boolean NO = with(false);
-
   public static Boolean with(boolean value) {
-    return new Boolean(false, null, value);
+    return new Boolean(null, value);
   }
 
   public static Boolean with(BooleanSupplier supplier) {
-    return new Boolean(false, supplier, false);
+    return new Boolean(supplier, false);
   }
 
-  public static Boolean variable() {
-    return variable(false);
+  public void set(boolean x) {
+    set(null, x);
   }
 
-  public static Boolean variable(boolean value) {
-    return new Boolean(true, null, value);
+  public void set(Boolean number) {
+    set(number::get, false);
   }
 
-  public static Boolean variable(BooleanSupplier supplier) {
-    return new Boolean(true, supplier, false);
-  }
-
-  public Action set(boolean x) {
-    return set(null, x);
-  }
-
-  public Action set(Boolean number) {
-    return set(number::get, false);
-  }
-
-  Action set(BooleanSupplier supplier, boolean defaultValue) {
-    if (!isVariable) {
-      throw new IllegalArgumentException("Not a variable.");
-    }
-    return () -> {
-      this.supplier = supplier;
-      this.defaultValue = defaultValue;
-    };
+  void set(BooleanSupplier supplier, boolean defaultValue) {
+    this.supplier = supplier;
+    this.defaultValue = defaultValue;
   }
 
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {

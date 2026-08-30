@@ -6,6 +6,10 @@ import micapolos.tata8.Position;
 public interface Action {
   void execute();
 
+  static Action action(Runnable runnable) {
+    return runnable::run;
+  }
+
   static Action set(micapolos.tata8.Sprite sprite, Image image) {
     return () -> sprite.image = image;
   }

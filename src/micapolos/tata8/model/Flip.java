@@ -18,7 +18,7 @@ public final class Flip implements Showable {
   }
 
   static Flip variable() {
-    return new Flip(Boolean.variable(), Boolean.variable());
+    return new Flip(Boolean.with(false), Boolean.with(false));
   }
 
   @Override

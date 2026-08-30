@@ -6,6 +6,7 @@ import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.loadImage;
+import static micapolos.tata8.model.Action.action;
 import static micapolos.tata8.model.Action.set;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
@@ -21,7 +22,9 @@ public final class ClipDemo {
     sprite.position.init(50, 100);
 
     Number step = sprite.flip.x.select(constant(-3), constant(3));
-    Action move = sprite.position.x.add(step);
+    Action flipLeft = action(() -> sprite.flip.x.set(true));
+    Action flipRight = action(() -> sprite.flip.x.set(false));
+    Action move = action(() -> sprite.position.x.add(step));
 
     Clip walk = sequence(
       frame(set(sprite, images[3]).then(move)),
@@ -38,8 +41,8 @@ public final class ClipDemo {
     Clip stand = instant(set(sprite, images[2]));
 
     Clip animate = stand.thenSelect(
-      option(when(keys.right::pressed), instant(sprite.flip.x.set(false)).then(walk)),
-      option(when(keys.left::pressed), instant(sprite.flip.x.set(true)).then(walk)),
+      option(when(keys.right::pressed), instant(flipRight).then(walk)),
+      option(when(keys.left::pressed), instant(flipLeft).then(walk)),
       option(any(when(keys.right::released), when(keys.right::released)), stand));
 
     animate.show();

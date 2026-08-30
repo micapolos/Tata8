@@ -36,7 +36,7 @@ public final class Sprite implements Showable {
     sprite.image.set(image);
     sprite.anchor.init(16, 16);
     sprite.position.init(160, 128);
-    sprite.angle.init(seconds.times(360));
+    sprite.angle.set(seconds.times(360));
     sprite.show();
   }
 }
