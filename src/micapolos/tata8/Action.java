@@ -15,6 +15,14 @@ public interface Action {
     return () -> position.y = y;
   }
 
+  static Action moveX(Position position, float dx) {
+    return () -> position.x += dx;
+  }
+
+  static Action moveY(Position position, float dy) {
+    return () -> position.y += dy;
+  }
+
   static Action sequence(Action... actions) {
     return () -> {
       for (Action action : actions) {
