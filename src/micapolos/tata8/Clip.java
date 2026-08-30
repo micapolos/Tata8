@@ -33,7 +33,7 @@ public interface Clip {
     });
   }
 
-  static Clip continuous(Updater updater) {
+  static Clip with(Animation animation) {
     return new Clip() {
       @Override
       public void start() {
@@ -42,16 +42,13 @@ public interface Clip {
 
       @Override
       public float advance(float seconds) {
-        updater.update(seconds);
+        animation.update(seconds);
         return 0;
       }
     };
   }
 
-  static Clip continuous() {
-    return continuous(seconds -> {
-    });
-  }
+  Clip EMPTY = with(Animation.EMPTY);
 
   static Clip frame(float seconds, Action action) {
     return instant(action).then(pause(seconds));

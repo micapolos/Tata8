@@ -6,4 +6,5 @@ public interface Action {
   static Action set(Sprite sprite, Image image) {
     return () -> sprite.image = image;
   }
+
 }

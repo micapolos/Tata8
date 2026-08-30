@@ -12,7 +12,7 @@ public final class ClipDemo {
     sprite.anchor.set(16, 0);
     sprite.position.set(0, 0);
 
-    Game.clip = Clip.continuous(seconds -> {
+    Game.clip = Clip.with(seconds -> {
       sprite.position.x += seconds * 60;
       sprite.position.y += seconds * 60;
     });
