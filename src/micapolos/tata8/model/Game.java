@@ -13,31 +13,22 @@ public final class Game {
     components.add(runnable);
   }
 
-  public static Number constant(double d) {
-    return Number.with(d);
-  }
+  public static Number zero = with(0);
 
-  public static NumberVariable variable(double d) {
-    return NumberVariable.create(d);
+  public static Number with(double d) {
+    return Number.with(d);
   }
 
   public static Number number(DoubleSupplier supplier) {
     return Number.with(supplier);
   }
 
-  public static final Number seconds =
-    new Number() {
-      float seconds;
+  static double secondsValue;
+  {
+    add(() -> secondsValue += 1/60f);
+  }
 
-      {
-        add(() -> seconds += 1/60f);
-      }
-
-      @Override
-      double get() {
-        return seconds;
-      }
-    };
+  public static final Number seconds = Number.with(() -> secondsValue);
 
   public static final Mouse mouse = new Mouse();
 

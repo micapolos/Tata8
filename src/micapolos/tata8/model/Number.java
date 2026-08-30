@@ -2,25 +2,54 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
-public abstract class Number implements Showable {
-  abstract double get();
+public final class Number implements Showable {
+  final boolean isVariable;
+  DoubleSupplier supplier;
+  double defaultValue;
 
-  static Number with(double d) {
-    return new Number() {
-      @Override
-      double get() {
-        return d;
-      }
-    };
+  Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
+    this.isVariable = isVariable;
+    this.supplier = supplier;
+    this.defaultValue = defaultValue;
+  }
+
+  double get() {
+    DoubleSupplier supplier = this.supplier;
+    return supplier != null ? supplier.getAsDouble() : defaultValue;
+  }
+
+  static final Number zero = with(0);
+
+  static Number with(double value) {
+    return new Number(false, null, value);
   }
 
   static Number with(DoubleSupplier supplier) {
-    return new Number() {
-      @Override
-      double get() {
-        return supplier.getAsDouble();
-      }
-    };
+    return new Number(false, supplier, 0);
+  }
+
+  static Number newVariable(double value) {
+    return new Number(true, null, value);
+  }
+
+  static Number newVariable(DoubleSupplier supplier) {
+    return new Number(true, supplier, 0);
+  }
+
+  public void set(double x) {
+    set(null, x);
+  }
+
+  public void set(Number number) {
+    set(number::get, 0);
+  }
+
+  void set(DoubleSupplier supplier, double defaultValue) {
+    if (!isVariable) {
+      throw new IllegalArgumentException("Not a variable.");
+    }
+    this.supplier = supplier;
+    this.defaultValue = defaultValue;
   }
 
   @Override
@@ -29,11 +58,7 @@ public abstract class Number implements Showable {
   }
 
   static void main() {
-    new Number() {
-      @Override
-      double get() {
-        return System.currentTimeMillis();
-      }
-    }.show();
+    long now = System.currentTimeMillis();
+    Number.with(() -> (int) (System.currentTimeMillis() - now)).show();
   }
 }

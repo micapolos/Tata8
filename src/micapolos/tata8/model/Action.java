@@ -2,20 +2,23 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Image;
 import micapolos.tata8.Position;
-import micapolos.tata8.Sprite;
 
 public interface Action {
   void execute();
 
-  static Action set(Sprite sprite, Image image) {
+  static Action set(micapolos.tata8.Sprite sprite, Image image) {
     return () -> sprite.image = image;
   }
 
-  static Action setX(Position position, float x) {
+  static Action set(Sprite sprite, Image image) {
+    return () -> sprite.image.set(image);
+  }
+
+  static Action setX(micapolos.tata8.Position position, float x) {
     return () -> position.x = x;
   }
 
-  static Action setY(Position position, float y) {
+  static Action setY(micapolos.tata8.Position position, float y) {
     return () -> position.y = y;
   }
 

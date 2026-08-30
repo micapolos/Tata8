@@ -1,41 +1,34 @@
 package micapolos.tata8.model;
 
-import java.util.function.DoubleSupplier;
+public final class Position implements Showable {
+  public final Number x;
+  public final Number y;
 
-public abstract class Position implements Showable {
-  abstract double x();
-  abstract double y();
+  Position(Number x, Number y) {
+    this.x = x;
+    this.y = y;
+  }
 
-  static Position with(micapolos.tata8.Position state) {
-    return new Position() {
-      @Override
-      double x() {
-        return state.x;
-      }
+  static Position newSlot() {
+    return with(Number.newVariable(0), Number.newVariable(0));
+  }
 
-      @Override
-      double y() {
-        return state.y;
-      }
-    };
+  static Position zero = with(0, 0);
+
+  static Position with(double x, double y) {
+    return with(Number.with(x), Number.with(y));
+  }
+
+  static Position with(Number x, Number y) {
+    return new Position(x, y);
   }
 
   @Override
   public String toString() {
-    return String.format("position(x: %s, y: %s)", x(), y());
+    return String.format("position(x: %s, y: %s)", x, y);
   }
 
   static void main() {
-    new Position() {
-      @Override
-      public double x() {
-        return 2;
-      }
-
-      @Override
-      public double y() {
-        return 3;
-      }
-    }.show();
+    new Position(Number.with(1), Number.with(2)).show();
   }
 }
