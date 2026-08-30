@@ -1,4 +1,8 @@
-package micapolos.tata8;
+package micapolos.tata8.model;
+
+import micapolos.tata8.Image;
+import micapolos.tata8.Position;
+import micapolos.tata8.Sprite;
 
 public interface Action {
   void execute();

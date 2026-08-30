@@ -1,4 +1,4 @@
-package micapolos.tata8;
+package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 

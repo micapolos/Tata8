@@ -1,10 +1,10 @@
 package micapolos;
 
-import micapolos.tata8.Clip;
+import micapolos.tata8.model.Clip;
 
-import static micapolos.tata8.Action.*;
-import static micapolos.tata8.Clip.*;
-import static micapolos.tata8.Event.when;
+import static micapolos.tata8.model.Action.*;
+import static micapolos.tata8.model.Clip.*;
+import static micapolos.tata8.model.Event.when;
 import static micapolos.tata8.Game.*;
 
 public final class ClipDemo {

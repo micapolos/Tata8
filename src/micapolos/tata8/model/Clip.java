@@ -1,10 +1,15 @@
-package micapolos.tata8;
+package micapolos.tata8.model;
 
-public interface Clip {
+import micapolos.tata8.Game;
+import micapolos.tata8.Random;
+
+import static micapolos.tata8.Game.*;
+
+public abstract class Clip {
   /**
    * Starts the clip.
    */
-  void start();
+  abstract void start();
 
   /**
    * Advances the clip.
@@ -12,81 +17,91 @@ public interface Clip {
    * @param seconds the number Aof seconds to advance the clip.
    * @return the number of remaining seconds if the clip finished while advancing.
    */
-  float advance(float seconds);
+  abstract float advance(float seconds);
 
-  static Clip instant(Action action) {
+  @Deprecated(forRemoval = true)
+  public final void startInternal() {
+    start();
+  }
+
+  @Deprecated(forRemoval = true)
+  public final void advanceInternal(float seconds) {
+    advance(seconds);
+  }
+
+  public static Clip instant(Action action) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         action.execute();
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         return seconds;
       }
     };
   }
 
-  static Clip instant() {
+  public static Clip instant() {
     return instant(() -> {
     });
   }
 
-  static Clip with(Animation animation) {
+  public static Clip with(Animation animation) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
 
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         animation.update(seconds);
         return 0;
       }
     };
   }
 
-  Clip EMPTY = with(Animation.EMPTY);
+  public static final Clip EMPTY = with(Animation.EMPTY);
 
-  static Clip frame(Action action) {
+  public static Clip frame(Action action) {
     return frame(1, action);
   }
 
-  static Clip frame(float seconds, Action action) {
+  public static Clip frame(float seconds, Action action) {
     return instant(action).then(pause(seconds));
   }
 
-  default Clip stretch(float scale) {
+  public final Clip stretch(float scale) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         return Clip.this.advance(seconds / scale);
       }
     };
   }
 
-  default Clip delay(float seconds) {
+  public final Clip delay(float seconds) {
     return pause(seconds).then(this);
   }
 
-  static Clip pause(float pauseSeconds) {
+  public static Clip pause(float pauseSeconds) {
     return new Clip() {
       float remainingSeconds;
 
       @Override
-      public void start() {
+      void start() {
         remainingSeconds = pauseSeconds;
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         float diff = remainingSeconds - seconds;
         if (diff >= 0) {
           remainingSeconds = diff;
@@ -99,18 +114,18 @@ public interface Clip {
     };
   }
 
-  default Clip then(Clip secondClip) {
+  public final Clip then(Clip secondClip) {
     return new Clip() {
       boolean isRunningFirst;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         isRunningFirst = true;
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         if (isRunningFirst) {
           float overflow = Clip.this.advance(seconds);
           if (overflow == 0) {
@@ -127,12 +142,12 @@ public interface Clip {
     };
   }
 
-  static Clip sequence(Clip... clips) {
+  public static Clip sequence(Clip... clips) {
     return new Clip() {
       int index;
 
       @Override
-      public void start() {
+      void start() {
         index = 0;
         Clip clip = current();
         if (clip != null) {
@@ -141,7 +156,7 @@ public interface Clip {
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         Clip clip = current();
         while (true) {
           if (clip == null) {
@@ -167,17 +182,17 @@ public interface Clip {
     };
   }
 
-  static Clip parallel(Clip... clips) {
+  public static Clip parallel(Clip... clips) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         for (Clip clip : clips) {
           clip.start();
         }
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         float overflow = Float.POSITIVE_INFINITY;
         for (Clip clip : clips) {
           overflow = java.lang.Math.min(overflow, clip.advance(seconds));
@@ -187,17 +202,17 @@ public interface Clip {
     };
   }
 
-  static Clip select(ConditionOption... conditionOptions) {
+  public static Clip select(ConditionOption... conditionOptions) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         for (ConditionOption conditionOption : conditionOptions) {
           conditionOption.clip.start();
         }
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         for (ConditionOption conditionOption : conditionOptions) {
           if (conditionOption.condition().isHappening()) {
             return conditionOption.clip.advance(seconds);
@@ -208,19 +223,19 @@ public interface Clip {
     };
   }
 
-  static Clip repeat(int times, Clip clip) {
+  public static Clip repeat(int times, Clip clip) {
     return clip.repeat(times);
   }
 
-  default Clip repeat() {
+  public final Clip repeat() {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         while (true) {
           seconds = Clip.this.advance(seconds);
           if (seconds == 0) {
@@ -233,18 +248,18 @@ public interface Clip {
     };
   }
 
-  default Clip repeat(int times) {
+  public final Clip repeat(int times) {
     return new Clip() {
       int counter;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         counter = times;
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         while (true) {
           if (counter == 0) {
             return 0;
@@ -260,12 +275,12 @@ public interface Clip {
     };
   }
 
-  static Clip random(Clip... clips) {
+  public static Clip random(Clip... clips) {
     return new Clip() {
       Clip current;
 
       @Override
-      public void start() {
+      void start() {
         if (clips.length == 0) {
           current = null;
         } else {
@@ -275,7 +290,7 @@ public interface Clip {
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         return current == null
           ? seconds
           : current.advance(seconds);
@@ -283,11 +298,11 @@ public interface Clip {
     };
   }
 
-  static EventOption option(Event event, Clip clip) {
+  public static EventOption option(Event event, Clip clip) {
     return new EventOption(event, clip);
   }
 
-  final class EventOption {
+  public static final class EventOption {
     final Event event;
     final Clip clip;
 
@@ -297,17 +312,17 @@ public interface Clip {
     }
   }
 
-  default Clip thenSelect(EventOption... options) {
+  public final Clip thenSelect(EventOption... options) {
     return new Clip() {
       EventOption selectedOption;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         for (EventOption option : options) {
           if (option.event.didHappen()) {
             option.clip.start();
@@ -321,18 +336,18 @@ public interface Clip {
     };
   }
 
-  default Clip stop(Event event) {
+  public final Clip stop(Event event) {
     return new Clip() {
       boolean isRunning = false;
 
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
         isRunning = true;
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         if (isRunning) {
           if (event.didHappen()) {
             isRunning = false;
@@ -347,15 +362,15 @@ public interface Clip {
     };
   }
 
-  default Clip runWhile(Condition condition) {
+  public final Clip runWhile(Condition condition) {
     return new Clip() {
       @Override
-      public void start() {
+      void start() {
         Clip.this.start();
       }
 
       @Override
-      public float advance(float seconds) {
+      float advance(float seconds) {
         return condition.isHappening()
           ? Clip.this.advance(seconds)
           : 0;
@@ -363,10 +378,20 @@ public interface Clip {
     };
   }
 
-  static ConditionOption option(Condition condition, Clip clip) {
+  public static ConditionOption option(Condition condition, Clip clip) {
     return new ConditionOption(condition, clip);
   }
 
-  record ConditionOption(Condition condition, Clip clip) {
+  public record ConditionOption(Condition condition, Clip clip) {
+  }
+
+  public final void show() {
+    start();
+    onUpdate = () -> advance(1/60f);
+    Game.start();
+  }
+
+  static void main() {
+    Clip.EMPTY.show();
   }
 }

@@ -1,8 +1,8 @@
 package micapolos.tata8;
 
 public final class Key {
-  boolean wasPressed;
-  boolean isPressed;
+  public boolean wasPressed;
+  public boolean isPressed;
 
   public boolean isPressed() {
     return isPressed;

@@ -1,5 +1,7 @@
 package micapolos.tata8;
 
+import micapolos.tata8.model.Action;
+
 public final class Sprite implements Comparable<Sprite> {
   public Image image;
   public boolean isHidden;

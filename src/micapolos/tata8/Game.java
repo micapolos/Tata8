@@ -1,5 +1,7 @@
 package micapolos.tata8;
 
+import micapolos.tata8.model.Clip;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -156,11 +158,11 @@ public final class Game {
       }
     });
 
-    clip.start();
+    clip.startInternal();
 
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
-      clip.advance(1/60f);
+      clip.advanceInternal(1/60f);
       onUpdate.run();
       panel.repaint();
       for (Key key : keys.array) {

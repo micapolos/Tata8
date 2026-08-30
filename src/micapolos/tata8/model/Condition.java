@@ -1,9 +1,13 @@
-package micapolos.tata8;
+package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
+import static micapolos.tata8.Game.*;
+
 public interface Condition {
   boolean isHappening();
+
+  Condition ALWAYS = () -> true;
 
   static Condition onlyIf(BooleanSupplier supplier) {
     return supplier::getAsBoolean;
@@ -31,6 +35,11 @@ public interface Condition {
 
   static Condition not(Condition condition) {
     return () -> !condition.isHappening();
+  }
+
+  default void show() {
+    onUpdate = () -> log(isHappening());
+    start();
   }
 }
 

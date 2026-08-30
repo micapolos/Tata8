@@ -1,4 +1,7 @@
-package micapolos.tata8;
+package micapolos.tata8.model;
+
+import micapolos.tata8.Position;
+import micapolos.tata8.Speed;
 
 public interface Animation {
   void update(float seconds);
