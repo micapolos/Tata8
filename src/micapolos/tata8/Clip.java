@@ -10,7 +10,7 @@ public interface Clip {
    * Advances the clip.
    *
    * @param seconds the number of seconds to advance the clip.
-   * @return the number of remaining seconds to advance, if the clip finished in this step.
+   * @return the number of remaining seconds if the clip finished while advancing.
    */
   float advance(float seconds);
 
@@ -190,6 +190,27 @@ public interface Clip {
     };
   }
 
+  static Clip parallel(ConditionOption... conditionOptions) {
+    return new Clip() {
+      @Override
+      public void start() {
+        for (ConditionOption conditionOption : conditionOptions) {
+          conditionOption.clip.start();
+        }
+      }
+
+      @Override
+      public float advance(float seconds) {
+        for (ConditionOption conditionOption : conditionOptions) {
+          if (conditionOption.condition().isHappening()) {
+            return conditionOption.clip.advance(seconds);
+          }
+        }
+        return 0;
+      }
+    };
+  }
+
   default Clip repeat() {
     return new Clip() {
       @Override
@@ -266,14 +287,14 @@ public interface Clip {
     };
   }
 
-  static When when(Event event, Clip clip) {
-    return new When(event, clip);
+  static EventOption when(Event event, Clip clip) {
+    return new EventOption(event, clip);
   }
 
-  record When(Event event, Clip clip) {
+  record EventOption(Event event, Clip clip) {
   }
 
-  static Clip start(When... whenCases) {
+  static Clip start(EventOption... options) {
     return new Clip() {
       Clip currentClip;
 
@@ -283,7 +304,7 @@ public interface Clip {
 
       @Override
       public float advance(float seconds) {
-        for (When option : whenCases) {
+        for (EventOption option : options) {
           if (option.event.didHappen()) {
             currentClip = option.clip;
             currentClip.start();
@@ -340,25 +361,25 @@ public interface Clip {
     };
   }
 
-  static Option during(Condition condition, Clip clip) {
-    return new Option(condition, clip);
+  static ConditionOption option(Condition condition, Clip clip) {
+    return new ConditionOption(condition, clip);
   }
 
-  record Option(Condition condition, Clip clip) {
+  record ConditionOption(Condition condition, Clip clip) {
   }
 
-  static Clip oneOf(Option... options) {
+  static Clip first(ConditionOption... options) {
     return new Clip() {
       @Override
       public void start() {
-        for (Option option : options) {
+        for (ConditionOption option : options) {
           option.clip.start();
         }
       }
 
       @Override
       public float advance(float seconds) {
-        for (Option option : options) {
+        for (ConditionOption option : options) {
           if (option.condition().isHappening()) {
             return option.clip.advance(seconds);
           }
