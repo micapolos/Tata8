@@ -3,6 +3,8 @@ package micapolos;
 import micapolos.tata8.*;
 import micapolos.tata8.Math;
 
+import static micapolos.tata8.Game.keys;
+
 class CaveStory {
   static final int GROUND = 0;
   static final TileSet tileSet = Game.loadTileSet(CaveStory.class, "tilemap.png");
@@ -69,6 +71,7 @@ class CaveStory {
   }
 
   void update() {
+    Game.log(keys.reset.isPressed);
     if (Game.keys.up.pressed() && !isJumping) {
       speed.y = -5f;
       isJumping = true;

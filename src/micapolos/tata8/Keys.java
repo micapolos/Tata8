@@ -12,36 +12,38 @@ public final class Keys {
   public final Key right = new Key();
   public final Key up = new Key();
   public final Key down = new Key();
+  public final Key reset = new Key();
 
-  final Key[] array = new Key[] { z, x, left, right, up, down };
+  final Key[] array = new Key[] { z, x, left, right, up, down, reset };
 
   final KeyListener listener = new KeyAdapter() {
     @Override
     public void keyPressed(KeyEvent e) {
-      handleKeyCode(e.getKeyCode(), Key::press);
+      handleEvent(e, Key::press);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-      handleKeyCode(e.getKeyCode(), Key::release);
+      handleEvent(e, Key::release);
     }
 
-    private void handleKeyCode(int keyCode, Consumer<Key> keyConsumer) {
-      Key key = keyForCode(keyCode);
+    private void handleEvent(KeyEvent event, Consumer<Key> keyConsumer) {
+      Key key = keyForEvent(event);
       if (key != null) {
         keyConsumer.accept(key);
       }
     }
   };
 
-  Key keyForCode(int keyCode) {
-    return switch (keyCode) {
+  Key keyForEvent(KeyEvent event) {
+    return switch (event.getKeyCode()) {
       case KeyEvent.VK_Z -> z;
       case KeyEvent.VK_X -> x;
       case KeyEvent.VK_LEFT -> left;
       case KeyEvent.VK_RIGHT -> right;
       case KeyEvent.VK_UP -> up;
       case KeyEvent.VK_DOWN -> down;
+      case KeyEvent.VK_R -> (event.getModifiersEx() & KeyEvent.META_DOWN_MASK) != 0 ? reset : null;
       default -> null;
     };
   }
@@ -49,12 +51,13 @@ public final class Keys {
   @Override
   public String toString() {
     return String.format(
-        "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s)",
+        "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s, RESET: %s)",
         left.isPressed,
         right.isPressed,
         up.isPressed,
         down.isPressed,
         z.isPressed,
-        x.isPressed);
+        x.isPressed,
+        reset.isPressed);
   }
 }

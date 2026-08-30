@@ -4,13 +4,11 @@ import micapolos.tata8.Image;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
-import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.loadImage;
 import static micapolos.tata8.model.Action.sequence;
 import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
-import static micapolos.tata8.model.Event.when;
 import static micapolos.tata8.model.Game.started;
 import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Sprite.sprite;
@@ -38,20 +36,22 @@ final class Chicken {
       frame(sprite.image.set(images[0]).then(move)),
       frame(sprite.image.set(images[1]).then(move)),
       frame(sprite.image.set(images[2]).then(move)))
-      .stretch(0.2f)
+      .stretch(0.1f)
       .repeat();
 
     Clip stand = instant(sprite.image.set(images[2]));
 
     clip = stand.thenSelect(
-      option(started, instant(
-        sequence(
+      when(started,
+        instant(
+          isLeft.set(false),
+          x.set(50),
           sprite.anchor.set(16, 0),
           sprite.position.set(x, number(100)),
-          sprite.flip.x.set(isLeft)))),
-      option(when(keys.right::pressed), instant(flipRight).then(walk)),
-      option(when(keys.left::pressed), instant(flipLeft).then(walk)),
-      option(any(when(keys.right::released), when(keys.right::released)), stand));
+          sprite.flip.x.set(isLeft))),
+      when(Key.RIGHT.pressed, instant(flipRight).then(walk)),
+      when(Key.LEFT.pressed, instant(flipLeft).then(walk)),
+      when(any(Key.RIGHT.released, Key.LEFT.released), stand));
   }
 
   static void main() {

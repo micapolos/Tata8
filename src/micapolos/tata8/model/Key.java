@@ -17,14 +17,12 @@ public enum Key implements Showable {
   public final Event pressed;
   public final Event released;
   public final Condition isPressed;
-  public final Condition isReleased;
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
     this.pressed = when(state::pressed);
-    this.released = when(state::pressed);
-    this.isPressed = onlyIf(state::pressed);
-    this.isReleased = onlyIf(state::pressed);
+    this.released = when(state::released);
+    this.isPressed = onlyIf(state::isPressed);
   }
 
   @Override

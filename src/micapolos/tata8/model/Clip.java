@@ -40,6 +40,10 @@ public abstract class Clip {
     };
   }
 
+  public static Clip instant(Action... actions) {
+    return instant(Action.sequence(actions));
+  }
+
   public static Clip instant() {
     return instant(() -> {
     });
@@ -295,7 +299,7 @@ public abstract class Clip {
     };
   }
 
-  public static EventOption option(Event event, Clip clip) {
+  public static EventOption when(Event event, Clip clip) {
     return new EventOption(event, clip);
   }
 

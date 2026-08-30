@@ -3,6 +3,7 @@ package micapolos.tata8.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
 
 public final class Game {
@@ -23,14 +24,14 @@ public final class Game {
 
   public static final Mouse mouse = new Mouse();
 
-  public static final Event  started = () -> startedValue;
+  public static final Event started = () -> startedValue;
 
   static void show() {
     onUpdate = () -> {
       for (Runnable component : components) {
         component.run();
       }
-      startedValue = false;
+      startedValue = keys.reset.pressed();
     };
     micapolos.tata8.Game.start();
   }
