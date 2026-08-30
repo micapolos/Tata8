@@ -208,6 +208,10 @@ public interface Clip {
     };
   }
 
+  static Clip repeat(int times, Clip clip) {
+    return clip.repeat(times);
+  }
+
   default Clip repeat() {
     return new Clip() {
       @Override
