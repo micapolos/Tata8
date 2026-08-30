@@ -27,15 +27,14 @@ public final class Sprite implements Showable {
 
   @Override
   public void show() {
-    start();
+    Game.show();
   }
 
   static void main() {
     Sprite sprite = newSprite();
-    Image image = loadImage(Game.class, "depressedChicken.png");
+    Image image = loadImage(Game.class, "depressedChicken.png").sliceVertically(8)[0];
     sprite.image.set(image);
-    sprite.anchor.set(constant((double) image.size.width / 2), constant((double) image.size.height / 2));
-    sprite.position.set(constant(160), constant(128));
+    sprite.position.set(seconds.times(60), constant(128));
     sprite.show();
   }
 }

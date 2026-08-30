@@ -40,6 +40,22 @@ public final class Number implements Showable {
     return new Number(true, supplier, 0);
   }
 
+  public Number plus(double x) {
+    return with(() -> get() + x);
+  }
+
+  public Number plus(Number n) {
+    return with(() -> get() + n.get());
+  }
+
+  public Number times(double x) {
+    return with(() -> get() * x);
+  }
+
+  public Number times(Number n) {
+    return with(() -> get() * n.get());
+  }
+
   public void set(double x) {
     set(null, x);
   }

@@ -1,10 +1,14 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Game.seconds;
+
 public final class Position implements Showable {
+  final boolean isVariable;
   public final Number x;
   public final Number y;
 
-  Position(Number x, Number y) {
+  Position(boolean isVariable, Number x, Number y) {
+    this.isVariable = isVariable;
     this.x = x;
     this.y = y;
   }
@@ -16,23 +20,29 @@ public final class Position implements Showable {
   }
 
   static Position with(Number x, Number y) {
-    return new Position(x, y);
+    return new Position(false, x, y);
   }
 
   static Position variable() {
-    return with(Number.variable(), Number.variable());
+    return variable(0, 0);
   }
 
   static Position variable(double x, double y) {
-    return with(Number.variable(), Number.variable());
+    return new Position(true, Number.variable(x), Number.variable(y));
   }
 
   public void set(double x, double y) {
+    if (!isVariable) {
+      throw new IllegalArgumentException("Not a variable.");
+    }
     this.x.set(x);
     this.y.set(y);
   }
 
   public void set(Number x, Number y) {
+    if (!isVariable) {
+      throw new IllegalArgumentException("Not a variable.");
+    }
     this.x.set(x);
     this.y.set(y);
   }
@@ -43,6 +53,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    new Position(Number.with(1), Number.with(2)).show();
+    Position.with(seconds, seconds).show();
   }
 }

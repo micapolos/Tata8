@@ -2,9 +2,7 @@ package micapolos.tata8.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.DoubleSupplier;
 
-import static micapolos.tata8.Game.loadImage;
 import static micapolos.tata8.Game.onUpdate;
 
 public final class Game {
@@ -21,7 +19,7 @@ public final class Game {
   }
 
   static double secondsValue;
-  {
+  static {
     add(() -> secondsValue += 1/60f);
   }
 
@@ -35,7 +33,7 @@ public final class Game {
     return sprite;
   }
 
-  static void start() {
+  static void show() {
     onUpdate = () -> {
       for (Runnable component : components) {
         component.run();
@@ -45,9 +43,6 @@ public final class Game {
   }
 
   static void main() {
-    Sprite sprite = newSprite();
-    sprite.image.set(loadImage(Game.class, "depressedChicken.png"));
-    sprite.position.x.set(seconds);
-    start();
+    seconds.show();
   }
 }
