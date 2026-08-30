@@ -50,6 +50,10 @@ public interface Clip {
 
   Clip EMPTY = with(Animation.EMPTY);
 
+  static Clip frame(Action action) {
+    return frame(1, action);
+  }
+
   static Clip frame(float seconds, Action action) {
     return instant(action).then(pause(seconds));
   }
