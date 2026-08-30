@@ -3,12 +3,10 @@ package micapolos.tata8.model;
 import java.util.function.Supplier;
 
 public final class Value<T> implements Showable {
-  final boolean isFinal;
   Supplier<T> supplier;
   T defaultValue;
 
-  Value(boolean isFinal, Supplier<T> supplier, T defaultValue) {
-    this.isFinal = isFinal;
+  Value(Supplier<T> supplier, T defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -18,32 +16,37 @@ public final class Value<T> implements Showable {
     return supplier != null ? supplier.get() : defaultValue;
   }
 
-  static <T> Value<T> with(T value) {
-    return new Value<>(true, null, value);
+  static <T> Value<T> value() {
+    return new Value<>(null, null);
   }
 
-  static <T> Value<T> with(Supplier<T> supplier) {
-    return new Value<>(true, supplier, null);
+  static <T> Value<T> value(T value) {
+    return new Value<>(null, value);
   }
 
-  static <T> Value<T> variable() {
-    return new Value<>(false, null, null);
+  static <T> Value<T> value(Supplier<T> supplier) {
+    return new Value<>(supplier, null);
   }
 
-  public void set(T value) {
-    set(null, value);
+  void init(T value) {
+    init(null, value);
   }
 
-  public void set(Value<T> value) {
-    set(value::get, null);
+  void init(Value<T> value) {
+    init(value::get, null);
   }
 
-  void set(Supplier<T> supplier, T defaultValue) {
-    if (isFinal) {
-      throw new IllegalArgumentException("final");
-    }
+  void init(Supplier<T> supplier, T defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
+  }
+
+  public Action set(T value) {
+    return () -> init(value);
+  }
+
+  public Action set(Value<T> value) {
+    return () -> init(value);
   }
 
   @Override
@@ -53,6 +56,6 @@ public final class Value<T> implements Showable {
 
   static void main() {
     long now = System.currentTimeMillis();
-    Value.with(() -> (int) (System.currentTimeMillis() - now)).show();
+    Value.value(() -> (int) (System.currentTimeMillis() - now)).show();
   }
 }

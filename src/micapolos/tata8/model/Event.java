@@ -9,6 +9,10 @@ public interface Event {
     return supplier::getAsBoolean;
   }
 
+  default Event and(Condition condition) {
+    return () -> didHappen() && condition.isHappening();
+  }
+
   static Event any(Event... events) {
     return () -> {
       boolean any = false;

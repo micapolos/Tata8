@@ -1,50 +1,59 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Game.seconds;
+import static micapolos.tata8.model.Number.number;
 
 public final class Position implements Showable {
-  final boolean isVariable;
   public final Number x;
   public final Number y;
 
-  Position(boolean isVariable, Number x, Number y) {
-    this.isVariable = isVariable;
+  Position(Number x, Number y) {
     this.x = x;
     this.y = y;
   }
 
-  static Position zero = with(0, 0);
-
-  static Position with(double x, double y) {
-    return with(Number.with(x), Number.with(y));
+  static Position position() {
+    return position(0, 0);
   }
 
-  static Position with(Number x, Number y) {
-    return new Position(false, x, y);
+  static Position position(double x, double y) {
+    return position(number(x), number(y));
   }
 
-  static Position variable() {
-    return variable(0, 0);
+  static Position position(double x, Number y) {
+    return position(number(x), y);
   }
 
-  static Position variable(double x, double y) {
-    return new Position(true, Number.variable(x), Number.variable(y));
+  static Position position(Number x, double y) {
+    return position(x, number(y));
   }
 
-  public void init(double x, double y) {
-    if (!isVariable) {
-      throw new IllegalArgumentException("Not a variable.");
-    }
-    this.x.set(x);
-    this.y.set(y);
+  static Position position(Number x, Number y) {
+    return new Position(x, y);
   }
 
-  public void init(Number x, Number y) {
-    if (!isVariable) {
-      throw new IllegalArgumentException("Not a variable.");
-    }
-    this.x.set(x);
-    this.y.set(y);
+  void init(double x, double y) {
+    this.x.init(x);
+    this.y.init(y);
+  }
+
+  void init(Number x, Number y) {
+    this.x.init(x);
+    this.y.init(y);
+  }
+
+  public Action set(double x, double y) {
+    return () -> {
+      this.x.init(x);
+      this.y.init(y);
+    };
+  }
+
+  public Action set(Number x, Number y) {
+    return () -> {
+      this.x.init(x);
+      this.y.init(y);
+    };
   }
 
   @Override
@@ -53,6 +62,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    Position.with(seconds, seconds).show();
+    Position.position(seconds, seconds).show();
   }
 }

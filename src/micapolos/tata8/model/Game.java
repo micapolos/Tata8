@@ -12,32 +12,25 @@ public final class Game {
     components.add(runnable);
   }
 
-  public static Number zero = constant(0);
-
-  public static Number constant(double d) {
-    return Number.with(d);
-  }
-
+  static boolean startedValue = true;
   static double secondsValue;
+
   static {
     add(() -> secondsValue += 1/60f);
   }
 
-  public static final Number seconds = Number.with(() -> secondsValue);
+  public static final Number seconds = Number.number(() -> secondsValue);
 
   public static final Mouse mouse = new Mouse();
 
-  public static Sprite newSprite() {
-    Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
-    add(sprite::sync);
-    return sprite;
-  }
+  public static final Event  started = () -> startedValue;
 
   static void show() {
     onUpdate = () -> {
       for (Runnable component : components) {
         component.run();
       }
+      startedValue = false;
     };
     micapolos.tata8.Game.start();
   }

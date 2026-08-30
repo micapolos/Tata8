@@ -1,24 +1,24 @@
 package micapolos.tata8.model;
 
 public final class Flip implements Showable {
-  public final Boolean x;
-  public final Boolean y;
+  public final Bool x;
+  public final Bool y;
 
-  Flip(Boolean x, Boolean y) {
+  Flip(Bool x, Bool y) {
     this.x = x;
     this.y = y;
   }
 
-  static Flip with(boolean x, boolean y) {
-    return new Flip(Boolean.with(x), Boolean.with(y));
+  public static Flip flip() {
+    return flip(false, false);
   }
 
-  static Flip with(Boolean x, Boolean y) {
+  public static Flip flip(boolean x, boolean y) {
+    return flip(Bool.bool(x), Bool.bool(y));
+  }
+
+  public static Flip flip(Bool x, Bool y) {
     return new Flip(x, y);
-  }
-
-  static Flip variable() {
-    return new Flip(Boolean.with(false), Boolean.with(false));
   }
 
   @Override
@@ -27,6 +27,6 @@ public final class Flip implements Showable {
   }
 
   static void main() {
-    new Flip(Boolean.with(false), Boolean.with(true)).show();
+    new Flip(Bool.bool(false), Bool.bool(true)).show();
   }
 }

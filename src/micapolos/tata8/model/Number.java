@@ -3,12 +3,10 @@ package micapolos.tata8.model;
 import java.util.function.DoubleSupplier;
 
 public final class Number implements Showable {
-  final boolean isVariable;
   DoubleSupplier supplier;
   double defaultValue;
 
-  Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
-    this.isVariable = isVariable;
+  Number(DoubleSupplier supplier, double defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -18,66 +16,61 @@ public final class Number implements Showable {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  public static final Number zero = with(0);
-
-  public static Number with(double value) {
-    return new Number(false, null, value);
+  public static Number number() {
+    return number(0);
   }
 
-  public static Number with(DoubleSupplier supplier) {
-    return new Number(false, supplier, 0);
+  public static Number number(double value) {
+    return new Number(null, value);
   }
 
-  public static Number variable() {
-    return variable(0);
-  }
-
-  public static Number variable(double value) {
-    return new Number(true, null, value);
-  }
-
-  public static Number variable(DoubleSupplier supplier) {
-    return new Number(true, supplier, 0);
+  public static Number number(DoubleSupplier supplier) {
+    return new Number(supplier, 0);
   }
 
   public Number plus(double x) {
-    return with(() -> get() + x);
+    return number(() -> get() + x);
   }
 
   public Number plus(Number n) {
-    return with(() -> get() + n.get());
+    return number(() -> get() + n.get());
   }
 
   public Number times(double x) {
-    return with(() -> get() * x);
+    return number(() -> get() * x);
   }
 
   public Number times(Number n) {
-    return with(() -> get() * n.get());
+    return number(() -> get() * n.get());
   }
 
-  public void set(double x) {
-    set(null, x);
+  void init(double x) {
+    init(null, x);
   }
 
-  public void set(Number number) {
-    set(number::get, 0);
+  void init(Number number) {
+    init(number::get, 0);
   }
 
-  void set(DoubleSupplier supplier, double defaultValue) {
-    if (!isVariable) {
-      throw new IllegalArgumentException("Not a variable.");
-    }
+  void init(DoubleSupplier supplier, double defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
-  public void add(double d) {
-    set(get() + d);
+  public Action set(double x) {
+    return () -> init(x);
   }
 
-  public void add(Number n) {
-    set(get() + n.get());
+  public Action set(Number number) {
+    return () -> init(number);
+  }
+
+  public Action add(double d) {
+    return () -> init(get() + d);
+  }
+
+  public Action add(Number n) {
+    return () -> init(get() + n.get());
   }
 
   @Override
@@ -87,6 +80,6 @@ public final class Number implements Showable {
 
   static void main() {
     long now = System.currentTimeMillis();
-    Number.with(() -> (int) (System.currentTimeMillis() - now)).show();
+    number(() -> (int) (System.currentTimeMillis() - now)).show();
   }
 }

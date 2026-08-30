@@ -1,5 +1,7 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Number.number;
+
 public final class Anchor implements Showable {
   public final Number x;
   public final Number y;
@@ -9,18 +11,48 @@ public final class Anchor implements Showable {
     this.y = y;
   }
 
-  static Anchor variable() {
-    return new Anchor(Number.variable(), Number.variable());
+  static Anchor anchor() {
+    return anchor(number(), number());
   }
 
-  public void init(double x, double y) {
-    this.x.set(x);
-    this.y.set(y);
+  static Anchor anchor(double x, double y) {
+    return anchor(number(x), number(y));
   }
 
-  public void init(Number x, Number y) {
-    this.x.set(x);
-    this.y.set(y);
+  static Anchor anchor(double x, Number y) {
+    return anchor(number(x), y);
+  }
+
+  static Anchor anchor(Number x, double y) {
+    return anchor(x, number(y));
+  }
+
+  static Anchor anchor(Number x, Number y) {
+    return new Anchor(x, y);
+  }
+
+  void init(double x, double y) {
+    this.x.init(x);
+    this.y.init(y);
+  }
+
+  void init(Number x, Number y) {
+    this.x.init(x);
+    this.y.init(y);
+  }
+
+  public Action set(double x, double y) {
+    return () -> {
+      this.x.init(x);
+      this.y.init(y);
+    };
+  }
+
+  public Action set(Number x, Number y) {
+    return () -> {
+      this.x.init(x);
+      this.y.init(y);
+    };
   }
 
   @Override
@@ -29,6 +61,6 @@ public final class Anchor implements Showable {
   }
 
   static void main() {
-    new Anchor(Number.with(1), Number.with(2)).show();
+    new Anchor(number(1), number(2)).show();
   }
 }
