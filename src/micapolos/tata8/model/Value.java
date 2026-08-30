@@ -26,16 +26,8 @@ public final class Value<T> implements Showable {
     return new Value<>(true, supplier, null);
   }
 
-  static <T> Value<T> newVariable() {
+  static <T> Value<T> variable() {
     return new Value<>(false, null, null);
-  }
-
-  static <T> Value<T> newVariable(T value) {
-    return new Value<>(false, null, value);
-  }
-
-  static <T> Value<T> newVariable(Supplier<T> supplier) {
-    return new Value<>(false, supplier, null);
   }
 
   public void set(T value) {
@@ -43,14 +35,14 @@ public final class Value<T> implements Showable {
   }
 
   public void set(Value<T> value) {
-    set(value, null);
+    set(value::get, null);
   }
 
-  void set(Value<T> value, T defaultValue) {
+  void set(Supplier<T> supplier, T defaultValue) {
     if (isFinal) {
       throw new IllegalArgumentException("final");
     }
-    this.supplier = value.supplier;
+    this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 

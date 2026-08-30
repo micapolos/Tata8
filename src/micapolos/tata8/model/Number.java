@@ -28,11 +28,15 @@ public final class Number implements Showable {
     return new Number(false, supplier, 0);
   }
 
-  static Number newVariable(double value) {
+  static Number variable() {
+    return variable(0);
+  }
+
+  static Number variable(double value) {
     return new Number(true, null, value);
   }
 
-  static Number newVariable(DoubleSupplier supplier) {
+  static Number variable(DoubleSupplier supplier) {
     return new Number(true, supplier, 0);
   }
 

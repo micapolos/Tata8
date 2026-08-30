@@ -1,9 +1,12 @@
 package micapolos.tata8.model;
 
+import micapolos.tata8.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 
+import static micapolos.tata8.Game.loadImage;
 import static micapolos.tata8.Game.onUpdate;
 
 public final class Game {
@@ -32,6 +35,12 @@ public final class Game {
 
   public static final Mouse mouse = new Mouse();
 
+  public static Sprite newSprite() {
+    Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
+    add(sprite::sync);
+    return sprite;
+  }
+
   static void start() {
     onUpdate = () -> {
       for (Runnable component : components) {
@@ -39,5 +48,12 @@ public final class Game {
       }
     };
     micapolos.tata8.Game.start();
+  }
+
+  static void main() {
+    Sprite sprite = newSprite();
+    sprite.image.set(loadImage(Game.class, "depressedChicken.png"));
+    sprite.position.x.set(seconds);
+    start();
   }
 }

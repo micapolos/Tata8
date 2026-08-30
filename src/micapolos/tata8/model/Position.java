@@ -9,10 +9,6 @@ public final class Position implements Showable {
     this.y = y;
   }
 
-  static Position newSlot() {
-    return with(Number.newVariable(0), Number.newVariable(0));
-  }
-
   static Position zero = with(0, 0);
 
   static Position with(double x, double y) {
@@ -21,6 +17,14 @@ public final class Position implements Showable {
 
   static Position with(Number x, Number y) {
     return new Position(x, y);
+  }
+
+  static Position variable() {
+    return with(Number.variable(), Number.variable());
+  }
+
+  static Position variable(double x, double y) {
+    return with(Number.variable(), Number.variable());
   }
 
   @Override
