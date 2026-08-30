@@ -1,5 +1,7 @@
 package micapolos.tata8;
 
+import java.util.function.IntToDoubleFunction;
+
 public abstract class Clip {
   /**
    * Starts the clip.
