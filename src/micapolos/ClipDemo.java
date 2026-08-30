@@ -13,7 +13,7 @@ public final class ClipDemo {
     sprite.anchor.set(16, 0);
     sprite.position.set(0, 0);
 
-    clip = with(moveX(sprite.position, 60f));
+    clip = with(movingX(sprite.position, 60f));
     start();
   }
 }
