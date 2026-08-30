@@ -30,4 +30,11 @@ public interface Action {
       }
     };
   }
+
+  default Action then(Action action) {
+    return () -> {
+      Action.this.execute();
+      action.execute();
+    };
+  }
 }
