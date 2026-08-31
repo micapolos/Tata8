@@ -6,7 +6,7 @@ import java.util.function.IntSupplier;
 
 import static micapolos.tata8.model.Value.value;
 
-public class Index extends Component {
+public class Index implements Showable {
   IntSupplier supplier;
   int defaultValue;
 
@@ -30,18 +30,36 @@ public class Index extends Component {
 
   public static Index index(int value) {
     return new Index(null, value) {
-      @Override
-      void start() {
-        init(null, value);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(null, value);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
 
   public static Index index(IntSupplier aSupplier) {
     return new Index(aSupplier, 0) {
-      @Override
-      void start() {
-        init(aSupplier, 0);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(aSupplier, 0);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }

@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Number.number;
 
-public class Bool extends Component {
+public class Bool implements Showable {
   BooleanSupplier supplier;
   boolean defaultValue;
 
@@ -25,18 +25,36 @@ public class Bool extends Component {
 
   public static Bool bool(boolean value) {
     return new Bool(null, value) {
-      @Override
-      void start() {
-        init(value);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(value);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
 
   static Bool bool(BooleanSupplier aSupplier) {
     return new Bool(aSupplier, false) {
-      @Override
-      void start() {
-        init(aSupplier, false);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(aSupplier, false);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
@@ -67,7 +85,18 @@ public class Bool extends Component {
       boolean previousValue = get();
 
       {
-        add(() -> previousValue = get());
+        add(new Clip() {
+          @Override
+          void start() {
+
+          }
+
+          @Override
+          float advance(float seconds) {
+            previousValue = get();
+            return 0;
+          }
+        });
       }
 
       @Override

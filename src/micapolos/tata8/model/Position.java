@@ -2,12 +2,11 @@ package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
 
-public final class Position extends Child {
+public final class Position implements Showable {
   public final Number x;
   public final Number y;
 
   Position(Number x, Number y) {
-    super(x, y);
     this.x = x;
     this.y = y;
   }

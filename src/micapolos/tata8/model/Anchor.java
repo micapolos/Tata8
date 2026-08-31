@@ -2,12 +2,11 @@ package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
 
-public final class Anchor extends Child {
+public final class Anchor implements Showable {
   public final Number x;
   public final Number y;
 
   Anchor(Number x, Number y) {
-    super(x, y);
     this.x = x;
     this.y = y;
   }

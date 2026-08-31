@@ -4,7 +4,7 @@ import micapolos.tata8.Random;
 
 import java.util.function.Supplier;
 
-public class Value<T> extends Component {
+public class Value<T> implements Showable {
   Supplier<T> supplier;
   T defaultValue;
 
@@ -20,27 +20,54 @@ public class Value<T> extends Component {
 
   static <T> Value<T> value() {
     return new Value<>(null, null) {
-      @Override
-      void start() {
-        init(null, null);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(null, null);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
 
   static <T> Value<T> value(T value) {
     return new Value<>(null, value) {
-      @Override
-      void start() {
-        init(null, value);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(null, value);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
 
   static <T> Value<T> value(Supplier<T> aSupplier) {
     return new Value<>(aSupplier, null) {
-      @Override
-      void start() {
-        init(aSupplier, null);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(aSupplier, null);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }

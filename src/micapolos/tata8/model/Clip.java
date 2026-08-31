@@ -2,8 +2,6 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
-import static micapolos.tata8.Game.keys;
-
 public abstract class Clip {
   /**
    * Starts the clip.
@@ -389,13 +387,7 @@ public abstract class Clip {
   }
 
   public final void show() {
-    start();
-    Game.add(() -> {
-      if (keys.reset.pressed()) {
-        start();
-      }
-      advance(1/60f);
-    });
+    Game.add(this);
     Game.show();
   }
 

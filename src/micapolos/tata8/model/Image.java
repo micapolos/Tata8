@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-public final class Image extends Component {
+public final class Image implements Showable {
   final micapolos.tata8.Image state;
 
   Image(micapolos.tata8.Image state) {

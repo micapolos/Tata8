@@ -6,7 +6,7 @@ import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Value.value;
 
-public final class Sprite extends Component {
+public final class Sprite implements Showable {
   final micapolos.tata8.Sprite state;
 
   public final Value<Image> image = value();
@@ -18,14 +18,20 @@ public final class Sprite extends Component {
     this.state = state;
   }
 
-  @Override
-  void start() {
-    image.start();
-  }
-
   public static Sprite newSprite() {
     Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
-    add(sprite::sync);
+    add(new Clip() {
+      @Override
+      void start() {
+
+      }
+
+      @Override
+      float advance(float seconds) {
+        sprite.sync();
+        return 0;
+      }
+    });
     return sprite;
   }
 

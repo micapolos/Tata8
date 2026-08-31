@@ -2,7 +2,7 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
-public class Number extends Component {
+public class Number implements Showable {
   DoubleSupplier supplier;
   double defaultValue;
 
@@ -18,15 +18,19 @@ public class Number extends Component {
 
   public static Number seconds() {
     return new Number(null, 0) {
-      @Override
-      void start() {
-        init(0);
-      }
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(0);
+          }
 
-      @Override
-      float advance(float seconds) {
-        init(get() + seconds);
-        return 0;
+          @Override
+          float advance(float seconds) {
+            init(get() + seconds);
+            return 0;
+          }
+        });
       }
     };
   }
@@ -41,18 +45,36 @@ public class Number extends Component {
 
   public static Number number(double value) {
     return new Number(null, value) {
-      @Override
-      void start() {
-        init(null, value);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(null, value);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
 
   public static Number number(DoubleSupplier aSupplier) {
     return new Number(aSupplier, 0) {
-      @Override
-      void start() {
-        init(aSupplier, 0);
+      {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            init(aSupplier, 0);
+          }
+
+          @Override
+          float advance(float seconds) {
+            return 0;
+          }
+        });
       }
     };
   }
