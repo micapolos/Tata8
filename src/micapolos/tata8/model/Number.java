@@ -2,11 +2,12 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
-public class Number implements Showable {
+public class Number extends Component {
   DoubleSupplier supplier;
   double defaultValue;
 
-  Number(DoubleSupplier supplier, double defaultValue) {
+  Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
+    super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -17,7 +18,7 @@ public class Number implements Showable {
   }
 
   public static final Number seconds =
-    new Number(null, 0) {
+    new Number(false, null, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -43,7 +44,19 @@ public class Number implements Showable {
   }
 
   public static Number number(double value) {
-    return new Number(null, value) {
+    return new Number(false, null, value);
+  }
+
+  public static Number number(DoubleSupplier aSupplier) {
+    return new Number(false, aSupplier, 0);
+  }
+
+  public static Number numberVariable() {
+    return numberVariable(0);
+  }
+
+  public static Number numberVariable(double value) {
+    return new Number(true, null, value) {
       {
         Game.add(new Clip() {
           @Override
@@ -60,8 +73,8 @@ public class Number implements Showable {
     };
   }
 
-  public static Number number(DoubleSupplier aSupplier) {
-    return new Number(aSupplier, 0) {
+  public static Number numberVariable(DoubleSupplier aSupplier) {
+    return new Number(true, aSupplier, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -124,22 +137,27 @@ public class Number implements Showable {
   }
 
   public Action set(double x) {
+    checkVariable();
     return () -> init(x);
   }
 
   public Action set(Number number) {
+    checkVariable();
     return () -> init(number);
   }
 
   public Action capture(Number number) {
+    checkVariable();
     return () -> init(number.get());
   }
 
   public Action add(double d) {
+    checkVariable();
     return () -> init(get() + d);
   }
 
   public Action add(Number n) {
+    checkVariable();
     return () -> init(get() + n.get());
   }
 

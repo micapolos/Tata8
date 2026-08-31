@@ -3,17 +3,18 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
-import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Bool.boolVariable;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Number.numberVariable;
 
 final class Chicken {
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
   final Sprite sprite = Sprite.sprite();
-  final Number x = number(50);
-  final Bool isLeft = bool();
+  final Number x = numberVariable(50);
+  final Bool isLeft = boolVariable();
   final Clip clip;
 
   public Chicken() {

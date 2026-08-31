@@ -1,18 +1,19 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Anchor.anchor;
-import static micapolos.tata8.model.Flip.flip;
+import static micapolos.tata8.model.Anchor.anchorVariable;
+import static micapolos.tata8.model.Flip.flipVariable;
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Image.image;
-import static micapolos.tata8.model.Value.value;
+import static micapolos.tata8.model.Position.positionVariable;
+import static micapolos.tata8.model.Value.variable;
 
 public final class Sprite implements Showable {
   final micapolos.tata8.Sprite state;
 
-  public final Value<Image> image = value();
-  public final Position position = Position.position();
-  public final Anchor anchor = anchor();
-  public final Flip flip = flip();
+  public final Value<Image> image = variable();
+  public final Position position = positionVariable();
+  public final Anchor anchor = anchorVariable();
+  public final Flip flip = flipVariable();
 
   Sprite(micapolos.tata8.Sprite state) {
     this.state = state;

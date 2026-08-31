@@ -1,5 +1,7 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Bool.boolVariable;
+
 public final class Flip implements Showable {
   public final Bool x;
   public final Bool y;
@@ -7,6 +9,10 @@ public final class Flip implements Showable {
   Flip(Bool x, Bool y) {
     this.x = x;
     this.y = y;
+  }
+
+  public static Flip flipVariable() {
+    return flip(boolVariable(), boolVariable());
   }
 
   public static Flip flip() {

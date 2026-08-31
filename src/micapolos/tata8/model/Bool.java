@@ -5,11 +5,12 @@ import java.util.function.BooleanSupplier;
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Number.number;
 
-public class Bool implements Showable {
+public class Bool extends Component {
   BooleanSupplier supplier;
   boolean defaultValue;
 
-  Bool(BooleanSupplier supplier, boolean defaultValue) {
+  Bool(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
+    super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -19,30 +20,24 @@ public class Bool implements Showable {
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }
 
-  public static Bool bool() {
-    return bool(false);
-  }
-
   public static Bool bool(boolean value) {
-    return new Bool(null, value) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            init(value);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return new Bool(false, null, value);
   }
 
   static Bool bool(BooleanSupplier aSupplier) {
-    return new Bool(aSupplier, false) {
+    return new Bool(false, aSupplier, false);
+  }
+
+  public static Bool boolVariable() {
+    return boolVariable(false);
+  }
+
+  public static Bool boolVariable(boolean value) {
+    return boolVariable(() -> value);
+  }
+
+  static Bool boolVariable(BooleanSupplier aSupplier) {
+    return new Bool(true, aSupplier, false) {
       {
         Game.add(new Clip() {
           @Override
@@ -73,10 +68,12 @@ public class Bool implements Showable {
   }
 
   public Action set(boolean x) {
+    checkVariable();
     return () -> init(x);
   }
 
   public Action set(Bool x) {
+    checkVariable();
     return () -> init(x);
   }
 

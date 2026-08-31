@@ -4,11 +4,12 @@ import micapolos.tata8.Random;
 
 import java.util.function.Supplier;
 
-public class Value<T> implements Showable {
+public class Value<T> extends Component {
   Supplier<T> supplier;
   T defaultValue;
 
-  Value(Supplier<T> supplier, T defaultValue) {
+  Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
+    super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -19,43 +20,27 @@ public class Value<T> implements Showable {
   }
 
   static <T> Value<T> value() {
-    return new Value<>(null, null) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            init(null, null);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return new Value<>(false, null, null);
   }
 
   static <T> Value<T> value(T value) {
-    return new Value<>(null, value) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            init(null, value);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return new Value<>(false, null, value);
   }
 
   static <T> Value<T> value(Supplier<T> aSupplier) {
-    return new Value<>(aSupplier, null) {
+    return new Value<>(false, aSupplier, null);
+  }
+
+  static <T> Value<T> variable() {
+    return variable(null);
+  }
+
+  static <T> Value<T> variable(T value) {
+    return variable(() -> value);
+  }
+
+  static <T> Value<T> variable(Supplier<T> aSupplier) {
+    return new Value<>(true,  aSupplier, null) {
       {
         Game.add(new Clip() {
           @Override
@@ -86,14 +71,17 @@ public class Value<T> implements Showable {
   }
 
   public Action set(T value) {
+    checkVariable();
     return () -> init(value);
   }
 
   public Action set(Value<T> value) {
+    checkVariable();
     return () -> init(value);
   }
 
   public Action capture(Value<T> value) {
+    checkVariable();
     return () -> init(value.get());
   }
 
