@@ -52,6 +52,10 @@ public final class Event extends Component {
     init(() -> setImmediately(event));
   }
 
+  public Event or(Event event) {
+    return event(() -> occurs() && event.occurs());
+  }
+
   public Event and(Bool bool) {
     return event(() -> occurs() && bool.get());
   }

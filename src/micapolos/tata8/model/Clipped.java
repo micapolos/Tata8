@@ -39,6 +39,10 @@ public final class Clipped<T> implements Showable {
     return clipped(function.apply(value), clip);
   }
 
+  public <V, R> Clipped<R> map(Clipped<V> b, BiFunction<T, V, R> function) {
+    return clipped(function.apply(value, b.value), clip);
+  }
+
   public static <T, R> Clipped<Value<R>> mapValue(Clipped<Value<T>> clipped, Function<T, R> function) {
     return clipped.map(value -> value.map(function));
   }
