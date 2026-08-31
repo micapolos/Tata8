@@ -2,8 +2,6 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
-import static micapolos.tata8.model.Integer.integer;
-
 public class Number implements Showable {
   DoubleSupplier supplier;
   double defaultValue;
