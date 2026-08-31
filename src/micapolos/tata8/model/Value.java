@@ -19,27 +19,27 @@ public class Value<T> extends Component {
     return supplier != null ? supplier.get() : defaultValue;
   }
 
-  static <T> Value<T> value() {
+  public static <T> Value<T> value() {
     return new Value<>(false, null, null);
   }
 
-  static <T> Value<T> value(T value) {
+  public static <T> Value<T> value(T value) {
     return new Value<>(false, null, value);
   }
 
-  static <T> Value<T> value(Supplier<T> aSupplier) {
+  public static <T> Value<T> value(Supplier<T> aSupplier) {
     return new Value<>(false, aSupplier, null);
   }
 
-  static <T> Value<T> variable() {
+  public static <T> Value<T> variable() {
     return variable(null);
   }
 
-  static <T> Value<T> variable(T value) {
+  public static <T> Value<T> variable(T value) {
     return variable(() -> value);
   }
 
-  static <T> Value<T> variable(Supplier<T> aSupplier) {
+  public static <T> Value<T> variable(Supplier<T> aSupplier) {
     var value = new Value<>(true, aSupplier, null);
     Game.addInit(() -> value.initialize.execute());
     return value;
