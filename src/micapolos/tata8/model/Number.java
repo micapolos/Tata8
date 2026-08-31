@@ -182,6 +182,6 @@ public class Number extends Component {
   }
 
   static void main() {
-    seconds.times(100).integer().show();
+    seconds.integer().show();
   }
 }

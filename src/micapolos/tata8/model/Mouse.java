@@ -16,7 +16,7 @@ public final class Mouse implements Showable {
 
   @Override
   public String toString() {
-    return String.format("mouse(%s)", position);
+    return String.format("mouse(%s, %s)", position, isPressed);
   }
 
   static void main() {

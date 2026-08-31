@@ -28,6 +28,12 @@ public final class Image implements Showable {
     return images;
   }
 
+  public Sprite sprite() {
+    Sprite sprite = Sprite.create();
+    sprite.image.init(this);
+    return sprite;
+  }
+
   @Override
   public String toString() {
     return String.format("image(width: %s, height: %s)", state.size.width, state.size.height);
