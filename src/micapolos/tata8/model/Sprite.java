@@ -1,5 +1,6 @@
 package micapolos.tata8.model;
 
+import static micapolos.Blocks.ifNotNull;
 import static micapolos.tata8.model.Anchor.anchorVariable;
 import static micapolos.tata8.model.Flip.flipVariable;
 import static micapolos.tata8.model.Game.add;
@@ -36,8 +37,7 @@ public final class Sprite implements Showable {
   }
 
   void sync() {
-    var image = this.image.get();
-    state.image = image != null ? image.state : null;
+    state.image = ifNotNull(image.get(), it -> it.state);
     state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
     state.position.set((float) position.x.get(), (float) position.y.get());
     state.flip.set(flip.x.get(), flip.y.get());
