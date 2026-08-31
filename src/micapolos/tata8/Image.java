@@ -27,7 +27,7 @@ public final class Image {
     return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
   }
 
-  public Image subImage(int x, int y, int width, int height) {
+  public Image crop(int x, int y, int width, int height) {
     return with(bufferedImage.getSubimage(x, y, width, height));
   }
 

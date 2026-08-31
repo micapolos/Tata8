@@ -11,6 +11,10 @@ public final class Image implements Showable {
     return new Image(micapolos.tata8.Game.loadImage(baseClass, fileName));
   }
 
+  public Image crop(int x, int y, int width, int height) {
+    return new Image(state.crop(x, y, width, height));
+  }
+
   public Image[] sliceVertically(int columnCount) {
     micapolos.tata8.Image[] states = state.sliceVertically(columnCount);
     Image[] images = new Image[states.length];
@@ -32,6 +36,6 @@ public final class Image implements Showable {
   }
 
   static void main() {
-    image(Image.class, "depressedChicken.png").show();
+    image(Image.class, "depressedChicken.png").crop(0, 0, 32, 32).show();
   }
 }
