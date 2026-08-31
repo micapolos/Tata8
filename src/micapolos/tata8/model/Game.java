@@ -5,6 +5,7 @@ import java.util.List;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
+import static micapolos.tata8.model.Number.clippedSeconds;
 import static micapolos.tata8.model.Number.number;
 
 public final class Game {
@@ -30,6 +31,14 @@ public final class Game {
 
   static boolean startedValue;
   public static Event started = () -> startedValue;
+
+  public static final Number seconds;
+
+  static {
+    var clippedSeconds = clippedSeconds();
+    add(clippedSeconds.clip);
+    seconds = clippedSeconds.value;
+  }
 
   public static void when(Event event, Action action) {
     add(new Clip() {

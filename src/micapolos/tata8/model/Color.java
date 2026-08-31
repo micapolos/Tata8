@@ -39,7 +39,7 @@ public final class Color implements Showable {
     return Action.sequence(red.set(color.red), green.set(color.green), blue.set(color.blue), alpha.set(color.alpha));
   }
 
-  micapolos.tata8.Color get() {
+  public micapolos.tata8.Color get() {
     return micapolos.tata8.Color.rgba((float) red.get(), (float) green.get(), (float) blue.get(), (float) alpha.get());
   }
 

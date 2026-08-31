@@ -1,9 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Clip.parallel;
-import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.clippedSeconds;
 
 public final class Position implements Showable {
   public final Number x;
@@ -74,8 +71,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    Clipped<Number> x = clippedSeconds();
-    Clipped<Number> y = clippedSeconds();
-    clipped(position(x.value, y.value.negated()), parallel(x.clip, y.clip)).show();
+    position(Game.seconds, Game.seconds.negated()).show();
   }
 }

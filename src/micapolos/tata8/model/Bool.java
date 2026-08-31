@@ -16,7 +16,7 @@ public class Bool extends Component {
     this.defaultValue = defaultValue;
   }
 
-  boolean get() {
+  public boolean get() {
     BooleanSupplier supplier = this.supplier;
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }

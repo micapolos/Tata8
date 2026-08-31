@@ -17,7 +17,7 @@ public class Number extends Component {
     this.defaultValue = defaultValue;
   }
 
-  double get() {
+  public double get() {
     DoubleSupplier supplier = this.supplier;
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }

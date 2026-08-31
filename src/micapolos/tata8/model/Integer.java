@@ -17,7 +17,7 @@ public class Integer extends Component {
     this.defaultValue = defaultValue;
   }
 
-  int get() {
+  public int get() {
     IntSupplier supplier = this.supplier;
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }

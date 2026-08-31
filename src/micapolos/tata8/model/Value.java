@@ -18,7 +18,7 @@ public class Value<T> extends Component {
     this.defaultValue = defaultValue;
   }
 
-  T get() {
+  public T get() {
     var supplier = this.supplier;
     return supplier != null ? supplier.get() : defaultValue;
   }
