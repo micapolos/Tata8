@@ -11,7 +11,7 @@ import static micapolos.tata8.model.Number.number;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
-  static final List<Animation> animations = new ArrayList<>();
+  static final List<Animator> animators = new ArrayList<>();
 
   static final Size size = new Size(number(micapolos.tata8.Game.size.width), number(micapolos.tata8.Game.size.height));
 
@@ -19,13 +19,13 @@ public final class Game {
     initActions.add(initAction);
   }
 
-  static void add(Animation animation) {
-    animations.add(animation);
+  static void add(Animator animator) {
+    animators.add(animator);
   }
 
   static void add(Clip clip) {
     initActions.add(clip::start);
-    animations.add(clip::advance);
+    animators.add(clip::advance);
   }
 
   public static final Mouse mouse = new Mouse();
@@ -69,8 +69,8 @@ public final class Game {
     if (keys.reset.pressed()) {
       init();
     }
-    for (Animation animation : animations) {
-      animation.update(1/60f);
+    for (Animator animator : animators) {
+      float unusedOverflow = animator.advance(1/60f);
     }
     startedValue = false;
   }

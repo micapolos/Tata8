@@ -21,7 +21,10 @@ public final class Sprite implements Showable {
 
   public static Sprite newSprite() {
     Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
-    Game.add(seconds -> sprite.sync());
+    Game.add(seconds -> {
+      sprite.sync();
+      return seconds;
+    });
     return sprite;
   }
 

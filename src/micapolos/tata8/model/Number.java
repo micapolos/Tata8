@@ -157,13 +157,16 @@ public class Number extends Component {
     return () -> setImmediately(number.get());
   }
 
-  public Animation setElastic(double n) {
+  public Animator setElastic(double n) {
     return setElastic(number(n));
   }
 
-  public Animation setElastic(Number number) {
+  public Animator setElastic(Number number) {
     checkVariable();
-    return seconds -> setImmediately(elastic((float) get(), (float) number.get()));
+    return seconds -> {
+      setImmediately(elastic((float) get(), (float) number.get()));
+      return seconds;
+    };
   }
 
   public Action add(double d) {

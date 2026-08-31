@@ -50,7 +50,7 @@ public abstract class Clip {
     });
   }
 
-  public static Clip animated(Animation animation) {
+  public static Clip animated(Animator animator) {
     return new Clip() {
       @Override
       void start() {
@@ -59,13 +59,12 @@ public abstract class Clip {
 
       @Override
       float advance(float seconds) {
-        animation.update(seconds);
-        return 0;
+        return animator.advance(seconds);
       }
     };
   }
 
-  public static final Clip EMPTY = animated(Animation.EMPTY);
+  public static final Clip EMPTY = animated(Animator.EMPTY);
 
   public static Clip frame(Action action) {
     return frame(1, action);
@@ -410,6 +409,7 @@ public abstract class Clip {
       for (Showable showable : showables) {
         micapolos.tata8.Game.log(showable);
       }
+      return seconds;
     });
     Game.add(this);
     Game.show();
