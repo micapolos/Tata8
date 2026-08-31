@@ -7,7 +7,10 @@ import static micapolos.tata8.model.Value.value;
 public enum Direction {
   UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT;
 
-  public static Direction from(VerticalDirection verticalDirectionOrNull, HorizontalDirection horizontalDirectionOrNull) {
+  public static Direction orNullFrom(
+    VerticalDirection verticalDirectionOrNull,
+    HorizontalDirection horizontalDirectionOrNull)
+  {
     if (verticalDirectionOrNull == VerticalDirection.UP) {
       if (horizontalDirectionOrNull == HorizontalDirection.LEFT) {
         return Direction.UP_LEFT;
@@ -39,7 +42,7 @@ public enum Direction {
     var verticalDirection = VerticalDirection.fromSpans(upPressedSpan, downPressedSpan);
     var horizontalDirection = HorizontalDirection.fromSpans(leftPressedSpan, rightPressedSpan);
     return clipped(
-      value(() -> Direction.from(verticalDirection.value.get(), horizontalDirection.value.get())),
+      value(() -> Direction.orNullFrom(verticalDirection.value.get(), horizontalDirection.value.get())),
       parallel(
         verticalDirection.clip,
         horizontalDirection.clip));
