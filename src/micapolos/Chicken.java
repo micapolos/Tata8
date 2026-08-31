@@ -4,6 +4,7 @@ import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.model.Clip.*;
+import static micapolos.tata8.model.Clip.instant;
 import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
@@ -17,7 +18,8 @@ final class Chicken {
   final Clip clip;
 
   public Chicken() {
-    Number step = isLeft.select(number(-3), number(3));
+    Number speed = Key.Z.isPressed.select(number(6), number(3));
+    Number step = isLeft.select(speed.negated(), speed);
     Action move = position.x.add(step);
 
     Clip walk = sequence(

@@ -93,6 +93,10 @@ public class Number extends Component {
     };
   }
 
+  public Number negated() {
+    return number(() -> -get());
+  }
+
   public Number plus(double x) {
     return number(() -> get() + x);
   }
