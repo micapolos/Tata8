@@ -13,7 +13,7 @@ public final class Game {
 
   static final Size size = new Size(number(micapolos.tata8.Game.size.width), number(micapolos.tata8.Game.size.height));
 
-  static void addInitAction(Action initAction) {
+  static void addInit(Action initAction) {
     initActions.add(initAction);
   }
 

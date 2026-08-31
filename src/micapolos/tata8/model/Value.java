@@ -40,21 +40,9 @@ public class Value<T> extends Component {
   }
 
   static <T> Value<T> variable(Supplier<T> aSupplier) {
-    return new Value<>(true,  aSupplier, null) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            initialize.execute();
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    var value = new Value<>(true, aSupplier, null);
+    Game.addInit(() -> value.initialize.execute());
+    return value;
   }
 
   void setImmediately(T value) {

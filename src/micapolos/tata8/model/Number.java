@@ -22,18 +22,8 @@ public class Number extends Component {
   public static final Number seconds =
     new Number(false, null, 0) {
       {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            setImmediately(0);
-          }
-
-          @Override
-          float advance(float seconds) {
-            setImmediately(get() + seconds);
-            return 0;
-          }
-        });
+        Game.addInit(() -> setImmediately(0));
+        Game.add(seconds -> setImmediately(get() + seconds));
       }
     };
 
@@ -58,39 +48,13 @@ public class Number extends Component {
   }
 
   public static Number variable(double value) {
-    return new Number(true, null, value) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            setImmediately(null, value);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return variable(() -> value);
   }
 
   public static Number variable(DoubleSupplier aSupplier) {
-    return new Number(true, aSupplier, 0) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            setImmediately(aSupplier, 0);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    var number = new Number(true, aSupplier, 0);
+    Game.addInit(() -> number.setImmediately(aSupplier, 0));
+    return number;
   }
 
   public Number negated() {

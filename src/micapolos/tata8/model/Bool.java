@@ -37,22 +37,10 @@ public class Bool extends Component {
     return variable(() -> value);
   }
 
-  static Bool variable(BooleanSupplier aSupplier) {
-    return new Bool(true, aSupplier, false) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            setImmediately(aSupplier, false);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+  static Bool variable(BooleanSupplier supplier) {
+    var bool = new Bool(true, supplier, false);
+    Game.addInit(() -> bool.setImmediately(supplier, false));
+    return bool;
   }
 
   void setImmediately(boolean x) {
