@@ -3,19 +3,24 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
+import static micapolos.tata8.model.Bool.not;
 import static micapolos.tata8.model.Clip.*;
-import static micapolos.tata8.model.Clip.instant;
-import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Value.variable;
 
 final class Chicken {
+  enum Direction {
+    LEFT, RIGHT, FRONT
+  }
+
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
   final Sprite sprite = Sprite.newSprite();
   final Position position = Position.variable();
   final Bool isLeft = Bool.variable();
   final Clip clip;
+  final Value<Direction> direction = variable(Direction.FRONT);
 
   public Chicken() {
     Number speed = Key.Z.isPressed.select(number(2), number(1));
@@ -44,8 +49,18 @@ final class Chicken {
       sprite.position.set(position),
       sprite.flip.x.set(isLeft));
 
+    Clip changeDirection =
+      select(
+        on(Key.LEFT.press, direction.set(Direction.LEFT)),
+        on(Key.RIGHT.press, direction.set(Direction.RIGHT)),
+        on(Key.LEFT.release.and(Key.RIGHT.isPressed), direction.set(Direction.RIGHT)),
+        on(Key.LEFT.release.and(not(Key.RIGHT.isPressed)), direction.set(Direction.FRONT)),
+        on(Key.RIGHT.release.and(Key.LEFT.isPressed), direction.set(Direction.LEFT)),
+        on(Key.RIGHT.release.and(not(Key.LEFT.isPressed)), direction.set(Direction.FRONT)));
+
     clip = init.then(
       parallel(
+        changeDirection,
         select(on(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
         select(
           on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
@@ -54,6 +69,7 @@ final class Chicken {
   }
 
   static void main() {
-    new Chicken().clip.show();
+    Chicken chicken = new Chicken();
+    chicken.clip.showWith(chicken.direction);
   }
 }

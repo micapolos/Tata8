@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
+import static micapolos.tata8.Game.log;
+
 public abstract class Clip {
   /**
    * Starts the clip.
@@ -299,6 +301,10 @@ public abstract class Clip {
     };
   }
 
+  public static EventOption on(Event event, Action action) {
+    return on(event, instant(action));
+  }
+
   public static EventOption on(Event event, Clip clip) {
     return when(event, clip);
   }
@@ -397,6 +403,16 @@ public abstract class Clip {
 
   public final void show() {
     Game.add(this);
+    Game.show();
+  }
+
+  public final void showWith(Showable... showables) {
+    Game.add(this);
+    Game.add(seconds -> {
+      for (Showable showable : showables) {
+        micapolos.tata8.Game.log(showable);
+      }
+    });
     Game.show();
   }
 
