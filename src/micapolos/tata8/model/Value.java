@@ -49,6 +49,10 @@ public class Value<T> extends Component {
     return value;
   }
 
+  public Value<T> toValue() {
+    return isVariable ? value(this::get) : this;
+  }
+
   public <R> Value<R> map(Function<T, R> function) {
     return value(() -> function.apply(get()));
   }

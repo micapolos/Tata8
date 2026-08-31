@@ -6,21 +6,14 @@ import micapolos.tata8.model.Number;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.seconds;
-import static micapolos.tata8.model.Value.variable;
 
 final class Chicken {
-  enum Direction {
-    LEFT, RIGHT, FRONT
-  }
-
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
   final Sprite sprite = Sprite.newSprite();
   final Position position = Position.variable();
   final Bool isLeft = Bool.variable();
   final Clip clip;
-  final Value<Direction> direction = variable(Direction.FRONT);
 
   public Chicken() {
     Number speed = Key.Z.isPressed.select(number(2), number(1));
@@ -49,16 +42,8 @@ final class Chicken {
       sprite.position.set(position),
       sprite.flip.x.set(isLeft));
 
-    Clip directionClip =
-      select(
-        on(Key.LEFT.press, direction.set(Direction.LEFT)),
-        on(Key.LEFT.release, direction.set(Key.RIGHT.isPressed.select(Direction.RIGHT, Direction.FRONT))),
-        on(Key.RIGHT.press, direction.set(Direction.RIGHT)),
-        on(Key.RIGHT.release, direction.set(Key.LEFT.isPressed.select(Direction.LEFT, Direction.FRONT))));
-
     clip = init.then(
       parallel(
-        directionClip,
         select(on(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
         select(
           on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
@@ -68,9 +53,6 @@ final class Chicken {
 
   static void main() {
     Chicken chicken = new Chicken();
-    chicken.clip.showWith(
-      chicken.direction,
-      chicken.direction.mapToInteger(Direction::ordinal),
-      seconds().value);
+    chicken.clip.show();
   }
 }
