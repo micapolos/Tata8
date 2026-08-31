@@ -122,7 +122,7 @@ public class Bool extends Component {
   }
 
   public Event changedTo(boolean value) {
-    return changedTo(value);
+    return changedTo(bool(value));
   }
 
   public Event changedTo(Bool bool) {

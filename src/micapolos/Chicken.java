@@ -3,23 +3,21 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
-import static micapolos.tata8.model.Bool.variable;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.variable;
 
 final class Chicken {
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-  final Sprite sprite = Sprite.sprite();
-  final Number x = Number.variable(50);
+  final Sprite sprite = Sprite.create();
+  final Position position = Position.variable();
   final Bool isLeft = Bool.variable();
   final Clip clip;
 
   public Chicken() {
     Number step = isLeft.select(number(-3), number(3));
-    Action move = x.add(step);
+    Action move = position.x.add(step);
 
     Clip walk = sequence(
       frame(sprite.image.set(images[3]).then(move)),
@@ -37,10 +35,10 @@ final class Chicken {
 
     Clip init = instant(
       stop,
+      position.set(50, 100),
       isLeft.set(false),
-      x.set(50),
       sprite.anchor.set(16, 0),
-      sprite.position.set(x, number(100)),
+      sprite.position.set(position),
       sprite.flip.x.set(isLeft));
 
     clip = init.thenSelect(

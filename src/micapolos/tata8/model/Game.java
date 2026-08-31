@@ -18,7 +18,7 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
 
   static boolean startedValue;
-  static Event started = () -> startedValue;
+  public static Event started = () -> startedValue;
 
   public static void when(Event event, Action action) {
     add(new Clip() {
