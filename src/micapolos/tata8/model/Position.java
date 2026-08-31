@@ -1,7 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.numberVariable;
+import static micapolos.tata8.model.Number.variable;
 
 public final class Position implements Showable {
   public final Number x;
@@ -13,7 +13,7 @@ public final class Position implements Showable {
   }
 
   public static Position positionVariable() {
-    return position(numberVariable(), numberVariable());
+    return position(Number.variable(), Number.variable());
   }
 
   public static Position position(double x, double y) {

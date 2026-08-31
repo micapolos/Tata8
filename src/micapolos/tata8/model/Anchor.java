@@ -1,7 +1,6 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.numberVariable;
 
 public final class Anchor implements Showable {
   public final Number x;
@@ -13,11 +12,11 @@ public final class Anchor implements Showable {
   }
 
   public static Anchor anchorVariable() {
-    return anchor(numberVariable(), numberVariable());
+    return anchor(Number.variable(), Number.variable());
   }
 
   public static Anchor anchor() {
-    return anchor(number(), number());
+    return anchor(Number.zero, Number.zero);
   }
 
   public static Anchor anchor(double x, double y) {

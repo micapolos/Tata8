@@ -35,13 +35,11 @@ public class Number extends Component {
       }
     };
 
-  public static Number randomNumber() {
+  public static Number random() {
     return number(Math::random);
   }
 
-  public static Number number() {
-    return number(0);
-  }
+  public static final Number zero = number(0);
 
   public static Number number(double value) {
     return new Number(false, null, value);
@@ -51,11 +49,11 @@ public class Number extends Component {
     return new Number(false, aSupplier, 0);
   }
 
-  public static Number numberVariable() {
-    return numberVariable(0);
+  public static Number variable() {
+    return variable(0);
   }
 
-  public static Number numberVariable(double value) {
+  public static Number variable(double value) {
     return new Number(true, null, value) {
       {
         Game.add(new Clip() {
@@ -73,7 +71,7 @@ public class Number extends Component {
     };
   }
 
-  public static Number numberVariable(DoubleSupplier aSupplier) {
+  public static Number variable(DoubleSupplier aSupplier) {
     return new Number(true, aSupplier, 0) {
       {
         Game.add(new Clip() {

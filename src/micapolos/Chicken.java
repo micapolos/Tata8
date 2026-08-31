@@ -7,13 +7,13 @@ import static micapolos.tata8.model.Bool.boolVariable;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Number.numberVariable;
+import static micapolos.tata8.model.Number.variable;
 
 final class Chicken {
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
   final Sprite sprite = Sprite.sprite();
-  final Number x = numberVariable(50);
+  final Number x = Number.variable(50);
   final Bool isLeft = boolVariable();
   final Clip clip;
 

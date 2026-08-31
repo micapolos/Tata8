@@ -1,8 +1,11 @@
 package micapolos.tata8.model;
 
+import micapolos.tata8.Color;
+import micapolos.tata8.Game;
+
 import java.util.function.BooleanSupplier;
 
-public interface Event {
+public interface Event extends Showable {
   boolean didHappen();
 
   static Event when(BooleanSupplier supplier) {
@@ -21,5 +24,15 @@ public interface Event {
       }
       return any;
     };
+  }
+
+  @Override
+  default void show() {
+    Game.onUpdate = () -> Game.background.color = didHappen() ? Color.WHITE : Color.TRANSPARENT;
+    Game.start();
+  }
+
+  static void main() {
+    Key.RIGHT.pressed.show();
   }
 }

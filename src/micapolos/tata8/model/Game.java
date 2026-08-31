@@ -20,6 +20,23 @@ public final class Game {
   static boolean startedValue;
   static Event started = () -> startedValue;
 
+  public static void when(Event event, Action action) {
+    add(new Clip() {
+      @Override
+      void start() {
+
+      }
+
+      @Override
+      float advance(float seconds) {
+        if (event.didHappen()) {
+          action.execute();
+        }
+        return 0;
+      }
+    });
+  }
+
   public static void show() {
     startedValue = true;
     for (Clip clip : clips) {
@@ -38,5 +55,13 @@ public final class Game {
       startedValue = false;
     };
     micapolos.tata8.Game.start();
+  }
+
+  static void main() {
+    Integer counter = Integer.variable();
+    Integer increment = Integer.variable(1);
+    Game.when(Key.Z.pressed, counter.add(increment));
+    Game.when(Key.X.pressed, increment.add(1));
+    counter.show();
   }
 }

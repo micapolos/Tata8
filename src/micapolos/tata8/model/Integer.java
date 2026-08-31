@@ -6,11 +6,12 @@ import java.util.function.IntSupplier;
 
 import static micapolos.tata8.model.Value.value;
 
-public class Integer implements Showable {
+public class Integer extends Component {
   IntSupplier supplier;
   int defaultValue;
 
-  Integer(IntSupplier supplier, int defaultValue) {
+  Integer(boolean isVariable, IntSupplier supplier, int defaultValue) {
+    super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -20,34 +21,34 @@ public class Integer implements Showable {
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }
 
-  public static Integer randomIndex(int limit) {
+  public static Integer randomBetween(int min, int max) {
+    return integer(() -> Random.between(min, max));
+  }
+
+  public static Integer randomUntil(int limit) {
     return integer(() -> Random.until(limit));
   }
 
-  public static Integer integer() {
-    return integer(0);
-  }
+  public static Integer zero = integer(0);
 
   public static Integer integer(int value) {
-    return new Integer(null, value) {
-      {
-        Game.add(new Clip() {
-          @Override
-          void start() {
-            init(null, value);
-          }
-
-          @Override
-          float advance(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return integer(() -> value);
   }
 
   public static Integer integer(IntSupplier aSupplier) {
-    return new Integer(aSupplier, 0) {
+    return new Integer(false, aSupplier, 0);
+  }
+
+  public static Integer variable() {
+    return variable(0);
+  }
+
+  public static Integer variable(int value) {
+    return variable(() -> value);
+  }
+
+  public static Integer variable(IntSupplier aSupplier) {
+    return new Integer(true, aSupplier, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -98,22 +99,27 @@ public class Integer implements Showable {
   }
 
   public Action set(int x) {
+    checkVariable();
     return () -> init(x);
   }
 
   public Action set(Integer number) {
+    checkVariable();
     return () -> init(number);
   }
 
   public Action capture(Integer number) {
+    checkVariable();
     return () -> init(number.get());
   }
 
   public Action add(int d) {
+    checkVariable();
     return () -> init(get() + d);
   }
 
   public Action add(Integer n) {
+    checkVariable();
     return () -> init(get() + n.get());
   }
 
@@ -123,6 +129,6 @@ public class Integer implements Showable {
   }
 
   static void main() {
-    randomIndex(10).show();
+    randomUntil(10).show();
   }
 }
