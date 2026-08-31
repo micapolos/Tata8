@@ -79,10 +79,6 @@ public class Bool extends Component {
     return () -> setImmediately(!get());
   }
 
-  public Span scope() {
-    return new Span(this);
-  }
-
   public Event changed() {
     return new Event() {
       boolean previousValue = get();

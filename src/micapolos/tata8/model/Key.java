@@ -27,7 +27,7 @@ public enum Key implements Showable {
   }
 
   public Span pressedSpan() {
-    return span(isPressed);
+    return span(isPressed, press, release);
   }
 
   @Override
