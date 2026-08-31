@@ -48,23 +48,26 @@ public final class Game {
     });
   }
 
-  public static void show() {
+  static void init() {
     startedValue = true;
     for (Action initAction : initActions) {
       initAction.execute();
     }
-    onUpdate = () -> {
-      if (keys.reset.pressed()) {
-        startedValue = true;
-        for (Action initAction : initActions) {
-          initAction.execute();
-        }
-      }
-      for (Animation animation : animations) {
-        animation.update(1/60f);
-      }
-      startedValue = false;
-    };
+  }
+
+  static void update() {
+    if (keys.reset.pressed()) {
+      init();
+    }
+    for (Animation animation : animations) {
+      animation.update(1/60f);
+    }
+    startedValue = false;
+  }
+
+  public static void show() {
+    init();
+    onUpdate = Game::update;
     micapolos.tata8.Game.start();
   }
 
