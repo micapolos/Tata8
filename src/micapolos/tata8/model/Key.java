@@ -3,6 +3,7 @@ package micapolos.tata8.model;
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Event.when;
+import static micapolos.tata8.model.Span.span;
 
 public enum Key implements Showable {
   LEFT(keys.left),
@@ -23,6 +24,10 @@ public enum Key implements Showable {
     this.press = when(state::pressed);
     this.release = when(state::released);
     this.isPressed = bool(state::isPressed);
+  }
+
+  public Span pressedSpan() {
+    return span(isPressed);
   }
 
   @Override

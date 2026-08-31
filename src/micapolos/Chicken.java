@@ -3,7 +3,6 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
-import static micapolos.tata8.model.Bool.not;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;

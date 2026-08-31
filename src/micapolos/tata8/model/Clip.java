@@ -407,12 +407,12 @@ public abstract class Clip {
   }
 
   public final void showWith(Showable... showables) {
-    Game.add(this);
     Game.add(seconds -> {
       for (Showable showable : showables) {
         micapolos.tata8.Game.log(showable);
       }
     });
+    Game.add(this);
     Game.show();
   }
 
