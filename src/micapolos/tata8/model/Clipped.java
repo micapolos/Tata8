@@ -2,9 +2,7 @@ package micapolos.tata8.model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.ToIntFunction;
+import java.util.function.*;
 
 import static micapolos.tata8.model.Clip.instant;
 import static micapolos.tata8.model.Value.value;
@@ -27,6 +25,14 @@ public final class Clipped<T> implements Showable {
     return clipped(
       Arrays.stream(clippeds).map(t -> t.value).toList(),
       Clip.parallel(Arrays.stream(clippeds).map(t -> t.clip).toList().toArray(new Clip[0])));
+  }
+
+  public Clipped<T> update(UnaryOperator<T> operator) {
+    return clipped(operator.apply(value), clip);
+  }
+
+  public Clipped<T> update(Clipped<T> x, BinaryOperator<T> operator) {
+    return clipped(operator.apply(value, x.value), clip);
   }
 
   public <R> Clipped<R> map(Function<T, R> function) {

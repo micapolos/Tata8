@@ -1,9 +1,10 @@
 package micapolos.tata8.model;
 
+import micapolos.DoubleUtils;
+
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
-import static micapolos.tata8.Math.fract;
 import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Value.value;
@@ -74,6 +75,10 @@ public class Number extends Component {
     return number(() -> operator.applyAsDouble(get()));
   }
 
+  public Number update(Number b, DoubleBinaryOperator operator) {
+    return number(() -> operator.applyAsDouble(get(), b.get()));
+  }
+
   public <R> Value<R> mapToValue(DoubleFunction<R> function) {
     return value(() -> function.apply(get()));
   }
@@ -91,7 +96,7 @@ public class Number extends Component {
   }
 
   public Number negated() {
-    return update(d -> -d);
+    return update(DoubleUtils::negated);
   }
 
   public Number plus(double x) {
@@ -99,7 +104,7 @@ public class Number extends Component {
   }
 
   public Number plus(Number n) {
-    return update(d -> d + n.get());
+    return update(n, DoubleUtils::plus);
   }
 
   public Number minus(double x) {
@@ -107,7 +112,7 @@ public class Number extends Component {
   }
 
   public Number minus(Number n) {
-    return update(d -> d - n.get());
+    return update(n, DoubleUtils::minus);
   }
 
   public Number times(double x) {
@@ -115,11 +120,11 @@ public class Number extends Component {
   }
 
   public Number times(Number n) {
-    return update(d -> d * n.get());
+    return update(n, DoubleUtils::times);
   }
 
   public Number fraction() {
-    return update(d -> fract((float) get()));
+    return update(DoubleUtils::fraction);
   }
 
   public Integer integer() {

@@ -1,7 +1,9 @@
 package micapolos.tata8.model;
 
+import micapolos.IntegerUtils;
 import micapolos.tata8.Random;
 
+import java.util.List;
 import java.util.function.*;
 
 import static micapolos.tata8.model.Bool.bool;
@@ -72,6 +74,10 @@ public class Integer extends Component {
     return integer(() -> operator.applyAsInt(get()));
   }
 
+  public Integer update(Integer x, IntBinaryOperator operator) {
+    return integer(() -> operator.applyAsInt(get(), x.get()));
+  }
+
   public Number mapToNumber(IntToDoubleFunction function) {
     return number(() -> function.applyAsDouble(get()));
   }
@@ -84,12 +90,24 @@ public class Integer extends Component {
     return value(() -> function.apply(get()));
   }
 
+  public Integer negated() {
+    return update(IntegerUtils::negated);
+  }
+
   public Integer plus(int x) {
     return update(i -> i + x);
   }
 
   public Integer plus(Integer n) {
-    return update(i -> i + n.get());
+    return update(n, IntegerUtils::plus);
+  }
+
+  public Integer minus(int x) {
+    return update(i -> i - x);
+  }
+
+  public Integer minus(Integer n) {
+    return update(n, IntegerUtils::minus);
   }
 
   public Integer times(int x) {
@@ -97,11 +115,19 @@ public class Integer extends Component {
   }
 
   public Integer times(Integer n) {
-    return update(i -> i * n.get());
+    return update(n, IntegerUtils::times);
   }
 
-  public <T> Value<T> selectValue(T... values) {
+  public Number toNumber() {
+    return mapToNumber(IntegerUtils::toDouble);
+  }
+
+  public <T> Value<T> getValue(T... values) {
     return mapToValue(i -> values[Math.floorMod(i, values.length)]);
+  }
+
+  public <T> Value<T> get(List<T> values) {
+    return mapToValue(i -> values.get(Math.floorMod(i, values.size())));
   }
 
   void init(int x) {
