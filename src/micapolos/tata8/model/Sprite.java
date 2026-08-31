@@ -19,20 +19,22 @@ public final class Sprite implements Showable {
     this.state = state;
   }
 
-  public static Sprite create() {
+  public static Sprite newSprite() {
     Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
-    add(new Clip() {
-      @Override
-      void start() {
+    Game.add(seconds -> sprite.sync());
+    return sprite;
+  }
 
-      }
+  public static Sprite newSprite(Image image) {
+    Sprite sprite = newSprite();
+    sprite.image.init(image);
+    return sprite;
+  }
 
-      @Override
-      float advance(float seconds) {
-        sprite.sync();
-        return 0;
-      }
-    });
+  public static Sprite newSprite(Image image, Anchor anchor) {
+    Sprite sprite = newSprite();
+    sprite.image.init(image);
+    sprite.anchor.init(anchor);
     return sprite;
   }
 
@@ -49,11 +51,11 @@ public final class Sprite implements Showable {
   }
 
   static void main() {
-    Sprite sprite = create();
+    Sprite sprite = newSprite();
     Image image = image(Game.class, "depressedChicken.png").sliceVertically(8)[0];
-    sprite.image.setImmediately(image);
-    sprite.anchor.init(16, 16);
-    sprite.position.setImmediately(160, 128);
+    sprite.image.init(image);
+    sprite.anchor.setImmediately(16, 16);
+    sprite.position.init(160, 128);
     sprite.show();
   }
 }

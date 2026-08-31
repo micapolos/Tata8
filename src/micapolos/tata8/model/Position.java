@@ -31,28 +31,12 @@ public final class Position implements Showable {
     return new Position(x, y);
   }
 
-  void setImmediately(double x, double y) {
-    this.x.setImmediately(x);
-    this.y.setImmediately(y);
-  }
-
-  void setImmediately(Number x, Number y) {
-    this.x.setImmediately(x);
-    this.y.setImmediately(y);
-  }
-
-  void setImmediately(Position position) {
-    this.x.setImmediately(position.x);
-    this.y.setImmediately(position.y);
-  }
-
   public void init(double x, double y) {
-    init(number(x), number(y));
+    init(number(0), number(0));
   }
 
   public void init(Number x, Number y) {
-    this.x.init(x);
-    this.y.init(y);
+    init(position(x, y));
   }
 
   public void init(Position position) {

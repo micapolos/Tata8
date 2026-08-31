@@ -117,6 +117,34 @@ public class Bool extends Component {
     return bool(() -> !value.get());
   }
 
+  public static Bool all(Bool... bools) {
+    return bool(() -> {
+      boolean value = true;
+      for (Bool bool : bools) {
+        value &= bool.get();
+      }
+      return value;
+    });
+  }
+
+  public static Bool any(Bool... bools) {
+    return bool(() -> {
+      boolean value = false;
+      for (Bool bool : bools) {
+        value |= bool.get();
+      }
+      return value;
+    });
+  }
+
+  public Bool and(Bool bool) {
+    return bool(() -> get() && bool.get());
+  }
+
+  public Bool or(Bool bool) {
+    return bool(() -> get() || bool.get());
+  }
+
   public Event changedTo(boolean value) {
     return changedTo(bool(value));
   }

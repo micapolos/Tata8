@@ -29,7 +29,7 @@ public final class Image implements Showable {
   }
 
   public Sprite sprite() {
-    Sprite sprite = Sprite.create();
+    Sprite sprite = Sprite.newSprite();
     sprite.image.setImmediately(this);
     return sprite;
   }

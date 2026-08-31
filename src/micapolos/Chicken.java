@@ -12,14 +12,14 @@ import static micapolos.tata8.model.Number.number;
 final class Chicken {
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-  final Sprite sprite = Sprite.create();
+  final Sprite sprite = Sprite.newSprite();
   final Position position = Position.variable();
   final Bool isLeft = Bool.variable();
   final Clip clip;
 
   public Chicken() {
-    Number speed = Key.Z.isPressed.select(number(6), number(3));
-    Number step = isLeft.select(speed.negated(), speed);
+    Number speed = Key.Z.isPressed.select(number(2), number(1));
+    Number step = isLeft.select(speed.negated().times(3), speed.times(3));
     Action move = position.x.add(step);
 
     Clip walk = sequence(

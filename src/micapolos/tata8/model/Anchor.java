@@ -35,14 +35,23 @@ public final class Anchor implements Showable {
     return new Anchor(x, y);
   }
 
-  void init(double x, double y) {
+  void setImmediately(double x, double y) {
     this.x.setImmediately(x);
     this.y.setImmediately(y);
   }
 
-  void init(Number x, Number y) {
+  void setImmediately(Number x, Number y) {
     this.x.setImmediately(x);
     this.y.setImmediately(y);
+  }
+
+  public void init(double x, double y) {
+    init(anchor(x, y));
+  }
+
+  public void init(Anchor anchor) {
+    x.init(anchor.x);
+    y.init(anchor.y);
   }
 
   public Action set(double x, double y) {
