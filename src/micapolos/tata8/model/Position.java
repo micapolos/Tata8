@@ -32,11 +32,12 @@ public final class Position implements Showable {
   }
 
   public void init(double x, double y) {
-    init(number(0), number(0));
+    init(number(x), number(y));
   }
 
   public void init(Number x, Number y) {
-    init(position(x, y));
+    this.x.init(x);
+    this.y.init(y);
   }
 
   public void init(Position position) {

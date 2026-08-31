@@ -19,15 +19,20 @@ public class SocksGirl {
   static void main() {
     var sheetImage = Image.image(SocksGirl.class, "socksgirl-sheet.png");
     var sheetImages = sheetImage.sliceVertically(12);
-    var directionOrNull = Direction.fromSpans(
+    var clippedDirectionOrNullValue = Direction.fromSpans(
       Key.LEFT.pressedSpan(),
       Key.RIGHT.pressedSpan(),
       Key.UP.pressedSpan(),
       Key.DOWN.pressedSpan());
-    var direction = Clipped.mapValueToNonNull(directionOrNull, Direction.DOWN);
-    var imageIndex = Clipped.mapValueToInteger(direction, SocksGirl::imageIndex);
-    var image = Clipped.mapIntegerToValue(imageIndex, idx -> sheetImages[idx]);
-    var sprite = image.map(Sprite::newSprite);
-    sprite.clip.show();
+    var clippedDirectionValue = Clipped.mapValueToNonNull(clippedDirectionOrNullValue, Direction.DOWN);
+    var clippedImageInteger = Clipped.mapValueToInteger(clippedDirectionValue, SocksGirl::imageIndex);
+    var clippedImageValue = Clipped.mapIntegerToValue(clippedImageInteger, idx -> sheetImages[idx]);
+    var clippedSprite = clippedImageValue.map(image -> {
+      var sprite = Sprite.newSprite();
+      sprite.image.init(image);
+      sprite.position.init(100, 100);
+      return sprite;
+    });
+    clippedSprite.show();
   }
 }

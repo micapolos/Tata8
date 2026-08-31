@@ -3,7 +3,6 @@ package micapolos.tata8.model;
 import static micapolos.Blocks.ifNotNull;
 import static micapolos.tata8.model.Anchor.anchorVariable;
 import static micapolos.tata8.model.Flip.flipVariable;
-import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Value.value;
 import static micapolos.tata8.model.Value.variable;
@@ -47,10 +46,16 @@ public final class Sprite implements Showable {
   }
 
   void sync() {
+    IO.println("PosX: " + position.x.get());
     state.image = ifNotNull(image.get(), it -> it.state);
     state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
     state.position.set((float) position.x.get(), (float) position.y.get());
     state.flip.set(flip.x.get(), flip.y.get());
+  }
+
+  @Override
+  public String toString() {
+    return String.format("sprite(%s)", position);
   }
 
   @Override
