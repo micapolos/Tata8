@@ -2,8 +2,9 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
-import java.util.function.IntSupplier;
+import java.util.function.*;
 
+import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Value.value;
 
 public class Integer extends Component {
@@ -64,6 +65,22 @@ public class Integer extends Component {
         });
       }
     };
+  }
+
+  public <R> Value<R> map(IntFunction<R> function) {
+    return value(() -> function.apply(get()));
+  }
+
+  public Integer mapToInteger(IntUnaryOperator function) {
+    return Integer.integer(() -> function.applyAsInt(get()));
+  }
+
+  public Number mapToNumber(IntToDoubleFunction function) {
+    return Number.number(() -> function.applyAsDouble(get()));
+  }
+
+  public Bool mapToBool(IntPredicate function) {
+    return bool(() -> function.test(get()));
   }
 
   public Integer plus(int x) {

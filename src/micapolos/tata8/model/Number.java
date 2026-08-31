@@ -1,8 +1,10 @@
 package micapolos.tata8.model;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
+import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Value.value;
 
 public class Number extends Component {
   DoubleSupplier supplier;
@@ -55,6 +57,22 @@ public class Number extends Component {
     var number = new Number(true, aSupplier, 0);
     Game.addInit(() -> number.setImmediately(aSupplier, 0));
     return number;
+  }
+
+  public <R> Value<R> map(DoubleFunction<R> function) {
+    return value(() -> function.apply(get()));
+  }
+
+  public Integer mapToInteger(DoubleToIntFunction function) {
+    return Integer.integer(() -> function.applyAsInt(get()));
+  }
+
+  public Number mapToNumber(DoubleUnaryOperator function) {
+    return number(() -> function.applyAsDouble(get()));
+  }
+
+  public Bool mapToBool(DoublePredicate function) {
+    return bool(() -> function.test(get()));
   }
 
   public Number negated() {

@@ -104,7 +104,7 @@ public class Bool extends Component {
       }
     };
   }
-
+  
   public Bool equals(boolean value) {
     return equals(bool(value));
   }

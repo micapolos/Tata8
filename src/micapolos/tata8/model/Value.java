@@ -2,7 +2,11 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
-import java.util.function.Supplier;
+import java.util.function.*;
+
+import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Integer.integer;
+import static micapolos.tata8.model.Number.number;
 
 public class Value<T> extends Component {
   Supplier<T> supplier;
@@ -43,6 +47,22 @@ public class Value<T> extends Component {
     var value = new Value<>(true, aSupplier, null);
     Game.addInit(() -> value.initialize.execute());
     return value;
+  }
+
+  public <R> Value<R> map(Function<T, R> function) {
+    return value(() -> function.apply(get()));
+  }
+
+  public Number mapToNumber(ToDoubleFunction<T> function) {
+    return number(() -> function.applyAsDouble(get()));
+  }
+
+  public Integer mapToInteger(ToIntFunction<T> function) {
+    return integer(() -> function.applyAsInt(get()));
+  }
+
+  public Bool mapToBool(Predicate<T> function) {
+    return bool(() -> function.test(get()));
   }
 
   void setImmediately(T value) {
