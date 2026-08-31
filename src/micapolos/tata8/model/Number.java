@@ -65,10 +65,18 @@ public class Number extends Component {
     return variable(() -> value);
   }
 
+  public static Number variable(Number value) {
+    return variable(value::get);
+  }
+
   public static Number variable(DoubleSupplier aSupplier) {
     var number = new Number(true, aSupplier, 0);
     Game.addInit(number.initialize);
     return number;
+  }
+
+  public Number readonly() {
+    return isVariable ? number(this::get) : this;
   }
 
   public Number update(DoubleUnaryOperator operator) {
@@ -131,11 +139,11 @@ public class Number extends Component {
     return mapToInteger(d -> (int) d);
   }
 
-  void setImmediately(double x) {
+  public void setImmediately(double x) {
     setImmediately(null, x);
   }
 
-  void setImmediately(Number number) {
+  public void setImmediately(Number number) {
     setImmediately(number::get, 0);
   }
 

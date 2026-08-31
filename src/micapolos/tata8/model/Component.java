@@ -1,7 +1,7 @@
 package micapolos.tata8.model;
 
 public class Component implements Showable {
-  final boolean isVariable;
+  public final boolean isVariable;
   Action initialize = Action.EMPTY;
 
   Component(boolean isVariable) {

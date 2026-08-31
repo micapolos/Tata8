@@ -1,9 +1,30 @@
 package micapolos.tata8.model.clipped;
 
+import micapolos.tata8.model.Clip;
 import micapolos.tata8.model.Clipped;
 import micapolos.tata8.model.Number;
 
+import static micapolos.tata8.model.Clip.clip;
+import static micapolos.tata8.model.Clipped.clipped;
+
 public final class ClippedNumber {
+  public static Clipped<Number> clippedNumber(double d) {
+    return clipped(Number.number(d), Clip.EMPTY);
+  }
+
+  public static Clipped<Number> readonly(Number number) {
+    return clipped(number.readonly(), Clip.EMPTY);
+  }
+
+  public static Clipped<Number> readonly(Clipped<Number> number) {
+    return number.update(Number::readonly);
+  }
+
+  public static Clipped<Number> variable(Number initial) {
+    Number variable = Number.variable(initial);
+    return clipped(variable, clip(() -> variable.set(initial), seconds -> seconds));
+  }
+
   public static Clipped<Number> negated(Clipped<Number> a) {
     return a.update(Number::negated);
   }

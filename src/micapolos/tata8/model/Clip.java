@@ -17,6 +17,20 @@ public abstract class Clip {
    */
   abstract float step(float seconds);
 
+  public static Clip clip(Action start, Stepper stepper) {
+    return new Clip() {
+      @Override
+      void start() {
+        start.execute();
+      }
+
+      @Override
+      float step(float seconds) {
+        return stepper.step(seconds);
+      }
+    };
+  }
+
   @Deprecated(forRemoval = true)
   public final void startInternal() {
     start();
