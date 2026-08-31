@@ -339,7 +339,7 @@ public abstract class Clip {
       @Override
       float advance(float seconds) {
         for (EventOption option : options) {
-          if (option.event.didHappen()) {
+          if (option.event.occurs()) {
             option.clip.start();
             selectedOption = option;
           }
@@ -364,7 +364,7 @@ public abstract class Clip {
       @Override
       float advance(float seconds) {
         if (isRunning) {
-          if (event.didHappen()) {
+          if (event.occurs()) {
             isRunning = false;
             return 0;
           } else {

@@ -79,32 +79,6 @@ public class Bool extends Component {
     return () -> setImmediately(!get());
   }
 
-  public Event changed() {
-    return new Event() {
-      boolean previousValue = get();
-
-      {
-        add(new Clip() {
-          @Override
-          void start() {
-
-          }
-
-          @Override
-          float advance(float seconds) {
-            previousValue = get();
-            return 0;
-          }
-        });
-      }
-
-      @Override
-      public boolean didHappen() {
-        return previousValue != get();
-      }
-    };
-  }
-
   public Bool equals(boolean value) {
     return equals(bool(value));
   }
@@ -143,14 +117,6 @@ public class Bool extends Component {
 
   public Bool or(Bool bool) {
     return bool(() -> get() || bool.get());
-  }
-
-  public Event changedTo(boolean value) {
-    return changedTo(bool(value));
-  }
-
-  public Event changedTo(Bool bool) {
-    return changed().and(equals(bool));
   }
 
   public <T> Value<T> select(T trueValue, T falseValue) {

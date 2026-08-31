@@ -19,8 +19,8 @@ public final class Span implements Showable {
   public String toString() {
     return String.format("span(%s, %s, %s)",
       isInside.get() ? "inside" : "outside",
-      start.didHappen() ? "start" : "-",
-      end.didHappen() ? "end" : "-");
+      start.occurs() ? "start" : "-",
+      end.occurs() ? "end" : "-");
   }
 
   static void main() {

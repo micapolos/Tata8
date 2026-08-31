@@ -5,6 +5,7 @@ import java.util.List;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
+import static micapolos.tata8.model.Event.event;
 import static micapolos.tata8.model.Number.clippedSeconds;
 import static micapolos.tata8.model.Number.number;
 
@@ -30,7 +31,7 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
 
   static boolean startedValue;
-  public static Event started = () -> startedValue;
+  public static Event started = event(() -> startedValue);
 
   public static final Number seconds;
 
@@ -49,7 +50,7 @@ public final class Game {
 
       @Override
       float advance(float seconds) {
-        if (event.didHappen()) {
+        if (event.occurs()) {
           action.execute();
         }
         return 0;

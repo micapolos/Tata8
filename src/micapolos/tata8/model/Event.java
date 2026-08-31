@@ -1,35 +1,80 @@
 package micapolos.tata8.model;
 
 import micapolos.tata8.Color;
-import micapolos.tata8.Game;
 
 import java.util.function.BooleanSupplier;
 
-public interface Event extends Showable {
-  boolean didHappen();
+public final class Event extends Component {
+  BooleanSupplier occursSupplier;
+  boolean defaultOccurs;
 
-  static Event when(BooleanSupplier supplier) {
-    return supplier::getAsBoolean;
+  Event(boolean isVariable, BooleanSupplier occursSupplier, boolean defaultOccurs) {
+    super(isVariable);
+    this.occursSupplier = occursSupplier;
+    this.defaultOccurs = defaultOccurs;
   }
 
-  default Event and(Bool condition) {
-    return () -> didHappen() && condition.get();
+  public boolean occurs() {
+    BooleanSupplier supplier = this.occursSupplier;
+    return supplier != null ? supplier.getAsBoolean() : defaultOccurs;
   }
 
-  static Event any(Event... events) {
-    return () -> {
+  public static Event event(boolean occurs) {
+    return new Event(false, null, occurs);
+  }
+
+  public static Event event(Event event) {
+    return event(event::occurs);
+  }
+
+  public static Event event(BooleanSupplier occursSupplier) {
+    return new Event(false, occursSupplier, false);
+  }
+
+  public static Event variable() {
+    return variable(event(false));
+  }
+
+  public static Event variable(Event event) {
+    return new Event(true, event.occursSupplier, event.defaultOccurs);
+  }
+
+  void occurImmediately() {
+    setImmediately(event(true));
+  }
+
+  void setImmediately(Event event) {
+    occursSupplier = event::occurs;
+    defaultOccurs = false;
+  }
+
+  public void init(Event event) {
+    init(() -> setImmediately(event));
+  }
+
+  public Event and(Bool bool) {
+    return event(() -> occurs() && bool.get());
+  }
+
+  public static Event any(Event... events) {
+    return event(() -> {
       boolean any = false;
       for (Event event : events) {
-        any |= event.didHappen();
+        any |= event.occurs();
       }
       return any;
-    };
+    });
   }
 
   @Override
-  default void show() {
-    Game.onUpdate = () -> Game.background.color = didHappen() ? Color.WHITE : Color.TRANSPARENT;
-    Game.start();
+  public String toString() {
+    return String.valueOf(occurs());
+  }
+
+  @Override
+  public void show() {
+    micapolos.tata8.Game.onUpdate = () -> micapolos.tata8.Game.background.color = occurs() ? micapolos.tata8.Color.WHITE : Color.TRANSPARENT;
+    micapolos.tata8.Game.start();
   }
 
   static void main() {
