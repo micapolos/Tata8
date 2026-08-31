@@ -27,8 +27,7 @@ public class SocksGirl {
     var direction = Clipped.mapValueToNonNull(directionOrNull, Direction.DOWN);
     var imageIndex = Clipped.mapValueToInteger(direction, SocksGirl::imageIndex);
     var image = Clipped.mapIntegerToValue(imageIndex, idx -> sheetImages[idx]);
-    var sprite = Sprite.newSprite();
-    sprite.image.init(image.value);
-    image.clip.show();
+    var sprite = image.map(Sprite::newSprite);
+    sprite.clip.show();
   }
 }

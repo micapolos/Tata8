@@ -5,6 +5,7 @@ import static micapolos.tata8.model.Anchor.anchorVariable;
 import static micapolos.tata8.model.Flip.flipVariable;
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Image.image;
+import static micapolos.tata8.model.Value.value;
 import static micapolos.tata8.model.Value.variable;
 
 public final class Sprite implements Showable {
@@ -29,6 +30,10 @@ public final class Sprite implements Showable {
   }
 
   public static Sprite newSprite(Image image) {
+    return newSprite(value(image));
+  }
+
+  public static Sprite newSprite(Value<Image> image) {
     Sprite sprite = newSprite();
     sprite.image.init(image);
     return sprite;
