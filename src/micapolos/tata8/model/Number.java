@@ -53,8 +53,8 @@ public class Number extends Component {
     return new Number(false, null, value);
   }
 
-  public static Number number(DoubleSupplier aSupplier) {
-    return new Number(false, aSupplier, 0);
+  public static Number number(DoubleSupplier supplier) {
+    return new Number(false, supplier, 0);
   }
 
   public static Number variable() {
@@ -67,7 +67,7 @@ public class Number extends Component {
 
   public static Number variable(DoubleSupplier aSupplier) {
     var number = new Number(true, aSupplier, 0);
-    Game.addInit(() -> number.setImmediately(aSupplier, 0));
+    Game.addInit(number.initialize);
     return number;
   }
 

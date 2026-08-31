@@ -1,6 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Seconds.seconds;
 
 public final class Position implements Showable {
   public final Number x;
@@ -72,6 +73,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    position(Game.seconds, Game.seconds.negated()).show();
+    position(seconds, seconds.negated()).show();
   }
 }

@@ -33,14 +33,6 @@ public final class Game {
   static boolean startedValue;
   public static Event started = event(() -> startedValue);
 
-  public static final Number seconds;
-
-  static {
-    var clippedSeconds = clippedSeconds();
-    add(clippedSeconds.clip);
-    seconds = clippedSeconds.value;
-  }
-
   public static void when(Event event, Action action) {
     add(new Clip() {
       @Override
