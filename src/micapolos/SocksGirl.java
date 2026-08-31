@@ -35,6 +35,7 @@ public class SocksGirl {
       var sprite = newSprite();
       sprite.image.init(image);
       sprite.position.init(100, 100);
+      sprite.anchor.init(32, 64);
       return sprite;
     });
     clippedSprite.show();
