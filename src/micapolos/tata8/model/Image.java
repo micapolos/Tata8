@@ -1,10 +1,14 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Number.number;
+
 public final class Image implements Showable {
   final micapolos.tata8.Image state;
+  final Size size;
 
   Image(micapolos.tata8.Image state) {
     this.state = state;
+    this.size = new Size(number(state.size.width), number(state.size.height));
   }
 
   public static Image image(Class<?> baseClass, String fileName) {
@@ -31,7 +35,10 @@ public final class Image implements Showable {
 
   @Override
   public void show() {
-    micapolos.tata8.Game.background.canvas.draw(state);
+    micapolos.tata8.Game.background.canvas.draw(
+      state,
+      (int) Game.size.width.minus(size.width).times(0.5).get(),
+      (int) Game.size.height.minus(size.height).times(0.5).get());
     micapolos.tata8.Game.start();
   }
 

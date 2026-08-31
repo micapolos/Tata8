@@ -88,6 +88,14 @@ public class Number implements Showable {
     return number(() -> get() + n.get());
   }
 
+  public Number minus(double x) {
+    return number(() -> get() - x);
+  }
+
+  public Number minus(Number n) {
+    return number(() -> get() - n.get());
+  }
+
   public Number times(double x) {
     return number(() -> get() * x);
   }

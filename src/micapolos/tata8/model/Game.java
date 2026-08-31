@@ -5,9 +5,11 @@ import java.util.List;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
+import static micapolos.tata8.model.Number.number;
 
 public final class Game {
   static final List<Clip> clips = new ArrayList<>();
+  static final Size size = new Size(number(micapolos.tata8.Game.size.width), number(micapolos.tata8.Game.size.height));
 
   static void add(Clip clip) {
     clips.add(clip);
