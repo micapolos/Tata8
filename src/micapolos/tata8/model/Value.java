@@ -45,7 +45,7 @@ public class Value<T> extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(aSupplier, null);
+            initialize.execute();
           }
 
           @Override
@@ -57,32 +57,40 @@ public class Value<T> extends Component {
     };
   }
 
-  void init(T value) {
-    init(null, value);
+  void setImmediately(T value) {
+    setImmediately(null, value);
   }
 
-  void init(Value<T> value) {
-    init(value::get, null);
+  void setImmediately(Value<T> value) {
+    setImmediately(value::get, null);
   }
 
-  void init(Supplier<T> supplier, T defaultValue) {
+  void setImmediately(Supplier<T> supplier, T defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
+  public void init(T value) {
+    init(() -> setImmediately(value));
+  }
+
+  public void init(Value<T> value) {
+    init(() -> setImmediately(value));
+  }
+
   public Action set(T value) {
     checkVariable();
-    return () -> init(value);
+    return () -> setImmediately(value);
   }
 
   public Action set(Value<T> value) {
     checkVariable();
-    return () -> init(value);
+    return () -> setImmediately(value);
   }
 
   public Action capture(Value<T> value) {
     checkVariable();
-    return () -> init(value.get());
+    return () -> setImmediately(value.get());
   }
 
   public static <T> Value<T> randomFrom(T... values) {

@@ -30,7 +30,7 @@ public final class Image implements Showable {
 
   public Sprite sprite() {
     Sprite sprite = Sprite.create();
-    sprite.image.init(this);
+    sprite.image.setImmediately(this);
     return sprite;
   }
 

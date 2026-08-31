@@ -2,6 +2,7 @@ package micapolos.tata8.model;
 
 public class Component implements Showable {
   final boolean isVariable;
+  Action initialize = Action.EMPTY;
 
   Component(boolean isVariable) {
     this.isVariable = isVariable;
@@ -11,5 +12,11 @@ public class Component implements Showable {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable");
     }
+  }
+
+  final void init(Action initialize) {
+    checkVariable();
+    initialize.execute();
+    this.initialize = initialize;
   }
 }

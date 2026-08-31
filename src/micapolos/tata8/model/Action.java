@@ -5,6 +5,8 @@ import micapolos.tata8.Image;
 public interface Action {
   void execute();
 
+  Action EMPTY = () -> {};
+
   static Action action(Runnable runnable) {
     return runnable::run;
   }
