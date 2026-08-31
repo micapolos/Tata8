@@ -70,7 +70,7 @@ public class Number extends Component {
     return number;
   }
 
-  public Number map(DoubleUnaryOperator operator) {
+  public Number update(DoubleUnaryOperator operator) {
     return number(() -> operator.applyAsDouble(get()));
   }
 
@@ -91,35 +91,35 @@ public class Number extends Component {
   }
 
   public Number negated() {
-    return map(d -> -d);
+    return update(d -> -d);
   }
 
   public Number plus(double x) {
-    return map(d -> d + x);
+    return update(d -> d + x);
   }
 
   public Number plus(Number n) {
-    return map(d -> d + n.get());
+    return update(d -> d + n.get());
   }
 
   public Number minus(double x) {
-    return map(d -> d - x);
+    return update(d -> d - x);
   }
 
   public Number minus(Number n) {
-    return map(d -> d - n.get());
+    return update(d -> d - n.get());
   }
 
   public Number times(double x) {
-    return map(d -> d * x);
+    return update(d -> d * x);
   }
 
   public Number times(Number n) {
-    return map(d -> d * n.get());
+    return update(d -> d * n.get());
   }
 
   public Number fraction() {
-    return map(d -> fract((float) get()));
+    return update(d -> fract((float) get()));
   }
 
   public Integer integer() {

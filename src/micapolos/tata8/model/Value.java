@@ -53,6 +53,10 @@ public class Value<T> extends Component {
     return isVariable ? value(this::get) : this;
   }
 
+  public Value<T> update(UnaryOperator<T> operator) {
+    return value(() -> operator.apply(get()));
+  }
+
   public <R> Value<R> map(Function<T, R> function) {
     return value(() -> function.apply(get()));
   }
