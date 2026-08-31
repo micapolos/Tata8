@@ -7,27 +7,27 @@ import static micapolos.tata8.model.Value.value;
 public enum Direction {
   UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT;
 
-  public static Direction from(VerticalDirection verticalDirection, HorizontalDirection horizontal) {
-    if (verticalDirection == VerticalDirection.UP) {
-      if (horizontal == HorizontalDirection.LEFT) {
+  public static Direction from(VerticalDirection verticalDirectionOrNull, HorizontalDirection horizontalDirectionOrNull) {
+    if (verticalDirectionOrNull == VerticalDirection.UP) {
+      if (horizontalDirectionOrNull == HorizontalDirection.LEFT) {
         return Direction.UP_LEFT;
-      } else if (horizontal == HorizontalDirection.RIGHT) {
+      } else if (horizontalDirectionOrNull == HorizontalDirection.RIGHT) {
         return Direction.UP_RIGHT;
       } else {
         return Direction.UP;
       }
-    } else if (verticalDirection == VerticalDirection.DOWN) {
-      if (horizontal == HorizontalDirection.LEFT) {
+    } else if (verticalDirectionOrNull == VerticalDirection.DOWN) {
+      if (horizontalDirectionOrNull == HorizontalDirection.LEFT) {
         return Direction.DOWN_LEFT;
-      } else if (horizontal == HorizontalDirection.RIGHT) {
+      } else if (horizontalDirectionOrNull == HorizontalDirection.RIGHT) {
         return Direction.DOWN_RIGHT;
       } else {
         return Direction.DOWN;
       }
     } else {
-      if (horizontal == HorizontalDirection.LEFT) {
+      if (horizontalDirectionOrNull == HorizontalDirection.LEFT) {
         return Direction.LEFT;
-      } else if (horizontal == HorizontalDirection.RIGHT) {
+      } else if (horizontalDirectionOrNull == HorizontalDirection.RIGHT) {
         return Direction.RIGHT;
       } else {
         return null;
