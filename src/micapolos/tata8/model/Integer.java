@@ -6,11 +6,11 @@ import java.util.function.IntSupplier;
 
 import static micapolos.tata8.model.Value.value;
 
-public class Index implements Showable {
+public class Integer implements Showable {
   IntSupplier supplier;
   int defaultValue;
 
-  Index(IntSupplier supplier, int defaultValue) {
+  Integer(IntSupplier supplier, int defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -20,16 +20,16 @@ public class Index implements Showable {
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }
 
-  public static Index randomIndex(int limit) {
-    return index(() -> Random.until(limit));
+  public static Integer randomIndex(int limit) {
+    return integer(() -> Random.until(limit));
   }
 
-  public static Index index() {
-    return index(0);
+  public static Integer integer() {
+    return integer(0);
   }
 
-  public static Index index(int value) {
-    return new Index(null, value) {
+  public static Integer integer(int value) {
+    return new Integer(null, value) {
       {
         Game.add(new Clip() {
           @Override
@@ -46,8 +46,8 @@ public class Index implements Showable {
     };
   }
 
-  public static Index index(IntSupplier aSupplier) {
-    return new Index(aSupplier, 0) {
+  public static Integer integer(IntSupplier aSupplier) {
+    return new Integer(aSupplier, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -64,20 +64,20 @@ public class Index implements Showable {
     };
   }
 
-  public Index plus(int x) {
-    return index(() -> get() + x);
+  public Integer plus(int x) {
+    return integer(() -> get() + x);
   }
 
-  public Index plus(Index n) {
-    return index(() -> get() + n.get());
+  public Integer plus(Integer n) {
+    return integer(() -> get() + n.get());
   }
 
-  public Index times(int x) {
-    return index(() -> get() * x);
+  public Integer times(int x) {
+    return integer(() -> get() * x);
   }
 
-  public Index times(Index n) {
-    return index(() -> get() * n.get());
+  public Integer times(Integer n) {
+    return integer(() -> get() * n.get());
   }
 
   public <T> Value<T> select(T... values) {
@@ -88,7 +88,7 @@ public class Index implements Showable {
     init(null, x);
   }
 
-  void init(Index number) {
+  void init(Integer number) {
     init(number::get, 0);
   }
 
@@ -101,11 +101,11 @@ public class Index implements Showable {
     return () -> init(x);
   }
 
-  public Action set(Index number) {
+  public Action set(Integer number) {
     return () -> init(number);
   }
 
-  public Action capture(Index number) {
+  public Action capture(Integer number) {
     return () -> init(number.get());
   }
 
@@ -113,7 +113,7 @@ public class Index implements Showable {
     return () -> init(get() + d);
   }
 
-  public Action add(Index n) {
+  public Action add(Integer n) {
     return () -> init(get() + n.get());
   }
 

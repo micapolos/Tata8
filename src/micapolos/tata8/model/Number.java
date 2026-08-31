@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
+import static micapolos.tata8.model.Integer.integer;
+
 public class Number implements Showable {
   DoubleSupplier supplier;
   double defaultValue;
@@ -94,6 +96,14 @@ public class Number implements Showable {
     return number(() -> get() * n.get());
   }
 
+  public Number fraction() {
+    return number(() -> micapolos.tata8.Math.fract((float) get()));
+  }
+
+  public Integer integer() {
+    return Integer.integer(() -> (int) get());
+  }
+
   void init(double x) {
     init(null, x);
   }
@@ -133,6 +143,6 @@ public class Number implements Showable {
   }
 
   static void main() {
-    seconds.show();
+    seconds.times(100).integer().show();
   }
 }
