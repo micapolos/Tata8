@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Value.value;
 
 public class Bool extends Component {
   BooleanSupplier supplier;
@@ -28,15 +29,15 @@ public class Bool extends Component {
     return new Bool(false, aSupplier, false);
   }
 
-  public static Bool boolVariable() {
-    return boolVariable(false);
+  public static Bool variable() {
+    return variable(false);
   }
 
-  public static Bool boolVariable(boolean value) {
-    return boolVariable(() -> value);
+  public static Bool variable(boolean value) {
+    return variable(() -> value);
   }
 
-  static Bool boolVariable(BooleanSupplier aSupplier) {
+  static Bool variable(BooleanSupplier aSupplier) {
     return new Bool(true, aSupplier, false) {
       {
         Game.add(new Clip() {
@@ -75,6 +76,11 @@ public class Bool extends Component {
   public Action set(Bool x) {
     checkVariable();
     return () -> init(x);
+  }
+
+  public Action negate() {
+    checkVariable();
+    return () -> init(!get());
   }
 
   public Event changed() {
@@ -124,7 +130,7 @@ public class Bool extends Component {
   }
 
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
-    return Value.value(() -> get() ? trueValue.get() : falseValue.get());
+    return value(() -> get() ? trueValue.get() : falseValue.get());
   }
 
   public Number select(Number trueNumber, Number falseNumber) {

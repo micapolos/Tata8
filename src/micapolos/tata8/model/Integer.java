@@ -30,6 +30,7 @@ public class Integer extends Component {
   }
 
   public static Integer zero = integer(0);
+  public static Integer one = integer(1);
 
   public static Integer integer(int value) {
     return integer(() -> value);

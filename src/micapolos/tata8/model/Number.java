@@ -40,6 +40,8 @@ public class Number extends Component {
   }
 
   public static final Number zero = number(0);
+  public static final Number half = number(0.5f);
+  public static final Number one = number(1);
 
   public static Number number(double value) {
     return new Number(false, null, value);

@@ -3,7 +3,7 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
-import static micapolos.tata8.model.Bool.boolVariable;
+import static micapolos.tata8.model.Bool.variable;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
@@ -14,7 +14,7 @@ final class Chicken {
 
   final Sprite sprite = Sprite.sprite();
   final Number x = Number.variable(50);
-  final Bool isLeft = boolVariable();
+  final Bool isLeft = Bool.variable();
   final Clip clip;
 
   public Chicken() {
