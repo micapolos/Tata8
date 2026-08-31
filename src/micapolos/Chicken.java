@@ -49,18 +49,16 @@ final class Chicken {
       sprite.position.set(position),
       sprite.flip.x.set(isLeft));
 
-    Clip changeDirection =
+    Clip directionClip =
       select(
         on(Key.LEFT.press, direction.set(Direction.LEFT)),
         on(Key.RIGHT.press, direction.set(Direction.RIGHT)),
-        on(Key.LEFT.release.and(Key.RIGHT.isPressed), direction.set(Direction.RIGHT)),
-        on(Key.LEFT.release.and(not(Key.RIGHT.isPressed)), direction.set(Direction.FRONT)),
-        on(Key.RIGHT.release.and(Key.LEFT.isPressed), direction.set(Direction.LEFT)),
-        on(Key.RIGHT.release.and(not(Key.LEFT.isPressed)), direction.set(Direction.FRONT)));
+        on(Key.LEFT.release, direction.set(Key.RIGHT.isPressed.select(Direction.RIGHT, Direction.FRONT))),
+        on(Key.RIGHT.release, direction.set(Key.LEFT.isPressed.select(Direction.LEFT, Direction.FRONT))));
 
     clip = init.then(
       parallel(
-        changeDirection,
+        directionClip,
         select(on(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
         select(
           on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),

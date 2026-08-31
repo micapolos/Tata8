@@ -104,7 +104,7 @@ public class Bool extends Component {
       }
     };
   }
-  
+
   public Bool equals(boolean value) {
     return equals(bool(value));
   }
@@ -151,6 +151,10 @@ public class Bool extends Component {
 
   public Event changedTo(Bool bool) {
     return changed().and(equals(bool));
+  }
+
+  public <T> Value<T> select(T trueValue, T falseValue) {
+    return value(() -> get() ? trueValue : falseValue);
   }
 
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
