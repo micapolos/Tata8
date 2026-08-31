@@ -31,7 +31,7 @@ public class Number extends Component {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         number.setImmediately(number.get() + seconds);
         return 0;
       }

@@ -25,7 +25,7 @@ public final class Game {
 
   static void add(Clip clip) {
     initActions.add(clip::start);
-    steppers.add(clip::advance);
+    steppers.add(clip::step);
   }
 
   public static final Mouse mouse = new Mouse();
@@ -49,7 +49,7 @@ public final class Game {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         if (event.occurs()) {
           action.execute();
         }

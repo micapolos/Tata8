@@ -10,12 +10,12 @@ public abstract class Clip {
   abstract void start();
 
   /**
-   * Advances the clip.
+   * Performs the next step of the clip.
    *
-   * @param seconds the number Aof seconds to advance the clip.
-   * @return the number of remaining seconds if the clip finished while advancing.
+   * @param seconds the number of seconds to step.
+   * @return zero if there are more steps, or the number of seconds after the last step ended.
    */
-  abstract float advance(float seconds);
+  abstract float step(float seconds);
 
   @Deprecated(forRemoval = true)
   public final void startInternal() {
@@ -24,7 +24,7 @@ public abstract class Clip {
 
   @Deprecated(forRemoval = true)
   public final void advanceInternal(float seconds) {
-    advance(seconds);
+    step(seconds);
   }
 
   public static Clip instant(Action action) {
@@ -35,7 +35,7 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         return seconds;
       }
     };
@@ -58,7 +58,7 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         return stepper.step(seconds);
       }
     };
@@ -82,8 +82,8 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
-        return Clip.this.advance(seconds / scale);
+      float step(float seconds) {
+        return Clip.this.step(seconds / scale);
       }
     };
   }
@@ -102,7 +102,7 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         float diff = remainingSeconds - seconds;
         if (diff >= 0) {
           remainingSeconds = diff;
@@ -126,18 +126,18 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         if (isRunningFirst) {
-          float overflow = Clip.this.advance(seconds);
+          float overflow = Clip.this.step(seconds);
           if (overflow == 0) {
             return 0;
           } else {
             isRunningFirst = false;
             secondClip.start();
-            return secondClip.advance(seconds);
+            return secondClip.step(seconds);
           }
         } else {
-          return secondClip.advance(seconds);
+          return secondClip.step(seconds);
         }
       }
     };
@@ -157,13 +157,13 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         Clip clip = current();
         while (true) {
           if (clip == null) {
             return seconds;
           } else {
-            seconds = clip.advance(seconds);
+            seconds = clip.step(seconds);
             if (seconds == 0) {
               return 0;
             } else {
@@ -193,10 +193,10 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         float overflow = Float.POSITIVE_INFINITY;
         for (Clip clip : clips) {
-          overflow = java.lang.Math.min(overflow, clip.advance(seconds));
+          overflow = java.lang.Math.min(overflow, clip.step(seconds));
         }
         return overflow;
       }
@@ -213,10 +213,10 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         for (ConditionOption conditionOption : conditionOptions) {
           if (conditionOption.condition().get()) {
-            return conditionOption.clip.advance(seconds);
+            return conditionOption.clip.step(seconds);
           }
         }
         return 0;
@@ -236,9 +236,9 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         while (true) {
-          seconds = Clip.this.advance(seconds);
+          seconds = Clip.this.step(seconds);
           if (seconds == 0) {
             return 0;
           } else {
@@ -260,12 +260,12 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         while (true) {
           if (counter == 0) {
             return 0;
           }
-          float overflow = Clip.this.advance(seconds);
+          float overflow = Clip.this.step(seconds);
           if (overflow == 0) {
             return 0;
           } else {
@@ -291,10 +291,10 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         return current == null
           ? seconds
-          : current.advance(seconds);
+          : current.step(seconds);
       }
     };
   }
@@ -336,7 +336,7 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         for (EventOption option : options) {
           if (option.event.occurs()) {
             option.clip.start();
@@ -345,7 +345,7 @@ public abstract class Clip {
         }
 
         Clip clip = selectedOption != null ? selectedOption.clip : Clip.this;
-        return clip.advance(seconds);
+        return clip.step(seconds);
       }
     };
   }
@@ -361,13 +361,13 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         if (isRunning) {
           if (event.occurs()) {
             isRunning = false;
             return 0;
           } else {
-            return Clip.this.advance(seconds);
+            return Clip.this.step(seconds);
           }
         } else {
           return 0;
@@ -384,9 +384,9 @@ public abstract class Clip {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         return condition.get()
-          ? Clip.this.advance(seconds)
+          ? Clip.this.step(seconds)
           : 0;
       }
     };

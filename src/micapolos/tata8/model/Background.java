@@ -11,7 +11,7 @@ public final class Background {
       }
 
       @Override
-      float advance(float seconds) {
+      float step(float seconds) {
         micapolos.tata8.Game.background.color = color.get();
         return 0;
       }

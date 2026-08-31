@@ -59,7 +59,7 @@ public class Integer extends Component {
           }
 
           @Override
-          float advance(float seconds) {
+          float step(float seconds) {
             return 0;
           }
         });
