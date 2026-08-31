@@ -2,8 +2,7 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
-import static micapolos.tata8.Game.log;
-
+// TODO: Consider renaming to Span
 public abstract class Clip {
   /**
    * Starts the clip.

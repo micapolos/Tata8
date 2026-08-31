@@ -4,7 +4,7 @@ import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
 import static micapolos.tata8.model.Bool.bool;
-import static micapolos.tata8.model.Animated.animated;
+import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Value.value;
 
 public class Number extends Component {
@@ -22,7 +22,7 @@ public class Number extends Component {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  public static Animated<Number> seconds() {
+  public static Clipped<Number> clippedSeconds() {
     Number number = Number.variable();
     Clip clip = new Clip() {
       @Override
@@ -36,7 +36,7 @@ public class Number extends Component {
         return 0;
       }
     };
-    return animated(number, clip);
+    return clipped(number, clip);
   }
 
   public static Number random() {
@@ -182,6 +182,6 @@ public class Number extends Component {
   }
 
   static void main() {
-    seconds().map(Number::integer).show();
+    clippedSeconds().map(Number::integer).show();
   }
 }

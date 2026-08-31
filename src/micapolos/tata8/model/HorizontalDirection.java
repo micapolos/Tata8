@@ -6,9 +6,9 @@ import static micapolos.tata8.model.Clip.select;
 public enum HorizontalDirection {
   LEFT, RIGHT;
 
-  public static Animated<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
+  public static Clipped<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
     Value<HorizontalDirection> direction = Value.variable();
-    return Animated.animated(
+    return Clipped.clipped(
       direction.toValue(),
       select(
         on(Key.LEFT.press, direction.set(HorizontalDirection.LEFT)),
