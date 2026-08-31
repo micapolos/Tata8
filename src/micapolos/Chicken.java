@@ -7,6 +7,7 @@ import static micapolos.tata8.model.Bool.not;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Number.seconds;
 import static micapolos.tata8.model.Value.variable;
 
 final class Chicken {
@@ -52,8 +53,8 @@ final class Chicken {
     Clip directionClip =
       select(
         on(Key.LEFT.press, direction.set(Direction.LEFT)),
-        on(Key.RIGHT.press, direction.set(Direction.RIGHT)),
         on(Key.LEFT.release, direction.set(Key.RIGHT.isPressed.select(Direction.RIGHT, Direction.FRONT))),
+        on(Key.RIGHT.press, direction.set(Direction.RIGHT)),
         on(Key.RIGHT.release, direction.set(Key.LEFT.isPressed.select(Direction.LEFT, Direction.FRONT))));
 
     clip = init.then(
@@ -68,6 +69,9 @@ final class Chicken {
 
   static void main() {
     Chicken chicken = new Chicken();
-    chicken.clip.showWith(chicken.direction);
+    chicken.clip.showWith(
+      chicken.direction,
+      chicken.direction.mapToInteger(Direction::ordinal),
+      seconds);
   }
 }
