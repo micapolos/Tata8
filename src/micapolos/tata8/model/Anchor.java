@@ -36,26 +36,26 @@ public final class Anchor implements Showable {
   }
 
   void init(double x, double y) {
-    this.x.init(x);
-    this.y.init(y);
+    this.x.setImmediately(x);
+    this.y.setImmediately(y);
   }
 
   void init(Number x, Number y) {
-    this.x.init(x);
-    this.y.init(y);
+    this.x.setImmediately(x);
+    this.y.setImmediately(y);
   }
 
   public Action set(double x, double y) {
     return () -> {
-      this.x.init(x);
-      this.y.init(y);
+      this.x.setImmediately(x);
+      this.y.setImmediately(y);
     };
   }
 
   public Action set(Number x, Number y) {
     return () -> {
-      this.x.init(x);
-      this.y.init(y);
+      this.x.setImmediately(x);
+      this.y.setImmediately(y);
     };
   }
 

@@ -31,27 +31,45 @@ public final class Position implements Showable {
     return new Position(x, y);
   }
 
-  void init(double x, double y) {
+  void setImmediately(double x, double y) {
+    this.x.setImmediately(x);
+    this.y.setImmediately(y);
+  }
+
+  void setImmediately(Number x, Number y) {
+    this.x.setImmediately(x);
+    this.y.setImmediately(y);
+  }
+
+  void setImmediately(Position position) {
+    this.x.setImmediately(position.x);
+    this.y.setImmediately(position.y);
+  }
+
+  public void init(double x, double y) {
+    init(number(x), number(y));
+  }
+
+  public void init(Number x, Number y) {
     this.x.init(x);
     this.y.init(y);
   }
 
-  void init(Number x, Number y) {
-    this.x.init(x);
-    this.y.init(y);
+  public void init(Position position) {
+    init(position.x, position.y);
   }
 
   public Action set(double x, double y) {
     return () -> {
-      this.x.init(x);
-      this.y.init(y);
+      this.x.setImmediately(x);
+      this.y.setImmediately(y);
     };
   }
 
   public Action set(Number x, Number y) {
     return () -> {
-      this.x.init(x);
-      this.y.init(y);
+      this.x.setImmediately(x);
+      this.y.setImmediately(y);
     };
   }
 

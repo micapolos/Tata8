@@ -43,7 +43,7 @@ public class Bool extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(aSupplier, false);
+            setImmediately(aSupplier, false);
           }
 
           @Override
@@ -55,32 +55,40 @@ public class Bool extends Component {
     };
   }
 
-  void init(boolean x) {
-    init(null, x);
+  void setImmediately(boolean x) {
+    setImmediately(null, x);
   }
 
-  void init(Bool number) {
-    init(number::get, false);
+  void setImmediately(Bool number) {
+    setImmediately(number::get, false);
   }
 
-  void init(BooleanSupplier supplier, boolean defaultValue) {
+  void setImmediately(BooleanSupplier supplier, boolean defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
+  public void init(boolean b) {
+    init(() -> setImmediately(b));
+  }
+
+  public void init(Bool b) {
+    init(() -> setImmediately(b));
+  }
+
   public Action set(boolean x) {
     checkVariable();
-    return () -> init(x);
+    return () -> setImmediately(x);
   }
 
   public Action set(Bool x) {
     checkVariable();
-    return () -> init(x);
+    return () -> setImmediately(x);
   }
 
   public Action negate() {
     checkVariable();
-    return () -> init(!get());
+    return () -> setImmediately(!get());
   }
 
   public Event changed() {

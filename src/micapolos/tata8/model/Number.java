@@ -25,12 +25,12 @@ public class Number extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(0);
+            setImmediately(0);
           }
 
           @Override
           float advance(float seconds) {
-            init(get() + seconds);
+            setImmediately(get() + seconds);
             return 0;
           }
         });
@@ -63,7 +63,7 @@ public class Number extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(null, value);
+            setImmediately(null, value);
           }
 
           @Override
@@ -81,7 +81,7 @@ public class Number extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(aSupplier, 0);
+            setImmediately(aSupplier, 0);
           }
 
           @Override
@@ -129,32 +129,40 @@ public class Number extends Component {
     return Integer.integer(() -> (int) get());
   }
 
-  void init(double x) {
-    init(null, x);
+  void setImmediately(double x) {
+    setImmediately(null, x);
   }
 
-  void init(Number number) {
-    init(number::get, 0);
+  void setImmediately(Number number) {
+    setImmediately(number::get, 0);
   }
 
-  void init(DoubleSupplier supplier, double defaultValue) {
+  void setImmediately(DoubleSupplier supplier, double defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
+  public void init(double x) {
+    init(() -> setImmediately(x));
+  }
+
+  public void init(Number number) {
+    init(() -> setImmediately(number));
+  }
+
   public Action set(double x) {
     checkVariable();
-    return () -> init(x);
+    return () -> setImmediately(x);
   }
 
   public Action set(Number number) {
     checkVariable();
-    return () -> init(number);
+    return () -> setImmediately(number);
   }
 
   public Action capture(Number number) {
     checkVariable();
-    return () -> init(number.get());
+    return () -> setImmediately(number.get());
   }
 
   public Animation setElastic(double n) {
@@ -163,17 +171,17 @@ public class Number extends Component {
 
   public Animation setElastic(Number number) {
     checkVariable();
-    return seconds -> init(elastic((float) get(), (float) number.get()));
+    return seconds -> setImmediately(elastic((float) get(), (float) number.get()));
   }
 
   public Action add(double d) {
     checkVariable();
-    return () -> init(get() + d);
+    return () -> setImmediately(get() + d);
   }
 
   public Action add(Number n) {
     checkVariable();
-    return () -> init(get() + n.get());
+    return () -> setImmediately(get() + n.get());
   }
 
   @Override

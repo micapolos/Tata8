@@ -53,7 +53,7 @@ public final class Sprite implements Showable {
     Image image = image(Game.class, "depressedChicken.png").sliceVertically(8)[0];
     sprite.image.setImmediately(image);
     sprite.anchor.init(16, 16);
-    sprite.position.init(160, 128);
+    sprite.position.setImmediately(160, 128);
     sprite.show();
   }
 }
