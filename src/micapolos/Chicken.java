@@ -71,6 +71,6 @@ final class Chicken {
     chicken.clip.showWith(
       chicken.direction,
       chicken.direction.mapToInteger(Direction::ordinal),
-      seconds);
+      seconds().value);
   }
 }

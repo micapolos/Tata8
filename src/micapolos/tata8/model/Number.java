@@ -4,6 +4,7 @@ import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
 import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Element.element;
 import static micapolos.tata8.model.Value.value;
 
 public class Number extends Component {
@@ -21,13 +22,22 @@ public class Number extends Component {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  public static final Number seconds =
-    new Number(false, null, 0) {
-      {
-        Game.addInit(() -> setImmediately(0));
-        Game.add(seconds -> setImmediately(get() + seconds));
+  public static Element<Number> seconds() {
+    Number number = Number.variable();
+    Clip clip = new Clip() {
+      @Override
+      void start() {
+        number.setImmediately(0);
+      }
+
+      @Override
+      float advance(float seconds) {
+        number.setImmediately(number.get() + seconds);
+        return 0;
       }
     };
+    return element(number, clip);
+  }
 
   public static Number random() {
     return number(Math::random);
@@ -172,6 +182,6 @@ public class Number extends Component {
   }
 
   static void main() {
-    seconds.integer().show();
+    seconds().map(Number::integer).show();
   }
 }

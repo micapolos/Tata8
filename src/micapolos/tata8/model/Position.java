@@ -1,6 +1,9 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Clip.parallel;
+import static micapolos.tata8.model.Element.element;
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Number.seconds;
 
 public final class Position implements Showable {
   public final Number x;
@@ -71,6 +74,8 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    position(Number.seconds, Number.seconds).show();
+    Element<Number> x = seconds();
+    Element<Number> y = seconds();
+    element(position(x.value, y.value.negated()), parallel(x.clip, y.clip)).show();
   }
 }

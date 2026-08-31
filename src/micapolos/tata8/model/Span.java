@@ -1,6 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Clip.animated;
 
 public final class Span implements Showable {
   final Bool previous = Bool.variable();
@@ -20,12 +21,8 @@ public final class Span implements Showable {
     return new Span(bool);
   }
 
-  public Animation animation() {
-    return _ -> previous.setImmediately(current.get());
-  }
-
   public Clip clip() {
-    return animation().clip();
+    return animated(_ -> previous.setImmediately(current.get()));
   }
 
   @Override

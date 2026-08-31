@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.*;
+import static micapolos.tata8.model.Number.number;
 
 public final class Color implements Showable {
   public final Number red;
@@ -50,12 +50,9 @@ public final class Color implements Showable {
   }
 
   static void main() {
-    Bool isPulsating = Bool.variable();
-    Number intensity = isPulsating.select(seconds.fraction(), one);
-    Game.when(Key.X.press, isPulsating.negate());
     Color.rgb(
-      Key.LEFT.isPressed.select(Number.one, Number.zero).times(intensity),
-      Key.DOWN.isPressed.select(Number.one, Number.zero).times(intensity),
-      Key.RIGHT.isPressed.select(Number.one, Number.zero).times(intensity)).show();
+      Key.LEFT.isPressed.select(Number.one, Number.zero),
+      Key.DOWN.isPressed.select(Number.one, Number.zero),
+      Key.RIGHT.isPressed.select(Number.one, Number.zero)).show();
   }
 }
