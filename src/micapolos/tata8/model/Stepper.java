@@ -6,7 +6,9 @@ import micapolos.tata8.Speed;
 import static micapolos.tata8.model.Clip.animated;
 
 public interface Stepper {
-  /** Advances animation, and return 0 if animation has not ended, or the number of seconds after animation ended. */
+  /**
+   * Performs single step of given duration, return 0 if there are no more steps, or the number of seconds after the step ended.
+   */
   float step(float seconds);
 
   Stepper EMPTY = seconds -> seconds;
