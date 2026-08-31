@@ -52,7 +52,7 @@ public final class Color implements Showable {
   static void main() {
     Bool isPulsating = Bool.variable();
     Number intensity = isPulsating.select(seconds.fraction(), one);
-    Game.when(Key.X.pressed, isPulsating.negate());
+    Game.when(Key.X.press, isPulsating.negate());
     Color.rgb(
       Key.LEFT.isPressed.select(Number.one, Number.zero).times(intensity),
       Key.DOWN.isPressed.select(Number.one, Number.zero).times(intensity),

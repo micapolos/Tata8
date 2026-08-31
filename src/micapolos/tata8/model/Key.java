@@ -14,14 +14,14 @@ public enum Key implements Showable {
 
   private final micapolos.tata8.Key state;
 
-  public final Event pressed;
-  public final Event released;
+  public final Event press;
+  public final Event release;
   public final Bool isPressed;
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
-    this.pressed = when(state::pressed);
-    this.released = when(state::released);
+    this.press = when(state::pressed);
+    this.release = when(state::released);
     this.isPressed = bool(state::isPressed);
   }
 

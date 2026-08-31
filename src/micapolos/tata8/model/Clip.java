@@ -299,6 +299,11 @@ public abstract class Clip {
     };
   }
 
+  public static EventOption on(Event event, Clip clip) {
+    return when(event, clip);
+  }
+
+  @Deprecated
   public static EventOption when(Event event, Clip clip) {
     return new EventOption(event, clip);
   }
@@ -383,7 +388,7 @@ public abstract class Clip {
     };
   }
 
-  public static ConditionOption option(Bool condition, Clip clip) {
+  public static ConditionOption when(Bool condition, Clip clip) {
     return new ConditionOption(condition, clip);
   }
 

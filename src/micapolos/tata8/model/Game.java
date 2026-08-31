@@ -60,8 +60,8 @@ public final class Game {
   static void main() {
     Integer counter = Integer.variable();
     Integer increment = Integer.variable(1);
-    Game.when(Key.Z.pressed, counter.add(increment));
-    Game.when(Key.X.pressed, increment.add(1));
+    Game.when(Key.Z.press, counter.add(increment));
+    Game.when(Key.X.press, increment.add(1));
     counter.show();
   }
 }

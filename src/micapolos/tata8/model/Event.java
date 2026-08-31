@@ -33,6 +33,6 @@ public interface Event extends Showable {
   }
 
   static void main() {
-    Key.RIGHT.pressed.show();
+    Key.RIGHT.press.show();
   }
 }

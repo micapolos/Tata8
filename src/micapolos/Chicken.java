@@ -4,6 +4,7 @@ import micapolos.tata8.model.*;
 import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.model.Clip.*;
+import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Number.number;
 
@@ -43,11 +44,11 @@ final class Chicken {
 
     clip = init.then(
       parallel(
-        select(when(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
+        select(on(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
         select(
-          when(Key.RIGHT.pressed, instant(isLeft.set(false)).then(walk)),
-          when(Key.LEFT.pressed, instant(isLeft.set(true)).then(walk)),
-          when(any(Key.RIGHT.released, Key.LEFT.released), instant(stop)))));
+          on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
+          on(Key.LEFT.press, instant(isLeft.set(true)).then(walk)),
+          on(any(Key.RIGHT.release, Key.LEFT.release), instant(stop)))));
   }
 
   static void main() {
