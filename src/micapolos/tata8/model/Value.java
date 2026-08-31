@@ -57,6 +57,10 @@ public class Value<T> extends Component {
     return value(() -> function.apply(get()));
   }
 
+  public Value<T> mapToNotNull(T defaultValue) {
+    return map(value -> value != null ? value : defaultValue);
+  }
+
   public Number mapToNumber(ToDoubleFunction<T> function) {
     return number(() -> function.applyAsDouble(get()));
   }

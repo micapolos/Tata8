@@ -3,6 +3,8 @@ package micapolos.tata8.model;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.ToIntFunction;
 
 // TODO: Consider renaming to Spanned<T>.
 public final class Clipped<T> implements Showable {
@@ -26,6 +28,18 @@ public final class Clipped<T> implements Showable {
 
   public <R> Clipped<R> map(Function<T, R> function) {
     return clipped(function.apply(value), clip);
+  }
+
+  public static <T> Clipped<Value<T>> mapValueToNonNull(Clipped<Value<T>> clipped, T defaultValue) {
+    return clipped.map(value -> value.mapToNotNull(defaultValue));
+  }
+
+  public static <T> Clipped<Integer> mapValueToInteger(Clipped<Value<T>> clipped, ToIntFunction<T> function) {
+    return clipped.map(value -> value.mapToInteger(function));
+  }
+
+  public static <R> Clipped<Value<R>> mapIntegerToValue(Clipped<Integer> clipped, IntFunction<R> function) {
+    return clipped.map(value -> value.map(function));
   }
 
   @Override
