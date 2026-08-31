@@ -157,11 +157,11 @@ public class Number extends Component {
     return () -> setImmediately(number.get());
   }
 
-  public Animator setElastic(double n) {
+  public Stepper setElastic(double n) {
     return setElastic(number(n));
   }
 
-  public Animator setElastic(Number number) {
+  public Stepper setElastic(Number number) {
     checkVariable();
     return seconds -> {
       setImmediately(elastic((float) get(), (float) number.get()));

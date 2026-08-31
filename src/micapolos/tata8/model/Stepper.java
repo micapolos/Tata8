@@ -5,25 +5,25 @@ import micapolos.tata8.Speed;
 
 import static micapolos.tata8.model.Clip.animated;
 
-public interface Animator {
+public interface Stepper {
   /** Advances animation, and return 0 if animation has not ended, or the number of seconds after animation ended. */
-  float advance(float seconds);
+  float step(float seconds);
 
-  Animator EMPTY = seconds -> seconds;
+  Stepper EMPTY = seconds -> seconds;
 
   default Clip clip() {
     return animated(this);
   }
 
-  static Animator movingX(Position position, float speed) {
+  static Stepper movingX(Position position, float speed) {
     return seconds -> position.x += speed * seconds;
   }
 
-  static Animator movingY(Position position, float speed) {
+  static Stepper movingY(Position position, float speed) {
     return seconds -> position.y += speed * seconds;
   }
 
-  static Animator moving(Position position, float speedX, float speedY) {
+  static Stepper moving(Position position, float speedX, float speedY) {
     return seconds -> {
       position.x += speedX * seconds;
       position.y += speedX * seconds;
@@ -31,7 +31,7 @@ public interface Animator {
     };
   }
 
-  static Animator moving(Position position, Speed speed) {
+  static Stepper moving(Position position, Speed speed) {
     return moving(position, speed.x, speed.y);
   }
 }

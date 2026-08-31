@@ -50,7 +50,7 @@ public abstract class Clip {
     });
   }
 
-  public static Clip animated(Animator animator) {
+  public static Clip animated(Stepper stepper) {
     return new Clip() {
       @Override
       void start() {
@@ -59,12 +59,12 @@ public abstract class Clip {
 
       @Override
       float advance(float seconds) {
-        return animator.advance(seconds);
+        return stepper.step(seconds);
       }
     };
   }
 
-  public static final Clip EMPTY = animated(Animator.EMPTY);
+  public static final Clip EMPTY = animated(Stepper.EMPTY);
 
   public static Clip frame(Action action) {
     return frame(1, action);
