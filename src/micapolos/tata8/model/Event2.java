@@ -24,7 +24,11 @@ public final class Event2 extends Component {
   }
 
   public static Event2 event(Event2 event) {
-    return new Event2(false, event::occurs, false);
+    return event(event::occurs);
+  }
+
+  public static Event2 event(BooleanSupplier occursSupplier) {
+    return new Event2(false, occursSupplier, false);
   }
 
   public static Event2 variable() {
@@ -46,6 +50,20 @@ public final class Event2 extends Component {
 
   public void init(Event2 event) {
     init(() -> setImmediately(event));
+  }
+
+  public Event2 and(Bool bool) {
+    return event(() -> occurs() && bool.get());
+  }
+
+  public static Event2 any(Event... events) {
+    return event(() -> {
+      boolean any = false;
+      for (Event event : events) {
+        any |= event.didHappen();
+      }
+      return any;
+    });
   }
 
   @Override
