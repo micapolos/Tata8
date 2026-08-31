@@ -49,7 +49,7 @@ public abstract class Clip {
     });
   }
 
-  public static Clip with(Animation animation) {
+  public static Clip animated(Animation animation) {
     return new Clip() {
       @Override
       void start() {
@@ -64,7 +64,7 @@ public abstract class Clip {
     };
   }
 
-  public static final Clip EMPTY = with(Animation.EMPTY);
+  public static final Clip EMPTY = animated(Animation.EMPTY);
 
   public static Clip frame(Action action) {
     return frame(1, action);
@@ -311,6 +311,10 @@ public abstract class Clip {
       this.event = event;
       this.clip = clip;
     }
+  }
+
+  public static Clip select(EventOption... options) {
+    return instant().thenSelect(options);
   }
 
   public final Clip thenSelect(EventOption... options) {

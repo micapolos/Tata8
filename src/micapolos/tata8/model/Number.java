@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
+import static micapolos.tata8.Math.elastic;
+
 public class Number extends Component {
   DoubleSupplier supplier;
   double defaultValue;
@@ -149,6 +151,15 @@ public class Number extends Component {
   public Action capture(Number number) {
     checkVariable();
     return () -> init(number.get());
+  }
+
+  public Animation setElastic(double n) {
+    return setElastic(number(n));
+  }
+
+  public Animation setElastic(Number number) {
+    checkVariable();
+    return seconds -> init(elastic((float) get(), (float) number.get()));
   }
 
   public Action add(double d) {

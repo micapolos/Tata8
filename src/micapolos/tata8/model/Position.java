@@ -59,6 +59,10 @@ public final class Position implements Showable {
     return Action.sequence(x.set(position.x), y.set(position.y));
   }
 
+  public Action capture(Position position) {
+    return Action.sequence(x.capture(position.x), y.capture(position.y));
+  }
+
   @Override
   public String toString() {
     return String.format("position(x: %s, y: %s)", x, y);

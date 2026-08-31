@@ -41,10 +41,13 @@ final class Chicken {
       sprite.position.set(position),
       sprite.flip.x.set(isLeft));
 
-    clip = init.thenSelect(
-      when(Key.RIGHT.pressed, instant(isLeft.set(false)).then(walk)),
-      when(Key.LEFT.pressed, instant(isLeft.set(true)).then(walk)),
-      when(any(Key.RIGHT.released, Key.LEFT.released), instant(stop)));
+    clip = init.then(
+      parallel(
+        select(when(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
+        select(
+          when(Key.RIGHT.pressed, instant(isLeft.set(false)).then(walk)),
+          when(Key.LEFT.pressed, instant(isLeft.set(true)).then(walk)),
+          when(any(Key.RIGHT.released, Key.LEFT.released), instant(stop)))));
   }
 
   static void main() {
