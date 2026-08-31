@@ -4,7 +4,7 @@ import micapolos.tata8.Random;
 
 import java.util.function.Supplier;
 
-public final class Value<T> implements Showable {
+public class Value<T> extends Component {
   Supplier<T> supplier;
   T defaultValue;
 
@@ -19,15 +19,30 @@ public final class Value<T> implements Showable {
   }
 
   static <T> Value<T> value() {
-    return new Value<>(null, null);
+    return new Value<>(null, null) {
+      @Override
+      void start() {
+        init(null, null);
+      }
+    };
   }
 
   static <T> Value<T> value(T value) {
-    return new Value<>(null, value);
+    return new Value<>(null, value) {
+      @Override
+      void start() {
+        init(null, value);
+      }
+    };
   }
 
-  static <T> Value<T> value(Supplier<T> supplier) {
-    return new Value<>(supplier, null);
+  static <T> Value<T> value(Supplier<T> aSupplier) {
+    return new Value<>(aSupplier, null) {
+      @Override
+      void start() {
+        init(aSupplier, null);
+      }
+    };
   }
 
   void init(T value) {
@@ -51,8 +66,12 @@ public final class Value<T> implements Showable {
     return () -> init(value);
   }
 
-  public Action setRandomOf(T... values) {
-    return () -> init(values[Random.until(values.length)]);
+  public Action capture(Value<T> value) {
+    return () -> init(value.get());
+  }
+
+  public static <T> Value<T> randomFrom(T... values) {
+    return value(() -> values[Random.until(values.length)]);
   }
 
   @Override

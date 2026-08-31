@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
+import static micapolos.tata8.Game.keys;
+
 public abstract class Clip {
   /**
    * Starts the clip.
@@ -215,7 +217,7 @@ public abstract class Clip {
       @Override
       float advance(float seconds) {
         for (ConditionOption conditionOption : conditionOptions) {
-          if (conditionOption.condition().isHappening()) {
+          if (conditionOption.condition().get()) {
             return conditionOption.clip.advance(seconds);
           }
         }
@@ -363,7 +365,7 @@ public abstract class Clip {
     };
   }
 
-  public final Clip runWhile(Condition condition) {
+  public final Clip runWhile(Bool condition) {
     return new Clip() {
       @Override
       void start() {
@@ -372,23 +374,28 @@ public abstract class Clip {
 
       @Override
       float advance(float seconds) {
-        return condition.isHappening()
+        return condition.get()
           ? Clip.this.advance(seconds)
           : 0;
       }
     };
   }
 
-  public static ConditionOption option(Condition condition, Clip clip) {
+  public static ConditionOption option(Bool condition, Clip clip) {
     return new ConditionOption(condition, clip);
   }
 
-  public record ConditionOption(Condition condition, Clip clip) {
+  public record ConditionOption(Bool condition, Clip clip) {
   }
 
   public final void show() {
     start();
-    Game.add(() -> advance(1/60f));
+    Game.add(() -> {
+      if (keys.reset.pressed()) {
+        start();
+      }
+      advance(1/60f);
+    });
     Game.show();
   }
 

@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Number.number;
 
-public final class Bool implements Showable {
+public class Bool extends Component {
   BooleanSupplier supplier;
   boolean defaultValue;
 
@@ -24,11 +24,21 @@ public final class Bool implements Showable {
   }
 
   public static Bool bool(boolean value) {
-    return new Bool(null, value);
+    return new Bool(null, value) {
+      @Override
+      void start() {
+        init(value);
+      }
+    };
   }
 
-  static Bool bool(BooleanSupplier supplier) {
-    return new Bool(supplier, false);
+  static Bool bool(BooleanSupplier aSupplier) {
+    return new Bool(aSupplier, false) {
+      @Override
+      void start() {
+        init(aSupplier, false);
+      }
+    };
   }
 
   void init(boolean x) {
@@ -67,12 +77,16 @@ public final class Bool implements Showable {
     };
   }
 
-  public Condition equals(boolean value) {
+  public Bool equals(boolean value) {
     return equals(bool(value));
   }
 
-  public Condition equals(Bool value) {
-    return () -> get() == value.get();
+  public Bool equals(Bool value) {
+    return bool(() -> get() == value.get());
+  }
+
+  public static Bool not(Bool value) {
+    return bool(() -> !value.get());
   }
 
   public Event changedTo(boolean value) {
@@ -97,6 +111,6 @@ public final class Bool implements Showable {
   }
 
   static void main() {
-    Bool.bool(false).show();
+    bool(false).show();
   }
 }

@@ -1,10 +1,11 @@
 package micapolos.tata8.model;
 
-public final class Flip implements Showable {
+public final class Flip extends Child {
   public final Bool x;
   public final Bool y;
 
   Flip(Bool x, Bool y) {
+    super(x, y);
     this.x = x;
     this.y = y;
   }

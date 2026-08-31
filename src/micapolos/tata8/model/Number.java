@@ -2,7 +2,7 @@ package micapolos.tata8.model;
 
 import java.util.function.DoubleSupplier;
 
-public final class Number implements Showable {
+public class Number extends Component {
   DoubleSupplier supplier;
   double defaultValue;
 
@@ -16,16 +16,45 @@ public final class Number implements Showable {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
+  public static Number seconds() {
+    return new Number(null, 0) {
+      @Override
+      void start() {
+        init(0);
+      }
+
+      @Override
+      float advance(float seconds) {
+        init(get() + seconds);
+        return 0;
+      }
+    };
+  }
+
+  public static Number randomNumber() {
+    return number(Math::random);
+  }
+
   public static Number number() {
     return number(0);
   }
 
   public static Number number(double value) {
-    return new Number(null, value);
+    return new Number(null, value) {
+      @Override
+      void start() {
+        init(null, value);
+      }
+    };
   }
 
-  public static Number number(DoubleSupplier supplier) {
-    return new Number(supplier, 0);
+  public static Number number(DoubleSupplier aSupplier) {
+    return new Number(aSupplier, 0) {
+      @Override
+      void start() {
+        init(aSupplier, 0);
+      }
+    };
   }
 
   public Number plus(double x) {
@@ -65,6 +94,10 @@ public final class Number implements Showable {
     return () -> init(number);
   }
 
+  public Action capture(Number number) {
+    return () -> init(number.get());
+  }
+
   public Action add(double d) {
     return () -> init(get() + d);
   }
@@ -79,7 +112,6 @@ public final class Number implements Showable {
   }
 
   static void main() {
-    long now = System.currentTimeMillis();
-    number(() -> (int) (System.currentTimeMillis() - now)).show();
+    seconds().show();
   }
 }

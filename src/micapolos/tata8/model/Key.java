@@ -1,7 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.Game.keys;
-import static micapolos.tata8.model.Condition.onlyIf;
+import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Event.when;
 
 public enum Key implements Showable {
@@ -16,13 +16,13 @@ public enum Key implements Showable {
 
   public final Event pressed;
   public final Event released;
-  public final Condition isPressed;
+  public final Bool isPressed;
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
     this.pressed = when(state::pressed);
     this.released = when(state::released);
-    this.isPressed = onlyIf(state::isPressed);
+    this.isPressed = bool(state::isPressed);
   }
 
   @Override
