@@ -5,6 +5,7 @@ import micapolos.tata8.Random;
 import java.util.function.*;
 
 import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Value.value;
 
 public class Integer extends Component {
@@ -67,40 +68,40 @@ public class Integer extends Component {
     };
   }
 
-  public <R> Value<R> map(IntFunction<R> function) {
-    return value(() -> function.apply(get()));
-  }
-
-  public Integer mapToInteger(IntUnaryOperator function) {
-    return Integer.integer(() -> function.applyAsInt(get()));
+  public Integer update(IntUnaryOperator operator) {
+    return integer(() -> operator.applyAsInt(get()));
   }
 
   public Number mapToNumber(IntToDoubleFunction function) {
-    return Number.number(() -> function.applyAsDouble(get()));
+    return number(() -> function.applyAsDouble(get()));
   }
 
   public Bool mapToBool(IntPredicate function) {
     return bool(() -> function.test(get()));
   }
 
+  public <R> Value<R> mapToValue(IntFunction<R> function) {
+    return value(() -> function.apply(get()));
+  }
+
   public Integer plus(int x) {
-    return integer(() -> get() + x);
+    return update(i -> i + x);
   }
 
   public Integer plus(Integer n) {
-    return integer(() -> get() + n.get());
+    return update(i -> i + n.get());
   }
 
   public Integer times(int x) {
-    return integer(() -> get() * x);
+    return update(i -> i * x);
   }
 
   public Integer times(Integer n) {
-    return integer(() -> get() * n.get());
+    return update(i -> i * n.get());
   }
 
-  public <T> Value<T> select(T... values) {
-    return value(() -> values[Math.floorMod(get(), values.length)]);
+  public <T> Value<T> selectValue(T... values) {
+    return mapToValue(i -> values[Math.floorMod(i, values.length)]);
   }
 
   void init(int x) {

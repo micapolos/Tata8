@@ -46,7 +46,7 @@ public final class Clipped<T> implements Showable {
   }
 
   public static <R> Clipped<Value<R>> mapIntegerToValue(Clipped<Integer> clipped, IntFunction<R> function) {
-    return clipped.map(value -> value.map(function));
+    return clipped.map(value -> value.mapToValue(function));
   }
 
   @Override

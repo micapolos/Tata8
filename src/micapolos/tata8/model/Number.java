@@ -123,7 +123,7 @@ public class Number extends Component {
   }
 
   public Integer integer() {
-    return Integer.integer(() -> (int) get());
+    return mapToInteger(d -> (int) d);
   }
 
   void setImmediately(double x) {

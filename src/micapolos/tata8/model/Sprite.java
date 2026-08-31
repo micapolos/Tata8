@@ -46,7 +46,6 @@ public final class Sprite implements Showable {
   }
 
   void sync() {
-    IO.println("PosX: " + position.x.get());
     state.image = ifNotNull(image.get(), it -> it.state);
     state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
     state.position.set((float) position.x.get(), (float) position.y.get());
