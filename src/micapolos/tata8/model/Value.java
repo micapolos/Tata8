@@ -119,7 +119,7 @@ public class Value<T> extends Component {
   }
 
   static void main() {
-    long now = System.currentTimeMillis();
-    Value.value(() -> (int) (System.currentTimeMillis() - now)).show();
+    var images = Image.image(Value.class, "depressedChicken.png").sliceVertically(8);
+    value(images[0]).show();
   }
 }

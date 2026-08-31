@@ -2,7 +2,6 @@ package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.tata8.model.Game.add;
 import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Value.value;
 

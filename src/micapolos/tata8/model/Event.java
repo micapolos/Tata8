@@ -78,6 +78,6 @@ public final class Event extends Component {
   }
 
   static void main() {
-    Key.RIGHT.press.show();
+    Key.RIGHT.press.and(Key.Z.isPressed).show();
   }
 }

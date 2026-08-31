@@ -3,6 +3,7 @@ package micapolos.tata8.model;
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
+import static micapolos.tata8.Math.fract;
 import static micapolos.tata8.model.Bool.bool;
 import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Value.value;
@@ -69,7 +70,11 @@ public class Number extends Component {
     return number;
   }
 
-  public <R> Value<R> map(DoubleFunction<R> function) {
+  public Number map(DoubleUnaryOperator operator) {
+    return number(() -> operator.applyAsDouble(get()));
+  }
+
+  public <R> Value<R> mapToValue(DoubleFunction<R> function) {
     return value(() -> function.apply(get()));
   }
 
@@ -86,35 +91,35 @@ public class Number extends Component {
   }
 
   public Number negated() {
-    return number(() -> -get());
+    return map(d -> -d);
   }
 
   public Number plus(double x) {
-    return number(() -> get() + x);
+    return map(d -> d + x);
   }
 
   public Number plus(Number n) {
-    return number(() -> get() + n.get());
+    return map(d -> d + n.get());
   }
 
   public Number minus(double x) {
-    return number(() -> get() - x);
+    return map(d -> d - x);
   }
 
   public Number minus(Number n) {
-    return number(() -> get() - n.get());
+    return map(d -> d - n.get());
   }
 
   public Number times(double x) {
-    return number(() -> get() * x);
+    return map(d -> d * x);
   }
 
   public Number times(Number n) {
-    return number(() -> get() * n.get());
+    return map(d -> d * n.get());
   }
 
   public Number fraction() {
-    return number(() -> micapolos.tata8.Math.fract((float) get()));
+    return map(d -> fract((float) get()));
   }
 
   public Integer integer() {
