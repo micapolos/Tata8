@@ -2,6 +2,9 @@ package micapolos;
 
 import micapolos.tata8.model.*;
 
+import static micapolos.tata8.model.Image.image;
+import static micapolos.tata8.model.Sprite.newSprite;
+
 public class SocksGirl {
   static int imageIndex(Direction direction) {
     return switch (direction) {
@@ -17,7 +20,7 @@ public class SocksGirl {
   }
 
   static void main() {
-    var sheetImage = Image.image(SocksGirl.class, "socksgirl-sheet.png");
+    var sheetImage = image(SocksGirl.class, "socksgirl-sheet.png");
     var sheetImages = sheetImage.sliceVertically(12);
     var clippedDirectionOrNullValue = Direction.fromSpans(
       Key.LEFT.pressedSpan(),
@@ -28,7 +31,7 @@ public class SocksGirl {
     var clippedImageInteger = Clipped.mapValueToInteger(clippedDirectionValue, SocksGirl::imageIndex);
     var clippedImageValue = Clipped.mapIntegerToValue(clippedImageInteger, idx -> sheetImages[idx]);
     var clippedSprite = clippedImageValue.map(image -> {
-      var sprite = Sprite.newSprite();
+      var sprite = newSprite();
       sprite.image.init(image);
       sprite.position.init(100, 100);
       return sprite;

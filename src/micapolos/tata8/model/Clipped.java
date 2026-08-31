@@ -6,6 +6,9 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.ToIntFunction;
 
+import static micapolos.tata8.model.Clip.instant;
+import static micapolos.tata8.model.Value.value;
+
 // TODO: Consider renaming to Spanned<T>.
 public final class Clipped<T> implements Showable {
   public final T value;
@@ -53,6 +56,8 @@ public final class Clipped<T> implements Showable {
 
   @Override
   public void show() {
+    var x = clipped(value("string"), instant());
+
     clip.showWith(this);
   }
 }

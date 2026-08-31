@@ -38,7 +38,11 @@ public enum Direction {
     }
   }
 
-  public static Clipped<Value<Direction>> fromSpans(Span leftPressedSpan, Span rightPressedSpan, Span upPressedSpan, Span downPressedSpan) {
+  public static Clipped<Value<Direction>> fromSpans(
+    Span leftPressedSpan,
+    Span rightPressedSpan,
+    Span upPressedSpan,
+    Span downPressedSpan) {
     var verticalDirection = VerticalDirection.fromSpans(upPressedSpan, downPressedSpan);
     var horizontalDirection = HorizontalDirection.fromSpans(leftPressedSpan, rightPressedSpan);
     return clipped(
