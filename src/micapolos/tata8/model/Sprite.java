@@ -36,7 +36,8 @@ public final class Sprite implements Showable {
   }
 
   void sync() {
-    state.image = image.get().state;
+    var image = this.image.get();
+    state.image = image != null ? image.state : null;
     state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
     state.position.set((float) position.x.get(), (float) position.y.get());
     state.flip.set(flip.x.get(), flip.y.get());
