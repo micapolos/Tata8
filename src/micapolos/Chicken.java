@@ -11,7 +11,7 @@ import static micapolos.tata8.model.Number.number;
 final class Chicken {
   static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-  final Sprite sprite = Sprite.newSprite();
+  final Sprite sprite = Sprite.sprite();
   final Number x = number(50);
   final Bool isLeft = bool();
   final Clip clip;

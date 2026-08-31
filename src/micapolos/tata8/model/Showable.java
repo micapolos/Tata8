@@ -13,7 +13,7 @@ public interface Showable {
 
         @Override
         float advance(float seconds) {
-          log(this);
+          log(Showable.this);
           return 0;
         }
       }

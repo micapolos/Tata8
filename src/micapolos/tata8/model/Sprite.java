@@ -18,7 +18,7 @@ public final class Sprite implements Showable {
     this.state = state;
   }
 
-  public static Sprite newSprite() {
+  public static Sprite sprite() {
     Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
     add(new Clip() {
       @Override
@@ -48,7 +48,7 @@ public final class Sprite implements Showable {
   }
 
   static void main() {
-    Sprite sprite = newSprite();
+    Sprite sprite = sprite();
     Image image = image(Game.class, "depressedChicken.png").sliceVertically(8)[0];
     sprite.image.init(image);
     sprite.anchor.init(16, 16);

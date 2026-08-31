@@ -61,6 +61,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    position(Number.seconds(), Number.seconds()).show();
+    position(Number.seconds, Number.seconds).show();
   }
 }

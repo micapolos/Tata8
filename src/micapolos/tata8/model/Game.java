@@ -15,12 +15,17 @@ public final class Game {
 
   public static final Mouse mouse = new Mouse();
 
+  static boolean startedValue;
+  static Event started = () -> startedValue;
+
   public static void show() {
+    startedValue = true;
     for (Clip clip : clips) {
       clip.start();
     }
     onUpdate = () -> {
       if (keys.reset.pressed()) {
+        startedValue = true;
         for (Clip clip : clips) {
           clip.start();
         }
@@ -28,6 +33,7 @@ public final class Game {
       for (Clip clip : clips) {
         clip.advance(1/60f);
       }
+      startedValue = false;
     };
     micapolos.tata8.Game.start();
   }

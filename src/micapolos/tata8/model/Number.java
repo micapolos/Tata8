@@ -16,8 +16,8 @@ public class Number implements Showable {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  public static Number seconds() {
-    return new Number(null, 0) {
+  public static final Number seconds =
+    new Number(null, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -33,7 +33,6 @@ public class Number implements Showable {
         });
       }
     };
-  }
 
   public static Number randomNumber() {
     return number(Math::random);
@@ -134,6 +133,6 @@ public class Number implements Showable {
   }
 
   static void main() {
-    seconds().show();
+    seconds.show();
   }
 }
