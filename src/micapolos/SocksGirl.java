@@ -23,6 +23,7 @@ public class SocksGirl {
   static void main() {
     var sheetImage = Image.load(SocksGirl.class, "socksgirl-sheet.png");
     var sheetImages = sheetImage.sliceVertically(12);
+    
     var imageValue = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())
       .orIfNull(Direction.DOWN)
