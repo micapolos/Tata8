@@ -6,7 +6,7 @@ import static micapolos.tata8.model.Flip.noFlip;
 import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Position.position;
 
-public final class Sprite extends Component {
+public class Sprite extends Component {
   final micapolos.tata8.Sprite state;
   public final Value<Image> image;
   public final Anchor anchor;
@@ -27,7 +27,6 @@ public final class Sprite extends Component {
 
   @Override
   void addClips() {
-    IO.println("add clips");
     image.maybeAddClips();
     anchor.maybeAddClips();
     position.maybeAddClips();
@@ -67,6 +66,16 @@ public final class Sprite extends Component {
 
   public Sprite with(Flip flip) {
     return new Sprite(state, image, anchor, position, flip);
+  }
+
+  public Sprite with(Clip clip) {
+    return new Sprite(state, image, anchor, position, flip) {
+      @Override
+      void addClips() {
+        super.addClips();
+        Game.add(clip);
+      }
+    };
   }
 
   @Override

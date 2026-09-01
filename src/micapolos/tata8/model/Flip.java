@@ -16,16 +16,16 @@ public final class Flip extends Component {
   }
 
   public static Flip newVariable() {
-    return with(Boolean.newVariable(), Boolean.newVariable());
+    return flip(Boolean.newVariable(), Boolean.newVariable());
   }
 
-  public static final Flip noFlip = with(false, false);
+  public static final Flip noFlip = flip(false, false);
 
-  public static Flip with(boolean x, boolean y) {
-    return with(Boolean.bool(x), Boolean.bool(y));
+  public static Flip flip(boolean x, boolean y) {
+    return flip(Boolean.bool(x), Boolean.bool(y));
   }
 
-  public static Flip with(Boolean x, Boolean y) {
+  public static Flip flip(Boolean x, Boolean y) {
     return new Flip(x, y);
   }
 
