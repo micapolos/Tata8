@@ -118,7 +118,7 @@ public class Integer extends Component {
     return update(n, IntegerUtils::times);
   }
 
-  public Number toNumber() {
+  public Number number() {
     return mapToNumber(IntegerUtils::toDouble);
   }
 

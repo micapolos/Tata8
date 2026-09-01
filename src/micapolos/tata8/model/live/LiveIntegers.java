@@ -27,7 +27,7 @@ public final class LiveIntegers {
   }
 
   public static Live<Number> toNumber(Live<Integer> a) {
-    return a.map(Integer::toNumber);
+    return a.map(Integer::number);
   }
 
   public static <R> Live<Value<R>> get(Live<Integer> index, R... values) {
