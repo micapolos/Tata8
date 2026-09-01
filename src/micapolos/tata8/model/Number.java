@@ -62,7 +62,6 @@ public class Number extends ValueComponent {
       Game.add(new Runner() {
         @Override
         public void init() {
-          commitSupplier = null;
           commitDefaultValue = 0;
         }
 
@@ -73,7 +72,6 @@ public class Number extends ValueComponent {
 
         @Override
         public void commit() {
-          supplier = commitSupplier;
           defaultValue = commitDefaultValue;
         }
       });
