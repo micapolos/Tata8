@@ -1,9 +1,11 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Action.noAction;
+
 public class Component implements Showable {
   public final boolean isVariable;
   boolean didAddClips;
-  Action initialize = Action.EMPTY;
+  Action initialize = noAction;
 
   Component() {
     this(false);

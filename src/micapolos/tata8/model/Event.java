@@ -48,10 +48,6 @@ public final class Event extends Component {
     defaultOccurs = false;
   }
 
-  public void init(Event event) {
-    init(() -> setImmediately(event));
-  }
-
   public Event or(Event event) {
     return with(() -> occurs() && event.occurs());
   }

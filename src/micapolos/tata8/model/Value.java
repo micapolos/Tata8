@@ -129,6 +129,35 @@ public class Value<T> extends Component {
     };
   }
 
+  public Action mapToAction(Runnable runnable) {
+    return new Action() {
+      @Override
+      void execute() {
+        runnable.run();
+      }
+
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
+  }
+
+  public Action mapToAction(Component component, Runnable runnable) {
+    return new Action() {
+      @Override
+      void execute() {
+        runnable.run();
+      }
+
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+        component.maybeAddClips();
+      }
+    };
+  }
+
   public <R> Value<R> map(Function<T, R> function) {
     return new Value<>(() -> function.apply(get())) {
       @Override
@@ -192,31 +221,23 @@ public class Value<T> extends Component {
     this.defaultValue = defaultValue;
   }
 
-  public void init(T value) {
-    init(() -> setImmediately(value));
-  }
-
-  public void init(Value<T> value) {
-    init(() -> setImmediately(value));
-  }
-
   public Action set(T value) {
     checkVariable();
-    return () -> setImmediately(value);
+    return mapToAction(() -> setImmediately(value));
   }
 
   public Action set(Value<T> value) {
     checkVariable();
-    return () -> setImmediately(value);
+    return mapToAction(value, () -> setImmediately(value));
   }
 
   public Action capture(Value<T> value) {
     checkVariable();
-    return () -> setImmediately(value.get());
+    return mapToAction(value, () -> setImmediately(value.get()));
   }
 
   public static <T> Value<T> randomFrom(T... values) {
-    return value(() -> values[Random.until(values.length)]);
+    return new Value<>(() -> values[Random.until(values.length)]);
   }
 
   @Override

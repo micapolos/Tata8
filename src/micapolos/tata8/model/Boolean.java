@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
+import static micapolos.tata8.model.Action.action;
+
 public class Boolean extends Component {
   BooleanSupplier supplier;
   boolean defaultValue;
@@ -21,11 +23,11 @@ public class Boolean extends Component {
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }
 
-  public static Boolean with(boolean b) {
+  public static Boolean bool(boolean b) {
     return new Boolean(false, null, b);
   }
 
-  static Boolean with(BooleanSupplier aSupplier) {
+  static Boolean bool(BooleanSupplier aSupplier) {
     return new Boolean(false, aSupplier, false);
   }
 
@@ -39,7 +41,7 @@ public class Boolean extends Component {
 
   static Boolean newVariable(BooleanSupplier supplier) {
     var bool = new Boolean(true, supplier, false);
-    Game.addInit(() -> bool.setImmediately(supplier, false));
+    Game.addInit(action(() -> bool.setImmediately(supplier, false)));
     return bool;
   }
 
@@ -56,79 +58,135 @@ public class Boolean extends Component {
     this.defaultValue = defaultValue;
   }
 
-  public void init(boolean b) {
-    init(() -> setImmediately(b));
-  }
-
-  public void init(Boolean b) {
-    init(() -> setImmediately(b));
-  }
-
   public Action set(boolean x) {
-    checkVariable();
-    return () -> setImmediately(x);
+    return set(Boolean.bool(x));
   }
 
   public Action set(Boolean x) {
     checkVariable();
-    return () -> setImmediately(x);
+    return new Action() {
+      @Override
+      void execute() {
+        setImmediately(x);
+      }
+
+      @Override
+      void addClips() {
+        Boolean.this.maybeAddClips();
+      }
+    };
   }
 
   public Action negate() {
     checkVariable();
-    return () -> setImmediately(!get());
+    return new Action() {
+      @Override
+      void execute() {
+        setImmediately(!get());
+      }
+
+      @Override
+      void addClips() {
+        Boolean.this.maybeAddClips();
+      }
+    };
   }
 
   public Boolean equals(boolean value) {
-    return equals(with(value));
+    return equals(bool(value));
   }
 
   public Boolean equals(Boolean value) {
-    return with(() -> get() == value.get());
+    return new Boolean(() -> get() == value.get()) {
+      @Override
+      void addClips() {
+        Boolean.this.maybeAddClips();
+        value.maybeAddClips();
+      }
+    };
   }
 
   public static Boolean not(Boolean value) {
-    return with(() -> !value.get());
+    return new Boolean(() -> !value.get()) {
+      @Override
+      void addClips() {
+        value.maybeAddClips();
+      }
+    };
   }
 
   public static Boolean all(Boolean... aBooleans) {
-    return with(() -> {
+    return new Boolean(() -> {
       boolean value = true;
       for (Boolean aBoolean : aBooleans) {
         value &= aBoolean.get();
       }
       return value;
-    });
+    }) {
+      @Override
+      void addClips() {
+        for (Boolean bool : aBooleans) {
+          bool.maybeAddClips();
+        }
+      }
+    };
   }
 
   public static Boolean any(Boolean... aBooleans) {
-    return with(() -> {
+    return new Boolean(() -> {
       boolean value = false;
       for (Boolean aBoolean : aBooleans) {
         value |= aBoolean.get();
       }
       return value;
-    });
+    }) {
+      @Override
+      void addClips() {
+        for (Boolean bool : aBooleans) {
+          bool.maybeAddClips();
+        }
+      }
+    };
   }
 
   public Boolean and(Boolean aBoolean) {
-    return with(() -> get() && aBoolean.get());
+    return new Boolean(() -> get() && aBoolean.get()) {
+      @Override
+      void addClips() {
+        Boolean.this.maybeAddClips();
+        aBoolean.addClips();
+      }
+    };
   }
 
   public Boolean or(Boolean aBoolean) {
-    return with(() -> get() || aBoolean.get());
+    return new Boolean(() -> get() || aBoolean.get()) {
+      @Override
+      void addClips() {
+        Boolean.this.maybeAddClips();
+        aBoolean.addClips();
+      }
+    };
   }
 
-  public <T> Value<T> select(T trueValue, T falseValue) {
-    return Value.value(() -> get() ? trueValue : falseValue);
-  }
-
-  public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
-    return Value.value(() -> get() ? trueValue.get() : falseValue.get());
+  public <T> Value<T> selectValue(T trueValue, T falseValue) {
+    return new Value<>(() -> get() ? trueValue : falseValue) {
+      @Override
+      void addClips() {
+        Boolean.this.addClips();
+      }
+    };
   }
 
   public Number select(Number trueNumber, Number falseNumber) {
-    return Number.number(() -> get() ? trueNumber.get() : falseNumber.get());
+    return new Number(() -> get() ? trueNumber.get() : falseNumber.get()) {
+      @Override
+      void addClips() {
+        Boolean.this.addClips();
+        trueNumber.maybeAddClips();
+        falseNumber.maybeAddClips();
+      }
+    };
   }
 
   @Override
@@ -137,6 +195,6 @@ public class Boolean extends Component {
   }
 
   static void main() {
-    with(false).show();
+    bool(false).show();
   }
 }

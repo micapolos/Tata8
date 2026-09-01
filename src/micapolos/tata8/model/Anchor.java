@@ -1,5 +1,8 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Action.sequence;
+import static micapolos.tata8.model.Number.number;
+
 public final class Anchor extends Component {
   public final Number x;
   public final Number y;
@@ -22,52 +25,27 @@ public final class Anchor extends Component {
   public static final Anchor zero = anchor(Number.zero, Number.zero);
 
   public static Anchor anchor(double x, double y) {
-    return anchor(Number.number(x), Number.number(y));
+    return anchor(number(x), number(y));
   }
 
   public static Anchor anchor(double x, Number y) {
-    return anchor(Number.number(x), y);
+    return anchor(number(x), y);
   }
 
   public static Anchor anchor(Number x, double y) {
-    return anchor(x, Number.number(y));
+    return anchor(x, number(y));
   }
 
   public static Anchor anchor(Number x, Number y) {
     return new Anchor(x, y);
   }
 
-  void setImmediately(double x, double y) {
-    this.x.setImmediately(x);
-    this.y.setImmediately(y);
-  }
-
-  void setImmediately(Number x, Number y) {
-    this.x.setImmediately(x);
-    this.y.setImmediately(y);
-  }
-
-  public void init(double x, double y) {
-    init(anchor(x, y));
-  }
-
-  public void init(Anchor anchor) {
-    x.init(anchor.x);
-    y.init(anchor.y);
-  }
-
   public Action set(double x, double y) {
-    return () -> {
-      this.x.setImmediately(x);
-      this.y.setImmediately(y);
-    };
+    return set(number(x), number(y));
   }
 
   public Action set(Number x, Number y) {
-    return () -> {
-      this.x.setImmediately(x);
-      this.y.setImmediately(y);
-    };
+    return sequence(this.x.set(x), this.y.set(y));
   }
 
   @Override
@@ -76,6 +54,6 @@ public final class Anchor extends Component {
   }
 
   static void main() {
-    new Anchor(Number.number(1), Number.number(2)).show();
+    new Anchor(number(1), number(2)).show();
   }
 }

@@ -22,7 +22,7 @@ public final class Flip extends Component {
   public static final Flip noFlip = with(false, false);
 
   public static Flip with(boolean x, boolean y) {
-    return with(Boolean.with(x), Boolean.with(y));
+    return with(Boolean.bool(x), Boolean.bool(y));
   }
 
   public static Flip with(Boolean x, Boolean y) {
@@ -35,6 +35,6 @@ public final class Flip extends Component {
   }
 
   static void main() {
-    new Flip(Boolean.with(false), Boolean.with(true)).show();
+    new Flip(Boolean.bool(false), Boolean.bool(true)).show();
   }
 }

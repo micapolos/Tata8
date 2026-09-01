@@ -9,7 +9,7 @@ public final class Mouse implements Showable {
       number(() -> mouse.position.x),
       number(() -> mouse.position.y));
 
-  public final Boolean isPressed = Boolean.with(mouse.button::isPressed);
+  public final Boolean isPressed = Boolean.bool(mouse.button::isPressed);
   public final Event press = Event.with(mouse.button::didPress);
 
   @Override

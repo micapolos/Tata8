@@ -138,6 +138,37 @@ public class Number extends Component {
     };
   }
 
+  public Action mapToAction(Runnable runnable) {
+    checkVariable();
+    return new Action() {
+      @Override
+      void execute() {
+        runnable.run();
+      }
+
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    };
+  }
+
+  public Action mapToAction(Component component, Runnable runnable) {
+    checkVariable();
+    return new Action() {
+      @Override
+      void execute() {
+        runnable.run();
+      }
+
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+        component.maybeAddClips();
+      }
+    };
+  }
+
   public <R> Value<R> mapToValue(DoubleFunction<R> function) {
     return new Value<R>(() -> function.apply(get())) {
       @Override
@@ -215,27 +246,16 @@ public class Number extends Component {
     this.defaultValue = defaultValue;
   }
 
-  public void init(double x) {
-    init(() -> setImmediately(x));
-  }
-
-  public void init(Number number) {
-    init(() -> setImmediately(number));
-  }
-
   public Action set(double x) {
-    checkVariable();
-    return () -> setImmediately(x);
+    return mapToAction(() -> setImmediately(x));
   }
 
   public Action set(Number number) {
-    checkVariable();
-    return () -> setImmediately(number);
+    return mapToAction(number, () -> setImmediately(number));
   }
 
   public Action capture(Number number) {
-    checkVariable();
-    return () -> setImmediately(number.get());
+    return mapToAction(number, () -> setImmediately(number.get()));
   }
 
   public Stepper setElastic(double n) {
@@ -251,13 +271,11 @@ public class Number extends Component {
   }
 
   public Action add(double d) {
-    checkVariable();
-    return () -> setImmediately(get() + d);
+    return mapToAction(() -> setImmediately(get() + d));
   }
 
   public Action add(Number n) {
-    checkVariable();
-    return () -> setImmediately(get() + n.get());
+    return mapToAction(n, () -> setImmediately(get() + n.get()));
   }
 
   @Override

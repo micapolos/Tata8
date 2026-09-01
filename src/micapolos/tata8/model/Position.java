@@ -1,5 +1,7 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Action.sequence;
+import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Number.seconds;
 
 public final class Position extends Component {
@@ -38,39 +40,20 @@ public final class Position extends Component {
     return new Position(x, y);
   }
 
-  public void init(double x, double y) {
-    init(Number.number(x), Number.number(y));
-  }
-
-  public void init(Number x, Number y) {
-    this.x.init(x);
-    this.y.init(y);
-  }
-
-  public void init(Position position) {
-    init(position.x, position.y);
-  }
-
   public Action set(double x, double y) {
-    return () -> {
-      this.x.setImmediately(x);
-      this.y.setImmediately(y);
-    };
+    return set(number(x), number(y));
   }
 
   public Action set(Number x, Number y) {
-    return () -> {
-      this.x.setImmediately(x);
-      this.y.setImmediately(y);
-    };
+    return sequence(this.x.set(x), this.y.set(y));
   }
 
   public Action set(Position position) {
-    return Action.sequence(x.set(position.x), y.set(position.y));
+    return set(position.x, position.y);
   }
 
   public Action capture(Position position) {
-    return Action.sequence(x.capture(position.x), y.capture(position.y));
+    return sequence(x.capture(position.x), y.capture(position.y));
   }
 
   @Override

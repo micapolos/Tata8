@@ -12,9 +12,9 @@ public enum VerticalDirection implements Showable {
       direction.toValue().value(
         select(
           on(upSpan.start, direction.set(VerticalDirection.UP)),
-          on(upSpan.end, direction.set(downSpan.isInside.select(VerticalDirection.DOWN, null))),
+          on(upSpan.end, direction.set(downSpan.isInside.selectValue(VerticalDirection.DOWN, null))),
           on(downSpan.start, direction.set(VerticalDirection.DOWN)),
-          on(downSpan.end, direction.set(upSpan.isInside.select(VerticalDirection.UP, null)))));
+          on(downSpan.end, direction.set(upSpan.isInside.selectValue(VerticalDirection.UP, null)))));
   }
 
   static void main() {

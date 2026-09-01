@@ -12,9 +12,9 @@ public enum HorizontalDirection implements Showable {
       direction.toValue().value(
       select(
         on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
-        on(leftSpan.end, direction.set(rightSpan.isInside.select(HorizontalDirection.RIGHT, null))),
+        on(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
         on(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
-        on(rightSpan.end, direction.set(leftSpan.isInside.select(HorizontalDirection.LEFT, null)))));
+        on(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
   }
 
   static void main() {

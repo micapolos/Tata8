@@ -58,7 +58,7 @@ public class Integer extends Component {
         Game.add(new Clip() {
           @Override
           void start() {
-            init(aSupplier, 0);
+            setImmediately(aSupplier, 0);
           }
 
           @Override
@@ -160,42 +160,51 @@ public class Integer extends Component {
     return mapToValue(i -> values.get(Math.floorMod(i, values.size())));
   }
 
-  void init(int x) {
-    init(null, x);
+  void setImmediately(int x) {
+    setImmediately(null, x);
   }
 
-  void init(Integer number) {
-    init(number::get, 0);
+  void setImmediately(Integer number) {
+    setImmediately(number::get, 0);
   }
 
-  void init(IntSupplier supplier, int defaultValue) {
+  void setImmediately(IntSupplier supplier, int defaultValue) {
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
   public Action set(int x) {
     checkVariable();
-    return () -> init(x);
+    return new Action() {
+      @Override
+      void execute() {
+        Integer.this.setImmediately(x);
+      }
+
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+      }
+    };
   }
 
-  public Action set(Integer number) {
-    checkVariable();
-    return () -> init(number);
+  public Action add(int i) {
+    return add(integer(i));
   }
 
-  public Action capture(Integer number) {
-    checkVariable();
-    return () -> init(number.get());
-  }
+  public Action add(Integer integer) {
+    return new Action() {
+      @Override
+      void execute() {
+        setImmediately(get() + integer.get());
+      }
 
-  public Action add(int d) {
-    checkVariable();
-    return () -> init(get() + d);
-  }
-
-  public Action add(Integer n) {
-    checkVariable();
-    return () -> init(get() + n.get());
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+        integer.maybeAddClips();
+      }
+    };
   }
 
   @Override

@@ -60,8 +60,7 @@ public abstract class Clip {
   }
 
   public static Clip instant() {
-    return instant(() -> {
-    });
+    return instant(Action.noAction);
   }
 
   public static Clip animated(Stepper stepper) {

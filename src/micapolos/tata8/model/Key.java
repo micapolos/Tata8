@@ -21,7 +21,7 @@ public enum Key implements Showable {
     this.state = state;
     this.press = Event.with(state::pressed);
     this.release = Event.with(state::released);
-    this.isPressed = Boolean.with(state::isPressed);
+    this.isPressed = Boolean.bool(state::isPressed);
   }
 
   public Span pressedSpan() {

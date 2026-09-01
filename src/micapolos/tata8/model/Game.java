@@ -5,8 +5,7 @@ import java.util.List;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
-import static micapolos.tata8.model.Event.with;
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Action.action;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
@@ -23,7 +22,7 @@ public final class Game {
   }
 
   static void add(Clip clip) {
-    initActions.add(clip::start);
+    initActions.add(action(clip::start));
     steppers.add(clip::step);
   }
 
