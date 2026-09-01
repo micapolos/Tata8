@@ -15,13 +15,13 @@ public enum Key implements Showable {
 
   public final Event press;
   public final Event release;
-  public final BooleanValue isPressed;
+  public final Boolean isPressed;
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
     this.press = Event.with(state::pressed);
     this.release = Event.with(state::released);
-    this.isPressed = BooleanValue.with(state::isPressed);
+    this.isPressed = Boolean.with(state::isPressed);
   }
 
   public Span pressedSpan() {

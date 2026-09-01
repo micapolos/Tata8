@@ -4,10 +4,6 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
-import static micapolos.tata8.model.BooleanValue.with;
-import static micapolos.tata8.model.IntValue.with;
-import static micapolos.tata8.model.DoubleValue.with;
-
 public class Value<T> extends Component {
   Supplier<T> supplier;
   T defaultValue;
@@ -73,16 +69,16 @@ public class Value<T> extends Component {
     return map(value -> value != null ? value : defaultValue);
   }
 
-  public DoubleValue mapToNumber(ToDoubleFunction<T> function) {
-    return DoubleValue.with(() -> function.applyAsDouble(get()));
+  public Number mapToNumber(ToDoubleFunction<T> function) {
+    return Number.with(() -> function.applyAsDouble(get()));
   }
 
-  public IntValue mapToInteger(ToIntFunction<T> function) {
-    return IntValue.with(() -> function.applyAsInt(get()));
+  public Integer mapToInteger(ToIntFunction<T> function) {
+    return Integer.with(() -> function.applyAsInt(get()));
   }
 
-  public BooleanValue mapToBool(Predicate<T> function) {
-    return BooleanValue.with(() -> function.test(get()));
+  public Boolean mapToBool(Predicate<T> function) {
+    return Boolean.with(() -> function.test(get()));
   }
 
   void setImmediately(T value) {

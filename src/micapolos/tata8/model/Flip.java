@@ -1,25 +1,25 @@
 package micapolos.tata8.model;
 
 public final class Flip implements Showable {
-  public final BooleanValue x;
-  public final BooleanValue y;
+  public final Boolean x;
+  public final Boolean y;
 
-  Flip(BooleanValue x, BooleanValue y) {
+  Flip(Boolean x, Boolean y) {
     this.x = x;
     this.y = y;
   }
 
   public static Flip newVariable() {
-    return with(BooleanValue.newVariable(), BooleanValue.newVariable());
+    return with(Boolean.newVariable(), Boolean.newVariable());
   }
 
   public static final Flip none = with(false, false);
 
   public static Flip with(boolean x, boolean y) {
-    return with(BooleanValue.with(x), BooleanValue.with(y));
+    return with(Boolean.with(x), Boolean.with(y));
   }
 
-  public static Flip with(BooleanValue x, BooleanValue y) {
+  public static Flip with(Boolean x, Boolean y) {
     return new Flip(x, y);
   }
 
@@ -29,6 +29,6 @@ public final class Flip implements Showable {
   }
 
   static void main() {
-    new Flip(BooleanValue.with(false), BooleanValue.with(true)).show();
+    new Flip(Boolean.with(false), Boolean.with(true)).show();
   }
 }

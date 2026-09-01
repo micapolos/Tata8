@@ -6,15 +6,15 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
-import static micapolos.tata8.model.BooleanValue.with;
-import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Boolean.with;
+import static micapolos.tata8.model.Number.with;
 import static micapolos.tata8.model.Value.with;
 
-public class IntValue extends Component {
+public class Integer extends Component {
   IntSupplier supplier;
   int defaultValue;
 
-  IntValue(boolean isVariable, IntSupplier supplier, int defaultValue) {
+  Integer(boolean isVariable, IntSupplier supplier, int defaultValue) {
     super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
@@ -25,35 +25,35 @@ public class IntValue extends Component {
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }
 
-  public static IntValue randomBetween(int min, int max) {
+  public static Integer randomBetween(int min, int max) {
     return with(() -> Random.between(min, max));
   }
 
-  public static IntValue randomUntil(int limit) {
+  public static Integer randomUntil(int limit) {
     return with(() -> Random.until(limit));
   }
 
-  public static IntValue zero = with(0);
-  public static IntValue one = with(1);
+  public static Integer zero = with(0);
+  public static Integer one = with(1);
 
-  public static IntValue with(int value) {
+  public static Integer with(int value) {
     return with(() -> value);
   }
 
-  public static IntValue with(IntSupplier aSupplier) {
-    return new IntValue(false, aSupplier, 0);
+  public static Integer with(IntSupplier aSupplier) {
+    return new Integer(false, aSupplier, 0);
   }
 
-  public static IntValue newVariable() {
+  public static Integer newVariable() {
     return newVariable(0);
   }
 
-  public static IntValue newVariable(int value) {
+  public static Integer newVariable(int value) {
     return newVariable(() -> value);
   }
 
-  public static IntValue newVariable(IntSupplier aSupplier) {
-    return new IntValue(true, aSupplier, 0) {
+  public static Integer newVariable(IntSupplier aSupplier) {
+    return new Integer(true, aSupplier, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -70,55 +70,55 @@ public class IntValue extends Component {
     };
   }
 
-  public IntValue update(IntUnaryOperator operator) {
+  public Integer update(IntUnaryOperator operator) {
     return with(() -> operator.applyAsInt(get()));
   }
 
-  public IntValue update(IntValue x, IntBinaryOperator operator) {
+  public Integer update(Integer x, IntBinaryOperator operator) {
     return with(() -> operator.applyAsInt(get(), x.get()));
   }
 
-  public DoubleValue mapToNumber(IntToDoubleFunction function) {
-    return DoubleValue.with(() -> function.applyAsDouble(get()));
+  public Number mapToNumber(IntToDoubleFunction function) {
+    return Number.with(() -> function.applyAsDouble(get()));
   }
 
-  public BooleanValue mapToBool(IntPredicate function) {
-    return BooleanValue.with(() -> function.test(get()));
+  public Boolean mapToBool(IntPredicate function) {
+    return Boolean.with(() -> function.test(get()));
   }
 
   public <R> Value<R> mapToValue(IntFunction<R> function) {
     return Value.with(() -> function.apply(get()));
   }
 
-  public IntValue negated() {
+  public Integer negated() {
     return update(IntegerUtils::negated);
   }
 
-  public IntValue plus(int x) {
+  public Integer plus(int x) {
     return update(i -> i + x);
   }
 
-  public IntValue plus(IntValue n) {
+  public Integer plus(Integer n) {
     return update(n, IntegerUtils::plus);
   }
 
-  public IntValue minus(int x) {
+  public Integer minus(int x) {
     return update(i -> i - x);
   }
 
-  public IntValue minus(IntValue n) {
+  public Integer minus(Integer n) {
     return update(n, IntegerUtils::minus);
   }
 
-  public IntValue times(int x) {
+  public Integer times(int x) {
     return update(i -> i * x);
   }
 
-  public IntValue times(IntValue n) {
+  public Integer times(Integer n) {
     return update(n, IntegerUtils::times);
   }
 
-  public DoubleValue toNumber() {
+  public Number toNumber() {
     return mapToNumber(IntegerUtils::toDouble);
   }
 
@@ -134,7 +134,7 @@ public class IntValue extends Component {
     init(null, x);
   }
 
-  void init(IntValue number) {
+  void init(Integer number) {
     init(number::get, 0);
   }
 
@@ -148,12 +148,12 @@ public class IntValue extends Component {
     return () -> init(x);
   }
 
-  public Action set(IntValue number) {
+  public Action set(Integer number) {
     checkVariable();
     return () -> init(number);
   }
 
-  public Action capture(IntValue number) {
+  public Action capture(Integer number) {
     checkVariable();
     return () -> init(number.get());
   }
@@ -163,7 +163,7 @@ public class IntValue extends Component {
     return () -> init(get() + d);
   }
 
-  public Action add(IntValue n) {
+  public Action add(Integer n) {
     checkVariable();
     return () -> init(get() + n.get());
   }

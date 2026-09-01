@@ -1,6 +1,8 @@
 package micapolos;
 
 import micapolos.tata8.model.*;
+import micapolos.tata8.model.Boolean;
+import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
@@ -11,12 +13,12 @@ final class Chicken {
 
   final Sprite sprite = newSprite();
   final Position position = Position.newVariable();
-  final BooleanValue isLeft = BooleanValue.newVariable();
+  final Boolean isLeft = Boolean.newVariable();
   final Clip clip;
 
   public Chicken() {
-    DoubleValue speed = Key.Z.isPressed.select(DoubleValue.with(2), DoubleValue.with(1));
-    DoubleValue step = isLeft.select(speed.negated().times(3), speed.times(3));
+    Number speed = Key.Z.isPressed.select(Number.with(2), Number.with(1));
+    Number step = isLeft.select(speed.negated().times(3), speed.times(3));
     Action move = position.x.add(step);
 
     Clip walk = sequence(

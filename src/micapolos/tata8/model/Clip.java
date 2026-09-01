@@ -390,7 +390,7 @@ public abstract class Clip {
     };
   }
 
-  public final Clip runWhile(BooleanValue condition) {
+  public final Clip runWhile(Boolean condition) {
     return new Clip() {
       @Override
       void start() {
@@ -406,11 +406,11 @@ public abstract class Clip {
     };
   }
 
-  public static ConditionOption when(BooleanValue condition, Clip clip) {
+  public static ConditionOption when(Boolean condition, Clip clip) {
     return new ConditionOption(condition, clip);
   }
 
-  public record ConditionOption(BooleanValue condition, Clip clip) {
+  public record ConditionOption(Boolean condition, Clip clip) {
   }
 
   public final void show() {

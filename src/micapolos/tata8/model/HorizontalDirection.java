@@ -2,14 +2,14 @@ package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Clip.select;
-import static micapolos.tata8.model.Clipped.clipped;
+import static micapolos.tata8.model.Live.live;
 
 public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;
 
-  public static Clipped<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
+  public static Live<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
     Value<HorizontalDirection> direction = Value.newVariable();
-    return clipped(
+    return live(
       direction.toValue(),
       select(
         on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),

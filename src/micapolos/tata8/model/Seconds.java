@@ -1,13 +1,13 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.clipped.ClippedDoubleValues.clippedSeconds;
+import static micapolos.tata8.model.live.LiveNumbers.liveSeconds;
 
 public final class Seconds {
-  public static final DoubleValue seconds;
+  public static final Number seconds;
 
   static {
-    var clippedSeconds = clippedSeconds();
-    clippedSeconds.maybeAddToGame();
-    seconds = clippedSeconds.value;
+    var liveSeconds = liveSeconds();
+    liveSeconds.maybeAddToGame();
+    seconds = liveSeconds.value;
   }
 }

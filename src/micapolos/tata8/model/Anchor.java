@@ -1,33 +1,33 @@
 package micapolos.tata8.model;
 
 public final class Anchor implements Showable {
-  public final DoubleValue x;
-  public final DoubleValue y;
+  public final Number x;
+  public final Number y;
 
-  Anchor(DoubleValue x, DoubleValue y) {
+  Anchor(Number x, Number y) {
     this.x = x;
     this.y = y;
   }
 
   public static Anchor newVariable() {
-    return with(DoubleValue.newVariable(), DoubleValue.newVariable());
+    return with(Number.newVariable(), Number.newVariable());
   }
 
-  public static final Anchor zero = with(DoubleValue.zero, DoubleValue.zero);
+  public static final Anchor zero = with(Number.zero, Number.zero);
 
   public static Anchor with(double x, double y) {
-    return with(DoubleValue.with(x), DoubleValue.with(y));
+    return with(Number.with(x), Number.with(y));
   }
 
-  public static Anchor with(double x, DoubleValue y) {
-    return with(DoubleValue.with(x), y);
+  public static Anchor with(double x, Number y) {
+    return with(Number.with(x), y);
   }
 
-  public static Anchor with(DoubleValue x, double y) {
-    return with(x, DoubleValue.with(y));
+  public static Anchor with(Number x, double y) {
+    return with(x, Number.with(y));
   }
 
-  public static Anchor with(DoubleValue x, DoubleValue y) {
+  public static Anchor with(Number x, Number y) {
     return new Anchor(x, y);
   }
 
@@ -36,7 +36,7 @@ public final class Anchor implements Showable {
     this.y.setImmediately(y);
   }
 
-  void setImmediately(DoubleValue x, DoubleValue y) {
+  void setImmediately(Number x, Number y) {
     this.x.setImmediately(x);
     this.y.setImmediately(y);
   }
@@ -57,7 +57,7 @@ public final class Anchor implements Showable {
     };
   }
 
-  public Action set(DoubleValue x, DoubleValue y) {
+  public Action set(Number x, Number y) {
     return () -> {
       this.x.setImmediately(x);
       this.y.setImmediately(y);
@@ -70,6 +70,6 @@ public final class Anchor implements Showable {
   }
 
   static void main() {
-    new Anchor(DoubleValue.with(1), DoubleValue.with(2)).show();
+    new Anchor(Number.with(1), Number.with(2)).show();
   }
 }

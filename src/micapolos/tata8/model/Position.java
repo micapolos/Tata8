@@ -1,42 +1,42 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Number.with;
 import static micapolos.tata8.model.Seconds.seconds;
 
 public final class Position implements Showable {
-  public final DoubleValue x;
-  public final DoubleValue y;
+  public final Number x;
+  public final Number y;
 
-  Position(DoubleValue x, DoubleValue y) {
+  Position(Number x, Number y) {
     this.x = x;
     this.y = y;
   }
 
   public static Position newVariable() {
-    return with(DoubleValue.newVariable(), DoubleValue.newVariable());
+    return with(Number.newVariable(), Number.newVariable());
   }
 
   public static Position with(double x, double y) {
-    return with(DoubleValue.with(x), DoubleValue.with(y));
+    return with(Number.with(x), Number.with(y));
   }
 
-  public static Position with(double x, DoubleValue y) {
-    return with(DoubleValue.with(x), y);
+  public static Position with(double x, Number y) {
+    return with(Number.with(x), y);
   }
 
-  public static Position with(DoubleValue x, double y) {
-    return with(x, DoubleValue.with(y));
+  public static Position with(Number x, double y) {
+    return with(x, Number.with(y));
   }
 
-  public static Position with(DoubleValue x, DoubleValue y) {
+  public static Position with(Number x, Number y) {
     return new Position(x, y);
   }
 
   public void init(double x, double y) {
-    init(DoubleValue.with(x), DoubleValue.with(y));
+    init(Number.with(x), Number.with(y));
   }
 
-  public void init(DoubleValue x, DoubleValue y) {
+  public void init(Number x, Number y) {
     this.x.init(x);
     this.y.init(y);
   }
@@ -52,7 +52,7 @@ public final class Position implements Showable {
     };
   }
 
-  public Action set(DoubleValue x, DoubleValue y) {
+  public Action set(Number x, Number y) {
     return () -> {
       this.x.setImmediately(x);
       this.y.setImmediately(y);

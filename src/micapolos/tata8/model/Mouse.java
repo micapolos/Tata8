@@ -1,9 +1,9 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.Game.mouse;
-import static micapolos.tata8.model.BooleanValue.with;
+import static micapolos.tata8.model.Boolean.with;
 import static micapolos.tata8.model.Event.with;
-import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Number.with;
 import static micapolos.tata8.model.Position.with;
 
 public final class Mouse implements Showable {
@@ -12,7 +12,7 @@ public final class Mouse implements Showable {
       with(() -> mouse.position.x),
       with(() -> mouse.position.y));
 
-  public final BooleanValue isPressed = BooleanValue.with(mouse.button::isPressed);
+  public final Boolean isPressed = Boolean.with(mouse.button::isPressed);
   public final Event press = Event.with(mouse.button::didPress);
 
   @Override

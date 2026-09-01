@@ -56,8 +56,8 @@ public final class Event extends Component {
     return with(() -> occurs() && event.occurs());
   }
 
-  public Event and(BooleanValue booleanValue) {
-    return with(() -> occurs() && booleanValue.get());
+  public Event and(Boolean aBoolean) {
+    return with(() -> occurs() && aBoolean.get());
   }
 
   public static Event any(Event... events) {

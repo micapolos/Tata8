@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Number.with;
 
 public final class Image implements Showable {
   final micapolos.tata8.Image state;
@@ -8,7 +8,7 @@ public final class Image implements Showable {
 
   Image(micapolos.tata8.Image state) {
     this.state = state;
-    this.size = new Size(DoubleValue.with(state.size.width), DoubleValue.with(state.size.height));
+    this.size = new Size(Number.with(state.size.width), Number.with(state.size.height));
   }
 
   public static Image load(Class<?> baseClass, String fileName) {

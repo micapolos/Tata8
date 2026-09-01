@@ -2,14 +2,14 @@ package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Number.with;
 import static micapolos.tata8.model.Value.with;
 
-public class BooleanValue extends Component {
+public class Boolean extends Component {
   BooleanSupplier supplier;
   boolean defaultValue;
 
-  BooleanValue(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
+  Boolean(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
     super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
@@ -20,24 +20,24 @@ public class BooleanValue extends Component {
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }
 
-  public static BooleanValue with(boolean b) {
-    return new BooleanValue(false, null, b);
+  public static Boolean with(boolean b) {
+    return new Boolean(false, null, b);
   }
 
-  static BooleanValue with(BooleanSupplier aSupplier) {
-    return new BooleanValue(false, aSupplier, false);
+  static Boolean with(BooleanSupplier aSupplier) {
+    return new Boolean(false, aSupplier, false);
   }
 
-  public static BooleanValue newVariable() {
+  public static Boolean newVariable() {
     return newVariable(false);
   }
 
-  public static BooleanValue newVariable(boolean value) {
+  public static Boolean newVariable(boolean value) {
     return newVariable(() -> value);
   }
 
-  static BooleanValue newVariable(BooleanSupplier supplier) {
-    var bool = new BooleanValue(true, supplier, false);
+  static Boolean newVariable(BooleanSupplier supplier) {
+    var bool = new Boolean(true, supplier, false);
     Game.addInit(() -> bool.setImmediately(supplier, false));
     return bool;
   }
@@ -46,7 +46,7 @@ public class BooleanValue extends Component {
     setImmediately(null, x);
   }
 
-  void setImmediately(BooleanValue number) {
+  void setImmediately(Boolean number) {
     setImmediately(number::get, false);
   }
 
@@ -59,7 +59,7 @@ public class BooleanValue extends Component {
     init(() -> setImmediately(b));
   }
 
-  public void init(BooleanValue b) {
+  public void init(Boolean b) {
     init(() -> setImmediately(b));
   }
 
@@ -68,7 +68,7 @@ public class BooleanValue extends Component {
     return () -> setImmediately(x);
   }
 
-  public Action set(BooleanValue x) {
+  public Action set(Boolean x) {
     checkVariable();
     return () -> setImmediately(x);
   }
@@ -78,44 +78,44 @@ public class BooleanValue extends Component {
     return () -> setImmediately(!get());
   }
 
-  public BooleanValue equals(boolean value) {
+  public Boolean equals(boolean value) {
     return equals(with(value));
   }
 
-  public BooleanValue equals(BooleanValue value) {
+  public Boolean equals(Boolean value) {
     return with(() -> get() == value.get());
   }
 
-  public static BooleanValue not(BooleanValue value) {
+  public static Boolean not(Boolean value) {
     return with(() -> !value.get());
   }
 
-  public static BooleanValue all(BooleanValue... booleanValues) {
+  public static Boolean all(Boolean... aBooleans) {
     return with(() -> {
       boolean value = true;
-      for (BooleanValue booleanValue : booleanValues) {
-        value &= booleanValue.get();
+      for (Boolean aBoolean : aBooleans) {
+        value &= aBoolean.get();
       }
       return value;
     });
   }
 
-  public static BooleanValue any(BooleanValue... booleanValues) {
+  public static Boolean any(Boolean... aBooleans) {
     return with(() -> {
       boolean value = false;
-      for (BooleanValue booleanValue : booleanValues) {
-        value |= booleanValue.get();
+      for (Boolean aBoolean : aBooleans) {
+        value |= aBoolean.get();
       }
       return value;
     });
   }
 
-  public BooleanValue and(BooleanValue booleanValue) {
-    return with(() -> get() && booleanValue.get());
+  public Boolean and(Boolean aBoolean) {
+    return with(() -> get() && aBoolean.get());
   }
 
-  public BooleanValue or(BooleanValue booleanValue) {
-    return with(() -> get() || booleanValue.get());
+  public Boolean or(Boolean aBoolean) {
+    return with(() -> get() || aBoolean.get());
   }
 
   public <T> Value<T> select(T trueValue, T falseValue) {
@@ -126,8 +126,8 @@ public class BooleanValue extends Component {
     return Value.with(() -> get() ? trueValue.get() : falseValue.get());
   }
 
-  public DoubleValue select(DoubleValue trueDoubleValue, DoubleValue falseDoubleValue) {
-    return DoubleValue.with(() -> get() ? trueDoubleValue.get() : falseDoubleValue.get());
+  public Number select(Number trueNumber, Number falseNumber) {
+    return Number.with(() -> get() ? trueNumber.get() : falseNumber.get());
   }
 
   @Override
