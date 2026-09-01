@@ -31,12 +31,24 @@ public final class Number implements Showable {
     return update(micapolos.tata8.model.Number::negated);
   }
 
+  public Number plus(double d) {
+    return plus(number(d));
+  }
+
   public Number plus(Number n) {
     return update(n, micapolos.tata8.model.Number::plus);
   }
 
+  public Number minus(double d) {
+    return minus(number(d));
+  }
+
   public Number minus(Number n) {
     return update(n, micapolos.tata8.model.Number::minus);
+  }
+
+  public Number times(double d) {
+    return times(number(d));
   }
 
   public Number times(Number n) {
@@ -57,6 +69,6 @@ public final class Number implements Showable {
   }
 
   static void main() {
-    number(10).show();
+    number(10).plus(3.14).times(3).fraction().show();
   }
 }

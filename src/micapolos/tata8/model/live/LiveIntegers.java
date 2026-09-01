@@ -1,14 +1,17 @@
 package micapolos.tata8.model.live;
 
-import micapolos.tata8.model.Live;
+import micapolos.tata8.model.*;
 import micapolos.tata8.model.Integer;
 import micapolos.tata8.model.Number;
-import micapolos.tata8.model.Value;
 
 import java.util.List;
 
 public final class LiveIntegers {
   private LiveIntegers() {}
+
+  public static Live<micapolos.tata8.model.Integer> live(int i) {
+    return Live.live(Integer.with(i), Clip.EMPTY);
+  }
 
   public static Live<Integer> negated(Live<Integer> a) {
     return a.update(Integer::negated);
