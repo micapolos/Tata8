@@ -3,7 +3,7 @@ package micapolos.tata8.model;
 import static micapolos.Blocks.ifNotNull;
 import static micapolos.tata8.model.Image.load;
 
-public final class Sprite implements Showable {
+public final class Sprite extends Component {
   final micapolos.tata8.Sprite state;
 
   public final Value<Image> image = Value.newVariable();
@@ -13,6 +13,14 @@ public final class Sprite implements Showable {
 
   Sprite(micapolos.tata8.Sprite state) {
     this.state = state;
+  }
+
+  @Override
+  void addClips() {
+    image.maybeAddClips();
+    position.maybeAddClips();
+    anchor.maybeAddClips();
+    flip.maybeAddClips();
   }
 
   public static Sprite newSprite() {

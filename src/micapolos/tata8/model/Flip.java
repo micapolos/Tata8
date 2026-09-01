@@ -1,12 +1,18 @@
 package micapolos.tata8.model;
 
-public final class Flip implements Showable {
+public final class Flip extends Component {
   public final Boolean x;
   public final Boolean y;
 
   Flip(Boolean x, Boolean y) {
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  void addClips() {
+    x.maybeAddClips();
+    y.maybeAddClips();
   }
 
   public static Flip newVariable() {

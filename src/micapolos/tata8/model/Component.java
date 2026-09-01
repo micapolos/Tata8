@@ -5,6 +5,10 @@ public class Component implements Showable {
   boolean didAddClips;
   Action initialize = Action.EMPTY;
 
+  Component() {
+    this(false);
+  }
+
   Component(boolean isVariable) {
     this.isVariable = isVariable;
   }

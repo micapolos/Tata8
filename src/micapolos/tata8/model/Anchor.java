@@ -1,12 +1,18 @@
 package micapolos.tata8.model;
 
-public final class Anchor implements Showable {
+public final class Anchor extends Component {
   public final Number x;
   public final Number y;
 
   Anchor(Number x, Number y) {
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  void addClips() {
+    x.maybeAddClips();
+    y.maybeAddClips();
   }
 
   public static Anchor newVariable() {

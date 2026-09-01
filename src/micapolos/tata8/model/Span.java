@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-public final class Span implements Showable {
+public final class Span extends Component {
   public final Boolean isInside;
   public final Event start;
   public final Event end;
@@ -9,6 +9,13 @@ public final class Span implements Showable {
     this.isInside = isInside;
     this.start = start;
     this.end = end;
+  }
+
+  @Override
+  void addClips() {
+    isInside.maybeAddClips();
+    start.maybeAddClips();
+    end.maybeAddClips();
   }
 
   public static Span span(Boolean isInside, Event enter, Event exit) {

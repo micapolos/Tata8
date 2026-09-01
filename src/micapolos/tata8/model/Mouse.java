@@ -1,10 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.Game.mouse;
-import static micapolos.tata8.model.Boolean.with;
-import static micapolos.tata8.model.Event.with;
 import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Position.with;
 
 public final class Mouse implements Showable {
   public final Position position =

@@ -1,15 +1,21 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Seconds.seconds;
 
-public final class Position implements Showable {
+public final class Position extends Component {
   public final Number x;
   public final Number y;
 
   Position(Number x, Number y) {
+    super(false);
     this.x = x;
     this.y = y;
+  }
+
+  @Override
+  void addClips() {
+    x.maybeAddClips();
+    y.maybeAddClips();
   }
 
   public static Position newVariable() {
