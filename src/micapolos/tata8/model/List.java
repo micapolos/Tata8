@@ -6,6 +6,7 @@ public abstract class List<T extends Component> extends Component {
   final java.util.List<T> components;
 
   List(java.util.List<T> components) {
+    super(Clip.EMPTY);
     this.components = components;
   }
 

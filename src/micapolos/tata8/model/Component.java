@@ -1,7 +1,16 @@
 package micapolos.tata8.model;
 
 public class Component implements Showable {
+  public final Clip clip;
   boolean didAddClips;
+
+  Component() {
+    this(Clip.EMPTY);
+  }
+
+  Component(Clip clip) {
+    this.clip = clip;
+  }
 
   void addClips() {}
 
@@ -14,6 +23,7 @@ public class Component implements Showable {
   final void maybeAddClips() {
     if (!didAddClips) {
       addClips();
+      Game.add(clip);
       didAddClips = true;
     }
   }

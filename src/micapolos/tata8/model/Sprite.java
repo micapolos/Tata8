@@ -13,11 +13,13 @@ public class Sprite extends Component {
   public final Position position;
   public final Flip flip;
 
-  Sprite(micapolos.tata8.Sprite state,
+  Sprite(Clip clip,
+         micapolos.tata8.Sprite state,
          Value<Image> image,
          Anchor anchor,
          Position position,
          Flip flip) {
+    super(clip);
     this.state = state;
     this.image = image;
     this.anchor = anchor;
@@ -49,33 +51,27 @@ public class Sprite extends Component {
 
   public static Sprite sprite() {
     micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
-    return new Sprite(state, Value.nullValue(), Anchor.zero, Position.position(0, 0), noFlip);
+    return new Sprite(Clip.EMPTY, state, Value.nullValue(), Anchor.zero, Position.position(0, 0), noFlip);
   }
 
   public Sprite with(Value<Image> image) {
-    return new Sprite(state, image, anchor, position, flip);
+    return new Sprite(clip, state, image, anchor, position, flip);
   }
 
   public Sprite with(Anchor anchor) {
-    return new Sprite(state, image, anchor, position, flip);
+    return new Sprite(clip, state, image, anchor, position, flip);
   }
 
   public Sprite with(Position position) {
-    return new Sprite(state, image, anchor, position, flip);
+    return new Sprite(clip, state, image, anchor, position, flip);
   }
 
   public Sprite with(Flip flip) {
-    return new Sprite(state, image, anchor, position, flip);
+    return new Sprite(clip, state, image, anchor, position, flip);
   }
 
   public Sprite with(Clip clip) {
-    return new Sprite(state, image, anchor, position, flip) {
-      @Override
-      void addClips() {
-        super.addClips();
-        Game.add(clip);
-      }
-    };
+    return new Sprite(clip, state, image, anchor, position, flip);
   }
 
   @Override
