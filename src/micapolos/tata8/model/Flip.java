@@ -19,7 +19,7 @@ public final class Flip extends Component {
     return with(Boolean.newVariable(), Boolean.newVariable());
   }
 
-  public static final Flip none = with(false, false);
+  public static final Flip noFlip = with(false, false);
 
   public static Flip with(boolean x, boolean y) {
     return with(Boolean.with(x), Boolean.with(y));

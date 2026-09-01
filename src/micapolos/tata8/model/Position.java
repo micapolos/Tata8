@@ -19,22 +19,22 @@ public final class Position extends Component {
   }
 
   public static Position newVariable() {
-    return with(Number.newVariable(), Number.newVariable());
+    return position(Number.newVariable(), Number.newVariable());
   }
 
-  public static Position with(double x, double y) {
-    return with(Number.number(x), Number.number(y));
+  public static Position position(double x, double y) {
+    return position(Number.number(x), Number.number(y));
   }
 
-  public static Position with(double x, Number y) {
-    return with(Number.number(x), y);
+  public static Position position(double x, Number y) {
+    return position(Number.number(x), y);
   }
 
-  public static Position with(Number x, double y) {
-    return with(x, Number.number(y));
+  public static Position position(Number x, double y) {
+    return position(x, Number.number(y));
   }
 
-  public static Position with(Number x, Number y) {
+  public static Position position(Number x, Number y) {
     return new Position(x, y);
   }
 
@@ -79,6 +79,6 @@ public final class Position extends Component {
   }
 
   static void main() {
-    with(seconds, seconds.negated()).show();
+    position(seconds, seconds.negated()).show();
   }
 }

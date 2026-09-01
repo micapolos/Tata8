@@ -1,59 +1,72 @@
 package micapolos.tata8.model;
 
 import static micapolos.Blocks.ifNotNull;
-import static micapolos.tata8.model.Image.load;
+import static micapolos.tata8.model.Anchor.anchor;
+import static micapolos.tata8.model.Flip.noFlip;
+import static micapolos.tata8.model.Image.image;
+import static micapolos.tata8.model.Position.position;
 
 public final class Sprite extends Component {
   final micapolos.tata8.Sprite state;
+  public final Value<Image> image;
+  public final Anchor anchor;
+  public final Position position;
+  public final Flip flip;
 
-  public final Value<Image> image = Value.newVariable();
-  public final Position position = Position.newVariable();
-  public final Anchor anchor = Anchor.newVariable();
-  public final Flip flip = Flip.newVariable();
-
-  Sprite(micapolos.tata8.Sprite state) {
+  Sprite(micapolos.tata8.Sprite state,
+         Value<Image> image,
+         Anchor anchor,
+         Position position,
+         Flip flip) {
     this.state = state;
+    this.image = image;
+    this.anchor = anchor;
+    this.position = position;
+    this.flip = flip;
   }
 
   @Override
   void addClips() {
+    IO.println("add clips");
     image.maybeAddClips();
-    position.maybeAddClips();
     anchor.maybeAddClips();
+    position.maybeAddClips();
     flip.maybeAddClips();
-  }
+    Game.add(new Clip() {
+      @Override
+      void start() {
+      }
 
-  public static Sprite newSprite() {
-    Sprite sprite = new Sprite(micapolos.tata8.Game.newSprite());
-    Game.add(seconds -> {
-      sprite.sync();
-      return seconds;
+      @Override
+      float step(float seconds) {
+        state.image = ifNotNull(image.get(), it -> it.state);
+        state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
+        state.position.set((float) position.x.get(), (float) position.y.get());
+        state.flip.set(flip.x.get(), flip.y.get());
+        return seconds;
+      }
     });
-    return sprite;
   }
 
-  public static Sprite newSprite(Image image) {
-    return newSprite(Value.with(image));
+  public static Sprite sprite() {
+    micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
+    return new Sprite(state, Value.nullValue(), Anchor.zero, Position.position(0, 0), noFlip);
   }
 
-  public static Sprite newSprite(Value<Image> image) {
-    Sprite sprite = newSprite();
-    sprite.image.init(image);
-    return sprite;
+  public Sprite with(Value<Image> image) {
+    return new Sprite(state, image, anchor, position, flip);
   }
 
-  public static Sprite newSprite(Image image, Anchor anchor) {
-    Sprite sprite = newSprite();
-    sprite.image.init(image);
-    sprite.anchor.init(anchor);
-    return sprite;
+  public Sprite with(Anchor anchor) {
+    return new Sprite(state, image, anchor, position, flip);
   }
 
-  void sync() {
-    state.image = ifNotNull(image.get(), it -> it.state);
-    state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
-    state.position.set((float) position.x.get(), (float) position.y.get());
-    state.flip.set(flip.x.get(), flip.y.get());
+  public Sprite with(Position position) {
+    return new Sprite(state, image, anchor, position, flip);
+  }
+
+  public Sprite with(Flip flip) {
+    return new Sprite(state, image, anchor, position, flip);
   }
 
   @Override
@@ -61,17 +74,11 @@ public final class Sprite extends Component {
     return String.format("sprite(%s)", position);
   }
 
-  @Override
-  public void show() {
-    Game.show();
-  }
-
   static void main() {
-    Image image = load(Game.class, "depressedChicken.png").sliceVertically(8)[0];
-    Sprite sprite = newSprite();
-    sprite.image.init(image);
-    sprite.anchor.init(16, 16);
-    sprite.position.init(160, 128);
-    sprite.show();
+    sprite()
+      .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
+      .with(anchor(16, 16))
+      .with(position(160, 128))
+      .show();
   }
 }

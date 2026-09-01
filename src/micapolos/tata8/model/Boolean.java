@@ -120,11 +120,11 @@ public class Boolean extends Component {
   }
 
   public <T> Value<T> select(T trueValue, T falseValue) {
-    return Value.with(() -> get() ? trueValue : falseValue);
+    return Value.value(() -> get() ? trueValue : falseValue);
   }
 
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
-    return Value.with(() -> get() ? trueValue.get() : falseValue.get());
+    return Value.value(() -> get() ? trueValue.get() : falseValue.get());
   }
 
   public Number select(Number trueNumber, Number falseNumber) {

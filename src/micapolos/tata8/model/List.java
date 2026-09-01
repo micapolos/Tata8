@@ -1,5 +1,7 @@
 package micapolos.tata8.model;
 
+import static micapolos.tata8.model.Integer.integer;
+
 public abstract class List<T extends Component> extends Component {
   final java.util.List<T> components;
 
@@ -12,6 +14,10 @@ public abstract class List<T extends Component> extends Component {
     for (T component : components) {
       component.maybeAddClips();
     }
+  }
+
+  public final T get(int index) {
+    return get(integer(index));
   }
 
   public abstract T get(Integer index);

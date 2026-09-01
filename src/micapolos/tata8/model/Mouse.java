@@ -5,7 +5,7 @@ import static micapolos.tata8.model.Number.number;
 
 public final class Mouse implements Showable {
   public final Position position =
-    Position.with(
+    Position.position(
       number(() -> mouse.position.x),
       number(() -> mouse.position.y));
 

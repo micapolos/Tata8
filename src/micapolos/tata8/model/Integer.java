@@ -26,21 +26,21 @@ public class Integer extends Component {
   }
 
   public static Integer randomBetween(int min, int max) {
-    return with(() -> Random.between(min, max));
+    return integer(() -> Random.between(min, max));
   }
 
   public static Integer randomUntil(int limit) {
-    return with(() -> Random.until(limit));
+    return integer(() -> Random.until(limit));
   }
 
-  public static Integer zero = with(0);
-  public static Integer one = with(1);
+  public static Integer zero = integer(0);
+  public static Integer one = integer(1);
 
-  public static Integer with(int value) {
-    return with(() -> value);
+  public static Integer integer(int value) {
+    return integer(() -> value);
   }
 
-  public static Integer with(IntSupplier aSupplier) {
+  public static Integer integer(IntSupplier aSupplier) {
     return new Integer(false, aSupplier, 0);
   }
 

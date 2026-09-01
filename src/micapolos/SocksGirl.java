@@ -4,7 +4,9 @@ import micapolos.tata8.model.Direction;
 import micapolos.tata8.model.Image;
 import micapolos.tata8.model.Key;
 
-import static micapolos.tata8.model.Sprite.newSprite;
+import static micapolos.tata8.model.Anchor.anchor;
+import static micapolos.tata8.model.Position.position;
+import static micapolos.tata8.model.Sprite.sprite;
 
 public class SocksGirl {
   static int imageIndex(Direction direction) {
@@ -21,7 +23,7 @@ public class SocksGirl {
   }
 
   static void main() {
-    var sheetImages = Image.load(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
+    var sheetImages = Image.image(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
 
     var image = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())
@@ -29,10 +31,10 @@ public class SocksGirl {
       .mapToInteger(SocksGirl::imageIndex)
       .selectFrom(sheetImages);
 
-    var sprite = newSprite();
-    sprite.image.init(image);
-    sprite.position.init(100, 100);
-    sprite.anchor.init(32, 64);
-    sprite.show();
+    sprite()
+      .with(image)
+      .with(anchor(32, 64))
+      .with(position(100, 100))
+      .show();
   }
 }

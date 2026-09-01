@@ -16,24 +16,24 @@ public final class Anchor extends Component {
   }
 
   public static Anchor newVariable() {
-    return with(Number.newVariable(), Number.newVariable());
+    return anchor(Number.newVariable(), Number.newVariable());
   }
 
-  public static final Anchor zero = with(Number.zero, Number.zero);
+  public static final Anchor zero = anchor(Number.zero, Number.zero);
 
-  public static Anchor with(double x, double y) {
-    return with(Number.number(x), Number.number(y));
+  public static Anchor anchor(double x, double y) {
+    return anchor(Number.number(x), Number.number(y));
   }
 
-  public static Anchor with(double x, Number y) {
-    return with(Number.number(x), y);
+  public static Anchor anchor(double x, Number y) {
+    return anchor(Number.number(x), y);
   }
 
-  public static Anchor with(Number x, double y) {
-    return with(x, Number.number(y));
+  public static Anchor anchor(Number x, double y) {
+    return anchor(x, Number.number(y));
   }
 
-  public static Anchor with(Number x, Number y) {
+  public static Anchor anchor(Number x, Number y) {
     return new Anchor(x, y);
   }
 
@@ -48,7 +48,7 @@ public final class Anchor extends Component {
   }
 
   public void init(double x, double y) {
-    init(with(x, y));
+    init(anchor(x, y));
   }
 
   public void init(Anchor anchor) {

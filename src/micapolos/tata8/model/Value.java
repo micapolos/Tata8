@@ -26,7 +26,7 @@ public class Value<T> extends Component {
     this.defaultValue = defaultValue;
   }
 
-  public Value<T> with(Clip clip) {
+  public Value<T> value(Clip clip) {
     return new Value<>(this::get) {
       @Override
       void addClips() {
@@ -41,15 +41,15 @@ public class Value<T> extends Component {
     return supplier != null ? supplier.get() : defaultValue;
   }
 
-  public static <T> Value<T> withNull() {
-    return with((T) null);
+  public static <T> Value<T> nullValue() {
+    return value((T) null);
   }
 
-  public static <T> Value<T> with(T value) {
+  public static <T> Value<T> value(T value) {
     return new Value<>(value);
   }
 
-  public static <T> Value<T> with(Value<T> value) {
+  public static <T> Value<T> value(Value<T> value) {
     return new Value<>(value::get) {
       @Override
       void addClips() {
@@ -58,7 +58,7 @@ public class Value<T> extends Component {
     };
   }
 
-  static <T> Value<T> with(Supplier<T> supplier) {
+  static <T> Value<T> value(Supplier<T> supplier) {
     return new Value<>(supplier, null);
   }
 
@@ -107,7 +107,7 @@ public class Value<T> extends Component {
   }
 
   public Value<T> toValue() {
-    return isVariable ? with(this) : this;
+    return isVariable ? value(this) : this;
   }
 
   public Value<T> update(UnaryOperator<T> operator) {
@@ -216,7 +216,7 @@ public class Value<T> extends Component {
   }
 
   public static <T> Value<T> randomFrom(T... values) {
-    return with(() -> values[Random.until(values.length)]);
+    return value(() -> values[Random.until(values.length)]);
   }
 
   @Override
@@ -225,7 +225,6 @@ public class Value<T> extends Component {
   }
 
   static void main() {
-    var images = Image.load(Value.class, "depressedChicken.png").sliceVertically(8);
-    with(images[0]).show();
+
   }
 }

@@ -1,10 +1,8 @@
 package micapolos.tata8.model;
 
-import micapolos.tata8.model.List;
-
 import java.util.Arrays;
 
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Value.value;
 
 public final class Image implements Showable {
   final micapolos.tata8.Image state;
@@ -15,7 +13,7 @@ public final class Image implements Showable {
     this.size = new Size(Number.number(state.size.width), Number.number(state.size.height));
   }
 
-  public static Image load(Class<?> baseClass, String fileName) {
+  public static Image image(Class<?> baseClass, String fileName) {
     return new Image(micapolos.tata8.Game.loadImage(baseClass, fileName));
   }
 
@@ -29,7 +27,7 @@ public final class Image implements Showable {
     for (int i = 0; i < states.length; i++) {
       images[i] = new Image(states[i]);
     }
-    return new List<>(Arrays.stream(images).map(Value::with).toList()) {
+    return new List<>(Arrays.stream(images).map(Value::value).toList()) {
       @Override
       public Value<Image> get(Integer index) {
         return index.mapToValue(i -> images[i]);
@@ -38,9 +36,7 @@ public final class Image implements Showable {
   }
 
   public Sprite sprite() {
-    Sprite sprite = Sprite.newSprite();
-    sprite.image.setImmediately(this);
-    return sprite;
+    return Sprite.sprite().with(value(this));
   }
 
   @Override
@@ -58,6 +54,6 @@ public final class Image implements Showable {
   }
 
   static void main() {
-    load(Image.class, "depressedChicken.png").crop(0, 0, 32, 32).show();
+    image(Image.class, "depressedChicken.png").crop(0, 0, 32, 32).show();
   }
 }

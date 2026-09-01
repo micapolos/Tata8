@@ -10,7 +10,7 @@ public final class LiveIntegers {
   private LiveIntegers() {}
 
   public static Live<micapolos.tata8.model.Integer> live(int i) {
-    return Live.live(Integer.with(i), Clip.EMPTY);
+    return Live.live(Integer.integer(i), Clip.EMPTY);
   }
 
   public static Live<Integer> negated(Live<Integer> a) {
