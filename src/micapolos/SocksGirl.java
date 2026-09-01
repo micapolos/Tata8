@@ -6,7 +6,7 @@ import micapolos.tata8.model.Key;
 import static micapolos.tata8.model.Anchor.anchor;
 import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Position.position;
-import static micapolos.tata8.model.Sprite.sprite;
+import static micapolos.tata8.model.Sprite.newSprite;
 
 public class SocksGirl {
   static int imageIndex(Direction direction) {
@@ -31,7 +31,7 @@ public class SocksGirl {
       .mapToInteger(SocksGirl::imageIndex)
       .selectFrom(sheetImages);
 
-    sprite()
+    newSprite()
       .with(image)
       .with(anchor(32, 64))
       .with(position(100, 100))

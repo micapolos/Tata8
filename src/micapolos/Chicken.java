@@ -10,7 +10,7 @@ import static micapolos.tata8.model.Boolean.bool;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
 import static micapolos.tata8.model.Flip.flip;
-import static micapolos.tata8.model.Sprite.sprite;
+import static micapolos.tata8.model.Sprite.newSprite;
 
 final class Chicken {
   static void main() {
@@ -19,7 +19,7 @@ final class Chicken {
     var imageIndex = Integer.newVariable(0);
     var isLeft = Boolean.newVariable();
     var position = Position.newVariable();
-    var sprite = sprite()
+    var sprite = newSprite()
       .with(images.get(imageIndex))
       .with(anchor(16, 0))
       .with(position)

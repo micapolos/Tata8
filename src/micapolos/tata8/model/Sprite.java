@@ -2,11 +2,14 @@ package micapolos.tata8.model;
 
 import static micapolos.Blocks.ifNotNull;
 import static micapolos.tata8.model.Anchor.anchor;
+import static micapolos.tata8.model.Anchor.topLeftAnchor;
+import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Flip.noFlip;
 import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Position.position;
+import static micapolos.tata8.model.Value.nullValue;
 
-public class Sprite extends Component {
+public final class Sprite extends Component {
   final micapolos.tata8.Sprite state;
   public final Value<Image> image;
   public final Anchor anchor;
@@ -14,11 +17,11 @@ public class Sprite extends Component {
   public final Flip flip;
 
   Sprite(Clip clip,
-         micapolos.tata8.Sprite state,
          Value<Image> image,
          Anchor anchor,
          Position position,
-         Flip flip) {
+         Flip flip,
+         micapolos.tata8.Sprite state) {
     super(clip);
     this.state = state;
     this.image = image;
@@ -33,6 +36,7 @@ public class Sprite extends Component {
     anchor.maybeAddClips();
     position.maybeAddClips();
     flip.maybeAddClips();
+
     Game.add(new Clip() {
       @Override
       void start() {
@@ -49,29 +53,29 @@ public class Sprite extends Component {
     });
   }
 
-  public static Sprite sprite() {
+  public static Sprite newSprite() {
     micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
-    return new Sprite(Clip.EMPTY, state, Value.nullValue(), Anchor.zero, Position.position(0, 0), noFlip);
-  }
-
-  public Sprite with(Value<Image> image) {
-    return new Sprite(clip, state, image, anchor, position, flip);
-  }
-
-  public Sprite with(Anchor anchor) {
-    return new Sprite(clip, state, image, anchor, position, flip);
-  }
-
-  public Sprite with(Position position) {
-    return new Sprite(clip, state, image, anchor, position, flip);
-  }
-
-  public Sprite with(Flip flip) {
-    return new Sprite(clip, state, image, anchor, position, flip);
+    return new Sprite(Clip.EMPTY, nullValue(), topLeftAnchor, position(0, 0), noFlip, state);
   }
 
   public Sprite with(Clip clip) {
-    return new Sprite(clip, state, image, anchor, position, flip);
+    return new Sprite(clip, image, anchor, position, flip, state);
+  }
+
+  public Sprite with(Value<Image> image) {
+    return new Sprite(clip, image, anchor, position, flip, state);
+  }
+
+  public Sprite with(Anchor anchor) {
+    return new Sprite(clip, image, anchor, position, flip, state);
+  }
+
+  public Sprite with(Position position) {
+    return new Sprite(clip, image, anchor, position, flip, state);
+  }
+
+  public Sprite with(Flip flip) {
+    return new Sprite(clip, image, anchor, position, flip, state);
   }
 
   @Override
@@ -80,10 +84,13 @@ public class Sprite extends Component {
   }
 
   static void main() {
-    sprite()
+    Number x = Number.newVariable(160);
+
+    newSprite()
       .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
       .with(anchor(16, 16))
-      .with(position(160, 128))
+      .with(position(x, 128))
+      .with(frame(1/60f, x.add(1)).repeat())
       .show();
   }
 }

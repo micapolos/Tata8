@@ -36,7 +36,7 @@ public final class Image implements Showable {
   }
 
   public Sprite sprite() {
-    return Sprite.sprite().with(value(this));
+    return Sprite.newSprite().with(value(this));
   }
 
   @Override
