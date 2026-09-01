@@ -1,5 +1,9 @@
 package micapolos.tata8.model;
 
+import micapolos.tata8.model.List;
+
+import java.util.Arrays;
+
 import static micapolos.tata8.model.Number.number;
 
 public final class Image implements Showable {
@@ -19,13 +23,18 @@ public final class Image implements Showable {
     return new Image(state.crop(x, y, width, height));
   }
 
-  public Image[] sliceVertically(int columnCount) {
+  public List<Value<Image>> sliceVertically(int columnCount) {
     micapolos.tata8.Image[] states = state.sliceVertically(columnCount);
     Image[] images = new Image[states.length];
     for (int i = 0; i < states.length; i++) {
       images[i] = new Image(states[i]);
     }
-    return images;
+    return new List<>(Arrays.stream(images).map(Value::with).toList()) {
+      @Override
+      public Value<Image> get(Integer index) {
+        return index.mapToValue(i -> images[i]);
+      }
+    };
   }
 
   public Sprite sprite() {

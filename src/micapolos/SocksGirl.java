@@ -21,17 +21,16 @@ public class SocksGirl {
   }
 
   static void main() {
-    var sheetImage = Image.load(SocksGirl.class, "socksgirl-sheet.png");
-    var sheetImages = sheetImage.sliceVertically(12);
-    
-    var imageValue = Direction
+    var sheetImages = Image.load(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
+
+    var image = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())
       .orIfNull(Direction.DOWN)
       .mapToInteger(SocksGirl::imageIndex)
       .selectFrom(sheetImages);
 
     var sprite = newSprite();
-    sprite.image.init(imageValue);
+    sprite.image.init(image);
     sprite.position.init(100, 100);
     sprite.anchor.init(32, 64);
     sprite.show();

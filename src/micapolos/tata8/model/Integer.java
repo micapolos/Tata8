@@ -152,6 +152,10 @@ public class Integer extends Component {
     return mapToValue(i -> values[Math.floorMod(i, values.length)]);
   }
 
+  public <T> Value<T> selectFrom(micapolos.tata8.model.List<Value<T>> values) {
+    return values.get(this);
+  }
+
   public <T> Value<T> get(List<T> values) {
     return mapToValue(i -> values.get(Math.floorMod(i, values.size())));
   }
