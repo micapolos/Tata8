@@ -2,6 +2,7 @@ package micapolos.tata8.model;
 
 import micapolos.DoubleUtils;
 
+import java.util.Locale;
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
@@ -283,7 +284,7 @@ public class Number extends ValueComponent {
 
   @Override
   public String toString() {
-    return String.valueOf(get());
+    return String.format(Locale.ROOT, "%.3f", get());
   }
 
   static void main() {

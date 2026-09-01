@@ -2,11 +2,9 @@ package micapolos;
 
 import micapolos.tata8.model.Direction;
 import micapolos.tata8.model.Key;
-import micapolos.tata8.model.Number;
 
 import static micapolos.tata8.model.Anchor.anchor;
 import static micapolos.tata8.model.Image.image;
-import static micapolos.tata8.model.Number.randomNumber;
 import static micapolos.tata8.model.Position.position;
 import static micapolos.tata8.model.Sprite.newSprite;
 
@@ -36,7 +34,7 @@ public class SocksGirl {
     newSprite()
       .with(image)
       .with(anchor(32, 64))
-      .with(position(randomNumber().times(8).plus(100), 100))
+      .with(position(160, 160))
       .show();
   }
 }

@@ -19,7 +19,7 @@ public final class Position extends Component {
     y.maybeAddClips();
   }
 
-  public static Position newVariable() {
+  public static Position newPosition() {
     return position(Number.newVariable(), Number.newVariable());
   }
 

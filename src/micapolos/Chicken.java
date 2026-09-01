@@ -19,7 +19,7 @@ final class Chicken {
 
     var imageIndex = Integer.newVariable(0);
     var isLeft = Boolean.newVariable();
-    var position = Position.newVariable();
+    var position = Position.newPosition();
     var sprite = newSprite()
       .with(images.get(imageIndex))
       .with(anchor(16, 28))

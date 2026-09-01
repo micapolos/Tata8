@@ -54,7 +54,7 @@ public final class Color extends Component {
 
   @Override
   public void show() {
-    Game.when(Game.started, Background.color.set(this));
+    Game.on(Game.start, Background.color.set(this));
     Game.show();
   }
 

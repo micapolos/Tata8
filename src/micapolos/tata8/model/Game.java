@@ -6,12 +6,17 @@ import java.util.List;
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
 import static micapolos.tata8.model.Action.action;
+import static micapolos.tata8.model.Event.event;
+import static micapolos.tata8.model.Number.number;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
   static final List<Stepper> steppers = new ArrayList<>();
 
-  static final Size size = new Size(Number.number(micapolos.tata8.Game.size.width), Number.number(micapolos.tata8.Game.size.height));
+  static final Size size =
+    new Size(
+      number(micapolos.tata8.Game.size.width),
+      number(micapolos.tata8.Game.size.height));
 
   static void addInit(Action initAction) {
     initActions.add(initAction);
@@ -29,9 +34,9 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
 
   static boolean startedValue;
-  public static Event started = Event.with(() -> startedValue);
+  public static final Event start = event(() -> startedValue);
 
-  public static void when(Event event, Action action) {
+  public static void on(Event event, Action action) {
     add(new Clip() {
       @Override
       void start() {
@@ -78,8 +83,8 @@ public final class Game {
   static void main() {
     Integer counter = Integer.newVariable();
     Integer increment = Integer.newVariable(1);
-    Game.when(Key.Z.press, counter.add(increment));
-    Game.when(Key.X.press, increment.add(1));
+    Game.on(Key.Z.press, counter.add(increment));
+    Game.on(Key.X.press, increment.add(1));
     counter.show();
   }
 }

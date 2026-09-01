@@ -19,8 +19,8 @@ public enum Key implements Showable {
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
-    this.press = Event.with(state::pressed);
-    this.release = Event.with(state::released);
+    this.press = Event.event(state::pressed);
+    this.release = Event.event(state::released);
     this.isPressed = Boolean.bool(state::isPressed);
   }
 
