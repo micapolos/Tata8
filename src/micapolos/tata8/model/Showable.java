@@ -20,4 +20,10 @@ public interface Showable {
     );
     Game.show();
   }
+
+  default <T> T showing() {
+    show();
+    //noinspection unchecked
+    return (T) this;
+  }
 }

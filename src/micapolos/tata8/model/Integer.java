@@ -6,10 +6,6 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
-import static micapolos.tata8.model.Boolean.with;
-import static micapolos.tata8.model.Number.number;
-import static micapolos.tata8.model.Value.with;
-
 public class Integer extends Component {
   IntSupplier supplier;
   int defaultValue;
@@ -75,23 +71,49 @@ public class Integer extends Component {
   }
 
   public Integer update(IntUnaryOperator operator) {
-    return with(() -> operator.applyAsInt(get()));
+    return new Integer(() -> operator.applyAsInt(get())) {
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+      }
+    };
   }
 
-  public Integer update(Integer x, IntBinaryOperator operator) {
-    return with(() -> operator.applyAsInt(get(), x.get()));
+  public Integer update(Integer integer, IntBinaryOperator operator) {
+    return new Integer(() -> operator.applyAsInt(get(), integer.get())) {
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+        integer.maybeAddClips();
+      }
+    };
   }
 
   public Number mapToNumber(IntToDoubleFunction function) {
-    return Number.number(() -> function.applyAsDouble(get()));
+    return new Number(() -> function.applyAsDouble(get())) {
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+      }
+    };
   }
 
   public Boolean mapToBool(IntPredicate function) {
-    return Boolean.with(() -> function.test(get()));
+    return new Boolean(() -> function.test(get())) {
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+      }
+    };
   }
 
   public <R> Value<R> mapToValue(IntFunction<R> function) {
-    return Value.with(() -> function.apply(get()));
+    return new Value<>(() -> function.apply(get())) {
+      @Override
+      void addClips() {
+        Integer.this.maybeAddClips();
+      }
+    };
   }
 
   public Integer negated() {
@@ -126,7 +148,7 @@ public class Integer extends Component {
     return mapToNumber(IntegerUtils::toDouble);
   }
 
-  public <T> Value<T> getValue(T... values) {
+  public <T> Value<T> select(T... values) {
     return mapToValue(i -> values[Math.floorMod(i, values.length)]);
   }
 

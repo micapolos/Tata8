@@ -2,15 +2,14 @@ package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Clip.select;
-import static micapolos.tata8.model.Live.live;
 
 public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;
 
-  public static Live<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
+  public static Value<HorizontalDirection> fromSpans(Span leftSpan, Span rightSpan) {
     Value<HorizontalDirection> direction = Value.newVariable();
-    return live(
-      direction.toValue(),
+    return
+      direction.toValue().with(
       select(
         on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
         on(leftSpan.end, direction.set(rightSpan.isInside.select(HorizontalDirection.RIGHT, null))),

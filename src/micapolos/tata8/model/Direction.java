@@ -36,14 +36,14 @@ public enum Direction implements Showable {
     }
   }
 
-  public static Live<Value<Direction>> fromSpans(
+  public static Value<Direction> fromSpans(
     Span leftPressedSpan,
     Span rightPressedSpan,
     Span upPressedSpan,
     Span downPressedSpan) {
     var verticalDirection = VerticalDirection.fromSpans(upPressedSpan, downPressedSpan);
     var horizontalDirection = HorizontalDirection.fromSpans(leftPressedSpan, rightPressedSpan);
-    return mapValue(verticalDirection, horizontalDirection, Direction::orNullFrom);
+    return verticalDirection.map(horizontalDirection, Direction::orNullFrom);
   }
 
   static void main() {
