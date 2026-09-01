@@ -8,8 +8,16 @@ public class Value<T> extends Component {
   Supplier<T> supplier;
   T defaultValue;
 
-  Value(Supplier<T> supplier ) {
-    this(false, supplier, null);
+  Value(T value) {
+    this(null, value);
+  }
+
+  Value(Supplier<T> supplier) {
+    this(supplier, null);
+  }
+
+  Value(Supplier<T> supplier, T defaultValue) {
+    this(false, supplier, defaultValue);
   }
 
   Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
@@ -24,49 +32,110 @@ public class Value<T> extends Component {
   }
 
   public static <T> Value<T> withNull() {
-    return new Value<>(false, null, null);
+    return with((T) null);
   }
 
   public static <T> Value<T> with(T value) {
-    return new Value<>(false, null, value);
+    return new Value<>(value);
   }
 
-  public static <T> Value<T> with(Supplier<T> aSupplier) {
-    return new Value<>(false, aSupplier, null);
+  public static <T> Value<T> with(Value<T> value) {
+    return new Value<>(value::get) {
+      @Override
+      void addClips() {
+        value.maybeAddClips();
+      }
+    };
+  }
+
+  static <T> Value<T> with(Supplier<T> supplier) {
+    return new Value<>(supplier, null);
   }
 
   public static <T> Value<T> newVariable() {
-    return newVariable(null);
+    return newVariable((T) null);
   }
 
   public static <T> Value<T> newVariable(T value) {
-    return newVariable(() -> value);
+    return new Value<>(true, null, value) {
+      @Override
+      void addClips() {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            supplier = null;
+            defaultValue = value;
+          }
+
+          @Override
+          float step(float seconds) {
+            return seconds;
+          }
+        });
+      }
+    };
   }
 
-  public static <T> Value<T> newVariable(Supplier<T> aSupplier) {
-    var value = new Value<>(true, aSupplier, null);
-    Game.addInit(() -> value.initialize.execute());
-    return value;
+  public static <T> Value<T> newVariable(Value<T> value) {
+    return new Value<>(true, value::get, null) {
+      @Override
+      void addClips() {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            supplier = value::get;
+            defaultValue = null;
+          }
+
+          @Override
+          float step(float seconds) {
+            return seconds;
+          }
+        });
+      }
+    };
   }
 
   public Value<T> toValue() {
-    return isVariable ? with(this::get) : this;
+    return isVariable ? with(this) : this;
   }
 
   public Value<T> update(UnaryOperator<T> operator) {
-    return with(() -> operator.apply(get()));
+    return new Value<>(() -> operator.apply(get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
   }
 
   public Value<T> update(Value<T> value, BinaryOperator<T> operator) {
-    return with(() -> operator.apply(get(), value.get()));
+    return new Value<>(() -> operator.apply(get(), value.get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+        value.maybeAddClips();
+      }
+    };
   }
 
   public <R> Value<R> map(Function<T, R> function) {
-    return with(() -> function.apply(get()));
+    return new Value<>(() -> function.apply(get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
   }
 
-  public <V, R> Value<R> map(Value<V> x, BiFunction<T, V, R> function) {
-    return with(() -> function.apply(get(), x.get()));
+  public <V, R> Value<R> map(Value<V> value, BiFunction<T, V, R> function) {
+    return new Value<>(() -> function.apply(get(), value.get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+        value.maybeAddClips();
+      }
+    };
   }
 
   public Value<T> mapToNotNull(T defaultValue) {
@@ -74,15 +143,30 @@ public class Value<T> extends Component {
   }
 
   public Number mapToNumber(ToDoubleFunction<T> function) {
-    return Number.number(() -> function.applyAsDouble(get()));
+    return new Number(() -> function.applyAsDouble(get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
   }
 
   public Integer mapToInteger(ToIntFunction<T> function) {
-    return Integer.with(() -> function.applyAsInt(get()));
+    return new Integer(() -> function.applyAsInt(get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
   }
 
   public Boolean mapToBool(Predicate<T> function) {
-    return Boolean.with(() -> function.test(get()));
+    return new Boolean(() -> function.test(get())) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+      }
+    };
   }
 
   void setImmediately(T value) {
