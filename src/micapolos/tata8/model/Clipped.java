@@ -27,7 +27,7 @@ public abstract class Clipped<T extends Showable> implements Showable {
     };
   }
 
-  public Clipped<T> update(UnaryOperator<T> operator) {
+  public final Clipped<T> update(UnaryOperator<T> operator) {
     return new Clipped<T>(operator.apply(value)) {
       @Override
       Stream<Clip> clips() {
@@ -36,7 +36,7 @@ public abstract class Clipped<T extends Showable> implements Showable {
     };
   }
 
-  public Clipped<T> update(Clipped<T> x, BinaryOperator<T> operator) {
+  public final Clipped<T> update(Clipped<T> x, BinaryOperator<T> operator) {
     return new Clipped<T>(operator.apply(value, x.value)) {
       @Override
       Stream<Clip> clips() {
@@ -45,7 +45,7 @@ public abstract class Clipped<T extends Showable> implements Showable {
     };
   }
 
-  public <R extends Showable> Clipped<R> map(Function<T, R> function) {
+  public final <R extends Showable> Clipped<R> map(Function<T, R> function) {
     return new Clipped<>(function.apply(value)) {
       @Override
       Stream<Clip> clips() {
@@ -54,7 +54,7 @@ public abstract class Clipped<T extends Showable> implements Showable {
     };
   }
 
-  public <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> clipped, BiFunction<T, V, R> function) {
+  public final <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> clipped, BiFunction<T, V, R> function) {
     return new Clipped<>(function.apply(value, clipped.value)) {
       @Override
       Stream<Clip> clips() {
@@ -88,12 +88,12 @@ public abstract class Clipped<T extends Showable> implements Showable {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return value.toString();
   }
 
   @Override
-  public void show() {
+  public final void show() {
     addClips();
     value.show();
   }
