@@ -79,7 +79,7 @@ public abstract class Clip {
     };
   }
 
-  public static final Clip EMPTY = animated(Stepper.EMPTY);
+  public static final Clip emptyClip = animated(Stepper.EMPTY);
 
   public static Clip frame(Action action) {
     return frame(1, action);
@@ -447,6 +447,6 @@ public abstract class Clip {
   }
 
   static void main() {
-    Clip.EMPTY.show();
+    emptyClip.show();
   }
 }

@@ -5,6 +5,7 @@ import micapolos.tata8.model.Boolean;
 import micapolos.tata8.model.Integer;
 import micapolos.tata8.model.Number;
 
+import static java.lang.Math.floorMod;
 import static micapolos.tata8.model.Anchor.anchor;
 import static micapolos.tata8.model.Boolean.bool;
 import static micapolos.tata8.model.Clip.*;
@@ -21,7 +22,7 @@ final class Chicken {
     var position = Position.newVariable();
     var sprite = newSprite()
       .with(images.get(imageIndex))
-      .with(anchor(16, 0))
+      .with(anchor(16, 28))
       .with(position)
       .with(flip(isLeft, bool(false)));
 
@@ -29,7 +30,7 @@ final class Chicken {
     var step = isLeft.select(speed.negated().times(3), speed.times(3));
     var move = position.x.add(step);
 
-    var walk = sequence(8, i -> frame(imageIndex.set(Math.floorMod(i + 3, 8)).then(move)))
+    var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).then(move)))
       .stretch(0.1f)
       .repeat();
 

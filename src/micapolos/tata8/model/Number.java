@@ -5,6 +5,7 @@ import micapolos.DoubleUtils;
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
+import static micapolos.tata8.model.Clip.frame;
 
 public class Number extends ValueComponent {
   DoubleSupplier supplier;
@@ -22,8 +23,16 @@ public class Number extends ValueComponent {
     this(false, supplier, 0);
   }
 
+  Number(Clip clip, DoubleSupplier supplier) {
+    this(clip, false, supplier, 0);
+  }
+
   Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
-    super(isVariable);
+    this(Clip.emptyClip, isVariable, supplier, defaultValue);
+  }
+
+  Number(Clip clip, boolean isVariable, DoubleSupplier supplier, double defaultValue) {
+    super(clip, isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -34,18 +43,12 @@ public class Number extends ValueComponent {
   }
 
   public Number with(Clip clip) {
-    return new Number(this::get) {
-      @Override
-      void addClips() {
-        Number.this.maybeAddClips();
-        Game.add(clip);
-      }
-    };
+    return new Number(clip, this::get);
   }
 
-  public static final Number random = random();
+  public static final Number random = randomNumber();
 
-  public static Number random() {
+  public static Number randomNumber() {
     return number(Math::random);
   }
 
@@ -284,6 +287,7 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    Number.seconds.times(10).negated().integer().show();
+    var number = Number.newVariable();
+    number.with(frame(1, number.add(1)).repeat()).show();
   }
 }

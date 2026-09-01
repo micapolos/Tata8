@@ -5,7 +5,7 @@ public class Component implements Showable {
   boolean didAddClips;
 
   Component() {
-    this(Clip.EMPTY);
+    this(Clip.emptyClip);
   }
 
   Component(Clip clip) {

@@ -6,7 +6,7 @@ public abstract class List<T extends Component> extends Component {
   final java.util.List<T> components;
 
   List(java.util.List<T> components) {
-    super(Clip.EMPTY);
+    super(Clip.emptyClip);
     this.components = components;
   }
 
@@ -19,6 +19,11 @@ public abstract class List<T extends Component> extends Component {
 
   public final T get(int index) {
     return get(integer(index));
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(components);
   }
 
   public abstract T get(Integer index);

@@ -9,7 +9,7 @@ public enum VerticalDirection implements Showable {
   public static Value<VerticalDirection> fromSpans(Span upSpan, Span downSpan) {
     var direction = Value.<VerticalDirection>newVariable();
     return
-      direction.toValue().value(
+      direction.readonly().with(
         select(
           on(upSpan.start, direction.set(VerticalDirection.UP)),
           on(upSpan.end, direction.set(downSpan.isInside.selectValue(VerticalDirection.DOWN, null))),

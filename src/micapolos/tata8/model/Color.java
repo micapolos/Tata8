@@ -1,8 +1,9 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.Number.seconds;
 
-public final class Color implements Showable {
+public final class Color extends Component {
   public final Number red;
   public final Number green;
   public final Number blue;
@@ -13,6 +14,14 @@ public final class Color implements Showable {
     this.green = green;
     this.blue = blue;
     this.alpha = alpha;
+  }
+
+  @Override
+  void addClips() {
+    red.maybeAddClips();
+    green.maybeAddClips();
+    blue.maybeAddClips();
+    alpha.maybeAddClips();
   }
 
   public static Color rgb(double red, double green, double blue) {
@@ -50,9 +59,10 @@ public final class Color implements Showable {
   }
 
   static void main() {
-    Color.rgb(
-      Key.LEFT.isPressed.select(Number.one, Number.zero),
-      Key.DOWN.isPressed.select(Number.one, Number.zero),
-      Key.RIGHT.isPressed.select(Number.one, Number.zero)).show();
+    Color.rgb(seconds, number(0), number(0)).show();
+//    Color.rgb(
+//      Key.LEFT.isPressed.select(Number.one, Number.zero),
+//      Key.DOWN.isPressed.select(Number.one, Number.zero),
+//      Key.RIGHT.isPressed.select(Number.one, Number.zero)).show();
   }
 }

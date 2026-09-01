@@ -8,13 +8,15 @@ public enum HorizontalDirection implements Showable {
 
   public static Value<HorizontalDirection> fromSpans(Span leftSpan, Span rightSpan) {
     Value<HorizontalDirection> direction = Value.newVariable();
+
     return
-      direction.toValue().value(
-      select(
-        on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
-        on(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
-        on(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
-        on(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
+      direction
+        .with(
+          select(
+            on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
+            on(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
+            on(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
+            on(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
   }
 
   static void main() {

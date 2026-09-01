@@ -55,7 +55,7 @@ public final class Sprite extends Component {
 
   public static Sprite newSprite() {
     micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
-    return new Sprite(Clip.EMPTY, nullValue(), topLeftAnchor, position(0, 0), noFlip, state);
+    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, state);
   }
 
   public Sprite with(Clip clip) {

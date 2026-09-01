@@ -16,24 +16,26 @@ public class Value<T> extends ValueComponent {
     this(supplier, null);
   }
 
+  Value(Clip clip, Supplier<T> supplier) {
+    this(clip, false, supplier, null);
+  }
+
   Value(Supplier<T> supplier, T defaultValue) {
     this(false, supplier, defaultValue);
   }
 
   Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
-    super(isVariable);
+    this(Clip.emptyClip, isVariable, supplier, defaultValue);
+  }
+
+  Value(Clip clip, boolean isVariable, Supplier<T> supplier, T defaultValue) {
+    super(clip, isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
-  public Value<T> value(Clip clip) {
-    return new Value<>(this::get) {
-      @Override
-      void addClips() {
-        Value.this.maybeAddClips();
-        Game.add(clip);
-      }
-    };
+  public Value<T> with(Clip clip) {
+    return new Value<>(clip, this::get);
   }
 
   public T get() {
@@ -106,7 +108,7 @@ public class Value<T> extends ValueComponent {
     };
   }
 
-  public Value<T> toValue() {
+  public Value<T> readonly() {
     return isVariable ? value(this) : this;
   }
 
