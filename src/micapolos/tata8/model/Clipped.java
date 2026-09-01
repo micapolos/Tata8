@@ -2,8 +2,6 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.model.clipped.ClippedNumber;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.*;
 import java.util.stream.Stream;
 
@@ -56,16 +54,20 @@ public abstract class Clipped<T extends Showable> implements Showable {
     };
   }
 
-  public <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> x, BiFunction<T, V, R> function) {
-    return new Clipped<>(function.apply(value, x.value)) {
+  public <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> clipped, BiFunction<T, V, R> function) {
+    return new Clipped<>(function.apply(value, clipped.value)) {
       @Override
       Stream<Clip> clips() {
-        return Stream.concat(Clipped.this.clips(), x.clips());
+        return Stream.concat(Clipped.this.clips(), clipped.clips());
       }
     };
   }
 
-  public static <T extends Showable, V extends Showable, R extends Showable> Clipped<Value<R>> mapValue(Clipped<Value<T>> x, Clipped<Value<V>> y, BiFunction<T, V, R> function) {
+  public static <T extends Showable, V extends Showable, R extends Showable> Clipped<Value<R>> mapValue(
+    Clipped<Value<T>> x,
+    Clipped<Value<V>> y,
+    BiFunction<T, V, R> function
+  ) {
     return x.map(y, (a, b) -> a.map(b, function));
   }
 
