@@ -1,11 +1,8 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Action.noAction;
-
 public class Component implements Showable {
   public final boolean isVariable;
   boolean didAddClips;
-  Action initialize = noAction;
 
   Component() {
     this(false);
@@ -19,12 +16,6 @@ public class Component implements Showable {
     if (!isVariable) {
       throw new IllegalArgumentException("Not a variable");
     }
-  }
-
-  final void init(Action initialize) {
-    checkVariable();
-    initialize.execute();
-    this.initialize = initialize;
   }
 
   void addClips() {}
