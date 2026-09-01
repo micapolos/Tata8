@@ -40,7 +40,7 @@ public final class Span extends Component {
 
   static void main() {
     var span = Key.Z.pressedSpan();
-    var x = Number.newVariable();
+    var x = Number.newNumber();
     var image = image(Span.class, "depressedChicken.png").sliceVertically(8).get(0);
     var sprite = newSprite()
       .with(image)

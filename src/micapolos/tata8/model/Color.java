@@ -41,7 +41,7 @@ public final class Color extends Component {
   }
 
   public static Color variable() {
-    return new Color(Number.newVariable(), Number.newVariable(), Number.newVariable(), Number.newVariable());
+    return new Color(Number.newNumber(), Number.newNumber(), Number.newNumber(), Number.newNumber());
   }
 
   public Action set(Color color) {

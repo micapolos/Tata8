@@ -20,7 +20,7 @@ public final class Position extends Component {
   }
 
   public static Position newPosition() {
-    return position(Number.newVariable(), Number.newVariable());
+    return position(Number.newNumber(), Number.newNumber());
   }
 
   public static Position position(double x, double y) {

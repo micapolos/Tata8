@@ -9,6 +9,9 @@ import static micapolos.tata8.Math.elastic;
 import static micapolos.tata8.model.Clip.frame;
 
 public class Number extends ValueComponent {
+  DoubleSupplier commitSupplier;
+  double commitDefaultValue;
+
   DoubleSupplier supplier;
   double defaultValue;
 
@@ -56,16 +59,22 @@ public class Number extends ValueComponent {
   public static final Number seconds = new Number(false, null, 0) {
     @Override
     void addClips() {
-      Game.add(new Clip() {
+      Game.add(new Runner() {
         @Override
-        void start() {
-          defaultValue = 0;
+        public void init() {
+          commitSupplier = null;
+          commitDefaultValue = 0;
         }
 
         @Override
-        float step(float seconds) {
-          defaultValue += seconds;
-          return seconds;
+        public void update(float seconds) {
+          commitDefaultValue += seconds;
+        }
+
+        @Override
+        public void commit() {
+          supplier = commitSupplier;
+          defaultValue = commitDefaultValue;
         }
       });
     }
@@ -83,31 +92,38 @@ public class Number extends ValueComponent {
     return new Number(supplier);
   }
 
-  public static Number newVariable() {
-    return newVariable(0);
+  public static Number newNumber() {
+    return newNumber(0);
   }
 
-  public static Number newVariable(double value) {
-    return newVariable(() -> value);
+  public static Number newNumber(double value) {
+    return newNumber(() -> value);
   }
 
-  public static Number newVariable(Number value) {
-    return newVariable(value::get);
+  public static Number newNumber(Number value) {
+    return newNumber(value::get);
   }
 
-  public static Number newVariable(DoubleSupplier aSupplier) {
+  public static Number newNumber(DoubleSupplier aSupplier) {
     return new Number(true, aSupplier, 0) {
       @Override
       void addClips() {
-        Game.add(new Clip() {
+        Game.add(new Runner() {
           @Override
-          void start() {
-            supplier = aSupplier;
+          public void init() {
+            commitSupplier = aSupplier;
+            commitDefaultValue = 0;
           }
 
           @Override
-          float step(float seconds) {
-            return seconds;
+          public void update(float seconds) {
+
+          }
+
+          @Override
+          public void commit() {
+            supplier = commitSupplier;
+            defaultValue = commitDefaultValue;
           }
         });
       }
@@ -288,7 +304,7 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    var number = Number.newVariable();
+    var number = newNumber();
     number.with(frame(1, number.add(1)).repeat()).show();
   }
 }

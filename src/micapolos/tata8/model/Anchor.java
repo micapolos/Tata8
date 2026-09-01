@@ -19,7 +19,7 @@ public final class Anchor extends Component {
   }
 
   public static Anchor newVariable() {
-    return anchor(Number.newVariable(), Number.newVariable());
+    return anchor(Number.newNumber(), Number.newNumber());
   }
 
   public static final Anchor topLeftAnchor = anchor(Number.zero, Number.zero);

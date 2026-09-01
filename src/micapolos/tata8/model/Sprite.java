@@ -84,7 +84,7 @@ public final class Sprite extends Component {
   }
 
   static void main() {
-    Number x = Number.newVariable(160);
+    Number x = Number.newNumber(160);
 
     newSprite()
       .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
