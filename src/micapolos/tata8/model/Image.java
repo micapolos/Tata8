@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.DoubleValue.number;
 
 public final class Image implements Showable {
   final micapolos.tata8.Image state;

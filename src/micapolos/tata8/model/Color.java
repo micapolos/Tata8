@@ -1,14 +1,14 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.DoubleValue.number;
 
 public final class Color implements Showable {
-  public final Number red;
-  public final Number green;
-  public final Number blue;
-  public final Number alpha;
+  public final DoubleValue red;
+  public final DoubleValue green;
+  public final DoubleValue blue;
+  public final DoubleValue alpha;
 
-  Color(Number red, Number green, Number blue, Number alpha) {
+  Color(DoubleValue red, DoubleValue green, DoubleValue blue, DoubleValue alpha) {
     this.red = red;
     this.green = green;
     this.blue = blue;
@@ -23,16 +23,16 @@ public final class Color implements Showable {
     return rgba(number(red), number(green), number(blue), number(alpha));
   }
 
-  public static Color rgb(Number red, Number green, Number blue) {
+  public static Color rgb(DoubleValue red, DoubleValue green, DoubleValue blue) {
     return rgba(red, green, blue, number(1));
   }
 
-  public static Color rgba(Number red, Number green, Number blue, Number alpha) {
+  public static Color rgba(DoubleValue red, DoubleValue green, DoubleValue blue, DoubleValue alpha) {
     return new Color(red, green, blue, alpha);
   }
 
   public static Color variable() {
-    return new Color(Number.variable(), Number.variable(), Number.variable(), Number.variable());
+    return new Color(DoubleValue.variable(), DoubleValue.variable(), DoubleValue.variable(), DoubleValue.variable());
   }
 
   public Action set(Color color) {
@@ -51,8 +51,8 @@ public final class Color implements Showable {
 
   static void main() {
     Color.rgb(
-      Key.LEFT.isPressed.select(Number.one, Number.zero),
-      Key.DOWN.isPressed.select(Number.one, Number.zero),
-      Key.RIGHT.isPressed.select(Number.one, Number.zero)).show();
+      Key.LEFT.isPressed.select(DoubleValue.one, DoubleValue.zero),
+      Key.DOWN.isPressed.select(DoubleValue.one, DoubleValue.zero),
+      Key.RIGHT.isPressed.select(DoubleValue.one, DoubleValue.zero)).show();
   }
 }

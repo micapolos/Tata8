@@ -4,9 +4,9 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
-import static micapolos.tata8.model.Bool.bool;
-import static micapolos.tata8.model.Integer.integer;
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.BooleanValue.bool;
+import static micapolos.tata8.model.IntValue.integer;
+import static micapolos.tata8.model.DoubleValue.number;
 
 public class Value<T> extends Component {
   Supplier<T> supplier;
@@ -73,15 +73,15 @@ public class Value<T> extends Component {
     return map(value -> value != null ? value : defaultValue);
   }
 
-  public Number mapToNumber(ToDoubleFunction<T> function) {
+  public DoubleValue mapToNumber(ToDoubleFunction<T> function) {
     return number(() -> function.applyAsDouble(get()));
   }
 
-  public Integer mapToInteger(ToIntFunction<T> function) {
+  public IntValue mapToInteger(ToIntFunction<T> function) {
     return integer(() -> function.applyAsInt(get()));
   }
 
-  public Bool mapToBool(Predicate<T> function) {
+  public BooleanValue mapToBool(Predicate<T> function) {
     return bool(() -> function.test(get()));
   }
 

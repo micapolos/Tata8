@@ -1,34 +1,34 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.DoubleValue.number;
 import static micapolos.tata8.model.Seconds.seconds;
 
 public final class Position implements Showable {
-  public final Number x;
-  public final Number y;
+  public final DoubleValue x;
+  public final DoubleValue y;
 
-  Position(Number x, Number y) {
+  Position(DoubleValue x, DoubleValue y) {
     this.x = x;
     this.y = y;
   }
 
   public static Position variable() {
-    return position(Number.variable(), Number.variable());
+    return position(DoubleValue.variable(), DoubleValue.variable());
   }
 
   public static Position position(double x, double y) {
     return position(number(x), number(y));
   }
 
-  public static Position position(double x, Number y) {
+  public static Position position(double x, DoubleValue y) {
     return position(number(x), y);
   }
 
-  public static Position position(Number x, double y) {
+  public static Position position(DoubleValue x, double y) {
     return position(x, number(y));
   }
 
-  public static Position position(Number x, Number y) {
+  public static Position position(DoubleValue x, DoubleValue y) {
     return new Position(x, y);
   }
 
@@ -36,7 +36,7 @@ public final class Position implements Showable {
     init(number(x), number(y));
   }
 
-  public void init(Number x, Number y) {
+  public void init(DoubleValue x, DoubleValue y) {
     this.x.init(x);
     this.y.init(y);
   }
@@ -52,7 +52,7 @@ public final class Position implements Showable {
     };
   }
 
-  public Action set(Number x, Number y) {
+  public Action set(DoubleValue x, DoubleValue y) {
     return () -> {
       this.x.setImmediately(x);
       this.y.setImmediately(y);

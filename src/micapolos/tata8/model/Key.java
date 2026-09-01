@@ -1,7 +1,7 @@
 package micapolos.tata8.model;
 
 import static micapolos.tata8.Game.keys;
-import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.BooleanValue.bool;
 import static micapolos.tata8.model.Event.event;
 import static micapolos.tata8.model.Span.span;
 
@@ -17,7 +17,7 @@ public enum Key implements Showable {
 
   public final Event press;
   public final Event release;
-  public final Bool isPressed;
+  public final BooleanValue isPressed;
 
   Key(micapolos.tata8.Key state) {
     this.state = state;

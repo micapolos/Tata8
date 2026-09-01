@@ -6,8 +6,7 @@ import java.util.List;
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
 import static micapolos.tata8.model.Event.event;
-import static micapolos.tata8.model.Number.clippedSeconds;
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.DoubleValue.number;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
@@ -78,8 +77,8 @@ public final class Game {
   }
 
   static void main() {
-    Integer counter = Integer.variable();
-    Integer increment = Integer.variable(1);
+    IntValue counter = IntValue.variable();
+    IntValue increment = IntValue.variable(1);
     Game.when(Key.Z.press, counter.add(increment));
     Game.when(Key.X.press, increment.add(1));
     counter.show();

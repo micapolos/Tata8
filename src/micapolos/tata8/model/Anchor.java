@@ -1,37 +1,37 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.DoubleValue.number;
 
 public final class Anchor implements Showable {
-  public final Number x;
-  public final Number y;
+  public final DoubleValue x;
+  public final DoubleValue y;
 
-  Anchor(Number x, Number y) {
+  Anchor(DoubleValue x, DoubleValue y) {
     this.x = x;
     this.y = y;
   }
 
   public static Anchor anchorVariable() {
-    return anchor(Number.variable(), Number.variable());
+    return anchor(DoubleValue.variable(), DoubleValue.variable());
   }
 
   public static Anchor anchor() {
-    return anchor(Number.zero, Number.zero);
+    return anchor(DoubleValue.zero, DoubleValue.zero);
   }
 
   public static Anchor anchor(double x, double y) {
     return anchor(number(x), number(y));
   }
 
-  public static Anchor anchor(double x, Number y) {
+  public static Anchor anchor(double x, DoubleValue y) {
     return anchor(number(x), y);
   }
 
-  public static Anchor anchor(Number x, double y) {
+  public static Anchor anchor(DoubleValue x, double y) {
     return anchor(x, number(y));
   }
 
-  public static Anchor anchor(Number x, Number y) {
+  public static Anchor anchor(DoubleValue x, DoubleValue y) {
     return new Anchor(x, y);
   }
 
@@ -40,7 +40,7 @@ public final class Anchor implements Showable {
     this.y.setImmediately(y);
   }
 
-  void setImmediately(Number x, Number y) {
+  void setImmediately(DoubleValue x, DoubleValue y) {
     this.x.setImmediately(x);
     this.y.setImmediately(y);
   }
@@ -61,7 +61,7 @@ public final class Anchor implements Showable {
     };
   }
 
-  public Action set(Number x, Number y) {
+  public Action set(DoubleValue x, DoubleValue y) {
     return () -> {
       this.x.setImmediately(x);
       this.y.setImmediately(y);

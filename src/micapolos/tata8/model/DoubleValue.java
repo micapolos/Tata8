@@ -5,15 +5,15 @@ import micapolos.DoubleUtils;
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
-import static micapolos.tata8.model.Bool.bool;
+import static micapolos.tata8.model.BooleanValue.bool;
 import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Value.value;
 
-public class Number extends Component {
+public class DoubleValue extends Component {
   DoubleSupplier supplier;
   double defaultValue;
 
-  Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
+  DoubleValue(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
     super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
@@ -24,66 +24,66 @@ public class Number extends Component {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
-  public static Clipped<Number> clippedSeconds() {
-    Number number = Number.variable();
+  public static Clipped<DoubleValue> clippedSeconds() {
+    DoubleValue doubleValue = DoubleValue.variable();
     Clip clip = new Clip() {
       @Override
       void start() {
-        number.setImmediately(0);
+        doubleValue.setImmediately(0);
       }
 
       @Override
       float step(float seconds) {
-        number.setImmediately(number.get() + seconds);
+        doubleValue.setImmediately(doubleValue.get() + seconds);
         return 0;
       }
     };
-    return clipped(number, clip);
+    return clipped(doubleValue, clip);
   }
 
-  public static Number random() {
+  public static DoubleValue random() {
     return number(Math::random);
   }
 
-  public static final Number zero = number(0);
-  public static final Number half = number(0.5f);
-  public static final Number one = number(1);
+  public static final DoubleValue zero = number(0);
+  public static final DoubleValue half = number(0.5f);
+  public static final DoubleValue one = number(1);
 
-  public static Number number(double value) {
-    return new Number(false, null, value);
+  public static DoubleValue number(double value) {
+    return new DoubleValue(false, null, value);
   }
 
-  public static Number number(DoubleSupplier supplier) {
-    return new Number(false, supplier, 0);
+  public static DoubleValue number(DoubleSupplier supplier) {
+    return new DoubleValue(false, supplier, 0);
   }
 
-  public static Number variable() {
+  public static DoubleValue variable() {
     return variable(0);
   }
 
-  public static Number variable(double value) {
+  public static DoubleValue variable(double value) {
     return variable(() -> value);
   }
 
-  public static Number variable(Number value) {
+  public static DoubleValue variable(DoubleValue value) {
     return variable(value::get);
   }
 
-  public static Number variable(DoubleSupplier aSupplier) {
-    var number = new Number(true, aSupplier, 0);
+  public static DoubleValue variable(DoubleSupplier aSupplier) {
+    var number = new DoubleValue(true, aSupplier, 0);
     Game.addInit(number.initialize);
     return number;
   }
 
-  public Number readonly() {
+  public DoubleValue readonly() {
     return isVariable ? number(this::get) : this;
   }
 
-  public Number update(DoubleUnaryOperator operator) {
+  public DoubleValue update(DoubleUnaryOperator operator) {
     return number(() -> operator.applyAsDouble(get()));
   }
 
-  public Number update(Number b, DoubleBinaryOperator operator) {
+  public DoubleValue update(DoubleValue b, DoubleBinaryOperator operator) {
     return number(() -> operator.applyAsDouble(get(), b.get()));
   }
 
@@ -91,51 +91,51 @@ public class Number extends Component {
     return value(() -> function.apply(get()));
   }
 
-  public Integer mapToInteger(DoubleToIntFunction function) {
-    return Integer.integer(() -> function.applyAsInt(get()));
+  public IntValue mapToInteger(DoubleToIntFunction function) {
+    return IntValue.integer(() -> function.applyAsInt(get()));
   }
 
-  public Number mapToNumber(DoubleUnaryOperator function) {
+  public DoubleValue mapToNumber(DoubleUnaryOperator function) {
     return number(() -> function.applyAsDouble(get()));
   }
 
-  public Bool mapToBool(DoublePredicate function) {
+  public BooleanValue mapToBool(DoublePredicate function) {
     return bool(() -> function.test(get()));
   }
 
-  public Number negated() {
+  public DoubleValue negated() {
     return update(DoubleUtils::negated);
   }
 
-  public Number plus(double x) {
+  public DoubleValue plus(double x) {
     return update(d -> d + x);
   }
 
-  public Number plus(Number n) {
+  public DoubleValue plus(DoubleValue n) {
     return update(n, DoubleUtils::plus);
   }
 
-  public Number minus(double x) {
+  public DoubleValue minus(double x) {
     return update(d -> d - x);
   }
 
-  public Number minus(Number n) {
+  public DoubleValue minus(DoubleValue n) {
     return update(n, DoubleUtils::minus);
   }
 
-  public Number times(double x) {
+  public DoubleValue times(double x) {
     return update(d -> d * x);
   }
 
-  public Number times(Number n) {
+  public DoubleValue times(DoubleValue n) {
     return update(n, DoubleUtils::times);
   }
 
-  public Number fraction() {
+  public DoubleValue fraction() {
     return update(DoubleUtils::fraction);
   }
 
-  public Integer integer() {
+  public IntValue integer() {
     return mapToInteger(d -> (int) d);
   }
 
@@ -143,8 +143,8 @@ public class Number extends Component {
     setImmediately(null, x);
   }
 
-  public void setImmediately(Number number) {
-    setImmediately(number::get, 0);
+  public void setImmediately(DoubleValue doubleValue) {
+    setImmediately(doubleValue::get, 0);
   }
 
   void setImmediately(DoubleSupplier supplier, double defaultValue) {
@@ -156,8 +156,8 @@ public class Number extends Component {
     init(() -> setImmediately(x));
   }
 
-  public void init(Number number) {
-    init(() -> setImmediately(number));
+  public void init(DoubleValue doubleValue) {
+    init(() -> setImmediately(doubleValue));
   }
 
   public Action set(double x) {
@@ -165,24 +165,24 @@ public class Number extends Component {
     return () -> setImmediately(x);
   }
 
-  public Action set(Number number) {
+  public Action set(DoubleValue doubleValue) {
     checkVariable();
-    return () -> setImmediately(number);
+    return () -> setImmediately(doubleValue);
   }
 
-  public Action capture(Number number) {
+  public Action capture(DoubleValue doubleValue) {
     checkVariable();
-    return () -> setImmediately(number.get());
+    return () -> setImmediately(doubleValue.get());
   }
 
   public Stepper setElastic(double n) {
     return setElastic(number(n));
   }
 
-  public Stepper setElastic(Number number) {
+  public Stepper setElastic(DoubleValue doubleValue) {
     checkVariable();
     return seconds -> {
-      setImmediately(elastic((float) get(), (float) number.get()));
+      setImmediately(elastic((float) get(), (float) doubleValue.get()));
       return seconds;
     };
   }
@@ -192,7 +192,7 @@ public class Number extends Component {
     return () -> setImmediately(get() + d);
   }
 
-  public Action add(Number n) {
+  public Action add(DoubleValue n) {
     checkVariable();
     return () -> setImmediately(get() + n.get());
   }
@@ -203,6 +203,6 @@ public class Number extends Component {
   }
 
   static void main() {
-    clippedSeconds().map(Number::integer).show();
+    clippedSeconds().map(DoubleValue::integer).show();
   }
 }

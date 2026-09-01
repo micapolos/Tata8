@@ -6,15 +6,15 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
-import static micapolos.tata8.model.Bool.bool;
-import static micapolos.tata8.model.Number.number;
+import static micapolos.tata8.model.BooleanValue.bool;
+import static micapolos.tata8.model.DoubleValue.number;
 import static micapolos.tata8.model.Value.value;
 
-public class Integer extends Component {
+public class IntValue extends Component {
   IntSupplier supplier;
   int defaultValue;
 
-  Integer(boolean isVariable, IntSupplier supplier, int defaultValue) {
+  IntValue(boolean isVariable, IntSupplier supplier, int defaultValue) {
     super(isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
@@ -25,35 +25,35 @@ public class Integer extends Component {
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }
 
-  public static Integer randomBetween(int min, int max) {
+  public static IntValue randomBetween(int min, int max) {
     return integer(() -> Random.between(min, max));
   }
 
-  public static Integer randomUntil(int limit) {
+  public static IntValue randomUntil(int limit) {
     return integer(() -> Random.until(limit));
   }
 
-  public static Integer zero = integer(0);
-  public static Integer one = integer(1);
+  public static IntValue zero = integer(0);
+  public static IntValue one = integer(1);
 
-  public static Integer integer(int value) {
+  public static IntValue integer(int value) {
     return integer(() -> value);
   }
 
-  public static Integer integer(IntSupplier aSupplier) {
-    return new Integer(false, aSupplier, 0);
+  public static IntValue integer(IntSupplier aSupplier) {
+    return new IntValue(false, aSupplier, 0);
   }
 
-  public static Integer variable() {
+  public static IntValue variable() {
     return variable(0);
   }
 
-  public static Integer variable(int value) {
+  public static IntValue variable(int value) {
     return variable(() -> value);
   }
 
-  public static Integer variable(IntSupplier aSupplier) {
-    return new Integer(true, aSupplier, 0) {
+  public static IntValue variable(IntSupplier aSupplier) {
+    return new IntValue(true, aSupplier, 0) {
       {
         Game.add(new Clip() {
           @Override
@@ -70,19 +70,19 @@ public class Integer extends Component {
     };
   }
 
-  public Integer update(IntUnaryOperator operator) {
+  public IntValue update(IntUnaryOperator operator) {
     return integer(() -> operator.applyAsInt(get()));
   }
 
-  public Integer update(Integer x, IntBinaryOperator operator) {
+  public IntValue update(IntValue x, IntBinaryOperator operator) {
     return integer(() -> operator.applyAsInt(get(), x.get()));
   }
 
-  public Number mapToNumber(IntToDoubleFunction function) {
+  public DoubleValue mapToNumber(IntToDoubleFunction function) {
     return number(() -> function.applyAsDouble(get()));
   }
 
-  public Bool mapToBool(IntPredicate function) {
+  public BooleanValue mapToBool(IntPredicate function) {
     return bool(() -> function.test(get()));
   }
 
@@ -90,35 +90,35 @@ public class Integer extends Component {
     return value(() -> function.apply(get()));
   }
 
-  public Integer negated() {
+  public IntValue negated() {
     return update(IntegerUtils::negated);
   }
 
-  public Integer plus(int x) {
+  public IntValue plus(int x) {
     return update(i -> i + x);
   }
 
-  public Integer plus(Integer n) {
+  public IntValue plus(IntValue n) {
     return update(n, IntegerUtils::plus);
   }
 
-  public Integer minus(int x) {
+  public IntValue minus(int x) {
     return update(i -> i - x);
   }
 
-  public Integer minus(Integer n) {
+  public IntValue minus(IntValue n) {
     return update(n, IntegerUtils::minus);
   }
 
-  public Integer times(int x) {
+  public IntValue times(int x) {
     return update(i -> i * x);
   }
 
-  public Integer times(Integer n) {
+  public IntValue times(IntValue n) {
     return update(n, IntegerUtils::times);
   }
 
-  public Number toNumber() {
+  public DoubleValue toNumber() {
     return mapToNumber(IntegerUtils::toDouble);
   }
 
@@ -134,7 +134,7 @@ public class Integer extends Component {
     init(null, x);
   }
 
-  void init(Integer number) {
+  void init(IntValue number) {
     init(number::get, 0);
   }
 
@@ -148,12 +148,12 @@ public class Integer extends Component {
     return () -> init(x);
   }
 
-  public Action set(Integer number) {
+  public Action set(IntValue number) {
     checkVariable();
     return () -> init(number);
   }
 
-  public Action capture(Integer number) {
+  public Action capture(IntValue number) {
     checkVariable();
     return () -> init(number.get());
   }
@@ -163,7 +163,7 @@ public class Integer extends Component {
     return () -> init(get() + d);
   }
 
-  public Action add(Integer n) {
+  public Action add(IntValue n) {
     checkVariable();
     return () -> init(get() + n.get());
   }

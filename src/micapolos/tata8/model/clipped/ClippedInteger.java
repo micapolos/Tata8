@@ -1,38 +1,38 @@
 package micapolos.tata8.model.clipped;
 
 import micapolos.tata8.model.Clipped;
-import micapolos.tata8.model.Integer;
-import micapolos.tata8.model.Number;
+import micapolos.tata8.model.IntValue;
+import micapolos.tata8.model.DoubleValue;
 import micapolos.tata8.model.Value;
 
 import java.util.List;
 
 public final class ClippedInteger {
-  public static Clipped<Integer> negated(Clipped<Integer> a) {
-    return a.update(Integer::negated);
+  public static Clipped<IntValue> negated(Clipped<IntValue> a) {
+    return a.update(IntValue::negated);
   }
 
-  public static Clipped<Integer> plus(Clipped<Integer> a, Clipped<Integer> b) {
-    return a.update(b, Integer::plus);
+  public static Clipped<IntValue> plus(Clipped<IntValue> a, Clipped<IntValue> b) {
+    return a.update(b, IntValue::plus);
   }
 
-  public static Clipped<Integer> minus(Clipped<Integer> a, Clipped<Integer> b) {
-    return a.update(b, Integer::minus);
+  public static Clipped<IntValue> minus(Clipped<IntValue> a, Clipped<IntValue> b) {
+    return a.update(b, IntValue::minus);
   }
 
-  public static Clipped<Integer> times(Clipped<Integer> a, Clipped<Integer> b) {
-    return a.update(b, Integer::times);
+  public static Clipped<IntValue> times(Clipped<IntValue> a, Clipped<IntValue> b) {
+    return a.update(b, IntValue::times);
   }
 
-  public static Clipped<Number> toNumber(Clipped<Integer> a) {
-    return a.map(Integer::toNumber);
+  public static Clipped<DoubleValue> toNumber(Clipped<IntValue> a) {
+    return a.map(IntValue::toNumber);
   }
 
-  public static <R> Clipped<Value<R>> get(Clipped<Integer> index, R... values) {
+  public static <R> Clipped<Value<R>> get(Clipped<IntValue> index, R... values) {
     return index.map(x -> x.getValue(values));
   }
 
-  public static <R> Clipped<Value<R>> get(Clipped<Integer> index, List<R> values) {
+  public static <R> Clipped<Value<R>> get(Clipped<IntValue> index, List<R> values) {
     return index.map(x -> x.get(values));
   }
 

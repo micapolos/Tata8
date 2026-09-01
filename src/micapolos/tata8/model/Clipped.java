@@ -84,11 +84,11 @@ public abstract class Clipped<T extends Showable> implements Showable {
     return clipped.map(value -> value.mapToNotNull(defaultValue));
   }
 
-  public static <T> Clipped<Integer> mapValueToInteger(Clipped<Value<T>> clipped, ToIntFunction<T> function) {
+  public static <T> Clipped<IntValue> mapValueToInteger(Clipped<Value<T>> clipped, ToIntFunction<T> function) {
     return clipped.map(value -> value.mapToInteger(function));
   }
 
-  public static <R> Clipped<Value<R>> mapIntegerToValue(Clipped<Integer> clipped, IntFunction<R> function) {
+  public static <R> Clipped<Value<R>> mapIntegerToValue(Clipped<IntValue> clipped, IntFunction<R> function) {
     return clipped.map(value -> value.mapToValue(function));
   }
 
@@ -104,8 +104,8 @@ public abstract class Clipped<T extends Showable> implements Showable {
   }
 
   static void main() {
-    var s1 = Number.clippedSeconds();
-    var s2 = Number.clippedSeconds();
+    var s1 = DoubleValue.clippedSeconds();
+    var s2 = DoubleValue.clippedSeconds();
     var s12 = ClippedNumber.plus(s1, s2);
     s12.maybeAddToGame();
     Game.init();

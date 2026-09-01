@@ -1,18 +1,16 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Bool.variable;
-
 public final class Flip implements Showable {
-  public final Bool x;
-  public final Bool y;
+  public final BooleanValue x;
+  public final BooleanValue y;
 
-  Flip(Bool x, Bool y) {
+  Flip(BooleanValue x, BooleanValue y) {
     this.x = x;
     this.y = y;
   }
 
   public static Flip flipVariable() {
-    return flip(Bool.variable(), Bool.variable());
+    return flip(BooleanValue.variable(), BooleanValue.variable());
   }
 
   public static Flip flip() {
@@ -20,10 +18,10 @@ public final class Flip implements Showable {
   }
 
   public static Flip flip(boolean x, boolean y) {
-    return flip(Bool.bool(x), Bool.bool(y));
+    return flip(BooleanValue.bool(x), BooleanValue.bool(y));
   }
 
-  public static Flip flip(Bool x, Bool y) {
+  public static Flip flip(BooleanValue x, BooleanValue y) {
     return new Flip(x, y);
   }
 
@@ -33,6 +31,6 @@ public final class Flip implements Showable {
   }
 
   static void main() {
-    new Flip(Bool.bool(false), Bool.bool(true)).show();
+    new Flip(BooleanValue.bool(false), BooleanValue.bool(true)).show();
   }
 }
