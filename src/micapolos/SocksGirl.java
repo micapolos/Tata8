@@ -1,10 +1,10 @@
 package micapolos;
 
 import micapolos.tata8.model.Direction;
-import micapolos.tata8.model.Image;
 import micapolos.tata8.model.Key;
 
 import static micapolos.tata8.model.Anchor.anchor;
+import static micapolos.tata8.model.Image.image;
 import static micapolos.tata8.model.Position.position;
 import static micapolos.tata8.model.Sprite.sprite;
 
@@ -23,7 +23,7 @@ public class SocksGirl {
   }
 
   static void main() {
-    var sheetImages = Image.image(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
+    var sheetImages = image(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
 
     var image = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())

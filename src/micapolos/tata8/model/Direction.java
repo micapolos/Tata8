@@ -1,7 +1,5 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.live.LiveValues.mapValue;
-
 public enum Direction implements Showable {
   UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT;
 

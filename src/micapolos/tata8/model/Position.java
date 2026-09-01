@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Seconds.seconds;
+import static micapolos.tata8.model.Number.seconds;
 
 public final class Position extends Component {
   public final Number x;
