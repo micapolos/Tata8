@@ -33,6 +33,16 @@ public class Number extends Component {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
+  public Number with(Clip clip) {
+    return new Number(this::get) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+        Game.add(clip);
+      }
+    };
+  }
+
   public static final Number random = random();
 
   public static Number random() {

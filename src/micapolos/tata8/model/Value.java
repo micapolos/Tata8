@@ -26,6 +26,16 @@ public class Value<T> extends Component {
     this.defaultValue = defaultValue;
   }
 
+  public Value<T> with(Clip clip) {
+    return new Value<>(this::get) {
+      @Override
+      void addClips() {
+        Value.this.maybeAddClips();
+        Game.add(clip);
+      }
+    };
+  }
+
   public T get() {
     var supplier = this.supplier;
     return supplier != null ? supplier.get() : defaultValue;
