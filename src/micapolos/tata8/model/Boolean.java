@@ -2,12 +2,16 @@ package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.tata8.model.Number.with;
+import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Value.with;
 
 public class Boolean extends Component {
   BooleanSupplier supplier;
   boolean defaultValue;
+
+  Boolean(BooleanSupplier supplier) {
+    this(false, supplier, false);
+  }
 
   Boolean(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
     super(isVariable);
@@ -127,7 +131,7 @@ public class Boolean extends Component {
   }
 
   public Number select(Number trueNumber, Number falseNumber) {
-    return Number.with(() -> get() ? trueNumber.get() : falseNumber.get());
+    return Number.number(() -> get() ? trueNumber.get() : falseNumber.get());
   }
 
   @Override

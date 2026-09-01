@@ -1,17 +1,26 @@
 package micapolos.tata8.model;
 
 import micapolos.DoubleUtils;
-import micapolos.tata8.model.live.LiveNumbers;
 
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
-import static micapolos.tata8.model.Boolean.with;
-import static micapolos.tata8.model.Value.with;
 
 public class Number extends Component {
   DoubleSupplier supplier;
   double defaultValue;
+
+  Number() {
+    this(false, null, 0);
+  }
+
+  Number(double d) {
+    this(false, null, d);
+  }
+
+  Number(DoubleSupplier supplier) {
+    this(false, supplier, 0);
+  }
 
   Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
     super(isVariable);
@@ -24,20 +33,40 @@ public class Number extends Component {
     return supplier != null ? supplier.getAsDouble() : defaultValue;
   }
 
+  public static final Number random = random();
+
   public static Number random() {
-    return with(Math::random);
+    return number(Math::random);
   }
 
-  public static final Number zero = with(0);
-  public static final Number half = with(0.5f);
-  public static final Number one = with(1);
+  public static final Number seconds = new Number(false, null, 0) {
+    @Override
+    void addClips() {
+      Game.add(new Clip() {
+        @Override
+        void start() {
+          defaultValue = 0;
+        }
 
-  public static Number with(double value) {
-    return new Number(false, null, value);
+        @Override
+        float step(float seconds) {
+          defaultValue += seconds;
+          return seconds;
+        }
+      });
+    }
+  };
+
+  public static final Number zero = number(0);
+  public static final Number half = number(0.5f);
+  public static final Number one = number(1);
+
+  public static Number number(double value) {
+    return new Number(value);
   }
 
-  public static Number with(DoubleSupplier supplier) {
-    return new Number(false, supplier, 0);
+  static Number number(DoubleSupplier supplier) {
+    return new Number(supplier);
   }
 
   public static Number newVariable() {
@@ -53,37 +82,77 @@ public class Number extends Component {
   }
 
   public static Number newVariable(DoubleSupplier aSupplier) {
-    var number = new Number(true, aSupplier, 0);
-    Game.addInit(number.initialize);
-    return number;
+    return new Number(true, aSupplier, 0) {
+      @Override
+      void addClips() {
+        Game.add(new Clip() {
+          @Override
+          void start() {
+            supplier = aSupplier;
+          }
+
+          @Override
+          float step(float seconds) {
+            return seconds;
+          }
+        });
+      }
+    };
   }
 
   public Number readonly() {
-    return isVariable ? with(this::get) : this;
+    return isVariable ? new Number(this::get) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    } : this;
   }
 
   public Number update(DoubleUnaryOperator operator) {
-    return with(() -> operator.applyAsDouble(get()));
+    return new Number(() -> operator.applyAsDouble(get())) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    };
   }
 
   public Number update(Number b, DoubleBinaryOperator operator) {
-    return with(() -> operator.applyAsDouble(get(), b.get()));
+    return new Number(() -> operator.applyAsDouble(get(), b.get())) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+        b.maybeAddClips();
+      }
+    };
   }
 
   public <R> Value<R> mapToValue(DoubleFunction<R> function) {
-    return Value.with(() -> function.apply(get()));
+    return new Value<R>(() -> function.apply(get())) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    };
   }
 
   public Integer mapToInteger(DoubleToIntFunction function) {
-    return Integer.with(() -> function.applyAsInt(get()));
-  }
-
-  public Number mapToNumber(DoubleUnaryOperator function) {
-    return with(() -> function.applyAsDouble(get()));
+    return new Integer(() -> function.applyAsInt(get())) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    };
   }
 
   public Boolean mapToBool(DoublePredicate function) {
-    return Boolean.with(() -> function.test(get()));
+    return new Boolean(() -> function.test(get())) {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+      }
+    };
   }
 
   public Number negated() {
@@ -160,7 +229,7 @@ public class Number extends Component {
   }
 
   public Stepper setElastic(double n) {
-    return setElastic(with(n));
+    return setElastic(number(n));
   }
 
   public Stepper setElastic(Number number) {
@@ -187,6 +256,6 @@ public class Number extends Component {
   }
 
   static void main() {
-    LiveNumbers.liveSeconds().map(Number::integer).show();
+    Number.seconds.times(10).negated().integer().show();
   }
 }

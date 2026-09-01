@@ -8,6 +8,10 @@ public class Value<T> extends Component {
   Supplier<T> supplier;
   T defaultValue;
 
+  Value(Supplier<T> supplier ) {
+    this(false, supplier, null);
+  }
+
   Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
     super(isVariable);
     this.supplier = supplier;
@@ -70,7 +74,7 @@ public class Value<T> extends Component {
   }
 
   public Number mapToNumber(ToDoubleFunction<T> function) {
-    return Number.with(() -> function.applyAsDouble(get()));
+    return Number.number(() -> function.applyAsDouble(get()));
   }
 
   public Integer mapToInteger(ToIntFunction<T> function) {

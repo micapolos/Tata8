@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.function.*;
 
 import static micapolos.tata8.model.Boolean.with;
-import static micapolos.tata8.model.Number.with;
+import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Value.with;
 
 public class Integer extends Component {
   IntSupplier supplier;
   int defaultValue;
+
+  Integer(IntSupplier supplier) {
+    this(false, supplier, 0);
+  }
 
   Integer(boolean isVariable, IntSupplier supplier, int defaultValue) {
     super(isVariable);
@@ -79,7 +83,7 @@ public class Integer extends Component {
   }
 
   public Number mapToNumber(IntToDoubleFunction function) {
-    return Number.with(() -> function.applyAsDouble(get()));
+    return Number.number(() -> function.applyAsDouble(get()));
   }
 
   public Boolean mapToBool(IntPredicate function) {

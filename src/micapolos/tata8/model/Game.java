@@ -6,13 +6,13 @@ import java.util.List;
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
 import static micapolos.tata8.model.Event.with;
-import static micapolos.tata8.model.Number.with;
+import static micapolos.tata8.model.Number.number;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
   static final List<Stepper> steppers = new ArrayList<>();
 
-  static final Size size = new Size(Number.with(micapolos.tata8.Game.size.width), Number.with(micapolos.tata8.Game.size.height));
+  static final Size size = new Size(Number.number(micapolos.tata8.Game.size.width), Number.number(micapolos.tata8.Game.size.height));
 
   static void addInit(Action initAction) {
     initActions.add(initAction);

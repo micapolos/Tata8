@@ -16,15 +16,15 @@ public final class Anchor implements Showable {
   public static final Anchor zero = with(Number.zero, Number.zero);
 
   public static Anchor with(double x, double y) {
-    return with(Number.with(x), Number.with(y));
+    return with(Number.number(x), Number.number(y));
   }
 
   public static Anchor with(double x, Number y) {
-    return with(Number.with(x), y);
+    return with(Number.number(x), y);
   }
 
   public static Anchor with(Number x, double y) {
-    return with(x, Number.with(y));
+    return with(x, Number.number(y));
   }
 
   public static Anchor with(Number x, Number y) {
@@ -70,6 +70,6 @@ public final class Anchor implements Showable {
   }
 
   static void main() {
-    new Anchor(Number.with(1), Number.with(2)).show();
+    new Anchor(Number.number(1), Number.number(2)).show();
   }
 }

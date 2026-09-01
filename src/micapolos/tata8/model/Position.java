@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Number.with;
+import static micapolos.tata8.model.Number.number;
 import static micapolos.tata8.model.Seconds.seconds;
 
 public final class Position implements Showable {
@@ -17,15 +17,15 @@ public final class Position implements Showable {
   }
 
   public static Position with(double x, double y) {
-    return with(Number.with(x), Number.with(y));
+    return with(Number.number(x), Number.number(y));
   }
 
   public static Position with(double x, Number y) {
-    return with(Number.with(x), y);
+    return with(Number.number(x), y);
   }
 
   public static Position with(Number x, double y) {
-    return with(x, Number.with(y));
+    return with(x, Number.number(y));
   }
 
   public static Position with(Number x, Number y) {
@@ -33,7 +33,7 @@ public final class Position implements Showable {
   }
 
   public void init(double x, double y) {
-    init(Number.with(x), Number.with(y));
+    init(Number.number(x), Number.number(y));
   }
 
   public void init(Number x, Number y) {

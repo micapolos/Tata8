@@ -10,7 +10,7 @@ public final class LiveNumbers {
   private LiveNumbers() {}
 
   public static Live<Number> live(double d) {
-    return Live.live(Number.with(d), Clip.EMPTY);
+    return Live.live(Number.number(d), Clip.EMPTY);
   }
 
   public static Live<Number> newVariable(Live<Number> initial) {

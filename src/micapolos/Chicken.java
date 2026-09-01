@@ -17,7 +17,7 @@ final class Chicken {
   final Clip clip;
 
   public Chicken() {
-    Number speed = Key.Z.isPressed.select(Number.with(2), Number.with(1));
+    Number speed = Key.Z.isPressed.select(Number.number(2), Number.number(1));
     Number step = isLeft.select(speed.negated().times(3), speed.times(3));
     Action move = position.x.add(step);
 
