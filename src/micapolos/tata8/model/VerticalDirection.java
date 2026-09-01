@@ -4,7 +4,7 @@ import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Clip.select;
 import static micapolos.tata8.model.Clipped.clipped;
 
-public enum VerticalDirection {
+public enum VerticalDirection implements Showable {
   UP, DOWN;
 
   public static Clipped<Value<VerticalDirection>> fromSpans(Span upSpan, Span downSpan) {

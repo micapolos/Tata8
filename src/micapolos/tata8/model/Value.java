@@ -61,6 +61,10 @@ public class Value<T> extends Component {
     return value(() -> function.apply(get()));
   }
 
+  public <V, R> Value<R> map(Value<V> x, BiFunction<T, V, R> function) {
+    return value(() -> function.apply(get(), x.get()));
+  }
+
   public Value<T> mapToNotNull(T defaultValue) {
     return map(value -> value != null ? value : defaultValue);
   }

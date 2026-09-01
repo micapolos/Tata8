@@ -4,7 +4,7 @@ import static micapolos.tata8.model.Clip.on;
 import static micapolos.tata8.model.Clip.select;
 import static micapolos.tata8.model.Clipped.clipped;
 
-public enum HorizontalDirection {
+public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;
 
   public static Clipped<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {

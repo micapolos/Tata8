@@ -1,46 +1,72 @@
 package micapolos.tata8.model;
 
+import micapolos.tata8.model.clipped.ClippedNumber;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.*;
+import java.util.stream.Stream;
 
-import static micapolos.tata8.model.Clip.instant;
-import static micapolos.tata8.model.Value.value;
-
-// TODO: Consider renaming to Spanned<T>.
-public final class Clipped<T> implements Showable {
+public abstract class Clipped<T extends Showable> implements Showable {
   public final T value;
-  public final Clip clip;
 
-  Clipped(T value, Clip clip) {
+  Clipped(T value) {
     this.value = value;
-    this.clip = clip;
   }
 
-  public static <T> Clipped<T> clipped(T value, Clip clip) {
-    return new Clipped<>(value, clip);
+  abstract Stream<Clip> clips();
+
+  final void addClips() {
+    clips().distinct().forEach(Game::add);
   }
 
-  public static <T> Clipped<List<T>> parallel(Clipped<T>... clippeds) {
-    return clipped(
-      Arrays.stream(clippeds).map(t -> t.value).toList(),
-      Clip.parallel(Arrays.stream(clippeds).map(t -> t.clip).toList().toArray(new Clip[0])));
+  public static <T extends Showable> Clipped<T> clipped(T value, Clip clip) {
+    return new Clipped<>(value) {
+      @Override
+      Stream<Clip> clips() {
+        return Stream.of(clip);
+      }
+    };
   }
 
   public Clipped<T> update(UnaryOperator<T> operator) {
-    return clipped(operator.apply(value), clip);
+    return new Clipped<T>(operator.apply(value)) {
+      @Override
+      Stream<Clip> clips() {
+        return Clipped.this.clips();
+      }
+    };
   }
 
   public Clipped<T> update(Clipped<T> x, BinaryOperator<T> operator) {
-    return clipped(operator.apply(value, x.value), clip);
+    return new Clipped<T>(operator.apply(value, x.value)) {
+      @Override
+      Stream<Clip> clips() {
+        return Stream.concat(Clipped.this.clips(), x.clips());
+      }
+    };
   }
 
-  public <R> Clipped<R> map(Function<T, R> function) {
-    return clipped(function.apply(value), clip);
+  public <R extends Showable> Clipped<R> map(Function<T, R> function) {
+    return new Clipped<>(function.apply(value)) {
+      @Override
+      Stream<Clip> clips() {
+        return Clipped.this.clips();
+      }
+    };
   }
 
-  public <V, R> Clipped<R> map(Clipped<V> b, BiFunction<T, V, R> function) {
-    return clipped(function.apply(value, b.value), clip);
+  public <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> x, BiFunction<T, V, R> function) {
+    return new Clipped<>(function.apply(value, x.value)) {
+      @Override
+      Stream<Clip> clips() {
+        return Stream.concat(Clipped.this.clips(), x.clips());
+      }
+    };
+  }
+
+  public static <T extends Showable, V extends Showable, R extends Showable> Clipped<Value<R>> mapValue(Clipped<Value<T>> x, Clipped<Value<V>> y, BiFunction<T, V, R> function) {
+    return x.map(y, (a, b) -> a.map(b, function));
   }
 
   public static <T, R> Clipped<Value<R>> mapValue(Clipped<Value<T>> clipped, Function<T, R> function) {
@@ -66,8 +92,17 @@ public final class Clipped<T> implements Showable {
 
   @Override
   public void show() {
-    var x = clipped(value("string"), instant());
+    addClips();
+    value.show();
+  }
 
-    clip.showWith(this);
+  static void main() {
+    var s1 = Number.clippedSeconds();
+    var s2 = Number.clippedSeconds();
+    var s12 = ClippedNumber.plus(s1, s2);
+    s12.clips().distinct().forEach(c -> c.step(10));
+    IO.println("Should be 10: " + s1.value.get());
+    IO.println("Should be 10: " + s2.value.get());
+    IO.println("Should be 20: " + s12.value.get());
   }
 }

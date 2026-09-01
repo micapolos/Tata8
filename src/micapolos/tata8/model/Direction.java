@@ -1,10 +1,8 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.Clip.parallel;
-import static micapolos.tata8.model.Clipped.clipped;
-import static micapolos.tata8.model.Value.value;
+import static micapolos.tata8.model.Clipped.mapValue;
 
-public enum Direction {
+public enum Direction implements Showable {
   UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT;
 
   public static Direction orNullFrom(
@@ -45,11 +43,7 @@ public enum Direction {
     Span downPressedSpan) {
     var verticalDirection = VerticalDirection.fromSpans(upPressedSpan, downPressedSpan);
     var horizontalDirection = HorizontalDirection.fromSpans(leftPressedSpan, rightPressedSpan);
-    return clipped(
-      value(() -> Direction.orNullFrom(verticalDirection.value.get(), horizontalDirection.value.get())),
-      parallel(
-        verticalDirection.clip,
-        horizontalDirection.clip));
+    return mapValue(verticalDirection, horizontalDirection, Direction::orNullFrom);
   }
 
   static void main() {
