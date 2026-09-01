@@ -1,22 +1,21 @@
 package micapolos;
 
 import micapolos.tata8.model.*;
-import micapolos.tata8.model.DoubleValue;
 
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.Sprite.newSprite;
 
 final class Chicken {
-  static final Image[] images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
+  static final Image[] images = Image.load(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-  final Sprite sprite = Sprite.newSprite();
-  final Position position = Position.variable();
-  final BooleanValue isLeft = BooleanValue.variable();
+  final Sprite sprite = newSprite();
+  final Position position = Position.newVariable();
+  final BooleanValue isLeft = BooleanValue.newVariable();
   final Clip clip;
 
   public Chicken() {
-    DoubleValue speed = Key.Z.isPressed.select(number(2), number(1));
+    DoubleValue speed = Key.Z.isPressed.select(DoubleValue.with(2), DoubleValue.with(1));
     DoubleValue step = isLeft.select(speed.negated().times(3), speed.times(3));
     Action move = position.x.add(step);
 

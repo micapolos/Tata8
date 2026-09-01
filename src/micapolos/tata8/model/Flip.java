@@ -9,19 +9,17 @@ public final class Flip implements Showable {
     this.y = y;
   }
 
-  public static Flip flipVariable() {
-    return flip(BooleanValue.variable(), BooleanValue.variable());
+  public static Flip newVariable() {
+    return with(BooleanValue.newVariable(), BooleanValue.newVariable());
   }
 
-  public static Flip flip() {
-    return flip(false, false);
+  public static final Flip none = with(false, false);
+
+  public static Flip with(boolean x, boolean y) {
+    return with(BooleanValue.with(x), BooleanValue.with(y));
   }
 
-  public static Flip flip(boolean x, boolean y) {
-    return flip(BooleanValue.bool(x), BooleanValue.bool(y));
-  }
-
-  public static Flip flip(BooleanValue x, BooleanValue y) {
+  public static Flip with(BooleanValue x, BooleanValue y) {
     return new Flip(x, y);
   }
 
@@ -31,6 +29,6 @@ public final class Flip implements Showable {
   }
 
   static void main() {
-    new Flip(BooleanValue.bool(false), BooleanValue.bool(true)).show();
+    new Flip(BooleanValue.with(false), BooleanValue.with(true)).show();
   }
 }

@@ -1,19 +1,15 @@
 package micapolos.tata8.model;
 
 import static micapolos.Blocks.ifNotNull;
-import static micapolos.tata8.model.Anchor.anchorVariable;
-import static micapolos.tata8.model.Flip.flipVariable;
-import static micapolos.tata8.model.Image.image;
-import static micapolos.tata8.model.Value.value;
-import static micapolos.tata8.model.Value.variable;
+import static micapolos.tata8.model.Image.load;
 
 public final class Sprite implements Showable {
   final micapolos.tata8.Sprite state;
 
-  public final Value<Image> image = variable();
-  public final Position position = Position.variable();
-  public final Anchor anchor = anchorVariable();
-  public final Flip flip = flipVariable();
+  public final Value<Image> image = Value.newVariable();
+  public final Position position = Position.newVariable();
+  public final Anchor anchor = Anchor.newVariable();
+  public final Flip flip = Flip.newVariable();
 
   Sprite(micapolos.tata8.Sprite state) {
     this.state = state;
@@ -29,7 +25,7 @@ public final class Sprite implements Showable {
   }
 
   public static Sprite newSprite(Image image) {
-    return newSprite(value(image));
+    return newSprite(Value.with(image));
   }
 
   public static Sprite newSprite(Value<Image> image) {
@@ -63,7 +59,7 @@ public final class Sprite implements Showable {
   }
 
   static void main() {
-    Image image = image(Game.class, "depressedChicken.png").sliceVertically(8)[0];
+    Image image = load(Game.class, "depressedChicken.png").sliceVertically(8)[0];
     Sprite sprite = newSprite();
     sprite.image.init(image);
     sprite.anchor.init(16, 16);

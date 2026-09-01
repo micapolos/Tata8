@@ -8,7 +8,7 @@ public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;
 
   public static Clipped<Value<HorizontalDirection>> fromSpans(Span leftSpan, Span rightSpan) {
-    Value<HorizontalDirection> direction = Value.variable();
+    Value<HorizontalDirection> direction = Value.newVariable();
     return clipped(
       direction.toValue(),
       select(

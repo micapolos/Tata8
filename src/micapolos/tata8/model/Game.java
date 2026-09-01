@@ -5,14 +5,14 @@ import java.util.List;
 
 import static micapolos.tata8.Game.keys;
 import static micapolos.tata8.Game.onUpdate;
-import static micapolos.tata8.model.Event.event;
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.Event.with;
+import static micapolos.tata8.model.DoubleValue.with;
 
 public final class Game {
   static final List<Action> initActions = new ArrayList<>();
   static final List<Stepper> steppers = new ArrayList<>();
 
-  static final Size size = new Size(number(micapolos.tata8.Game.size.width), number(micapolos.tata8.Game.size.height));
+  static final Size size = new Size(DoubleValue.with(micapolos.tata8.Game.size.width), DoubleValue.with(micapolos.tata8.Game.size.height));
 
   static void addInit(Action initAction) {
     initActions.add(initAction);
@@ -30,7 +30,7 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
 
   static boolean startedValue;
-  public static Event started = event(() -> startedValue);
+  public static Event started = Event.with(() -> startedValue);
 
   public static void when(Event event, Action action) {
     add(new Clip() {
@@ -77,8 +77,8 @@ public final class Game {
   }
 
   static void main() {
-    IntValue counter = IntValue.variable();
-    IntValue increment = IntValue.variable(1);
+    IntValue counter = IntValue.newVariable();
+    IntValue increment = IntValue.newVariable(1);
     Game.when(Key.Z.press, counter.add(increment));
     Game.when(Key.X.press, increment.add(1));
     counter.show();

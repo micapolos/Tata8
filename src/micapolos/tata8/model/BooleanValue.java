@@ -2,8 +2,8 @@ package micapolos.tata8.model;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.tata8.model.DoubleValue.number;
-import static micapolos.tata8.model.Value.value;
+import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Value.with;
 
 public class BooleanValue extends Component {
   BooleanSupplier supplier;
@@ -20,23 +20,23 @@ public class BooleanValue extends Component {
     return supplier != null ? supplier.getAsBoolean() : defaultValue;
   }
 
-  public static BooleanValue bool(boolean value) {
-    return new BooleanValue(false, null, value);
+  public static BooleanValue with(boolean b) {
+    return new BooleanValue(false, null, b);
   }
 
-  static BooleanValue bool(BooleanSupplier aSupplier) {
+  static BooleanValue with(BooleanSupplier aSupplier) {
     return new BooleanValue(false, aSupplier, false);
   }
 
-  public static BooleanValue variable() {
-    return variable(false);
+  public static BooleanValue newVariable() {
+    return newVariable(false);
   }
 
-  public static BooleanValue variable(boolean value) {
-    return variable(() -> value);
+  public static BooleanValue newVariable(boolean value) {
+    return newVariable(() -> value);
   }
 
-  static BooleanValue variable(BooleanSupplier supplier) {
+  static BooleanValue newVariable(BooleanSupplier supplier) {
     var bool = new BooleanValue(true, supplier, false);
     Game.addInit(() -> bool.setImmediately(supplier, false));
     return bool;
@@ -79,19 +79,19 @@ public class BooleanValue extends Component {
   }
 
   public BooleanValue equals(boolean value) {
-    return equals(bool(value));
+    return equals(with(value));
   }
 
   public BooleanValue equals(BooleanValue value) {
-    return bool(() -> get() == value.get());
+    return with(() -> get() == value.get());
   }
 
   public static BooleanValue not(BooleanValue value) {
-    return bool(() -> !value.get());
+    return with(() -> !value.get());
   }
 
   public static BooleanValue all(BooleanValue... booleanValues) {
-    return bool(() -> {
+    return with(() -> {
       boolean value = true;
       for (BooleanValue booleanValue : booleanValues) {
         value &= booleanValue.get();
@@ -101,7 +101,7 @@ public class BooleanValue extends Component {
   }
 
   public static BooleanValue any(BooleanValue... booleanValues) {
-    return bool(() -> {
+    return with(() -> {
       boolean value = false;
       for (BooleanValue booleanValue : booleanValues) {
         value |= booleanValue.get();
@@ -111,23 +111,23 @@ public class BooleanValue extends Component {
   }
 
   public BooleanValue and(BooleanValue booleanValue) {
-    return bool(() -> get() && booleanValue.get());
+    return with(() -> get() && booleanValue.get());
   }
 
   public BooleanValue or(BooleanValue booleanValue) {
-    return bool(() -> get() || booleanValue.get());
+    return with(() -> get() || booleanValue.get());
   }
 
   public <T> Value<T> select(T trueValue, T falseValue) {
-    return value(() -> get() ? trueValue : falseValue);
+    return Value.with(() -> get() ? trueValue : falseValue);
   }
 
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
-    return value(() -> get() ? trueValue.get() : falseValue.get());
+    return Value.with(() -> get() ? trueValue.get() : falseValue.get());
   }
 
   public DoubleValue select(DoubleValue trueDoubleValue, DoubleValue falseDoubleValue) {
-    return number(() -> get() ? trueDoubleValue.get() : falseDoubleValue.get());
+    return DoubleValue.with(() -> get() ? trueDoubleValue.get() : falseDoubleValue.get());
   }
 
   @Override
@@ -136,6 +136,6 @@ public class BooleanValue extends Component {
   }
 
   static void main() {
-    bool(false).show();
+    with(false).show();
   }
 }

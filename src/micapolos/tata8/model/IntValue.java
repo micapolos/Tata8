@@ -6,9 +6,9 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
-import static micapolos.tata8.model.BooleanValue.bool;
-import static micapolos.tata8.model.DoubleValue.number;
-import static micapolos.tata8.model.Value.value;
+import static micapolos.tata8.model.BooleanValue.with;
+import static micapolos.tata8.model.DoubleValue.with;
+import static micapolos.tata8.model.Value.with;
 
 public class IntValue extends Component {
   IntSupplier supplier;
@@ -26,33 +26,33 @@ public class IntValue extends Component {
   }
 
   public static IntValue randomBetween(int min, int max) {
-    return integer(() -> Random.between(min, max));
+    return with(() -> Random.between(min, max));
   }
 
   public static IntValue randomUntil(int limit) {
-    return integer(() -> Random.until(limit));
+    return with(() -> Random.until(limit));
   }
 
-  public static IntValue zero = integer(0);
-  public static IntValue one = integer(1);
+  public static IntValue zero = with(0);
+  public static IntValue one = with(1);
 
-  public static IntValue integer(int value) {
-    return integer(() -> value);
+  public static IntValue with(int value) {
+    return with(() -> value);
   }
 
-  public static IntValue integer(IntSupplier aSupplier) {
+  public static IntValue with(IntSupplier aSupplier) {
     return new IntValue(false, aSupplier, 0);
   }
 
-  public static IntValue variable() {
-    return variable(0);
+  public static IntValue newVariable() {
+    return newVariable(0);
   }
 
-  public static IntValue variable(int value) {
-    return variable(() -> value);
+  public static IntValue newVariable(int value) {
+    return newVariable(() -> value);
   }
 
-  public static IntValue variable(IntSupplier aSupplier) {
+  public static IntValue newVariable(IntSupplier aSupplier) {
     return new IntValue(true, aSupplier, 0) {
       {
         Game.add(new Clip() {
@@ -71,23 +71,23 @@ public class IntValue extends Component {
   }
 
   public IntValue update(IntUnaryOperator operator) {
-    return integer(() -> operator.applyAsInt(get()));
+    return with(() -> operator.applyAsInt(get()));
   }
 
   public IntValue update(IntValue x, IntBinaryOperator operator) {
-    return integer(() -> operator.applyAsInt(get(), x.get()));
+    return with(() -> operator.applyAsInt(get(), x.get()));
   }
 
   public DoubleValue mapToNumber(IntToDoubleFunction function) {
-    return number(() -> function.applyAsDouble(get()));
+    return DoubleValue.with(() -> function.applyAsDouble(get()));
   }
 
   public BooleanValue mapToBool(IntPredicate function) {
-    return bool(() -> function.test(get()));
+    return BooleanValue.with(() -> function.test(get()));
   }
 
   public <R> Value<R> mapToValue(IntFunction<R> function) {
-    return value(() -> function.apply(get()));
+    return Value.with(() -> function.apply(get()));
   }
 
   public IntValue negated() {

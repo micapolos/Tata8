@@ -3,7 +3,7 @@ package micapolos;
 import micapolos.tata8.model.*;
 import micapolos.tata8.model.clipped.ClippedInteger;
 
-import static micapolos.tata8.model.Image.image;
+import static micapolos.tata8.model.Image.load;
 import static micapolos.tata8.model.Sprite.newSprite;
 
 public class SocksGirl {
@@ -21,7 +21,7 @@ public class SocksGirl {
   }
 
   static void main() {
-    var sheetImage = image(SocksGirl.class, "socksgirl-sheet.png");
+    var sheetImage = load(SocksGirl.class, "socksgirl-sheet.png");
     var sheetImages = sheetImage.sliceVertically(12);
     var clippedDirectionOrNullValue = Direction.fromSpans(
       Key.LEFT.pressedSpan(),

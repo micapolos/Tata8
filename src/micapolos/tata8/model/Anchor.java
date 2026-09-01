@@ -1,7 +1,5 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.number;
-
 public final class Anchor implements Showable {
   public final DoubleValue x;
   public final DoubleValue y;
@@ -11,27 +9,25 @@ public final class Anchor implements Showable {
     this.y = y;
   }
 
-  public static Anchor anchorVariable() {
-    return anchor(DoubleValue.variable(), DoubleValue.variable());
+  public static Anchor newVariable() {
+    return with(DoubleValue.newVariable(), DoubleValue.newVariable());
   }
 
-  public static Anchor anchor() {
-    return anchor(DoubleValue.zero, DoubleValue.zero);
+  public static final Anchor zero = with(DoubleValue.zero, DoubleValue.zero);
+
+  public static Anchor with(double x, double y) {
+    return with(DoubleValue.with(x), DoubleValue.with(y));
   }
 
-  public static Anchor anchor(double x, double y) {
-    return anchor(number(x), number(y));
+  public static Anchor with(double x, DoubleValue y) {
+    return with(DoubleValue.with(x), y);
   }
 
-  public static Anchor anchor(double x, DoubleValue y) {
-    return anchor(number(x), y);
+  public static Anchor with(DoubleValue x, double y) {
+    return with(x, DoubleValue.with(y));
   }
 
-  public static Anchor anchor(DoubleValue x, double y) {
-    return anchor(x, number(y));
-  }
-
-  public static Anchor anchor(DoubleValue x, DoubleValue y) {
+  public static Anchor with(DoubleValue x, DoubleValue y) {
     return new Anchor(x, y);
   }
 
@@ -46,7 +42,7 @@ public final class Anchor implements Showable {
   }
 
   public void init(double x, double y) {
-    init(anchor(x, y));
+    init(with(x, y));
   }
 
   public void init(Anchor anchor) {
@@ -74,6 +70,6 @@ public final class Anchor implements Showable {
   }
 
   static void main() {
-    new Anchor(number(1), number(2)).show();
+    new Anchor(DoubleValue.with(1), DoubleValue.with(2)).show();
   }
 }

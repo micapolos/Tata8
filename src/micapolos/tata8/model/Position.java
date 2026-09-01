@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.DoubleValue.with;
 import static micapolos.tata8.model.Seconds.seconds;
 
 public final class Position implements Showable {
@@ -12,28 +12,28 @@ public final class Position implements Showable {
     this.y = y;
   }
 
-  public static Position variable() {
-    return position(DoubleValue.variable(), DoubleValue.variable());
+  public static Position newVariable() {
+    return with(DoubleValue.newVariable(), DoubleValue.newVariable());
   }
 
-  public static Position position(double x, double y) {
-    return position(number(x), number(y));
+  public static Position with(double x, double y) {
+    return with(DoubleValue.with(x), DoubleValue.with(y));
   }
 
-  public static Position position(double x, DoubleValue y) {
-    return position(number(x), y);
+  public static Position with(double x, DoubleValue y) {
+    return with(DoubleValue.with(x), y);
   }
 
-  public static Position position(DoubleValue x, double y) {
-    return position(x, number(y));
+  public static Position with(DoubleValue x, double y) {
+    return with(x, DoubleValue.with(y));
   }
 
-  public static Position position(DoubleValue x, DoubleValue y) {
+  public static Position with(DoubleValue x, DoubleValue y) {
     return new Position(x, y);
   }
 
   public void init(double x, double y) {
-    init(number(x), number(y));
+    init(DoubleValue.with(x), DoubleValue.with(y));
   }
 
   public void init(DoubleValue x, DoubleValue y) {
@@ -73,6 +73,6 @@ public final class Position implements Showable {
   }
 
   static void main() {
-    position(seconds, seconds.negated()).show();
+    with(seconds, seconds.negated()).show();
   }
 }

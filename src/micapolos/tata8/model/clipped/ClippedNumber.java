@@ -9,7 +9,7 @@ import static micapolos.tata8.model.Clipped.clipped;
 
 public final class ClippedNumber {
   public static Clipped<DoubleValue> clippedNumber(double d) {
-    return clipped(DoubleValue.number(d), Clip.EMPTY);
+    return clipped(DoubleValue.with(d), Clip.EMPTY);
   }
 
   public static Clipped<DoubleValue> readonly(DoubleValue doubleValue) {
@@ -21,7 +21,7 @@ public final class ClippedNumber {
   }
 
   public static Clipped<DoubleValue> variable(DoubleValue initial) {
-    DoubleValue variable = DoubleValue.variable(initial);
+    DoubleValue variable = DoubleValue.newVariable(initial);
     return clipped(variable, clip(() -> variable.set(initial), seconds -> seconds));
   }
 

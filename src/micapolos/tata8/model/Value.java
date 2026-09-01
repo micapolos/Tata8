@@ -4,9 +4,9 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
-import static micapolos.tata8.model.BooleanValue.bool;
-import static micapolos.tata8.model.IntValue.integer;
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.BooleanValue.with;
+import static micapolos.tata8.model.IntValue.with;
+import static micapolos.tata8.model.DoubleValue.with;
 
 public class Value<T> extends Component {
   Supplier<T> supplier;
@@ -23,50 +23,50 @@ public class Value<T> extends Component {
     return supplier != null ? supplier.get() : defaultValue;
   }
 
-  public static <T> Value<T> value() {
+  public static <T> Value<T> withNull() {
     return new Value<>(false, null, null);
   }
 
-  public static <T> Value<T> value(T value) {
+  public static <T> Value<T> with(T value) {
     return new Value<>(false, null, value);
   }
 
-  public static <T> Value<T> value(Supplier<T> aSupplier) {
+  public static <T> Value<T> with(Supplier<T> aSupplier) {
     return new Value<>(false, aSupplier, null);
   }
 
-  public static <T> Value<T> variable() {
-    return variable(null);
+  public static <T> Value<T> newVariable() {
+    return newVariable(null);
   }
 
-  public static <T> Value<T> variable(T value) {
-    return variable(() -> value);
+  public static <T> Value<T> newVariable(T value) {
+    return newVariable(() -> value);
   }
 
-  public static <T> Value<T> variable(Supplier<T> aSupplier) {
+  public static <T> Value<T> newVariable(Supplier<T> aSupplier) {
     var value = new Value<>(true, aSupplier, null);
     Game.addInit(() -> value.initialize.execute());
     return value;
   }
 
   public Value<T> toValue() {
-    return isVariable ? value(this::get) : this;
+    return isVariable ? with(this::get) : this;
   }
 
   public Value<T> update(UnaryOperator<T> operator) {
-    return value(() -> operator.apply(get()));
+    return with(() -> operator.apply(get()));
   }
 
   public Value<T> update(Value<T> value, BinaryOperator<T> operator) {
-    return value(() -> operator.apply(get(), value.get()));
+    return with(() -> operator.apply(get(), value.get()));
   }
 
   public <R> Value<R> map(Function<T, R> function) {
-    return value(() -> function.apply(get()));
+    return with(() -> function.apply(get()));
   }
 
   public <V, R> Value<R> map(Value<V> x, BiFunction<T, V, R> function) {
-    return value(() -> function.apply(get(), x.get()));
+    return with(() -> function.apply(get(), x.get()));
   }
 
   public Value<T> mapToNotNull(T defaultValue) {
@@ -74,15 +74,15 @@ public class Value<T> extends Component {
   }
 
   public DoubleValue mapToNumber(ToDoubleFunction<T> function) {
-    return number(() -> function.applyAsDouble(get()));
+    return DoubleValue.with(() -> function.applyAsDouble(get()));
   }
 
   public IntValue mapToInteger(ToIntFunction<T> function) {
-    return integer(() -> function.applyAsInt(get()));
+    return IntValue.with(() -> function.applyAsInt(get()));
   }
 
   public BooleanValue mapToBool(Predicate<T> function) {
-    return bool(() -> function.test(get()));
+    return BooleanValue.with(() -> function.test(get()));
   }
 
   void setImmediately(T value) {
@@ -122,7 +122,7 @@ public class Value<T> extends Component {
   }
 
   public static <T> Value<T> randomFrom(T... values) {
-    return value(() -> values[Random.until(values.length)]);
+    return with(() -> values[Random.until(values.length)]);
   }
 
   @Override
@@ -131,7 +131,7 @@ public class Value<T> extends Component {
   }
 
   static void main() {
-    var images = Image.image(Value.class, "depressedChicken.png").sliceVertically(8);
-    value(images[0]).show();
+    var images = Image.load(Value.class, "depressedChicken.png").sliceVertically(8);
+    with(images[0]).show();
   }
 }

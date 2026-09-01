@@ -19,28 +19,28 @@ public final class Event extends Component {
     return supplier != null ? supplier.getAsBoolean() : defaultOccurs;
   }
 
-  public static Event event(boolean occurs) {
+  public static Event with(boolean occurs) {
     return new Event(false, null, occurs);
   }
 
-  public static Event event(Event event) {
-    return event(event::occurs);
+  public static Event with(Event event) {
+    return with(event::occurs);
   }
 
-  public static Event event(BooleanSupplier occursSupplier) {
+  public static Event with(BooleanSupplier occursSupplier) {
     return new Event(false, occursSupplier, false);
   }
 
-  public static Event variable() {
-    return variable(event(false));
+  public static Event newVariable() {
+    return newVariable(with(false));
   }
 
-  public static Event variable(Event event) {
+  public static Event newVariable(Event event) {
     return new Event(true, event.occursSupplier, event.defaultOccurs);
   }
 
   void occurImmediately() {
-    setImmediately(event(true));
+    setImmediately(with(true));
   }
 
   void setImmediately(Event event) {
@@ -53,15 +53,15 @@ public final class Event extends Component {
   }
 
   public Event or(Event event) {
-    return event(() -> occurs() && event.occurs());
+    return with(() -> occurs() && event.occurs());
   }
 
   public Event and(BooleanValue booleanValue) {
-    return event(() -> occurs() && booleanValue.get());
+    return with(() -> occurs() && booleanValue.get());
   }
 
   public static Event any(Event... events) {
-    return event(() -> {
+    return with(() -> {
       boolean any = false;
       for (Event event : events) {
         any |= event.occurs();

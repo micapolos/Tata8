@@ -5,9 +5,9 @@ import micapolos.DoubleUtils;
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
-import static micapolos.tata8.model.BooleanValue.bool;
+import static micapolos.tata8.model.BooleanValue.with;
 import static micapolos.tata8.model.Clipped.clipped;
-import static micapolos.tata8.model.Value.value;
+import static micapolos.tata8.model.Value.with;
 
 public class DoubleValue extends Component {
   DoubleSupplier supplier;
@@ -25,7 +25,7 @@ public class DoubleValue extends Component {
   }
 
   public static Clipped<DoubleValue> clippedSeconds() {
-    DoubleValue doubleValue = DoubleValue.variable();
+    DoubleValue doubleValue = DoubleValue.newVariable();
     Clip clip = new Clip() {
       @Override
       void start() {
@@ -42,65 +42,65 @@ public class DoubleValue extends Component {
   }
 
   public static DoubleValue random() {
-    return number(Math::random);
+    return with(Math::random);
   }
 
-  public static final DoubleValue zero = number(0);
-  public static final DoubleValue half = number(0.5f);
-  public static final DoubleValue one = number(1);
+  public static final DoubleValue zero = with(0);
+  public static final DoubleValue half = with(0.5f);
+  public static final DoubleValue one = with(1);
 
-  public static DoubleValue number(double value) {
+  public static DoubleValue with(double value) {
     return new DoubleValue(false, null, value);
   }
 
-  public static DoubleValue number(DoubleSupplier supplier) {
+  public static DoubleValue with(DoubleSupplier supplier) {
     return new DoubleValue(false, supplier, 0);
   }
 
-  public static DoubleValue variable() {
-    return variable(0);
+  public static DoubleValue newVariable() {
+    return newVariable(0);
   }
 
-  public static DoubleValue variable(double value) {
-    return variable(() -> value);
+  public static DoubleValue newVariable(double value) {
+    return newVariable(() -> value);
   }
 
-  public static DoubleValue variable(DoubleValue value) {
-    return variable(value::get);
+  public static DoubleValue newVariable(DoubleValue value) {
+    return newVariable(value::get);
   }
 
-  public static DoubleValue variable(DoubleSupplier aSupplier) {
+  public static DoubleValue newVariable(DoubleSupplier aSupplier) {
     var number = new DoubleValue(true, aSupplier, 0);
     Game.addInit(number.initialize);
     return number;
   }
 
   public DoubleValue readonly() {
-    return isVariable ? number(this::get) : this;
+    return isVariable ? with(this::get) : this;
   }
 
   public DoubleValue update(DoubleUnaryOperator operator) {
-    return number(() -> operator.applyAsDouble(get()));
+    return with(() -> operator.applyAsDouble(get()));
   }
 
   public DoubleValue update(DoubleValue b, DoubleBinaryOperator operator) {
-    return number(() -> operator.applyAsDouble(get(), b.get()));
+    return with(() -> operator.applyAsDouble(get(), b.get()));
   }
 
   public <R> Value<R> mapToValue(DoubleFunction<R> function) {
-    return value(() -> function.apply(get()));
+    return Value.with(() -> function.apply(get()));
   }
 
   public IntValue mapToInteger(DoubleToIntFunction function) {
-    return IntValue.integer(() -> function.applyAsInt(get()));
+    return IntValue.with(() -> function.applyAsInt(get()));
   }
 
   public DoubleValue mapToNumber(DoubleUnaryOperator function) {
-    return number(() -> function.applyAsDouble(get()));
+    return with(() -> function.applyAsDouble(get()));
   }
 
   public BooleanValue mapToBool(DoublePredicate function) {
-    return bool(() -> function.test(get()));
+    return BooleanValue.with(() -> function.test(get()));
   }
 
   public DoubleValue negated() {
@@ -176,7 +176,7 @@ public class DoubleValue extends Component {
   }
 
   public Stepper setElastic(double n) {
-    return setElastic(number(n));
+    return setElastic(with(n));
   }
 
   public Stepper setElastic(DoubleValue doubleValue) {

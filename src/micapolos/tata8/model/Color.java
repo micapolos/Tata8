@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.DoubleValue.with;
 
 public final class Color implements Showable {
   public final DoubleValue red;
@@ -20,11 +20,11 @@ public final class Color implements Showable {
   }
 
   public static Color rgba(double red, double green, double blue, double alpha) {
-    return rgba(number(red), number(green), number(blue), number(alpha));
+    return rgba(DoubleValue.with(red), DoubleValue.with(green), DoubleValue.with(blue), DoubleValue.with(alpha));
   }
 
   public static Color rgb(DoubleValue red, DoubleValue green, DoubleValue blue) {
-    return rgba(red, green, blue, number(1));
+    return rgba(red, green, blue, DoubleValue.with(1));
   }
 
   public static Color rgba(DoubleValue red, DoubleValue green, DoubleValue blue, DoubleValue alpha) {
@@ -32,7 +32,7 @@ public final class Color implements Showable {
   }
 
   public static Color variable() {
-    return new Color(DoubleValue.variable(), DoubleValue.variable(), DoubleValue.variable(), DoubleValue.variable());
+    return new Color(DoubleValue.newVariable(), DoubleValue.newVariable(), DoubleValue.newVariable(), DoubleValue.newVariable());
   }
 
   public Action set(Color color) {

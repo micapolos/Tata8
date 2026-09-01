@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.number;
+import static micapolos.tata8.model.DoubleValue.with;
 
 public final class Image implements Showable {
   final micapolos.tata8.Image state;
@@ -8,10 +8,10 @@ public final class Image implements Showable {
 
   Image(micapolos.tata8.Image state) {
     this.state = state;
-    this.size = new Size(number(state.size.width), number(state.size.height));
+    this.size = new Size(DoubleValue.with(state.size.width), DoubleValue.with(state.size.height));
   }
 
-  public static Image image(Class<?> baseClass, String fileName) {
+  public static Image load(Class<?> baseClass, String fileName) {
     return new Image(micapolos.tata8.Game.loadImage(baseClass, fileName));
   }
 
@@ -49,6 +49,6 @@ public final class Image implements Showable {
   }
 
   static void main() {
-    image(Image.class, "depressedChicken.png").crop(0, 0, 32, 32).show();
+    load(Image.class, "depressedChicken.png").crop(0, 0, 32, 32).show();
   }
 }

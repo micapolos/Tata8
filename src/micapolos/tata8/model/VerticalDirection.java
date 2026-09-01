@@ -8,7 +8,7 @@ public enum VerticalDirection implements Showable {
   UP, DOWN;
 
   public static Clipped<Value<VerticalDirection>> fromSpans(Span upSpan, Span downSpan) {
-    var direction = Value.<VerticalDirection>variable();
+    var direction = Value.<VerticalDirection>newVariable();
     return clipped(
       direction.toValue(),
       select(
