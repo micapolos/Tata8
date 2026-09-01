@@ -7,7 +7,9 @@ import micapolos.tata8.model.Value;
 
 import java.util.List;
 
-public final class ClippedInteger {
+public final class ClippedIntValues {
+  private ClippedIntValues() {}
+
   public static Clipped<IntValue> negated(Clipped<IntValue> a) {
     return a.update(IntValue::negated);
   }
@@ -35,6 +37,4 @@ public final class ClippedInteger {
   public static <R> Clipped<Value<R>> get(Clipped<IntValue> index, List<R> values) {
     return index.map(x -> x.get(values));
   }
-
-  private ClippedInteger() {}
 }

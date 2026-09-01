@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import micapolos.tata8.model.clipped.ClippedNumber;
+import micapolos.tata8.model.clipped.ClippedDoubleValues;
 
 import java.util.function.*;
 
@@ -104,9 +104,9 @@ public abstract class Clipped<T extends Showable> implements Showable {
   }
 
   static void main() {
-    var s1 = DoubleValue.clippedSeconds();
-    var s2 = DoubleValue.clippedSeconds();
-    var s12 = ClippedNumber.plus(s1, s2);
+    var s1 = ClippedDoubleValues.clippedSeconds();
+    var s2 = ClippedDoubleValues.clippedSeconds();
+    var s12 = ClippedDoubleValues.plus(s1, s2);
     s12.maybeAddToGame();
     Game.init();
     Game.step(10);

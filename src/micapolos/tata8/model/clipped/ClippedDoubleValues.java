@@ -7,7 +7,9 @@ import micapolos.tata8.model.DoubleValue;
 import static micapolos.tata8.model.Clip.clip;
 import static micapolos.tata8.model.Clipped.clipped;
 
-public final class ClippedNumber {
+public final class ClippedDoubleValues {
+  private ClippedDoubleValues() {}
+
   public static Clipped<DoubleValue> clippedNumber(double d) {
     return clipped(DoubleValue.with(d), Clip.EMPTY);
   }
@@ -45,5 +47,14 @@ public final class ClippedNumber {
     return a.update(DoubleValue::fraction);
   }
 
-  private ClippedNumber() {}
+  public static Clipped<DoubleValue> clippedSeconds() {
+    DoubleValue doubleValue = DoubleValue.newVariable();
+    Clip clip = clip(
+      () -> doubleValue.setImmediately(0),
+      seconds -> {
+        doubleValue.setImmediately(doubleValue.get() + seconds);
+        return 0;
+      });
+    return clipped(doubleValue, clip);
+  }
 }

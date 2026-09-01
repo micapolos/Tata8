@@ -1,12 +1,12 @@
 package micapolos.tata8.model;
 
 import micapolos.DoubleUtils;
+import micapolos.tata8.model.clipped.ClippedDoubleValues;
 
 import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
 import static micapolos.tata8.model.BooleanValue.with;
-import static micapolos.tata8.model.Clipped.clipped;
 import static micapolos.tata8.model.Value.with;
 
 public class DoubleValue extends Component {
@@ -22,23 +22,6 @@ public class DoubleValue extends Component {
   public double get() {
     DoubleSupplier supplier = this.supplier;
     return supplier != null ? supplier.getAsDouble() : defaultValue;
-  }
-
-  public static Clipped<DoubleValue> clippedSeconds() {
-    DoubleValue doubleValue = DoubleValue.newVariable();
-    Clip clip = new Clip() {
-      @Override
-      void start() {
-        doubleValue.setImmediately(0);
-      }
-
-      @Override
-      float step(float seconds) {
-        doubleValue.setImmediately(doubleValue.get() + seconds);
-        return 0;
-      }
-    };
-    return clipped(doubleValue, clip);
   }
 
   public static DoubleValue random() {
@@ -203,6 +186,6 @@ public class DoubleValue extends Component {
   }
 
   static void main() {
-    clippedSeconds().map(DoubleValue::integer).show();
+    ClippedDoubleValues.clippedSeconds().map(DoubleValue::integer).show();
   }
 }

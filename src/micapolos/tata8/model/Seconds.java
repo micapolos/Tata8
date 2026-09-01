@@ -1,6 +1,6 @@
 package micapolos.tata8.model;
 
-import static micapolos.tata8.model.DoubleValue.clippedSeconds;
+import static micapolos.tata8.model.clipped.ClippedDoubleValues.clippedSeconds;
 
 public final class Seconds {
   public static final DoubleValue seconds;

@@ -5,7 +5,7 @@ import micapolos.tata8.model.DoubleValue;
 
 import static micapolos.tata8.model.Action.action;
 
-public final class NumberAction {
+public final class DoubleValueActions {
   public static Action set(DoubleValue n, double d) {
     return action(() -> n.setImmediately(d));
   }
@@ -42,5 +42,5 @@ public final class NumberAction {
     return action(() -> n.setImmediately(-n.get()));
   }
 
-  private NumberAction() {}
+  private DoubleValueActions() {}
 }
