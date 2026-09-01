@@ -7,13 +7,14 @@ import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
 import static micapolos.tata8.model.Clip.frame;
+import static micapolos.tata8.model.Clip.pause;
 
 public class Number extends ValueComponent {
   DoubleSupplier commitSupplier;
-  double commitDefaultValue;
+  double commitValue;
 
-  DoubleSupplier supplier;
-  double defaultValue;
+  DoubleSupplier currentSupplier;
+  double currentValue;
 
   Number() {
     this(false, null, 0);
@@ -31,19 +32,19 @@ public class Number extends ValueComponent {
     this(clip, false, supplier, 0);
   }
 
-  Number(boolean isVariable, DoubleSupplier supplier, double defaultValue) {
-    this(Clip.emptyClip, isVariable, supplier, defaultValue);
+  Number(boolean isVariable, DoubleSupplier supplier, double currentValue) {
+    this(Clip.emptyClip, isVariable, supplier, currentValue);
   }
 
-  Number(Clip clip, boolean isVariable, DoubleSupplier supplier, double defaultValue) {
+  Number(Clip clip, boolean isVariable, DoubleSupplier supplier, double currentValue) {
     super(clip, isVariable);
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+    this.currentSupplier = supplier;
+    this.currentValue = currentValue;
   }
 
   public double get() {
-    DoubleSupplier supplier = this.supplier;
-    return supplier != null ? supplier.getAsDouble() : defaultValue;
+    DoubleSupplier supplier = this.currentSupplier;
+    return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
   public Number with(Clip clip) {
@@ -62,17 +63,17 @@ public class Number extends ValueComponent {
       Game.add(new Runner() {
         @Override
         public void init() {
-          commitDefaultValue = 0;
+          commitValue = 0;
         }
 
         @Override
         public void update(float seconds) {
-          commitDefaultValue += seconds;
+          commitValue += seconds;
         }
 
         @Override
         public void commit() {
-          defaultValue = commitDefaultValue;
+          currentValue = commitValue;
         }
       });
     }
@@ -110,7 +111,7 @@ public class Number extends ValueComponent {
           @Override
           public void init() {
             commitSupplier = aSupplier;
-            commitDefaultValue = 0;
+            commitValue = 0;
           }
 
           @Override
@@ -120,8 +121,8 @@ public class Number extends ValueComponent {
 
           @Override
           public void commit() {
-            supplier = commitSupplier;
-            defaultValue = commitDefaultValue;
+            currentSupplier = commitSupplier;
+            currentValue = commitValue;
           }
         });
       }
@@ -260,8 +261,8 @@ public class Number extends ValueComponent {
 
   void setImmediately(DoubleSupplier supplier, double defaultValue) {
     checkVariable();
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+    this.currentSupplier = supplier;
+    this.currentValue = defaultValue;
   }
 
   public Action set(double x) {
@@ -303,6 +304,6 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.with(frame(1, number.add(1)).repeat()).show();
+    number.with(pause(1).then(frame(1, number.add(1)).repeat())).show();
   }
 }
