@@ -1,12 +1,14 @@
 package micapolos.tata8.model.live;
 
 import micapolos.tata8.model.Live;
+import micapolos.tata8.model.Showable;
 
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-public final class Number {
+import static micapolos.tata8.model.live.LiveNumbers.live;
+
+public final class Number implements Showable {
   final Live<micapolos.tata8.model.Number> live;
 
   Number(Live<micapolos.tata8.model.Number> live) {
@@ -19,6 +21,10 @@ public final class Number {
 
   Number update(Number y, BinaryOperator<micapolos.tata8.model.Number> operator) {
     return new Number(live.update(y.live, operator));
+  }
+
+  public static Number number(double d) {
+    return new Number(live(d));
   }
 
   public Number negated() {
@@ -43,5 +49,14 @@ public final class Number {
 
   public Integer integer() {
     return new Integer(live.map(micapolos.tata8.model.Number::integer));
+  }
+
+  @Override
+  public void show() {
+    live.show();
+  }
+
+  static void main() {
+    number(10).show();
   }
 }
