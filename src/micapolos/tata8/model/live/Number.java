@@ -27,6 +27,26 @@ public final class Number implements Showable {
     return new Number(live(d));
   }
 
+  public static Number newVariable() {
+    return newVariable(0);
+  }
+
+  public static Number newVariable(double d) {
+    return newVariable(number(d));
+  }
+
+  public static Number newVariable(Number initial) {
+    return new Number(LiveNumbers.newVariable(initial.live));
+  }
+
+  public void set(double d) {
+    set(number(d));
+  }
+
+  public void set(Number n) {
+    LiveNumbers.set(live, n.live);
+  }
+
   public Number negated() {
     return update(micapolos.tata8.model.Number::negated);
   }
@@ -64,11 +84,18 @@ public final class Number implements Showable {
   }
 
   @Override
+  public String toString() {
+    return live.value.toString();
+  }
+
+  @Override
   public void show() {
     live.show();
   }
 
   static void main() {
-    number(10).plus(3.14).times(3).fraction().show();
+    var n = newVariable();
+    n.set(10);
+    n.plus(10).show();
   }
 }

@@ -13,6 +13,14 @@ public final class LiveNumbers {
     return Live.live(Number.with(d), Clip.EMPTY);
   }
 
+  public static Live<Number> newVariable(Live<Number> initial) {
+    return Live.live(Number.newVariable(initial.value), Clip.EMPTY);
+  }
+
+  public static void set(Live<Number> n, Live<Number> x) {
+    n.value.setImmediately(x.value);
+  }
+
   public static Live<Number> readonly(Number number) {
     return Live.live(number.readonly(), Clip.EMPTY);
   }

@@ -131,6 +131,7 @@ public class Number extends Component {
   }
 
   void setImmediately(DoubleSupplier supplier, double defaultValue) {
+    checkVariable();
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
