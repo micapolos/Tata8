@@ -7,7 +7,7 @@ public final class Seconds {
 
   static {
     var clippedSeconds = clippedSeconds();
-    clippedSeconds.addClips();
+    clippedSeconds.maybeAddToGame();
     seconds = clippedSeconds.value;
   }
 }

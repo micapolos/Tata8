@@ -57,14 +57,18 @@ public final class Game {
     }
   }
 
-  static void update() {
+  static void step(float seconds) {
     if (keys.reset.pressed()) {
       init();
     }
     for (Stepper stepper : steppers) {
-      float unusedOverflow = stepper.step(1/60f);
+      float unusedOverflow = stepper.step(seconds);
     }
     startedValue = false;
+  }
+
+  static void update() {
+    step(1/60f);
   }
 
   public static void show() {

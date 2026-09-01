@@ -3,26 +3,29 @@ package micapolos.tata8.model;
 import micapolos.tata8.model.clipped.ClippedNumber;
 
 import java.util.function.*;
-import java.util.stream.Stream;
 
 public abstract class Clipped<T extends Showable> implements Showable {
   public final T value;
+  boolean added;
 
   Clipped(T value) {
     this.value = value;
   }
 
-  abstract Stream<Clip> clips();
+  abstract void addToGame();
 
-  final void addClips() {
-    clips().distinct().forEach(Game::add);
+  final void maybeAddToGame() {
+    if (!added) {
+      addToGame();
+      added = true;
+    }
   }
 
   public static <T extends Showable> Clipped<T> clipped(T value, Clip clip) {
     return new Clipped<>(value) {
       @Override
-      Stream<Clip> clips() {
-        return Stream.of(clip);
+      void addToGame() {
+        Game.add(clip);
       }
     };
   }
@@ -30,8 +33,8 @@ public abstract class Clipped<T extends Showable> implements Showable {
   public final Clipped<T> update(UnaryOperator<T> operator) {
     return new Clipped<T>(operator.apply(value)) {
       @Override
-      Stream<Clip> clips() {
-        return Clipped.this.clips();
+      void addToGame() {
+        Clipped.this.maybeAddToGame();
       }
     };
   }
@@ -39,8 +42,9 @@ public abstract class Clipped<T extends Showable> implements Showable {
   public final Clipped<T> update(Clipped<T> x, BinaryOperator<T> operator) {
     return new Clipped<T>(operator.apply(value, x.value)) {
       @Override
-      Stream<Clip> clips() {
-        return Stream.concat(Clipped.this.clips(), x.clips());
+      void addToGame() {
+        Clipped.this.maybeAddToGame();
+        x.maybeAddToGame();
       }
     };
   }
@@ -48,8 +52,8 @@ public abstract class Clipped<T extends Showable> implements Showable {
   public final <R extends Showable> Clipped<R> map(Function<T, R> function) {
     return new Clipped<>(function.apply(value)) {
       @Override
-      Stream<Clip> clips() {
-        return Clipped.this.clips();
+      void addToGame() {
+        Clipped.this.maybeAddToGame();
       }
     };
   }
@@ -57,8 +61,9 @@ public abstract class Clipped<T extends Showable> implements Showable {
   public final <V extends Showable, R extends Showable> Clipped<R> map(Clipped<V> clipped, BiFunction<T, V, R> function) {
     return new Clipped<>(function.apply(value, clipped.value)) {
       @Override
-      Stream<Clip> clips() {
-        return Stream.concat(Clipped.this.clips(), clipped.clips());
+      void addToGame() {
+        Clipped.this.maybeAddToGame();
+        clipped.maybeAddToGame();
       }
     };
   }
@@ -94,7 +99,7 @@ public abstract class Clipped<T extends Showable> implements Showable {
 
   @Override
   public final void show() {
-    addClips();
+    maybeAddToGame();
     value.show();
   }
 
@@ -102,7 +107,9 @@ public abstract class Clipped<T extends Showable> implements Showable {
     var s1 = Number.clippedSeconds();
     var s2 = Number.clippedSeconds();
     var s12 = ClippedNumber.plus(s1, s2);
-    s12.clips().distinct().forEach(c -> c.step(10));
+    s12.maybeAddToGame();
+    Game.init();
+    Game.step(10);
     IO.println("Should be 10: " + s1.value.get());
     IO.println("Should be 10: " + s2.value.get());
     IO.println("Should be 20: " + s12.value.get());
