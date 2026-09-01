@@ -2,6 +2,8 @@ package micapolos.tata8.model;
 
 import micapolos.tata8.Random;
 
+import java.util.function.IntFunction;
+
 // TODO: Consider renaming to Span
 public abstract class Clip {
   /**
@@ -156,6 +158,14 @@ public abstract class Clip {
     };
   }
 
+  public static Clip sequence(int count, IntFunction<Clip> clipFunction) {
+    Clip[] clips = new Clip[count];
+    for (int i = 0; i < count; i++) {
+      clips[i] = clipFunction.apply(i);
+    }
+    return sequence(clips);
+  }
+
   public static Clip sequence(Clip... clips) {
     return new Clip() {
       int index;
@@ -194,6 +204,14 @@ public abstract class Clip {
         return index < clips.length ? clips[index] : null;
       }
     };
+  }
+
+  public static Clip parallel(int count, IntFunction<Clip> clipFunction) {
+    Clip[] clips = new Clip[count];
+    for (int i = 0; i < count; i++) {
+      clips[i] = clipFunction.apply(i);
+    }
+    return parallel(clips);
   }
 
   public static Clip parallel(Clip... clips) {

@@ -29,15 +29,7 @@ final class Chicken {
     var step = isLeft.select(speed.negated().times(3), speed.times(3));
     var move = position.x.add(step);
 
-    var walk = Clip.sequence(
-        frame(imageIndex.set(3).then(move)),
-        frame(imageIndex.set(4).then(move)),
-        frame(imageIndex.set(5).then(move)),
-        frame(imageIndex.set(6).then(move)),
-        frame(imageIndex.set(7).then(move)),
-        frame(imageIndex.set(0).then(move)),
-        frame(imageIndex.set(1).then(move)),
-        frame(imageIndex.set(2).then(move)))
+    var walk = sequence(8, i -> frame(imageIndex.set(Math.floorMod(i + 3, 8)).then(move)))
       .stretch(0.1f)
       .repeat();
 
