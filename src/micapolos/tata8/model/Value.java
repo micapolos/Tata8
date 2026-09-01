@@ -4,7 +4,7 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
-public class Value<T> extends Component {
+public class Value<T> extends ValueComponent {
   Supplier<T> supplier;
   T defaultValue;
 

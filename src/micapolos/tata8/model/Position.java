@@ -9,7 +9,6 @@ public final class Position extends Component {
   public final Number y;
 
   Position(Number x, Number y) {
-    super(false);
     this.x = x;
     this.y = y;
   }

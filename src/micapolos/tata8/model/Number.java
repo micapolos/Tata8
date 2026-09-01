@@ -6,7 +6,7 @@ import java.util.function.*;
 
 import static micapolos.tata8.Math.elastic;
 
-public class Number extends Component {
+public class Number extends ValueComponent {
   DoubleSupplier supplier;
   double defaultValue;
 

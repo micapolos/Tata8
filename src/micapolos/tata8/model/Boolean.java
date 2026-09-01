@@ -4,7 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import static micapolos.tata8.model.Action.action;
 
-public class Boolean extends Component {
+public class Boolean extends ValueComponent {
   BooleanSupplier supplier;
   boolean defaultValue;
 

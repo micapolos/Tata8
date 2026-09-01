@@ -6,7 +6,7 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
-public class Integer extends Component {
+public class Integer extends ValueComponent {
   IntSupplier supplier;
   int defaultValue;
 

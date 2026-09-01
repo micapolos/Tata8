@@ -4,7 +4,7 @@ import micapolos.tata8.Color;
 
 import java.util.function.BooleanSupplier;
 
-public final class Event extends Component {
+public final class Event extends ValueComponent {
   BooleanSupplier occursSupplier;
   boolean defaultOccurs;
 
