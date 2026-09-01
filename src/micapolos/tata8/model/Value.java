@@ -148,7 +148,7 @@ public class Value<T> extends Component {
     };
   }
 
-  public Value<T> mapToNotNull(T defaultValue) {
+  public Value<T> orIfNull(T defaultValue) {
     return map(value -> value != null ? value : defaultValue);
   }
 

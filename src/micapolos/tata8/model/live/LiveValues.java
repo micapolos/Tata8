@@ -26,7 +26,7 @@ public final class LiveValues {
   }
 
   public static <T> Live<Value<T>> mapValueToNonNull(Live<Value<T>> live, T defaultValue) {
-    return live.map(value -> value.mapToNotNull(defaultValue));
+    return live.map(value -> value.orIfNull(defaultValue));
   }
 
   public static <T> Live<Integer> mapValueToInteger(Live<Value<T>> live, ToIntFunction<T> function) {

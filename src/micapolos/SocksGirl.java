@@ -3,7 +3,6 @@ package micapolos;
 import micapolos.tata8.model.Direction;
 import micapolos.tata8.model.Image;
 import micapolos.tata8.model.Key;
-import micapolos.tata8.model.Value;
 
 import static micapolos.tata8.model.Sprite.newSprite;
 
@@ -26,9 +25,9 @@ public class SocksGirl {
     var sheetImages = sheetImage.sliceVertically(12);
     var imageValue = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())
-      .mapToNotNull(Direction.DOWN)
+      .orIfNull(Direction.DOWN)
       .mapToInteger(SocksGirl::imageIndex)
-      .select(sheetImages);
+      .selectFrom(sheetImages);
 
     var sprite = newSprite();
     sprite.image.init(imageValue);

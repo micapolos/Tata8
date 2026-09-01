@@ -34,7 +34,7 @@ public final class LiveIntegers {
   }
 
   public static <R> Live<Value<R>> get(Live<Integer> index, R... values) {
-    return index.map(x -> x.select(values));
+    return index.map(x -> x.selectFrom(values));
   }
 
   public static <R> Live<Value<R>> get(Live<Integer> index, List<R> values) {

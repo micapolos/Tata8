@@ -148,7 +148,7 @@ public class Integer extends Component {
     return mapToNumber(IntegerUtils::toDouble);
   }
 
-  public <T> Value<T> select(T... values) {
+  public <T> Value<T> selectFrom(T... values) {
     return mapToValue(i -> values[Math.floorMod(i, values.length)]);
   }
 
