@@ -13,7 +13,9 @@
       <name>micapolos.zexy.Image</name>
       <name>micapolos.zexy.Integer</name>
       <name>micapolos.zexy.Number</name>
+      <name>micapolos.zexy.ParallaxRatio</name>
       <name>micapolos.zexy.Position</name>
+      <name>micapolos.zexy.Scale</name>
     </included-static-names>
   </component>
 </project>

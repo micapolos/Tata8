@@ -51,7 +51,7 @@ final class Chicken {
 
     sprite = sprite.with(clip);
 
-    listOf(
+    var sprites = listOf(
       sprite
         .with(position(position.x, position.y.minus(48)))
         .with(scale(0.25, 0.25))
@@ -60,6 +60,12 @@ final class Chicken {
         .with(position(position.x, position.y.minus(32)))
         .with(scale(0.5, 0.5))
         .with(parallaxRatio(0.5)),
-      sprite.with(clip)).show();
+      sprite.with(clip),
+      sprite
+        .with(position(position.x, position.y.plus(64)))
+        .with(scale(2, 2))
+        .with(parallaxRatio(2)));
+
+    sprites.show();
   }
 }
