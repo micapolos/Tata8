@@ -1,32 +1,33 @@
 package micapolos;
 
 import micapolos.tata8.model.*;
-import micapolos.tata8.model.Boolean;
-import micapolos.tata8.model.Integer;
-import micapolos.tata8.model.Number;
 
-import static java.lang.Math.floorMod;
-import static micapolos.tata8.model.Anchor.anchor;
-import static micapolos.tata8.model.Boolean.bool;
+import static java.lang.Math.*;
+import static micapolos.tata8.model.Anchor.*;
+import static micapolos.tata8.model.Boolean.*;
 import static micapolos.tata8.model.Clip.*;
 import static micapolos.tata8.model.Event.any;
-import static micapolos.tata8.model.Flip.flip;
-import static micapolos.tata8.model.Sprite.newSprite;
+import static micapolos.tata8.model.Flip.*;
+import static micapolos.tata8.model.Image.*;
+import static micapolos.tata8.model.Integer.*;
+import static micapolos.tata8.model.Number.*;
+import static micapolos.tata8.model.Position.*;
+import static micapolos.tata8.model.Sprite.*;
 
 final class Chicken {
   static void main() {
-    var images = Image.image(Chicken.class, "depressedChicken.png").sliceVertically(8);
+    var images = image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-    var imageIndex = Integer.newVariable(0);
-    var isLeft = Boolean.newVariable();
-    var position = Position.newPosition();
+    var imageIndex = newInteger(0);
+    var isLeft = newBoolean();
+    var position = newPosition();
     var sprite = newSprite()
       .with(images.get(imageIndex))
       .with(anchor(16, 28))
       .with(position)
       .with(flip(isLeft, bool(false)));
 
-    var speed = Key.Z.isPressed.select(Number.number(2), Number.number(1));
+    var speed = Key.Z.isPressed.select(number(2), number(1));
     var step = isLeft.select(speed.negated().times(3), speed.times(3));
     var move = position.x.add(step);
 

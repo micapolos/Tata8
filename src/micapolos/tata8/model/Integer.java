@@ -44,15 +44,15 @@ public class Integer extends ValueComponent {
     return new Integer(false, aSupplier, 0);
   }
 
-  public static Integer newVariable() {
-    return newVariable(0);
+  public static Integer newInteger() {
+    return newInteger(0);
   }
 
-  public static Integer newVariable(int value) {
-    return newVariable(() -> value);
+  public static Integer newInteger(int value) {
+    return newInteger(() -> value);
   }
 
-  public static Integer newVariable(IntSupplier aSupplier) {
+  public static Integer newInteger(IntSupplier aSupplier) {
     return new Integer(true, aSupplier, 0) {
       {
         Game.add(new Clip() {

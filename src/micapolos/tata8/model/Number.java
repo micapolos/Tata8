@@ -5,9 +5,7 @@ import micapolos.DoubleUtils;
 import java.util.Locale;
 import java.util.function.*;
 
-import static micapolos.tata8.Math.elastic;
-import static micapolos.tata8.model.Clip.frame;
-import static micapolos.tata8.model.Clip.pause;
+import static micapolos.tata8.model.Clip.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier commitSupplier;
@@ -277,24 +275,39 @@ public class Number extends ValueComponent {
     return mapToAction(number, () -> setImmediately(number.get()));
   }
 
-  public Stepper setElastic(double n) {
-    return setElastic(number(n));
-  }
-
-  public Stepper setElastic(Number number) {
-    checkVariable();
-    return seconds -> {
-      setImmediately(elastic((float) get(), (float) number.get()));
-      return seconds;
-    };
-  }
-
   public Action add(double d) {
     return mapToAction(() -> setImmediately(get() + d));
   }
 
   public Action add(Number n) {
     return mapToAction(n, () -> setImmediately(get() + n.get()));
+  }
+
+  public Number elastic() {
+    return new Number() {
+      @Override
+      void addClips() {
+        Number.this.maybeAddClips();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            currentValue = Number.this.get();
+          }
+
+          @Override
+          public void update(float seconds) {
+            // TODO: Make it dependent on seconds.
+            commitValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get());
+          }
+
+          @Override
+          public void commit() {
+            currentValue = commitValue;
+          }
+        });
+      }
+    };
   }
 
   @Override
@@ -304,6 +317,6 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.with(pause(1).then(frame(1, number.add(1)).repeat())).show();
+    number.with(pause(1).then(frame(1, number.add(1)).repeat())).elastic().show();
   }
 }

@@ -16,7 +16,7 @@ public final class Flip extends Component {
   }
 
   public static Flip newVariable() {
-    return flip(Boolean.newVariable(), Boolean.newVariable());
+    return flip(Boolean.newBoolean(), Boolean.newBoolean());
   }
 
   public static final Flip noFlip = flip(false, false);

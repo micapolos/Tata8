@@ -31,15 +31,15 @@ public class Boolean extends ValueComponent {
     return new Boolean(false, aSupplier, false);
   }
 
-  public static Boolean newVariable() {
-    return newVariable(false);
+  public static Boolean newBoolean() {
+    return newBoolean(false);
   }
 
-  public static Boolean newVariable(boolean value) {
-    return newVariable(() -> value);
+  public static Boolean newBoolean(boolean value) {
+    return newBoolean(() -> value);
   }
 
-  static Boolean newVariable(BooleanSupplier supplier) {
+  static Boolean newBoolean(BooleanSupplier supplier) {
     var bool = new Boolean(true, supplier, false);
     Game.addInit(action(() -> bool.setImmediately(supplier, false)));
     return bool;

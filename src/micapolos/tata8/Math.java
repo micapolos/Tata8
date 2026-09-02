@@ -39,8 +39,7 @@ public final class Math {
   }
 
   public static float elastic(float from, float to, float factor) {
-    float next = from + (to - from) * factor;
-    return abs(next - from) <= factor ? to : next;
+    return from + (to - from) * factor;
   }
 
   public static float abs(float f) {

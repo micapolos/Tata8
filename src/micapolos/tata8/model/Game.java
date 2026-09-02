@@ -98,8 +98,8 @@ public final class Game {
   }
 
   static void main() {
-    Integer counter = Integer.newVariable();
-    Integer increment = Integer.newVariable(1);
+    Integer counter = Integer.newInteger();
+    Integer increment = Integer.newInteger(1);
     Game.on(Key.Z.press, counter.add(increment));
     Game.on(Key.X.press, increment.add(1));
     counter.show();
