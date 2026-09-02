@@ -24,7 +24,7 @@ public class Component implements Showable {
     if (!didAddClips) {
       addRunners();
       if (clip != null) {
-        Game.add(clip);
+        clip.addRunnersOnce();
       }
       didAddClips = true;
     }

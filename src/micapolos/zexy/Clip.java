@@ -22,6 +22,21 @@ public abstract class Clip extends Component {
    */
   abstract float step(float seconds);
 
+  @Override
+  void addRunners() {
+    Game.add(new Runner() {
+      @Override
+      public void init() {
+        start();
+      }
+
+      @Override
+      public void update(float seconds) {
+        step(seconds);
+      }
+    });
+  }
+
   public static Clip clip(Action start, Stepper stepper) {
     return new Clip() {
       @Override
