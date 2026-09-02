@@ -4,25 +4,25 @@ import static micapolos.zexy.Clip.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.Leo.*;
 
-public final class Depth extends ValueComponent {
+public final class ParallaxRatio extends ValueComponent {
   public final Number number;
 
-  Depth(Clip clip, boolean isVariable, Number number) {
+  ParallaxRatio(Clip clip, boolean isVariable, Number number) {
     super(clip, isVariable);
     this.number = number;
   }
 
-  public static Depth depth(double d) {
+  public static ParallaxRatio depth(double d) {
     return depth(number(d));
   }
 
-  public static Depth depth(Number number) {
-    return new Depth(emptyClip, false, number);
+  public static ParallaxRatio depth(Number number) {
+    return new ParallaxRatio(emptyClip, false, number);
   }
 
-  public Depth with(Clip clip) {
+  public ParallaxRatio with(Clip clip) {
     checkVariable();
-    return new Depth(clip, false, number);
+    return new ParallaxRatio(clip, false, number);
   }
 
   @Override
@@ -32,7 +32,7 @@ public final class Depth extends ValueComponent {
 
   @Override
   public String toString() {
-    return leo("depth", number);
+    return leo("parallax ratio", number);
   }
 
   static void main() {

@@ -72,6 +72,8 @@ public final class TileMap {
   }
 
   void drawOn(Canvas canvas, float x, float y) {
+    x = Math.round(x);
+    y = Math.round(y);
     int startRow = (int) Math.floor(-y / tileSize.height);
     int startY = (int) Math.round(startRow * tileSize.height + y);
     int startColumn = (int) Math.floor(-x / tileSize.width);

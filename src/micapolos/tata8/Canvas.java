@@ -87,14 +87,29 @@ public final class Canvas {
   public void draw(Sprite sprite, float x, float y) {
     Image image = sprite.image;
     if (image != null && !sprite.isHidden) {
-      imageTransform.setToIdentity();
-      imageTransform.translate(x + Math.round(sprite.position.x), y + Math.round(sprite.position.y));
-      imageTransform.rotate((sprite.angle / 360f) * Math.TAU);
-      imageTransform.scale(sprite.flip.x ? -1 : 1, sprite.flip.y ? -1 : 1);
-      imageTransform.scale(sprite.scale.x, sprite.scale.y);
-      imageTransform.translate(-sprite.anchor.x, -sprite.anchor.y);
-      graphics.drawImage(image.bufferedImage, imageTransform, null);
+      draw(image,
+        sprite.anchor.x, sprite.anchor.y,
+        Math.round(x) + Math.round(sprite.position.x), Math.round(y) + Math.round(sprite.position.y),
+        sprite.flip.x, sprite.flip.y,
+        sprite.scale.x, sprite.scale.y,
+        sprite.angle);
     }
+  }
+
+  public void draw(
+    Image image,
+    float anchorX, float anchorY,
+    float positionX, float positionY,
+    boolean flipX, boolean flipY,
+    float scaleX, float scaleY,
+    float angle) {
+    imageTransform.setToIdentity();
+    imageTransform.translate(Math.round(positionX), Math.round(positionY));
+    imageTransform.rotate((angle / 360f) * Math.TAU);
+    imageTransform.scale(flipX ? -1 : 1, flipY ? -1 : 1);
+    imageTransform.scale(scaleX, scaleY);
+    imageTransform.translate(-anchorX, -anchorY);
+    graphics.drawImage(image.bufferedImage, imageTransform, null);
   }
 
   public void draw(String text, int x, int y) {

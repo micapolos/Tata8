@@ -48,27 +48,27 @@ public final class Color extends Component implements Drawable {
 
   public Action set(Color color) {
     return Action.sequence(
-        red.set(color.red),
-        green.set(color.green),
-        blue.set(color.blue),
-        alpha.set(color.alpha));
+      red.set(color.red),
+      green.set(color.green),
+      blue.set(color.blue),
+      alpha.set(color.alpha));
   }
 
   public micapolos.tata8.Color get() {
     return micapolos.tata8.Color.rgba(
-        (float) red.get(),
-        (float) green.get(),
-        (float) blue.get(),
-        (float) alpha.get());
+      (float) red.get(),
+      (float) green.get(),
+      (float) blue.get(),
+      (float) alpha.get());
   }
 
   @Override
   public String toString() {
     return leo("color",
-        leo("red", red),
-        leo("green", green),
-        leo("blue", blue),
-        leo("alpha", alpha));
+      leo("red", red),
+      leo("green", green),
+      leo("blue", blue),
+      leo("alpha", alpha));
   }
 
   @Override
@@ -81,6 +81,11 @@ public final class Color extends Component implements Drawable {
   }
 
   static void main() {
-    Color.rgb(seconds.fraction(), number(0), number(0)).show();
+    var brightness = Key.Z.isPressed.select(seconds.fraction(), number(1));
+    Color.rgb(
+        Key.LEFT.isPressed.number().times(brightness),
+        Key.DOWN.isPressed.number().times(brightness),
+        Key.RIGHT.isPressed.number().times(brightness))
+      .show();
   }
 }

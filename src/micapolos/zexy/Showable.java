@@ -14,6 +14,7 @@ public interface Showable {
         @Override
         float step(float seconds) {
           if (Showable.this instanceof Drawable drawable) {
+            background.canvas.clear();
             drawable.drawOn(background.canvas);
           }
           log(Showable.this);

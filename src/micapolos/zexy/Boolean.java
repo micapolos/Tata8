@@ -185,6 +185,15 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  public Number number() {
+    return new Number(() -> get() ? 1 : 0) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+      }
+    };
+  }
+
   @Override
   public String toString() {
     return String.valueOf(get());

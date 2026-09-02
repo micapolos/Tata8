@@ -1,38 +1,36 @@
 package micapolos.zexy;
 
-import static micapolos.Blocks.*;
+import micapolos.tata8.Canvas;
+
+import static micapolos.Leo.*;
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Clip.*;
-import static micapolos.zexy.Depth.*;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Number.*;
+import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
-import static micapolos.Leo.*;
 import static micapolos.zexy.Value.*;
 
-public final class Sprite extends Component {
-  final micapolos.tata8.Sprite state;
+public final class Sprite extends Component implements Drawable {
   public final Value<Image> image;
   public final Anchor anchor;
   public final Position position;
   public final Flip flip;
-  public final Depth depth;
+  public final ParallaxRatio parallaxRatio;
 
   Sprite(Clip clip,
          Value<Image> image,
          Anchor anchor,
          Position position,
          Flip flip,
-         Depth depth,
-         micapolos.tata8.Sprite state) {
+         ParallaxRatio parallaxRatio) {
     super(clip);
-    this.state = state;
     this.image = image;
     this.anchor = anchor;
     this.position = position;
     this.flip = flip;
-    this.depth = depth;
+    this.parallaxRatio = parallaxRatio;
   }
 
   @Override
@@ -41,55 +39,51 @@ public final class Sprite extends Component {
     anchor.addRunnersOnce();
     position.addRunnersOnce();
     flip.addRunnersOnce();
-
-    Game.add(new Clip() {
-      @Override
-      void start() {
-      }
-
-      @Override
-      float step(float seconds) {
-        state.image = ifNotNull(image.get(), it -> it.state);
-        state.anchor.set((float) anchor.x.get(), (float) anchor.y.get());
-        state.position.set((float) position.x.get(), (float) position.y.get());
-        state.flip.set(flip.x.get(), flip.y.get());
-        return seconds;
-      }
-    });
   }
 
   public static Sprite newSprite() {
     micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
-    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, depth(0), state);
+    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, depth(0));
   }
 
   public Sprite with(Clip clip) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
   public Sprite with(Value<Image> image) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
   public Sprite with(Anchor anchor) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
   public Sprite with(Position position) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
   public Sprite with(Flip flip) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
-  public Sprite with(Depth depth) {
-    return new Sprite(clip, image, anchor, position, flip, depth, state);
+  public Sprite with(ParallaxRatio parallaxRatio) {
+    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
   }
 
   @Override
   public String toString() {
-    return leo("sprite", image, anchor, position, flip, depth);
+    return leo("sprite", image, anchor, position, flip, parallaxRatio);
+  }
+
+  @Override
+  public void drawOn(Canvas canvas) {
+    canvas.draw(
+      image.get().state,
+      (float) anchor.x.get(), (float) anchor.y.get(),
+      (float) position.x.get(), (float) position.y.get(),
+      flip.x.get(), flip.y.get(),
+      1, 1,
+      0);
   }
 
   static void main() {
