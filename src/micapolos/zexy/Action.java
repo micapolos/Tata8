@@ -78,12 +78,16 @@ public class Action extends Component {
     };
   }
 
+  public Animation thenKeep(Activity activity) {
+    return Animation.animation(this, activity);
+  }
+
   @Override
   public String toString() {
     return "an action";
   }
 
-  public Action then(Action action) {
+  public Action thenKeep(Action action) {
     return new Action() {
       @Override
       void execute() {

@@ -34,7 +34,7 @@ final class Chicken {
     var step = isLeft.select(speed.negated().times(3), speed.times(3));
     var move = position.x.add(step);
 
-    var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).then(move)))
+    var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).thenKeep(move)))
       .stretch(0.1f)
       .repeat();
 

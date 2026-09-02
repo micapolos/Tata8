@@ -43,11 +43,11 @@ public class Number extends ValueComponent {
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
-  public Number with(Animation animation) {
+  public Number animate(Animation animation) {
     return new Number(animation, this::get);
   }
 
-  public Number with(Activity activity) {
+  public Number keep(Activity activity) {
     return new Number(animation(activity), this::get);
   }
 
@@ -320,6 +320,6 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.with(animation(number.set(0), number.adding(1))).show();
+    number.animate(number.set(100).thenKeep(number.adding(1))).show();
   }
 }

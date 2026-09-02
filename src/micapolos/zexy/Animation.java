@@ -41,7 +41,7 @@ public abstract class Animation extends Component {
     return animation(noAction, activity);
   }
 
-  public static Animation animation(Action start, Activity activity) {
+  static Animation animation(Action start, Activity activity) {
     return new Animation() {
       @Override
       void start() {
