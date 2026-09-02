@@ -1,7 +1,7 @@
 package micapolos;
 
-import micapolos.leo.Image;
-import micapolos.leo.Sprite;
+import micapolos.zexy.Image;
+import micapolos.zexy.Sprite;
 
 public class Sandbox {
   static void main() {

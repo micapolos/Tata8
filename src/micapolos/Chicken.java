@@ -1,19 +1,19 @@
 package micapolos;
 
-import micapolos.leo.Game;
-import micapolos.leo.Key;
+import micapolos.zexy.Game;
+import micapolos.zexy.Key;
 
 import static java.lang.Math.*;
-import static micapolos.leo.Anchor.*;
-import static micapolos.leo.Boolean.*;
-import static micapolos.leo.Clip.*;
-import static micapolos.leo.Event.any;
-import static micapolos.leo.Flip.*;
-import static micapolos.leo.Image.*;
-import static micapolos.leo.Integer.*;
-import static micapolos.leo.Number.*;
-import static micapolos.leo.Position.*;
-import static micapolos.leo.Sprite.*;
+import static micapolos.zexy.Anchor.*;
+import static micapolos.zexy.Boolean.*;
+import static micapolos.zexy.Clip.*;
+import static micapolos.zexy.Event.any;
+import static micapolos.zexy.Flip.*;
+import static micapolos.zexy.Image.*;
+import static micapolos.zexy.Integer.*;
+import static micapolos.zexy.Number.*;
+import static micapolos.zexy.Position.*;
+import static micapolos.zexy.Sprite.*;
 
 final class Chicken {
   static void main() {

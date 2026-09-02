@@ -1,11 +1,11 @@
 package micapolos;
 
-import micapolos.leo.*;
+import micapolos.zexy.*;
 
-import static micapolos.leo.Anchor.*;
-import static micapolos.leo.Image.*;
-import static micapolos.leo.Position.*;
-import static micapolos.leo.Sprite.*;
+import static micapolos.zexy.Anchor.*;
+import static micapolos.zexy.Image.*;
+import static micapolos.zexy.Position.*;
+import static micapolos.zexy.Sprite.*;
 
 public class SocksGirl {
   static int imageIndex(Direction direction) {
