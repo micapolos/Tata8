@@ -5,6 +5,7 @@ import micapolos.DoubleUtils;
 import java.util.Locale;
 import java.util.function.*;
 
+import static micapolos.Leo.*;
 import static micapolos.zexy.Clip.*;
 
 public class Number extends ValueComponent {
@@ -44,6 +45,10 @@ public class Number extends ValueComponent {
 
   public Number with(Clip clip) {
     return new Number(clip, this::get);
+  }
+
+  public Number with(Activity activity) {
+    return new Number(clip(activity), this::get);
   }
 
   public static final Number random = randomNumber();
@@ -263,6 +268,29 @@ public class Number extends ValueComponent {
     return mapToAction(n, () -> setImmediately(get() + n.get()));
   }
 
+  public Activity adding(double speed) {
+    return adding(number(speed));
+  }
+
+  public Activity adding(Number speed) {
+    return new Activity() {
+      @Override
+      void advance(float seconds) {
+        setImmediately(get() + speed.get() * seconds);
+      }
+
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+      }
+
+      @Override
+      public String toString() {
+        return leo("moving", speed.get());
+      }
+    };
+  }
+
   public Number elastic() {
     return new Number() {
       @Override
@@ -292,6 +320,6 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.with(pause(1).then(frame(1, number.add(1)).repeat())).elastic().show();
+    number.with(clip(number.set(0), number.adding(1))).show();
   }
 }

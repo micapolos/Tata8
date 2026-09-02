@@ -37,7 +37,11 @@ public abstract class Clip extends Component {
     });
   }
 
-  public static Clip clip(Action start, Stepper stepper) {
+  public static Clip clip(Activity activity) {
+    return clip(noAction, activity);
+  }
+
+  public static Clip clip(Action start, Activity activity) {
     return new Clip() {
       @Override
       void start() {
@@ -46,7 +50,8 @@ public abstract class Clip extends Component {
 
       @Override
       float step(float seconds) {
-        return stepper.step(seconds);
+        activity.advance(seconds);
+        return seconds;
       }
     };
   }
@@ -93,7 +98,7 @@ public abstract class Clip extends Component {
     return instant(noAction);
   }
 
-  public static Clip animated(String name, Stepper stepper) {
+  public static Clip with(Activity activity) {
     return new Clip() {
       @Override
       void start() {
@@ -102,17 +107,13 @@ public abstract class Clip extends Component {
 
       @Override
       float step(float seconds) {
-        return stepper.step(seconds);
-      }
-
-      @Override
-      public String toString() {
-        return name;
+        activity.advance(seconds);
+        return 0;
       }
     };
   }
 
-  public static final Clip emptyClip = animated("empty clip", Stepper.EMPTY);
+  public static final Clip emptyClip = with(Activity.noActivity);
 
   public static Clip frame(Action action) {
     return frame(1, action);

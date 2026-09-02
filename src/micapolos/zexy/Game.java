@@ -3,15 +3,11 @@ package micapolos.zexy;
 import java.util.ArrayList;
 import java.util.List;
 
-import static micapolos.tata8.Game.keys;
-import static micapolos.tata8.Game.onUpdate;
-import static micapolos.zexy.Action.action;
-import static micapolos.zexy.Event.event;
-import static micapolos.zexy.Number.number;
+import static micapolos.tata8.Game.*;
+import static micapolos.zexy.Event.*;
+import static micapolos.zexy.Number.*;
 
 public final class Game {
-  static final List<Action> initActions = new ArrayList<>();
-  static final List<Stepper> steppers = new ArrayList<>();
   static final List<Runner> runners = new ArrayList<>();
 
   static final Size size =
@@ -19,17 +15,18 @@ public final class Game {
       number(micapolos.tata8.Game.size.width),
       number(micapolos.tata8.Game.size.height));
 
-  static void addInit(Action initAction) {
-    initActions.add(initAction);
-  }
-
-  static void add(Stepper stepper) {
-    steppers.add(stepper);
-  }
-
   static void add(Clip clip) {
-    initActions.add(action("init clip", clip::start));
-    steppers.add(clip::step);
+    add(new Runner() {
+      @Override
+      public void init() {
+        clip.start();
+      }
+
+      @Override
+      public void update(float seconds) {
+        clip.step(seconds);
+      }
+    });
   }
 
   static void add(Runner runner) {
@@ -63,9 +60,6 @@ public final class Game {
     for (Runner runner : runners) {
       runner.init();
     }
-    for (Action initAction : initActions) {
-      initAction.execute();
-    }
   }
 
   static void step(float seconds) {
@@ -74,9 +68,6 @@ public final class Game {
     }
     for (Runner runner : runners) {
       runner.update(seconds);
-    }
-    for (Stepper stepper : steppers) {
-      float unusedOverflow = stepper.step(seconds);
     }
     startedValue = false;
   }
