@@ -14,6 +14,7 @@ import static micapolos.zexy.List.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
+import static micapolos.zexy.Scale.*;
 import static micapolos.zexy.Sprite.*;
 
 final class Chicken {
@@ -51,8 +52,14 @@ final class Chicken {
     sprite = sprite.with(clip);
 
     listOf(
-      sprite.with(position(position.x, position.y.minus(75))).with(parallaxRatio(0.25)),
-      sprite.with(position(position.x, position.y.minus(50))).with(parallaxRatio(0.5)),
+      sprite
+        .with(position(position.x, position.y.minus(48)))
+        .with(scale(0.25, 0.25))
+        .with(parallaxRatio(0.25)),
+      sprite
+        .with(position(position.x, position.y.minus(32)))
+        .with(scale(0.5, 0.5))
+        .with(parallaxRatio(0.5)),
       sprite.with(clip)).show();
   }
 }

@@ -11,6 +11,7 @@ import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
+import static micapolos.zexy.Scale.*;
 import static micapolos.zexy.Value.*;
 
 public final class Sprite extends Component implements Drawable {
@@ -18,6 +19,7 @@ public final class Sprite extends Component implements Drawable {
   public final Anchor anchor;
   public final Position position;
   public final Flip flip;
+  public final Scale scale;
   public final ParallaxRatio parallaxRatio;
 
   Sprite(Clip clip,
@@ -25,12 +27,14 @@ public final class Sprite extends Component implements Drawable {
          Anchor anchor,
          Position position,
          Flip flip,
+         Scale scale,
          ParallaxRatio parallaxRatio) {
     super(clip);
     this.image = image;
     this.anchor = anchor;
     this.position = position;
     this.flip = flip;
+    this.scale = scale;
     this.parallaxRatio = parallaxRatio;
   }
 
@@ -45,36 +49,40 @@ public final class Sprite extends Component implements Drawable {
   }
 
   public static Sprite newSprite() {
-    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, parallaxRatio(1));
+    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, parallaxRatio(1));
   }
 
   public Sprite with(Clip clip) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   public Sprite with(Value<Image> image) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   public Sprite with(Anchor anchor) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   public Sprite with(Position position) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   public Sprite with(Flip flip) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
+  }
+
+  public Sprite with(Scale scale) {
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   public Sprite with(ParallaxRatio parallaxRatio) {
-    return new Sprite(clip, image, anchor, position, flip, parallaxRatio);
+    return new Sprite(clip, image, anchor, position, flip, scale, parallaxRatio);
   }
 
   @Override
   public String toString() {
-    return leo("sprite", image, anchor, position, flip, parallaxRatio);
+    return leo("sprite", image, anchor, position, flip, scale, parallaxRatio);
   }
 
   @Override
@@ -85,7 +93,7 @@ public final class Sprite extends Component implements Drawable {
       (float) -camera.position.x.get() + (float) position.x.get() * (float) parallaxRatio.number.get(),
       (float) -camera.position.y.get() + (float) position.y.get(),
       flip.x.get(), flip.y.get(),
-      1, 1,
+      (float) scale.x.get(), (float) scale.y.get(),
       0);
   }
 
