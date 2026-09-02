@@ -3,6 +3,7 @@ package micapolos.zexy;
 import java.util.Arrays;
 
 import static micapolos.Leo.*;
+import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Value.value;
 
 public final class Image implements Showable {
@@ -13,7 +14,7 @@ public final class Image implements Showable {
   Image(micapolos.tata8.Image state, String name) {
     this.state = state;
     this.name = name;
-    this.size = new Size(Number.number(state.size.width), Number.number(state.size.height));
+    this.size = new Size(number(state.size.width), number(state.size.height));
   }
 
   public static Image image(Class<?> baseClass, String fileName) {
@@ -26,6 +27,20 @@ public final class Image implements Showable {
 
   public List<Value<Image>> sliceVertically(int columnCount) {
     micapolos.tata8.Image[] states = state.sliceVertically(columnCount);
+    Image[] images = new Image[states.length];
+    for (int i = 0; i < states.length; i++) {
+      images[i] = new Image(states[i], name + ":" + i);
+    }
+    return new List<>(Arrays.stream(images).map(Value::value).toList()) {
+      @Override
+      public Value<Image> get(Integer index) {
+        return index.mapToValue(i -> images[i]);
+      }
+    };
+  }
+
+  public List<Value<Image>> sliceHorizontally(int columnCount) {
+    micapolos.tata8.Image[] states = state.sliceHorizontally(columnCount);
     Image[] images = new Image[states.length];
     for (int i = 0; i < states.length; i++) {
       images[i] = new Image(states[i], name + ":" + i);
