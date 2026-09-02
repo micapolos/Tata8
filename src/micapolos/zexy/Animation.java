@@ -4,8 +4,9 @@ import micapolos.tata8.Random;
 
 import java.util.function.IntFunction;
 
-import static micapolos.zexy.Action.*;
 import static micapolos.Leo.*;
+import static micapolos.tata8.Game.*;
+import static micapolos.zexy.Action.*;
 
 // TODO: Consider renaming to Span
 public abstract class Animation extends Component {
@@ -465,8 +466,8 @@ public abstract class Animation extends Component {
         }
 
         return selectedOption == null
-            ? seconds
-            : selectedOption.animation.step(seconds);
+          ? seconds
+          : selectedOption.animation.step(seconds);
       }
 
       @Override
@@ -533,6 +534,28 @@ public abstract class Animation extends Component {
   public final void show() {
     Game.add(this);
     super.show();
+  }
+
+  public final void showWith(Component... components) {
+    Game.add(this);
+    Game.add(
+      new Animation() {
+        @Override
+        void start() {}
+
+        @Override
+        float step(float seconds) {
+          background.canvas.clear();
+          for (Component component : components) {
+            if (component instanceof Drawable drawable) {
+              drawable.drawOn(background.canvas);
+            }
+            log(component);
+          }
+          return 0;
+        }
+      });
+    Game.show();
   }
 
   static void main() {

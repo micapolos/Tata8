@@ -320,6 +320,7 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.animate(number.set(100).thenKeep(number.adding(1))).show();
+    var animation = number.set(100).thenKeep(number.adding(1));
+    animation.showWith(number);
   }
 }
