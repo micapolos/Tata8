@@ -2,8 +2,6 @@ package micapolos.leo;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.leo.Action.action;
-
 public class Boolean extends ValueComponent {
   BooleanSupplier supplier;
   boolean defaultValue;
@@ -40,9 +38,7 @@ public class Boolean extends ValueComponent {
   }
 
   static Boolean newBoolean(BooleanSupplier supplier) {
-    var bool = new Boolean(true, supplier, false);
-    Game.addInit(action(() -> bool.setImmediately(supplier, false)));
-    return bool;
+    return new Boolean(true, supplier, false);
   }
 
   void setImmediately(boolean x) {

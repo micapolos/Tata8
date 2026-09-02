@@ -5,7 +5,7 @@ import micapolos.tata8.Random;
 import java.util.function.IntFunction;
 
 // TODO: Consider renaming to Span
-public abstract class Clip {
+public abstract class Clip extends Component {
   /**
    * Starts the clip.
    */
@@ -54,6 +54,11 @@ public abstract class Clip {
       float step(float seconds) {
         return seconds;
       }
+
+      @Override
+      void addClips() {
+        action.maybeAddClips();
+      }
     };
   }
 
@@ -65,7 +70,7 @@ public abstract class Clip {
     return instant(Action.noAction);
   }
 
-  public static Clip animated(Stepper stepper) {
+  public static Clip animated(String name, Stepper stepper) {
     return new Clip() {
       @Override
       void start() {
@@ -76,10 +81,15 @@ public abstract class Clip {
       float step(float seconds) {
         return stepper.step(seconds);
       }
+
+      @Override
+      public String toString() {
+        return name;
+      }
     };
   }
 
-  public static final Clip emptyClip = animated(Stepper.EMPTY);
+  public static final Clip emptyClip = animated("empty clip", Stepper.EMPTY);
 
   public static Clip frame(Action action) {
     return frame(1, action);
@@ -430,20 +440,14 @@ public abstract class Clip {
   public record ConditionOption(Boolean condition, Clip clip) {
   }
 
-  public final void show() {
-    Game.add(this);
-    Game.show();
+  @Override
+  public String toString() {
+    return "a clip";
   }
 
-  public final void showWith(Showable... showables) {
-    Game.add(seconds -> {
-      for (Showable showable : showables) {
-        micapolos.tata8.Game.log(showable);
-      }
-      return seconds;
-    });
+  public final void show() {
     Game.add(this);
-    Game.show();
+    super.show();
   }
 
   static void main() {

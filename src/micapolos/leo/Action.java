@@ -2,16 +2,28 @@ package micapolos.leo;
 
 import micapolos.tata8.Image;
 
+import static micapolos.leo.Strings.*;
+
 public class Action extends Component {
   void execute() {}
 
-  public static final Action noAction = new Action();
+  public static final Action noAction = new Action() {
+    @Override
+    public String toString() {
+      return "no action";
+    }
+  };
 
-  public static Action action(Runnable runnable) {
+  public static Action action(String name, Runnable runnable) {
     return new Action() {
       @Override
       void execute() {
         runnable.run();
+      }
+
+      @Override
+      public String toString() {
+        return name;
       }
     };
   }
@@ -58,7 +70,17 @@ public class Action extends Component {
           action.maybeAddClips();
         }
       }
+
+      @Override
+      public String toString() {
+        return leo("sequence", actions);
+      }
     };
+  }
+
+  @Override
+  public String toString() {
+    return "an action";
   }
 
   public Action then(Action action) {
@@ -75,5 +97,9 @@ public class Action extends Component {
         action.maybeAddClips();
       }
     };
+  }
+
+  static void main() {
+    sequence(noAction, noAction).show();
   }
 }

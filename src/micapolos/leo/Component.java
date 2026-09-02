@@ -23,7 +23,9 @@ public class Component implements Showable {
   final void maybeAddClips() {
     if (!didAddClips) {
       addClips();
-      Game.add(clip);
+      if (clip != null) {
+        Game.add(clip);
+      }
       didAddClips = true;
     }
   }

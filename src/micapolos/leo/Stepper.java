@@ -14,7 +14,7 @@ public interface Stepper {
   Stepper EMPTY = seconds -> seconds;
 
   default Clip clip() {
-    return animated(this);
+    return animated("stepper", this);
   }
 
   static Stepper movingX(Position position, float speed) {

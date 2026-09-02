@@ -28,7 +28,7 @@ public final class Game {
   }
 
   static void add(Clip clip) {
-    initActions.add(action(clip::start));
+    initActions.add(action("init clip", clip::start));
     steppers.add(clip::step);
   }
 
