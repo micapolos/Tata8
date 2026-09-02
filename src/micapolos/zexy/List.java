@@ -13,7 +13,7 @@ public class List<T extends Component> extends Component implements Drawable {
   final java.util.List<T> components;
 
   List(java.util.List<T> components) {
-    super(Clip.emptyClip);
+    super(Animation.EMPTY_ANIMATION);
     this.components = components;
   }
 

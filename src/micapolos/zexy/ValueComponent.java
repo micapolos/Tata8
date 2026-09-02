@@ -8,11 +8,11 @@ public class ValueComponent extends Component {
   }
 
   ValueComponent(boolean isVariable) {
-    this(Clip.emptyClip, isVariable);
+    this(Animation.EMPTY_ANIMATION, isVariable);
   }
 
-  ValueComponent(Clip clip, boolean isVariable) {
-    super(clip);
+  ValueComponent(Animation animation, boolean isVariable) {
+    super(animation);
     this.isVariable = isVariable;
   }
 

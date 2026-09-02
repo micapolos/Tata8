@@ -15,16 +15,16 @@ public final class Game {
       number(micapolos.tata8.Game.size.width),
       number(micapolos.tata8.Game.size.height));
 
-  static void add(Clip clip) {
+  static void add(Animation animation) {
     add(new Runner() {
       @Override
       public void init() {
-        clip.start();
+        animation.start();
       }
 
       @Override
       public void update(float seconds) {
-        clip.step(seconds);
+        animation.step(seconds);
       }
     });
   }
@@ -39,7 +39,7 @@ public final class Game {
   public static final Event start = event(() -> startedValue);
 
   public static void on(Event event, Action action) {
-    add(new Clip() {
+    add(new Animation() {
       @Override
       void start() {
 

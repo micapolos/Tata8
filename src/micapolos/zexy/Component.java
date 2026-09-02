@@ -1,15 +1,15 @@
 package micapolos.zexy;
 
 public class Component implements Showable {
-  public final Clip clip;
+  public final Animation animation;
   boolean didAddClips;
 
   Component() {
-    this(Clip.emptyClip);
+    this(Animation.EMPTY_ANIMATION);
   }
 
-  Component(Clip clip) {
-    this.clip = clip;
+  Component(Animation animation) {
+    this.animation = animation;
   }
 
   void addRunners() {}
@@ -23,8 +23,8 @@ public class Component implements Showable {
   final void addRunnersOnce() {
     if (!didAddClips) {
       addRunners();
-      if (clip != null) {
-        clip.addRunnersOnce();
+      if (animation != null) {
+        animation.addRunnersOnce();
       }
       didAddClips = true;
     }

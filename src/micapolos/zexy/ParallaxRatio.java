@@ -1,14 +1,14 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Clip.*;
+import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.Leo.*;
 
 public final class ParallaxRatio extends ValueComponent {
   public final Number number;
 
-  ParallaxRatio(Clip clip, boolean isVariable, Number number) {
-    super(clip, isVariable);
+  ParallaxRatio(Animation animation, boolean isVariable, Number number) {
+    super(animation, isVariable);
     this.number = number;
   }
 
@@ -17,12 +17,12 @@ public final class ParallaxRatio extends ValueComponent {
   }
 
   public static ParallaxRatio parallaxRatio(Number number) {
-    return new ParallaxRatio(emptyClip, false, number);
+    return new ParallaxRatio(EMPTY_ANIMATION, false, number);
   }
 
-  public ParallaxRatio with(Clip clip) {
+  public ParallaxRatio with(Animation animation) {
     checkVariable();
-    return new ParallaxRatio(clip, false, number);
+    return new ParallaxRatio(animation, false, number);
   }
 
   @Override

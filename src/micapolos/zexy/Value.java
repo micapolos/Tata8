@@ -16,8 +16,8 @@ public class Value<T> extends ValueComponent {
     this(supplier, null);
   }
 
-  Value(Clip clip, Supplier<T> supplier) {
-    this(clip, false, supplier, null);
+  Value(Animation animation, Supplier<T> supplier) {
+    this(animation, false, supplier, null);
   }
 
   Value(Supplier<T> supplier, T defaultValue) {
@@ -25,17 +25,17 @@ public class Value<T> extends ValueComponent {
   }
 
   Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
-    this(Clip.emptyClip, isVariable, supplier, defaultValue);
+    this(Animation.EMPTY_ANIMATION, isVariable, supplier, defaultValue);
   }
 
-  Value(Clip clip, boolean isVariable, Supplier<T> supplier, T defaultValue) {
-    super(clip, isVariable);
+  Value(Animation animation, boolean isVariable, Supplier<T> supplier, T defaultValue) {
+    super(animation, isVariable);
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
 
-  public Value<T> with(Clip clip) {
-    return new Value<>(clip, this::get);
+  public Value<T> with(Animation animation) {
+    return new Value<>(animation, this::get);
   }
 
   public T get() {
@@ -72,7 +72,7 @@ public class Value<T> extends ValueComponent {
     return new Value<>(true, null, value) {
       @Override
       void addRunners() {
-        Game.add(new Clip() {
+        Game.add(new Animation() {
           @Override
           void start() {
             supplier = null;
@@ -92,7 +92,7 @@ public class Value<T> extends ValueComponent {
     return new Value<>(true, value::get, null) {
       @Override
       void addRunners() {
-        Game.add(new Clip() {
+        Game.add(new Animation() {
           @Override
           void start() {
             supplier = value::get;

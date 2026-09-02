@@ -5,7 +5,7 @@ import micapolos.zexy.Key;
 import static java.lang.Math.*;
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Boolean.*;
-import static micapolos.zexy.Clip.*;
+import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
@@ -42,14 +42,14 @@ final class Chicken {
 
     var init = instant(stop, position.set(-64, 0));
 
-    var clip = init.then(
+    var animation = init.then(
       parallel(
         select(
           on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
           on(Key.LEFT.press, instant(isLeft.set(true)).then(walk)),
           on(any(Key.RIGHT.release, Key.LEFT.release), instant(stop)))));
 
-    sprite = sprite.with(clip);
+    sprite = sprite.with(animation);
 
     var sprites = listOf(
       sprite
@@ -60,7 +60,7 @@ final class Chicken {
         .with(position(position.x, position.y.minus(32)))
         .with(scale(0.5, 0.5))
         .with(parallaxRatio(0.5)),
-      sprite.with(clip),
+      sprite.with(animation),
       sprite
         .with(position(position.x, position.y.plus(64)))
         .with(scale(2, 2))

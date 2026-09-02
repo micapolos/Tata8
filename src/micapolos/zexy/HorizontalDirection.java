@@ -1,7 +1,7 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Clip.on;
-import static micapolos.zexy.Clip.select;
+import static micapolos.zexy.Animation.on;
+import static micapolos.zexy.Animation.select;
 
 public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;

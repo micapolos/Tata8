@@ -1,6 +1,6 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Clip.*;
+import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Position.*;

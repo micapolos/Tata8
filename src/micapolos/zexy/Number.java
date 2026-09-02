@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.function.*;
 
 import static micapolos.Leo.*;
-import static micapolos.zexy.Clip.*;
+import static micapolos.zexy.Animation.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -24,16 +24,16 @@ public class Number extends ValueComponent {
     this(false, supplier, 0);
   }
 
-  Number(Clip clip, DoubleSupplier supplier) {
-    this(clip, false, supplier, 0);
+  Number(Animation animation, DoubleSupplier supplier) {
+    this(animation, false, supplier, 0);
   }
 
   Number(boolean isVariable, DoubleSupplier supplier, double currentValue) {
-    this(Clip.emptyClip, isVariable, supplier, currentValue);
+    this(Animation.EMPTY_ANIMATION, isVariable, supplier, currentValue);
   }
 
-  Number(Clip clip, boolean isVariable, DoubleSupplier supplier, double currentValue) {
-    super(clip, isVariable);
+  Number(Animation animation, boolean isVariable, DoubleSupplier supplier, double currentValue) {
+    super(animation, isVariable);
     this.currentSupplier = supplier;
     this.currentValue = currentValue;
   }
@@ -43,12 +43,12 @@ public class Number extends ValueComponent {
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
-  public Number with(Clip clip) {
-    return new Number(clip, this::get);
+  public Number with(Animation animation) {
+    return new Number(animation, this::get);
   }
 
   public Number with(Activity activity) {
-    return new Number(clip(activity), this::get);
+    return new Number(animation(activity), this::get);
   }
 
   public static final Number random = randomNumber();
@@ -320,6 +320,6 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    number.with(clip(number.set(0), number.adding(1))).show();
+    number.with(animation(number.set(0), number.adding(1))).show();
   }
 }

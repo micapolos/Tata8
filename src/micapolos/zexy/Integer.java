@@ -55,7 +55,7 @@ public class Integer extends ValueComponent {
   public static Integer newInteger(IntSupplier aSupplier) {
     return new Integer(true, aSupplier, 0) {
       {
-        Game.add(new Clip() {
+        Game.add(new Animation() {
           @Override
           void start() {
             setImmediately(aSupplier, 0);

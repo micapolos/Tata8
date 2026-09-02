@@ -1,6 +1,6 @@
 package micapolos.tata8;
 
-import micapolos.zexy.Clip;
+import micapolos.zexy.Animation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,7 @@ public final class Game {
   public static final Mouse mouse = new Mouse();
   public static Runnable onUpdate = () -> {};
   public static final Screen screen = new Screen();
-  public static Clip clip = Clip.instant();
+  public static Animation animation = Animation.instant();
 
   @Deprecated(forRemoval = true)
   public static final Canvas backgroundCanvas = background.canvas;
@@ -158,11 +158,11 @@ public final class Game {
       }
     });
 
-    clip.startInternal();
+    animation.startInternal();
 
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
-      clip.advanceInternal(1/60f);
+      animation.advanceInternal(1/60f);
       onUpdate.run();
       panel.repaint();
       for (Key key : keys.array) {

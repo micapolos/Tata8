@@ -4,7 +4,7 @@ public final class Background {
   public static final Color color = Color.variable();
 
   static {
-    Game.add(new Clip() {
+    Game.add(new Animation() {
       @Override
       void start() {
 

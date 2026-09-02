@@ -5,7 +5,7 @@ import static micapolos.tata8.Game.*;
 public interface Showable {
   default void show() {
     Game.add(
-      new Clip() {
+      new Animation() {
         @Override
         void start() {
 
