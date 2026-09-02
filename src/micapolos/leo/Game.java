@@ -66,9 +66,6 @@ public final class Game {
     for (Action initAction : initActions) {
       initAction.execute();
     }
-    for (Runner runner : runners) {
-      runner.commit();
-    }
   }
 
   static void step(float seconds) {
@@ -80,9 +77,6 @@ public final class Game {
     }
     for (Stepper stepper : steppers) {
       float unusedOverflow = stepper.step(seconds);
-    }
-    for (Runner runner : runners) {
-      runner.commit();
     }
     startedValue = false;
   }

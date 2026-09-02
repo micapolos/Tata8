@@ -8,9 +8,6 @@ import java.util.function.*;
 import static micapolos.leo.Clip.*;
 
 public class Number extends ValueComponent {
-  DoubleSupplier commitSupplier;
-  double commitValue;
-
   DoubleSupplier currentSupplier;
   double currentValue;
 
@@ -61,17 +58,12 @@ public class Number extends ValueComponent {
       Game.add(new Runner() {
         @Override
         public void init() {
-          commitValue = 0;
+          currentValue = 0;
         }
 
         @Override
         public void update(float seconds) {
-          commitValue += seconds;
-        }
-
-        @Override
-        public void commit() {
-          currentValue = commitValue;
+          currentValue += seconds;
         }
       });
     }
@@ -108,19 +100,7 @@ public class Number extends ValueComponent {
         Game.add(new Runner() {
           @Override
           public void init() {
-            commitSupplier = aSupplier;
-            commitValue = 0;
-          }
-
-          @Override
-          public void update(float seconds) {
-
-          }
-
-          @Override
-          public void commit() {
-            currentSupplier = commitSupplier;
-            currentValue = commitValue;
+            currentSupplier = aSupplier;
           }
         });
       }
@@ -298,12 +278,7 @@ public class Number extends ValueComponent {
           @Override
           public void update(float seconds) {
             // TODO: Make it dependent on seconds.
-            commitValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get());
-          }
-
-          @Override
-          public void commit() {
-            currentValue = commitValue;
+            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get());
           }
         });
       }
