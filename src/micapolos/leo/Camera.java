@@ -2,6 +2,7 @@ package micapolos.leo;
 
 import static micapolos.leo.Number.seconds;
 import static micapolos.leo.Position.newPosition;
+import static micapolos.leo.Strings.*;
 
 public final class Camera extends Component {
   public final Position position;
@@ -36,7 +37,7 @@ public final class Camera extends Component {
 
   @Override
   public String toString() {
-    return String.format("camera(%s)", position);
+    return leo("camera", position);
   }
 
   static void main() {

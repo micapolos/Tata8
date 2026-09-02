@@ -2,6 +2,7 @@ package micapolos.leo;
 
 import static micapolos.leo.Clip.*;
 import static micapolos.leo.Number.*;
+import static micapolos.leo.Strings.*;
 
 public final class Depth extends ValueComponent {
   public final Number number;
@@ -31,7 +32,7 @@ public final class Depth extends ValueComponent {
 
   @Override
   public String toString() {
-    return String.format("depth(%s)", number);
+    return leo("depth", number);
   }
 
   static void main() {

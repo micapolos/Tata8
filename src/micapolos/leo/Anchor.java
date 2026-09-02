@@ -2,6 +2,7 @@ package micapolos.leo;
 
 import static micapolos.leo.Action.sequence;
 import static micapolos.leo.Number.number;
+import static micapolos.leo.Strings.*;
 
 public final class Anchor extends Component {
   public final Number x;
@@ -50,7 +51,7 @@ public final class Anchor extends Component {
 
   @Override
   public String toString() {
-    return String.format("anchor(x: %s, y: %s)", x, y);
+    return leo("anchor", leo("x", x), leo("y", y));
   }
 
   static void main() {

@@ -1,5 +1,7 @@
 package micapolos.leo;
 
+import static micapolos.leo.Strings.*;
+
 public final class Flip extends Component {
   public final Boolean x;
   public final Boolean y;
@@ -31,7 +33,7 @@ public final class Flip extends Component {
 
   @Override
   public String toString() {
-    return String.format("flip(x: %s, y: %s)", x, y);
+    return leo("flip", leo("x", x), leo("y", y));
   }
 
   static void main() {

@@ -8,6 +8,7 @@ import static micapolos.leo.Flip.*;
 import static micapolos.leo.Image.*;
 import static micapolos.leo.Number.*;
 import static micapolos.leo.Position.*;
+import static micapolos.leo.Strings.*;
 import static micapolos.leo.Value.*;
 
 public final class Sprite extends Component {
@@ -88,7 +89,7 @@ public final class Sprite extends Component {
 
   @Override
   public String toString() {
-    return String.format("sprite(%s)", position);
+    return leo("sprite", image, anchor, position, flip, depth);
   }
 
   static void main() {

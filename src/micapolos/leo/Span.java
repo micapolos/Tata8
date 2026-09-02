@@ -1,12 +1,11 @@
 package micapolos.leo;
 
-import static micapolos.leo.Boolean.bool;
 import static micapolos.leo.Clip.*;
-import static micapolos.leo.Flip.flip;
-import static micapolos.leo.Image.image;
-import static micapolos.leo.Number.number;
-import static micapolos.leo.Position.position;
-import static micapolos.leo.Sprite.newSprite;
+import static micapolos.leo.Image.*;
+import static micapolos.leo.Number.*;
+import static micapolos.leo.Position.*;
+import static micapolos.leo.Sprite.*;
+import static micapolos.leo.Strings.*;
 
 public final class Span extends Component {
   public final Boolean isInside;
@@ -32,10 +31,7 @@ public final class Span extends Component {
 
   @Override
   public String toString() {
-    return String.format("span(%s, %s, %s)",
-      isInside.get() ? "inside" : "outside",
-      start.occurs() ? "start" : "-",
-      end.occurs() ? "end" : "-");
+    return leo("span", leo("isInside", isInside), leo("start", start), leo("end", end));
   }
 
   static void main() {

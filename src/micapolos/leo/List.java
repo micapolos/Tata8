@@ -1,6 +1,6 @@
 package micapolos.leo;
 
-import static micapolos.leo.Integer.integer;
+import static micapolos.leo.Integer.*;
 
 public abstract class List<T extends Component> extends Component {
   final java.util.List<T> components;
@@ -23,7 +23,7 @@ public abstract class List<T extends Component> extends Component {
 
   @Override
   public String toString() {
-    return String.valueOf(components);
+    return Strings.leo("list", components.toArray());
   }
 
   public abstract T get(Integer index);

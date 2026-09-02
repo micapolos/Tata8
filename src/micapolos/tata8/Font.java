@@ -71,8 +71,14 @@ public final class Font {
   }
 
   void drawOn(BufferedImage image, String string, int x, int y, int color) {
+    int startX = x;
     for (int i = 0; i < string.length(); i++) {
       char ch = string.charAt(i);
+      if (ch == 10) {
+        x = startX;
+        y += height;
+        continue;
+      }
       Glyph glyph = glyph(ch);
       if (i != 0) x += GLYPH_SPACING;
       if (glyph == null) {
@@ -87,7 +93,7 @@ public final class Font {
   static void main() {
     Font.system.drawOn(
         Game.background.canvas.image,
-        "This is a very interesting string, and ***I LIKE IT***!!! 123456",
+        "This is a very interesting string...\nAnd ***I LIKE IT***!!! 123456",
         10, 10,
         0xff2288dd);
     Game.start();

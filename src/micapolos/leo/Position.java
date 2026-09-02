@@ -1,8 +1,8 @@
 package micapolos.leo;
 
-import static micapolos.leo.Action.sequence;
-import static micapolos.leo.Number.number;
-import static micapolos.leo.Number.seconds;
+import static micapolos.leo.Action.*;
+import static micapolos.leo.Number.*;
+import static micapolos.leo.Strings.*;
 
 public final class Position extends Component {
   public final Number x;
@@ -57,7 +57,7 @@ public final class Position extends Component {
 
   @Override
   public String toString() {
-    return String.format("position(x: %s, y: %s)", x, y);
+    return leo("position", leo("x", x), leo("y", y));
   }
 
   static void main() {
