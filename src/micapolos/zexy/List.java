@@ -4,6 +4,8 @@ import micapolos.Leo;
 import micapolos.tata8.Canvas;
 
 import java.util.Arrays;
+import java.util.function.IntFunction;
+import java.util.stream.IntStream;
 
 import static micapolos.zexy.Integer.*;
 
@@ -17,6 +19,10 @@ public class List<T extends Component> extends Component implements Drawable {
 
   public static <T extends Component> List<T> listOf(T... components) {
     return new List<>(Arrays.stream(components).toList());
+  }
+
+  public static <T extends Component> List<T> list(int size, IntFunction<T> function) {
+    return new List<>(IntStream.range(0, size).mapToObj(function).toList());
   }
 
   @Override
