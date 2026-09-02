@@ -28,7 +28,7 @@ public final class Image implements Showable {
     micapolos.tata8.Image[] states = state.sliceVertically(columnCount);
     Image[] images = new Image[states.length];
     for (int i = 0; i < states.length; i++) {
-      images[i] = new Image(states[i], name);
+      images[i] = new Image(states[i], name + ":" + i);
     }
     return new List<>(Arrays.stream(images).map(Value::value).toList()) {
       @Override

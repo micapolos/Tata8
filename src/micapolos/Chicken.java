@@ -38,7 +38,7 @@ final class Chicken {
 
     var stop = imageIndex.set(2);
 
-    var init = instant(stop, position.set(50, 100));
+    var init = instant(stop, position.set(160, 160));
 
     var clip = init.then(
       parallel(
