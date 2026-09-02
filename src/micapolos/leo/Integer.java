@@ -73,8 +73,8 @@ public class Integer extends ValueComponent {
   public Integer update(IntUnaryOperator operator) {
     return new Integer(() -> operator.applyAsInt(get())) {
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
       }
     };
   }
@@ -82,9 +82,9 @@ public class Integer extends ValueComponent {
   public Integer update(Integer integer, IntBinaryOperator operator) {
     return new Integer(() -> operator.applyAsInt(get(), integer.get())) {
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
-        integer.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
+        integer.addRunnersOnce();
       }
     };
   }
@@ -92,8 +92,8 @@ public class Integer extends ValueComponent {
   public Number mapToNumber(IntToDoubleFunction function) {
     return new Number(() -> function.applyAsDouble(get())) {
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
       }
     };
   }
@@ -101,8 +101,8 @@ public class Integer extends ValueComponent {
   public Boolean mapToBool(IntPredicate function) {
     return new Boolean(() -> function.test(get())) {
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
       }
     };
   }
@@ -110,8 +110,8 @@ public class Integer extends ValueComponent {
   public <R> Value<R> mapToValue(IntFunction<R> function) {
     return new Value<>(() -> function.apply(get())) {
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
       }
     };
   }
@@ -182,8 +182,8 @@ public class Integer extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
       }
     };
   }
@@ -200,9 +200,9 @@ public class Integer extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Integer.this.maybeAddClips();
-        integer.maybeAddClips();
+      void addRunners() {
+        Integer.this.addRunnersOnce();
+        integer.addRunnersOnce();
       }
     };
   }

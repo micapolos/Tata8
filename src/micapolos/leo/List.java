@@ -11,9 +11,9 @@ public abstract class List<T extends Component> extends Component {
   }
 
   @Override
-  final void addClips() {
+  final void addRunners() {
     for (T component : components) {
-      component.maybeAddClips();
+      component.addRunnersOnce();
     }
   }
 

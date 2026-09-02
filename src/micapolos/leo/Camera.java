@@ -14,12 +14,12 @@ public final class Camera extends Component {
   public static final Camera camera = new Camera(newPosition());
 
   static {
-    camera.maybeAddClips();
+    camera.addRunnersOnce();
   }
 
   @Override
-  void addClips() {
-    position.maybeAddClips();
+  void addRunners() {
+    position.addRunnersOnce();
 
     Game.add(new Clip() {
       @Override

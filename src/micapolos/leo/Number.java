@@ -54,7 +54,7 @@ public class Number extends ValueComponent {
 
   public static final Number seconds = new Number(false, null, 0) {
     @Override
-    void addClips() {
+    void addRunners() {
       Game.add(new Runner() {
         @Override
         public void init() {
@@ -96,7 +96,7 @@ public class Number extends ValueComponent {
   public static Number newNumber(DoubleSupplier aSupplier) {
     return new Number(true, aSupplier, 0) {
       @Override
-      void addClips() {
+      void addRunners() {
         Game.add(new Runner() {
           @Override
           public void init() {
@@ -110,8 +110,8 @@ public class Number extends ValueComponent {
   public Number readonly() {
     return isVariable ? new Number(this::get) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     } : this;
   }
@@ -119,8 +119,8 @@ public class Number extends ValueComponent {
   public Number update(DoubleUnaryOperator operator) {
     return new Number(() -> operator.applyAsDouble(get())) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     };
   }
@@ -128,9 +128,9 @@ public class Number extends ValueComponent {
   public Number update(Number b, DoubleBinaryOperator operator) {
     return new Number(() -> operator.applyAsDouble(get(), b.get())) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
-        b.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
+        b.addRunnersOnce();
       }
     };
   }
@@ -144,8 +144,8 @@ public class Number extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     };
   }
@@ -159,9 +159,9 @@ public class Number extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
-        component.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
+        component.addRunnersOnce();
       }
     };
   }
@@ -169,8 +169,8 @@ public class Number extends ValueComponent {
   public <R> Value<R> mapToValue(DoubleFunction<R> function) {
     return new Value<R>(() -> function.apply(get())) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     };
   }
@@ -178,8 +178,8 @@ public class Number extends ValueComponent {
   public Integer mapToInteger(DoubleToIntFunction function) {
     return new Integer(() -> function.applyAsInt(get())) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     };
   }
@@ -187,8 +187,8 @@ public class Number extends ValueComponent {
   public Boolean mapToBool(DoublePredicate function) {
     return new Boolean(() -> function.test(get())) {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
       }
     };
   }
@@ -266,8 +266,8 @@ public class Number extends ValueComponent {
   public Number elastic() {
     return new Number() {
       @Override
-      void addClips() {
-        Number.this.maybeAddClips();
+      void addRunners() {
+        Number.this.addRunnersOnce();
 
         Game.add(new Runner() {
           @Override

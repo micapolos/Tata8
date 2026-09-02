@@ -17,11 +17,11 @@ public final class Color extends Component {
   }
 
   @Override
-  void addClips() {
-    red.maybeAddClips();
-    green.maybeAddClips();
-    blue.maybeAddClips();
-    alpha.maybeAddClips();
+  void addRunners() {
+    red.addRunnersOnce();
+    green.addRunnersOnce();
+    blue.addRunnersOnce();
+    alpha.addRunnersOnce();
   }
 
   public static Color rgb(double red, double green, double blue) {

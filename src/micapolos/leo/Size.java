@@ -10,8 +10,8 @@ public final class Size extends Component {
   }
 
   @Override
-  void addClips() {
-    width.maybeAddClips();
-    height.maybeAddClips();
+  void addRunners() {
+    width.addRunnersOnce();
+    height.addRunnersOnce();
   }
 }

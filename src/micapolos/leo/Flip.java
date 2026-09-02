@@ -12,9 +12,9 @@ public final class Flip extends Component {
   }
 
   @Override
-  void addClips() {
-    x.maybeAddClips();
-    y.maybeAddClips();
+  void addRunners() {
+    x.addRunnersOnce();
+    y.addRunnersOnce();
   }
 
   public static Flip newVariable() {

@@ -14,9 +14,9 @@ public final class Position extends Component {
   }
 
   @Override
-  void addClips() {
-    x.maybeAddClips();
-    y.maybeAddClips();
+  void addRunners() {
+    x.addRunnersOnce();
+    y.addRunnersOnce();
   }
 
   public static Position newPosition() {

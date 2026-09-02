@@ -26,8 +26,8 @@ public final class Depth extends ValueComponent {
   }
 
   @Override
-  void addClips() {
-    number.maybeAddClips();
+  void addRunners() {
+    number.addRunnersOnce();
   }
 
   @Override

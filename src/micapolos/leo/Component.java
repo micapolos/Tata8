@@ -12,17 +12,17 @@ public class Component implements Showable {
     this.clip = clip;
   }
 
-  void addClips() {}
+  void addRunners() {}
 
   @Override
   public void show() {
-    maybeAddClips();
+    addRunnersOnce();
     Showable.super.show();
   }
 
-  final void maybeAddClips() {
+  final void addRunnersOnce() {
     if (!didAddClips) {
-      addClips();
+      addRunners();
       if (clip != null) {
         Game.add(clip);
       }

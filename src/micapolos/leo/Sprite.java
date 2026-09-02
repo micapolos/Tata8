@@ -36,11 +36,11 @@ public final class Sprite extends Component {
   }
 
   @Override
-  void addClips() {
-    image.maybeAddClips();
-    anchor.maybeAddClips();
-    position.maybeAddClips();
-    flip.maybeAddClips();
+  void addRunners() {
+    image.addRunnersOnce();
+    anchor.addRunnersOnce();
+    position.addRunnersOnce();
+    flip.addRunnersOnce();
 
     Game.add(new Clip() {
       @Override

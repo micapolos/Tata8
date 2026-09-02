@@ -19,10 +19,10 @@ public final class Span extends Component {
   }
 
   @Override
-  void addClips() {
-    isInside.maybeAddClips();
-    start.maybeAddClips();
-    end.maybeAddClips();
+  void addRunners() {
+    isInside.addRunnersOnce();
+    start.addRunnersOnce();
+    end.addRunnersOnce();
   }
 
   public static Span span(Boolean isInside, Event enter, Event exit) {

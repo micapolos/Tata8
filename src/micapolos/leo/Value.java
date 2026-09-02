@@ -54,8 +54,8 @@ public class Value<T> extends ValueComponent {
   public static <T> Value<T> value(Value<T> value) {
     return new Value<>(value::get) {
       @Override
-      void addClips() {
-        value.maybeAddClips();
+      void addRunners() {
+        value.addRunnersOnce();
       }
     };
   }
@@ -71,7 +71,7 @@ public class Value<T> extends ValueComponent {
   public static <T> Value<T> newVariable(T value) {
     return new Value<>(true, null, value) {
       @Override
-      void addClips() {
+      void addRunners() {
         Game.add(new Clip() {
           @Override
           void start() {
@@ -91,7 +91,7 @@ public class Value<T> extends ValueComponent {
   public static <T> Value<T> newVariable(Value<T> value) {
     return new Value<>(true, value::get, null) {
       @Override
-      void addClips() {
+      void addRunners() {
         Game.add(new Clip() {
           @Override
           void start() {
@@ -115,8 +115,8 @@ public class Value<T> extends ValueComponent {
   public Value<T> update(UnaryOperator<T> operator) {
     return new Value<>(() -> operator.apply(get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }
@@ -124,9 +124,9 @@ public class Value<T> extends ValueComponent {
   public Value<T> update(Value<T> value, BinaryOperator<T> operator) {
     return new Value<>(() -> operator.apply(get(), value.get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
-        value.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
+        value.addRunnersOnce();
       }
     };
   }
@@ -139,8 +139,8 @@ public class Value<T> extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }
@@ -153,9 +153,9 @@ public class Value<T> extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
-        component.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
+        component.addRunnersOnce();
       }
     };
   }
@@ -163,8 +163,8 @@ public class Value<T> extends ValueComponent {
   public <R> Value<R> map(Function<T, R> function) {
     return new Value<>(() -> function.apply(get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }
@@ -172,9 +172,9 @@ public class Value<T> extends ValueComponent {
   public <V, R> Value<R> map(Value<V> value, BiFunction<T, V, R> function) {
     return new Value<>(() -> function.apply(get(), value.get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
-        value.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
+        value.addRunnersOnce();
       }
     };
   }
@@ -186,8 +186,8 @@ public class Value<T> extends ValueComponent {
   public Number mapToNumber(ToDoubleFunction<T> function) {
     return new Number(() -> function.applyAsDouble(get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }
@@ -195,8 +195,8 @@ public class Value<T> extends ValueComponent {
   public Integer mapToInteger(ToIntFunction<T> function) {
     return new Integer(() -> function.applyAsInt(get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }
@@ -204,8 +204,8 @@ public class Value<T> extends ValueComponent {
   public Boolean mapToBool(Predicate<T> function) {
     return new Boolean(() -> function.test(get())) {
       @Override
-      void addClips() {
-        Value.this.maybeAddClips();
+      void addRunners() {
+        Value.this.addRunnersOnce();
       }
     };
   }

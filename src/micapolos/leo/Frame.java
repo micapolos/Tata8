@@ -10,8 +10,8 @@ public final class Frame extends Component {
   }
 
   @Override
-  void addClips() {
-    image.maybeAddClips();
-    duration.maybeAddClips();
+  void addRunners() {
+    image.addRunnersOnce();
+    duration.addRunnersOnce();
   }
 }

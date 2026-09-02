@@ -68,7 +68,7 @@ public final class Event extends ValueComponent {
 
   @Override
   public String toString() {
-    return String.valueOf(occurs());
+    return Strings.leo("event", occurs());
   }
 
   @Override

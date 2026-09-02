@@ -4,6 +4,9 @@ import micapolos.tata8.Random;
 
 import java.util.function.IntFunction;
 
+import static micapolos.leo.Action.*;
+import static micapolos.leo.Strings.*;
+
 // TODO: Consider renaming to Span
 public abstract class Clip extends Component {
   /**
@@ -56,8 +59,13 @@ public abstract class Clip extends Component {
       }
 
       @Override
-      void addClips() {
-        action.maybeAddClips();
+      void addRunners() {
+        action.addRunnersOnce();
+      }
+
+      @Override
+      public String toString() {
+        return leo("instant", action);
       }
     };
   }
@@ -67,7 +75,7 @@ public abstract class Clip extends Component {
   }
 
   public static Clip instant() {
-    return instant(Action.noAction);
+    return instant(noAction);
   }
 
   public static Clip animated(String name, Stepper stepper) {
@@ -96,7 +104,7 @@ public abstract class Clip extends Component {
   }
 
   public static Clip frame(float seconds, Action action) {
-    return instant(action).then(pause(seconds));
+    return sequence(instant(action), pause(seconds));
   }
 
   public final Clip stretch(float scale) {
@@ -136,6 +144,11 @@ public abstract class Clip extends Component {
           remainingSeconds = 0;
           return -diff;
         }
+      }
+
+      @Override
+      public String toString() {
+        return leo("pause", pauseSeconds);
       }
     };
   }
@@ -213,6 +226,11 @@ public abstract class Clip extends Component {
       Clip current() {
         return index < clips.length ? clips[index] : null;
       }
+
+      @Override
+      public String toString() {
+        return leo("sequence", clips);
+      }
     };
   }
 
@@ -241,6 +259,11 @@ public abstract class Clip extends Component {
         }
         return overflow;
       }
+
+      @Override
+      public String toString() {
+        return leo("parallel", clips);
+      }
     };
   }
 
@@ -261,6 +284,11 @@ public abstract class Clip extends Component {
           }
         }
         return 0;
+      }
+
+      @Override
+      public String toString() {
+        return leo("select", conditionOptions);
       }
     };
   }
@@ -314,6 +342,11 @@ public abstract class Clip extends Component {
           }
         }
       }
+
+      @Override
+      public String toString() {
+        return leo("repeat", this, leo("times", times));
+      }
     };
   }
 
@@ -336,6 +369,11 @@ public abstract class Clip extends Component {
         return current == null
           ? seconds
           : current.step(seconds);
+      }
+
+      @Override
+      public String toString() {
+        return leo("random", clips);
       }
     };
   }
@@ -361,10 +399,11 @@ public abstract class Clip extends Component {
       this.event = event;
       this.clip = clip;
     }
-  }
 
-  public static Clip select(EventOption... options) {
-    return instant().thenSelect(options);
+    @Override
+    public String toString() {
+      return leo("on", event, clip);
+    }
   }
 
   public final Clip thenSelect(EventOption... options) {
@@ -387,6 +426,36 @@ public abstract class Clip extends Component {
 
         Clip clip = selectedOption != null ? selectedOption.clip : Clip.this;
         return clip.step(seconds);
+      }
+    };
+  }
+
+  public static Clip select(EventOption... options) {
+    return new Clip() {
+      EventOption selectedOption;
+
+      @Override
+      void start() {
+
+      }
+
+      @Override
+      float step(float seconds) {
+        for (EventOption option : options) {
+          if (option.event.occurs()) {
+            option.clip.start();
+            selectedOption = option;
+          }
+        }
+
+        return selectedOption == null
+            ? seconds
+            : selectedOption.clip.step(seconds);
+      }
+
+      @Override
+      public String toString() {
+        return leo("select", options);
       }
     };
   }
@@ -451,6 +520,6 @@ public abstract class Clip extends Component {
   }
 
   static void main() {
-    emptyClip.show();
+    select(on(Game.start, noAction)).show();
   }
 }

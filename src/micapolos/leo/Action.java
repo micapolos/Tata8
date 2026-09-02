@@ -65,9 +65,9 @@ public class Action extends Component {
       }
 
       @Override
-      void addClips() {
+      void addRunners() {
         for (Action action : actions) {
-          action.maybeAddClips();
+          action.addRunnersOnce();
         }
       }
 
@@ -92,9 +92,9 @@ public class Action extends Component {
       }
 
       @Override
-      void addClips() {
-        Action.this.maybeAddClips();
-        action.maybeAddClips();
+      void addRunners() {
+        Action.this.addRunnersOnce();
+        action.addRunnersOnce();
       }
     };
   }

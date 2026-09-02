@@ -67,8 +67,8 @@ public class Boolean extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Boolean.this.maybeAddClips();
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
       }
     };
   }
@@ -82,8 +82,8 @@ public class Boolean extends ValueComponent {
       }
 
       @Override
-      void addClips() {
-        Boolean.this.maybeAddClips();
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
       }
     };
   }
@@ -95,9 +95,9 @@ public class Boolean extends ValueComponent {
   public Boolean equals(Boolean value) {
     return new Boolean(() -> get() == value.get()) {
       @Override
-      void addClips() {
-        Boolean.this.maybeAddClips();
-        value.maybeAddClips();
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        value.addRunnersOnce();
       }
     };
   }
@@ -105,8 +105,8 @@ public class Boolean extends ValueComponent {
   public static Boolean not(Boolean value) {
     return new Boolean(() -> !value.get()) {
       @Override
-      void addClips() {
-        value.maybeAddClips();
+      void addRunners() {
+        value.addRunnersOnce();
       }
     };
   }
@@ -120,9 +120,9 @@ public class Boolean extends ValueComponent {
       return value;
     }) {
       @Override
-      void addClips() {
+      void addRunners() {
         for (Boolean bool : aBooleans) {
-          bool.maybeAddClips();
+          bool.addRunnersOnce();
         }
       }
     };
@@ -137,9 +137,9 @@ public class Boolean extends ValueComponent {
       return value;
     }) {
       @Override
-      void addClips() {
+      void addRunners() {
         for (Boolean bool : aBooleans) {
-          bool.maybeAddClips();
+          bool.addRunnersOnce();
         }
       }
     };
@@ -148,9 +148,9 @@ public class Boolean extends ValueComponent {
   public Boolean and(Boolean aBoolean) {
     return new Boolean(() -> get() && aBoolean.get()) {
       @Override
-      void addClips() {
-        Boolean.this.maybeAddClips();
-        aBoolean.addClips();
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        aBoolean.addRunners();
       }
     };
   }
@@ -158,9 +158,9 @@ public class Boolean extends ValueComponent {
   public Boolean or(Boolean aBoolean) {
     return new Boolean(() -> get() || aBoolean.get()) {
       @Override
-      void addClips() {
-        Boolean.this.maybeAddClips();
-        aBoolean.addClips();
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        aBoolean.addRunners();
       }
     };
   }
@@ -168,8 +168,8 @@ public class Boolean extends ValueComponent {
   public <T> Value<T> selectValue(T trueValue, T falseValue) {
     return new Value<>(() -> get() ? trueValue : falseValue) {
       @Override
-      void addClips() {
-        Boolean.this.addClips();
+      void addRunners() {
+        Boolean.this.addRunners();
       }
     };
   }
@@ -177,10 +177,10 @@ public class Boolean extends ValueComponent {
   public Number select(Number trueNumber, Number falseNumber) {
     return new Number(() -> get() ? trueNumber.get() : falseNumber.get()) {
       @Override
-      void addClips() {
-        Boolean.this.addClips();
-        trueNumber.maybeAddClips();
-        falseNumber.maybeAddClips();
+      void addRunners() {
+        Boolean.this.addRunners();
+        trueNumber.addRunnersOnce();
+        falseNumber.addRunnersOnce();
       }
     };
   }
