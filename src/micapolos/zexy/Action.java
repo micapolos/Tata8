@@ -3,6 +3,7 @@ package micapolos.zexy;
 import micapolos.tata8.Image;
 
 import static micapolos.Leo.*;
+import static micapolos.zexy.Animation.*;
 
 public class Action extends Component {
   void execute() {}
@@ -85,6 +86,10 @@ public class Action extends Component {
   @Override
   public String toString() {
     return "an action";
+  }
+
+  public Animation then(Animation animation) {
+    return instant(this).then(animation);
   }
 
   public Action then(Action action) {

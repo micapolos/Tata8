@@ -46,9 +46,9 @@ final class Chicken {
     var animation = init.then(
       parallel(
         select(
-          on(Key.RIGHT.press).start(instant(isLeft.set(false)).then(walk)),
-          on(Key.LEFT.press).start(instant(isLeft.set(true)).then(walk)),
-          on(any(Key.RIGHT.release, Key.LEFT.release)).start(instant(stop)))));
+          on(Key.RIGHT.press).start(isLeft.set(false).then(walk)),
+          on(Key.LEFT.press).start(isLeft.set(true).then(walk)),
+          on(any(Key.RIGHT.release, Key.LEFT.release)).execute(stop))));
 
     sprite = sprite.with(animation);
 
