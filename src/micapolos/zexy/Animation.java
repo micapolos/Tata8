@@ -476,7 +476,7 @@ public abstract class Animation extends Component {
     };
   }
 
-  public final Animation stop(Event event) {
+  public final Animation stopOn(Event event) {
     return new Animation() {
       boolean isRunning = false;
 
