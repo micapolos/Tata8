@@ -1,7 +1,7 @@
 package micapolos;
 
-import micapolos.tata8.model.Image;
-import micapolos.tata8.model.Sprite;
+import micapolos.leo.Image;
+import micapolos.leo.Sprite;
 
 public class Sandbox {
   static void main() {

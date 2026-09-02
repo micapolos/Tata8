@@ -1,18 +1,19 @@
 package micapolos;
 
-import micapolos.tata8.model.*;
+import micapolos.leo.Game;
+import micapolos.leo.Key;
 
 import static java.lang.Math.*;
-import static micapolos.tata8.model.Anchor.*;
-import static micapolos.tata8.model.Boolean.*;
-import static micapolos.tata8.model.Clip.*;
-import static micapolos.tata8.model.Event.any;
-import static micapolos.tata8.model.Flip.*;
-import static micapolos.tata8.model.Image.*;
-import static micapolos.tata8.model.Integer.*;
-import static micapolos.tata8.model.Number.*;
-import static micapolos.tata8.model.Position.*;
-import static micapolos.tata8.model.Sprite.*;
+import static micapolos.leo.Anchor.*;
+import static micapolos.leo.Boolean.*;
+import static micapolos.leo.Clip.*;
+import static micapolos.leo.Event.any;
+import static micapolos.leo.Flip.*;
+import static micapolos.leo.Image.*;
+import static micapolos.leo.Integer.*;
+import static micapolos.leo.Number.*;
+import static micapolos.leo.Position.*;
+import static micapolos.leo.Sprite.*;
 
 final class Chicken {
   static void main() {

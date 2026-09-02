@@ -1,12 +1,11 @@
 package micapolos;
 
-import micapolos.tata8.model.Direction;
-import micapolos.tata8.model.Key;
+import micapolos.leo.*;
 
-import static micapolos.tata8.model.Anchor.anchor;
-import static micapolos.tata8.model.Image.image;
-import static micapolos.tata8.model.Position.position;
-import static micapolos.tata8.model.Sprite.newSprite;
+import static micapolos.leo.Anchor.*;
+import static micapolos.leo.Image.*;
+import static micapolos.leo.Position.*;
+import static micapolos.leo.Sprite.*;
 
 public class SocksGirl {
   static int imageIndex(Direction direction) {

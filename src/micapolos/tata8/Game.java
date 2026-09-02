@@ -1,6 +1,6 @@
 package micapolos.tata8;
 
-import micapolos.tata8.model.Clip;
+import micapolos.leo.Clip;
 
 import javax.swing.*;
 import java.awt.*;
