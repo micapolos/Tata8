@@ -1,7 +1,7 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Number.number;
-import static micapolos.zexy.Number.seconds;
+import static micapolos.Leo.*;
+import static micapolos.zexy.Number.*;
 
 public final class Color extends Component {
   public final Number red;
@@ -45,24 +45,31 @@ public final class Color extends Component {
   }
 
   public Action set(Color color) {
-    return Action.sequence(red.set(color.red), green.set(color.green), blue.set(color.blue), alpha.set(color.alpha));
+    return Action.sequence(
+        red.set(color.red),
+        green.set(color.green),
+        blue.set(color.blue),
+        alpha.set(color.alpha));
   }
 
   public micapolos.tata8.Color get() {
-    return micapolos.tata8.Color.rgba((float) red.get(), (float) green.get(), (float) blue.get(), (float) alpha.get());
+    return micapolos.tata8.Color.rgba(
+        (float) red.get(),
+        (float) green.get(),
+        (float) blue.get(),
+        (float) alpha.get());
   }
 
   @Override
-  public void show() {
-    Game.on(Game.start, Background.color.set(this));
-    Game.show();
+  public String toString() {
+    return leo("color",
+        leo("red", red),
+        leo("green", green),
+        leo("blue", blue),
+        leo("alpha", alpha));
   }
 
   static void main() {
-    Color.rgb(seconds, number(0), number(0)).show();
-//    Color.rgb(
-//      Key.LEFT.isPressed.select(Number.one, Number.zero),
-//      Key.DOWN.isPressed.select(Number.one, Number.zero),
-//      Key.RIGHT.isPressed.select(Number.one, Number.zero)).show();
+    Color.rgb(seconds.fraction(), number(0), number(0)).show();
   }
 }

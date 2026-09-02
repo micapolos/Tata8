@@ -21,16 +21,10 @@ public final class Camera extends Component {
   void addRunners() {
     position.addRunnersOnce();
 
-    Game.add(new Clip() {
+    Game.add(new Runner() {
       @Override
-      void start() {
-
-      }
-
-      @Override
-      float step(float seconds) {
+      public void update(float seconds) {
         micapolos.tata8.Game.camera.position.set((float) position.x.get(), (float) position.y.get());
-        return seconds;
       }
     });
   }
