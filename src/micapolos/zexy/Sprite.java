@@ -90,8 +90,8 @@ public final class Sprite extends Component implements Drawable {
     canvas.draw(
       image.get().state,
       (float) anchor.x.get(), (float) anchor.y.get(),
-      (float) -camera.position.x.get() + (float) position.x.get() * (float) parallaxRatio.number.get(),
-      (float) -camera.position.y.get() + (float) position.y.get(),
+      (float) ParallaxRatio.screen(position.x.get(), camera.anchor.x.get(), camera.position.x.get(), parallaxRatio.number.get()),
+      (float) ParallaxRatio.screen(position.y.get(), camera.anchor.y.get(), camera.position.y.get(), 1),
       flip.x.get(), flip.y.get(),
       (float) scale.x.get(), (float) scale.y.get(),
       0);
