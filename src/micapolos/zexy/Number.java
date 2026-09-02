@@ -292,6 +292,14 @@ public class Number extends ValueComponent {
     };
   }
 
+  public Activity subtracting(double speed) {
+    return subtracting(number(speed));
+  }
+
+  public Activity subtracting(Number speed) {
+    return adding(speed.negated());
+  }
+
   public Number elastic() {
     return new Number() {
       @Override
@@ -322,8 +330,8 @@ public class Number extends ValueComponent {
   static void main() {
     var number = newNumber();
     var animation = select(
-      when(Key.LEFT.isPressed).keep(number.adding(1)),
-      when(Key.RIGHT.isPressed).keep(number.adding(-1)));
+      when(Key.LEFT.isPressed).keep(number.subtracting(1)),
+      when(Key.RIGHT.isPressed).keep(number.adding(1)));
     animation.showWith(number);
   }
 }

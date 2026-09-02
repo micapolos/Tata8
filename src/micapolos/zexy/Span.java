@@ -45,8 +45,8 @@ public final class Span extends Component {
       .with(
         parallel(
           select(
-            on(span.start, x.add(100)),
-            on(span.end, x.add(-100)))))
+            onExecute(span.start, x.add(100)),
+            onExecute(span.end, x.add(-100)))))
       .show();
   }
 }

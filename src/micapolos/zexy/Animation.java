@@ -395,16 +395,11 @@ public abstract class Animation extends Component {
     };
   }
 
-  static EventOption on(Event event, Action action) {
-    return on(event, instant(action));
+  static EventOption onExecute(Event event, Action action) {
+    return onStart(event, instant(action));
   }
 
-  static EventOption on(Event event, Animation animation) {
-    return when(event, animation);
-  }
-
-  @Deprecated
-  static EventOption when(Event event, Animation animation) {
+  static EventOption onStart(Event event, Animation animation) {
     return new EventOption(event, animation);
   }
 
@@ -519,7 +514,7 @@ public abstract class Animation extends Component {
     };
   }
 
-  static ConditionalActivity when(Boolean condition, Animation animation) {
+  static ConditionalActivity whenKeep(Boolean condition, Animation animation) {
     return new ConditionalActivity(condition, animation);
   }
 
@@ -559,6 +554,6 @@ public abstract class Animation extends Component {
   }
 
   static void main() {
-    select(on(Game.start, noAction)).show();
+    select(onExecute(Game.start, noAction)).show();
   }
 }

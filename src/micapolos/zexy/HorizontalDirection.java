@@ -1,6 +1,5 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Animation.on;
 import static micapolos.zexy.Animation.select;
 
 public enum HorizontalDirection implements Showable {
@@ -13,10 +12,10 @@ public enum HorizontalDirection implements Showable {
       direction
         .with(
           select(
-            on(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
-            on(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
-            on(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
-            on(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
+            Animation.onExecute(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
+            Animation.onExecute(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
+            Animation.onExecute(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
+            Animation.onExecute(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
   }
 
   static void main() {

@@ -1,6 +1,7 @@
 package micapolos.zexy;
 
 import static micapolos.zexy.Action.*;
+import static micapolos.zexy.Animation.*;
 
 public final class When {
   final Boolean bool;
@@ -14,6 +15,6 @@ public final class When {
   }
 
   public Animation.ConditionalActivity keep(Activity activity) {
-    return Animation.when(bool, noAction.thenKeep(activity));
+    return whenKeep(bool, noAction.thenKeep(activity));
   }
 }

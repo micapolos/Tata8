@@ -14,14 +14,14 @@ public final class On {
   }
 
   public Animation.EventOption start(Animation animation) {
-    return Animation.on(event, animation);
+    return Animation.onStart(event, animation);
   }
 
   public Animation.EventOption keep(Activity activity) {
-    return Animation.on(event, noAction.thenKeep(activity));
+    return Animation.onStart(event, noAction.thenKeep(activity));
   }
 
   public Animation.EventOption execute(Action action) {
-    return Animation.on(event, action);
+    return Animation.onExecute(event, action);
   }
 }
