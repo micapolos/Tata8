@@ -1,8 +1,8 @@
 package micapolos.zexy;
 
+import static micapolos.Leo.*;
 import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Number.*;
-import static micapolos.Leo.*;
 
 public final class Position extends Component {
   public final Number x;
@@ -20,7 +20,11 @@ public final class Position extends Component {
   }
 
   public static Position newPosition() {
-    return position(Number.newNumber(), Number.newNumber());
+    return position(newNumber(), newNumber());
+  }
+
+  public static Position newPosition(double x, double y) {
+    return position(newNumber(x), newNumber(y));
   }
 
   public static Position position(double x, double y) {

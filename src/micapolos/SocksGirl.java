@@ -1,10 +1,10 @@
 package micapolos;
 
-import micapolos.zexy.*;
+import micapolos.zexy.Direction;
+import micapolos.zexy.Key;
 
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Image.*;
-import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
 
 public class SocksGirl {
@@ -33,7 +33,6 @@ public class SocksGirl {
     newSprite()
       .with(image)
       .with(anchor(32, 64))
-      .with(position(160, 160))
       .show();
   }
 }

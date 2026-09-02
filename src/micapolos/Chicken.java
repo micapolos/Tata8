@@ -1,6 +1,5 @@
 package micapolos;
 
-import micapolos.zexy.Game;
 import micapolos.zexy.Key;
 
 import static java.lang.Math.*;
@@ -11,7 +10,9 @@ import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Integer.*;
+import static micapolos.zexy.List.*;
 import static micapolos.zexy.Number.*;
+import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
 
@@ -38,16 +39,20 @@ final class Chicken {
 
     var stop = imageIndex.set(2);
 
-    var init = instant(stop, position.set(160, 160));
+    var init = instant(stop, position.set(0, 0));
 
     var clip = init.then(
       parallel(
-        select(on(Game.mouse.press, instant(position.capture(Game.mouse.position)))),
         select(
           on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
           on(Key.LEFT.press, instant(isLeft.set(true)).then(walk)),
           on(any(Key.RIGHT.release, Key.LEFT.release), instant(stop)))));
 
-    sprite.with(clip).show();
+    sprite = sprite.with(clip);
+
+    listOf(
+      sprite.with(position(position.x, position.y.minus(75))).with(parallaxRatio(0.25)),
+      sprite.with(position(position.x, position.y.minus(50))).with(parallaxRatio(0.5)),
+      sprite.with(clip)).show();
   }
 }

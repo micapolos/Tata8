@@ -1,8 +1,8 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Number.seconds;
-import static micapolos.zexy.Position.newPosition;
 import static micapolos.Leo.*;
+import static micapolos.zexy.Number.*;
+import static micapolos.zexy.Position.*;
 
 public final class Camera extends Component {
   public final Position position;
@@ -11,7 +11,7 @@ public final class Camera extends Component {
     this.position = position;
   }
 
-  public static final Camera camera = new Camera(newPosition());
+  public static final Camera camera = new Camera(newPosition(-160, -128));
 
   static {
     camera.addRunnersOnce();
@@ -20,13 +20,6 @@ public final class Camera extends Component {
   @Override
   void addRunners() {
     position.addRunnersOnce();
-
-    Game.add(new Runner() {
-      @Override
-      public void update(float seconds) {
-        micapolos.tata8.Game.camera.position.set((float) position.x.get(), (float) position.y.get());
-      }
-    });
   }
 
   @Override

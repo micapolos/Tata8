@@ -12,11 +12,11 @@ public final class ParallaxRatio extends ValueComponent {
     this.number = number;
   }
 
-  public static ParallaxRatio depth(double d) {
-    return depth(number(d));
+  public static ParallaxRatio parallaxRatio(double d) {
+    return parallaxRatio(number(d));
   }
 
-  public static ParallaxRatio depth(Number number) {
+  public static ParallaxRatio parallaxRatio(Number number) {
     return new ParallaxRatio(emptyClip, false, number);
   }
 
@@ -36,6 +36,6 @@ public final class ParallaxRatio extends ValueComponent {
   }
 
   static void main() {
-    depth(seconds).show();
+    parallaxRatio(seconds).show();
   }
 }

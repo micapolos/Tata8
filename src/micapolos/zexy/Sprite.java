@@ -4,6 +4,7 @@ import micapolos.tata8.Canvas;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Anchor.*;
+import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Clip.*;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
@@ -39,11 +40,12 @@ public final class Sprite extends Component implements Drawable {
     anchor.addRunnersOnce();
     position.addRunnersOnce();
     flip.addRunnersOnce();
+    parallaxRatio.addRunnersOnce();
+    camera.addRunnersOnce();
   }
 
   public static Sprite newSprite() {
-    micapolos.tata8.Sprite state = micapolos.tata8.Game.newSprite();
-    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, depth(0));
+    return new Sprite(Clip.emptyClip, nullValue(), topLeftAnchor, position(0, 0), noFlip, parallaxRatio(1));
   }
 
   public Sprite with(Clip clip) {
@@ -80,7 +82,8 @@ public final class Sprite extends Component implements Drawable {
     canvas.draw(
       image.get().state,
       (float) anchor.x.get(), (float) anchor.y.get(),
-      (float) position.x.get(), (float) position.y.get(),
+      (float) -camera.position.x.get() + (float) position.x.get() * (float) parallaxRatio.number.get(),
+      (float) -camera.position.y.get() + (float) position.y.get(),
       flip.x.get(), flip.y.get(),
       1, 1,
       0);
@@ -94,7 +97,7 @@ public final class Sprite extends Component implements Drawable {
       .with(anchor(16, 16))
       .with(position(x, 128))
       .with(frame(1/60f, x.add(1)).repeat())
-      .with(depth(1))
+      .with(parallaxRatio(1))
       .show();
   }
 }
