@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaProjectCodeInsightSettings">
+    <included-static-names>
+      <name>micapolos.Leo</name>
+      <name>micapolos.zexy.Anchor</name>
+      <name>micapolos.zexy.Boolean</name>
+      <name>micapolos.zexy.Boolean</name>
+      <name>micapolos.zexy.Clip</name>
+      <name>micapolos.zexy.Depth</name>
+      <name>micapolos.zexy.Event</name>
+      <name>micapolos.zexy.Flip</name>
+      <name>micapolos.zexy.Image</name>
+      <name>micapolos.zexy.Integer</name>
+      <name>micapolos.zexy.Number</name>
+      <name>micapolos.zexy.Position</name>
+    </included-static-names>
+  </component>
+</project>
