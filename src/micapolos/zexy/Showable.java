@@ -1,6 +1,6 @@
 package micapolos.zexy;
 
-import static micapolos.tata8.Game.log;
+import static micapolos.tata8.Game.*;
 
 public interface Showable {
   default void show() {
@@ -13,6 +13,9 @@ public interface Showable {
 
         @Override
         float step(float seconds) {
+          if (Showable.this instanceof Drawable drawable) {
+            drawable.drawOn(background.canvas);
+          }
           log(Showable.this);
           return 0;
         }

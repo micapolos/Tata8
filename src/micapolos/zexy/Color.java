@@ -1,9 +1,11 @@
 package micapolos.zexy;
 
+import micapolos.tata8.Canvas;
+
 import static micapolos.Leo.*;
 import static micapolos.zexy.Number.*;
 
-public final class Color extends Component {
+public final class Color extends Component implements Drawable {
   public final Number red;
   public final Number green;
   public final Number blue;
@@ -67,6 +69,15 @@ public final class Color extends Component {
         leo("green", green),
         leo("blue", blue),
         leo("alpha", alpha));
+  }
+
+  @Override
+  public void drawOn(Canvas canvas) {
+    canvas.fillRect(128, 96, 64, 64, tata8());
+  }
+
+  micapolos.tata8.Color tata8() {
+    return micapolos.tata8.Color.rgba((float) red.get(), (float) green.get(), (float) blue.get(), (float) alpha.get());
   }
 
   static void main() {
