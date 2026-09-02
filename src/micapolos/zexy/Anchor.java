@@ -19,7 +19,7 @@ public final class Anchor extends Component {
     y.addRunnersOnce();
   }
 
-  public static Anchor newVariable() {
+  public static Anchor newAnchor() {
     return anchor(Number.newNumber(), Number.newNumber());
   }
 

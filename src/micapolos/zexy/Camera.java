@@ -14,7 +14,7 @@ public final class Camera extends Component {
     this.anchor = anchor;
   }
 
-  public static final Camera camera = new Camera(newPosition(0, 0), anchor(160, 128));
+  public static final Camera camera = new Camera(newPosition(), newAnchor());
 
   static {
     camera.addRunnersOnce();

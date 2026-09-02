@@ -6,6 +6,7 @@ import static java.lang.Math.*;
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Boolean.*;
+import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
@@ -41,7 +42,7 @@ final class Chicken {
 
     var stop = imageIndex.set(2);
 
-    var init = instant(stop, position.set(0, 0));
+    var init = instant(stop, position.set(0, 0), camera.anchor.set(160, 128));
 
     var animation = init.then(
       parallel(
