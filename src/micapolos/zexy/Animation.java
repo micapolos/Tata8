@@ -284,20 +284,20 @@ public abstract class Animation extends Component {
     };
   }
 
-  public static Animation select(ConditionOption... conditionOptions) {
+  public static Animation select(ConditionalActivity... conditionalActivities) {
     return new Animation() {
       @Override
       void start() {
-        for (ConditionOption conditionOption : conditionOptions) {
-          conditionOption.animation.start();
+        for (ConditionalActivity conditionalActivity : conditionalActivities) {
+          conditionalActivity.animation.start();
         }
       }
 
       @Override
       float step(float seconds) {
-        for (ConditionOption conditionOption : conditionOptions) {
-          if (conditionOption.condition().get()) {
-            return conditionOption.animation.step(seconds);
+        for (ConditionalActivity conditionalActivity : conditionalActivities) {
+          if (conditionalActivity.condition().get()) {
+            return conditionalActivity.animation.step(seconds);
           }
         }
         return 0;
@@ -305,7 +305,7 @@ public abstract class Animation extends Component {
 
       @Override
       public String toString() {
-        return leo("select", conditionOptions);
+        return leo("select", conditionalActivities);
       }
     };
   }
@@ -395,16 +395,16 @@ public abstract class Animation extends Component {
     };
   }
 
-  public static EventOption on(Event event, Action action) {
+  static EventOption on(Event event, Action action) {
     return on(event, instant(action));
   }
 
-  public static EventOption on(Event event, Animation animation) {
+  static EventOption on(Event event, Animation animation) {
     return when(event, animation);
   }
 
   @Deprecated
-  public static EventOption when(Event event, Animation animation) {
+  static EventOption when(Event event, Animation animation) {
     return new EventOption(event, animation);
   }
 
@@ -519,11 +519,11 @@ public abstract class Animation extends Component {
     };
   }
 
-  public static ConditionOption when(Boolean condition, Animation animation) {
-    return new ConditionOption(condition, animation);
+  static ConditionalActivity when(Boolean condition, Animation animation) {
+    return new ConditionalActivity(condition, animation);
   }
 
-  public record ConditionOption(Boolean condition, Animation animation) {
+  public record ConditionalActivity(Boolean condition, Animation animation) {
   }
 
   @Override

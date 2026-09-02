@@ -87,7 +87,7 @@ public class Action extends Component {
     return "an action";
   }
 
-  public Action thenKeep(Action action) {
+  public Action then(Action action) {
     return new Action() {
       @Override
       void execute() {

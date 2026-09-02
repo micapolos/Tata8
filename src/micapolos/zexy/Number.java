@@ -7,6 +7,7 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.When.when;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -320,7 +321,9 @@ public class Number extends ValueComponent {
 
   static void main() {
     var number = newNumber();
-    var animation = number.set(100).thenKeep(number.adding(1));
+    var animation = select(
+      when(Key.LEFT.isPressed).keep(number.adding(1)),
+      when(Key.RIGHT.isPressed).keep(number.adding(-1)));
     animation.showWith(number);
   }
 }

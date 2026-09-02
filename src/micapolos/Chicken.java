@@ -4,14 +4,15 @@ import micapolos.zexy.Key;
 
 import static java.lang.Math.*;
 import static micapolos.zexy.Anchor.*;
-import static micapolos.zexy.Boolean.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Boolean.*;
 import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Integer.*;
 import static micapolos.zexy.List.*;
 import static micapolos.zexy.Number.*;
+import static micapolos.zexy.On.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Scale.*;
@@ -34,7 +35,7 @@ final class Chicken {
     var step = isLeft.select(speed.negated().times(3), speed.times(3));
     var move = position.x.add(step);
 
-    var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).thenKeep(move)))
+    var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).then(move)))
       .stretch(0.1f)
       .repeat();
 
@@ -45,9 +46,9 @@ final class Chicken {
     var animation = init.then(
       parallel(
         select(
-          on(Key.RIGHT.press, instant(isLeft.set(false)).then(walk)),
-          on(Key.LEFT.press, instant(isLeft.set(true)).then(walk)),
-          on(any(Key.RIGHT.release, Key.LEFT.release), instant(stop)))));
+          on(Key.RIGHT.press).start(instant(isLeft.set(false)).then(walk)),
+          on(Key.LEFT.press).start(instant(isLeft.set(true)).then(walk)),
+          on(any(Key.RIGHT.release, Key.LEFT.release)).start(instant(stop)))));
 
     sprite = sprite.with(animation);
 
