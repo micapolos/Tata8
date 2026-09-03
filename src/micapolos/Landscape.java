@@ -1,5 +1,6 @@
 package micapolos;
 
+import micapolos.tata8.Composite;
 import micapolos.zexy.Key;
 
 import static micapolos.zexy.Anchor.*;
@@ -7,18 +8,18 @@ import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Condition.*;
 import static micapolos.zexy.Image.*;
-import static micapolos.zexy.List.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
 import static micapolos.zexy.Stack.*;
+import static micapolos.zexy.Value.*;
 
 public class Landscape {
   static void main() {
 
     var girlX = newNumber();
-    var cameraX = girlX.elastic();
+    var cameraX = girlX;
 
     var move = select(
       when(Key.RIGHT.isPressed).keep(girlX.adding(300)),
@@ -27,7 +28,7 @@ public class Landscape {
     var girlImage = image(Landscape.class, "socksgirl-sheet.png").sliceVertically(12).get(6);
 
     var girlSprite = newSprite()
-      .with(girlImage)
+      .withImage(girlImage)
       .with(anchor(16, 64))
       .with(position(girlX, 50));
 
@@ -35,16 +36,17 @@ public class Landscape {
     var images = image.sliceHorizontally(7);
     var backSprites = stack(4, i ->
       newSprite()
-        .with(images.get(i))
+        .withImage(images.get(i))
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) i / 6.0))
         .with(move));
 
     var frontSprites = stack(3, i ->
       newSprite()
-        .with(images.get(i + 4))
+        .withImage(images.get(i + 4))
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) (i + 4) / 6.0))
+        .withComposite(value(i + 4 == 4 ? Composite.SOFT_LIGHT : i + 4 == 5 ? Composite.MULTIPLY : Composite.NORMAL))
         .with(move));
 
     var animation = parallel(

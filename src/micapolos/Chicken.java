@@ -11,7 +11,6 @@ import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Integer.*;
-import static micapolos.zexy.List.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.On.*;
 import static micapolos.zexy.ParallaxRatio.*;
@@ -28,7 +27,7 @@ final class Chicken {
     var isLeft = newBoolean();
     var position = newPosition();
     var sprite = newSprite()
-      .with(images.get(imageIndex))
+      .withImage(images.get(imageIndex))
       .with(anchor(16, 28))
       .with(position)
       .with(flip(isLeft, bool(false)));

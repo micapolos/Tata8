@@ -1,6 +1,7 @@
 package micapolos.zexy;
 
 import micapolos.tata8.Canvas;
+import micapolos.tata8.Composite;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Anchor.*;
@@ -20,6 +21,7 @@ public final class Sprite extends Drawing {
   public final Position position;
   public final Flip flip;
   public final Scale scale;
+  public final Value<Composite> composite;
   public final ParallaxRatio parallaxRatio;
 
   Sprite(Animation animation,
@@ -28,6 +30,7 @@ public final class Sprite extends Drawing {
          Position position,
          Flip flip,
          Scale scale,
+         Value<Composite> composite,
          ParallaxRatio parallaxRatio) {
     super(animation);
     this.image = image;
@@ -35,6 +38,7 @@ public final class Sprite extends Drawing {
     this.position = position;
     this.flip = flip;
     this.scale = scale;
+    this.composite = composite;
     this.parallaxRatio = parallaxRatio;
   }
 
@@ -45,44 +49,49 @@ public final class Sprite extends Drawing {
     position.addRunnersOnce();
     flip.addRunnersOnce();
     parallaxRatio.addRunnersOnce();
+    composite.addRunnersOnce();
     camera.addRunnersOnce();
   }
 
   public static Sprite newSprite() {
-    return new Sprite(Animation.noAnimation, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, parallaxRatio(1));
+    return new Sprite(Animation.noAnimation, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, value(Composite.NORMAL), parallaxRatio(1));
   }
 
   public Sprite with(Animation animation) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
-  public Sprite with(Value<Image> image) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+  public Sprite withImage(Value<Image> image) {
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
+  }
+
+  public Sprite withComposite(Value<Composite> composite) {
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   public Sprite with(Anchor anchor) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   public Sprite with(Position position) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   public Sprite with(Flip flip) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   public Sprite with(Scale scale) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   public Sprite with(ParallaxRatio parallaxRatio) {
-    return new Sprite(animation, image, anchor, position, flip, scale, parallaxRatio);
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   @Override
   public String toString() {
-    return leo("sprite", image, anchor, position, flip, scale, parallaxRatio);
+    return leo("sprite", image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
   @Override
@@ -94,6 +103,7 @@ public final class Sprite extends Drawing {
       (float) ParallaxRatio.transform(position.y.get(), camera.anchor.y.get(), camera.position.y.get(), 1),
       flip.x.get(), flip.y.get(),
       (float) scale.x.get(), (float) scale.y.get(),
+      composite.get(),
       0);
   }
 
@@ -101,7 +111,7 @@ public final class Sprite extends Drawing {
     Number x = animatedNumber(n -> instant(n.set(160)).then(frame(1/60f, n.add(1)).repeat()));
 
     newSprite()
-      .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
+      .withImage(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
       .with(anchor(16, 16))
       .with(position(x, 128))
       .with(parallaxRatio(1))

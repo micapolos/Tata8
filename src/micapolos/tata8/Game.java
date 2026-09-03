@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class Game {
-  public static final int WIDTH = 320;
+  public static final int WIDTH = 512;
   public static final int HEIGHT = 256;
   public static final int MAX_SPRITE_COUNT = 256;
   public static final int MAX_IMAGES_PIXEL_COUNT = 128 * 1024 * 1024;

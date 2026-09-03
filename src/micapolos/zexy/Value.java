@@ -72,6 +72,14 @@ public class Value<T> extends ValueComponent {
     return new Value<>(null, null, null);
   }
 
+  public static <T> Value<T> newVariable(T initial) {
+    return new Value<>(null, null, null) {
+      {
+        currentValue = initial;
+      }
+    };
+  }
+
   public Value<T> readonly() {
     return isReadonly() ? this : value(this);
   }

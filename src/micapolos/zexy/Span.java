@@ -39,7 +39,7 @@ public final class Span extends Component {
     var x = Number.newNumber();
     var image = image(Span.class, "depressedChicken.png").sliceVertically(8).get(0);
     var sprite = newSprite()
-      .with(image)
+      .withImage(image)
       .with(position(x, span.isInside.select(number(100), number(200))));
     sprite
       .with(

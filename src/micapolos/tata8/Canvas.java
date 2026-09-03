@@ -25,6 +25,10 @@ public final class Canvas {
     this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
   }
 
+  public void set(Composite composite) {
+    graphics.setComposite(composite.awt);
+  }
+
   public void clear() {
     graphics.clearRect(0, 0, image.getWidth(), image.getHeight());
   }
@@ -92,6 +96,7 @@ public final class Canvas {
         Math.round(x) + Math.round(sprite.position.x), Math.round(y) + Math.round(sprite.position.y),
         sprite.flip.x, sprite.flip.y,
         sprite.scale.x, sprite.scale.y,
+        Composite.NORMAL,
         sprite.angle);
     }
   }
@@ -102,6 +107,7 @@ public final class Canvas {
     float positionX, float positionY,
     boolean flipX, boolean flipY,
     float scaleX, float scaleY,
+    Composite composite,
     float angle) {
     imageTransform.setToIdentity();
     imageTransform.translate(Math.round(positionX), Math.round(positionY));
@@ -109,6 +115,7 @@ public final class Canvas {
     imageTransform.scale(flipX ? -1 : 1, flipY ? -1 : 1);
     imageTransform.scale(scaleX, scaleY);
     imageTransform.translate(-anchorX, -anchorY);
+    graphics.setComposite(composite.awt);
     graphics.drawImage(image.bufferedImage, imageTransform, null);
   }
 

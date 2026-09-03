@@ -32,7 +32,7 @@ public class SocksGirl {
       .selectFrom(sheetImages);
 
     newSprite()
-      .with(image)
+      .withImage(image)
       .with(anchor(32, 64))
       .with(position(160, 128))
       .show();
