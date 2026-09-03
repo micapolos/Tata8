@@ -62,9 +62,9 @@ public class Value<T> extends ValueComponent {
     return new Value<>(supplier, null);
   }
 
-  static <T> Value<T> value(Initializer<Value<T>> initializer) {
+  static <T> Value<T> value(Animator<Value<T>> animator) {
     var value = new Value<T>(null, null, null);
-    value.init(initializer.init(value));
+    value.init(animator.animate(value));
     return value;
   }
 

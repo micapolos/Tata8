@@ -39,9 +39,9 @@ public class Number extends ValueComponent {
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
-  public static Number number(Initializer<Number> initializer) {
+  public static Number animatedNumber(Animator<Number> animator) {
     var number = newNumber();
-    number.init(initializer.init(number));
+    number.init(animator.animate(number));
     return number;
   }
 
@@ -115,12 +115,12 @@ public class Number extends ValueComponent {
     };
   }
 
-  public Number update(Number b, DoubleBinaryOperator operator) {
-    return new Number(() -> operator.applyAsDouble(get(), b.get())) {
+  public Number update(Number number, DoubleBinaryOperator operator) {
+    return new Number(() -> operator.applyAsDouble(get(), number.get())) {
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
-        b.addRunnersOnce();
+        number.addRunnersOnce();
       }
     };
   }
@@ -237,7 +237,17 @@ public class Number extends ValueComponent {
   }
 
   public Action set(Number number) {
-    return mapToAction(number, () -> setImmediately(number));
+    return new Action() {
+      @Override
+      void execute() {
+        setImmediately(number);
+      }
+
+      @Override
+      void addRunners() {
+        number.addRunnersOnce();
+      }
+    };
   }
 
   public Action capture(Number number) {
@@ -284,10 +294,19 @@ public class Number extends ValueComponent {
   }
 
   public Number elastic() {
+    return elastic(micapolos.tata8.Math.ELASTIC_FACTOR);
+  }
+
+  public Number elastic(double d) {
+    return elastic(number(d));
+  }
+
+  public Number elastic(Number factor) {
     return new Number() {
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
+        factor.addRunnersOnce();
 
         Game.add(new Runner() {
           @Override
@@ -298,7 +317,7 @@ public class Number extends ValueComponent {
           @Override
           public void update(float seconds) {
             // TODO: Make it dependent on seconds.
-            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get());
+            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get(), (float) factor.get());
           }
         });
       }

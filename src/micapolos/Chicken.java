@@ -53,18 +53,21 @@ final class Chicken {
 
     sprite = sprite.with(animation);
 
+    var x = position.x.elastic(0.01);
     var sprites = listOf(
       sprite
-        .with(position(position.x, position.y.minus(48)))
+        .with(position(x, position.y.minus(48)))
         .with(scale(0.25, 0.25))
         .with(parallaxRatio(0.25)),
       sprite
-        .with(position(position.x, position.y.minus(32)))
+        .with(position(x, position.y.minus(32)))
         .with(scale(0.5, 0.5))
         .with(parallaxRatio(0.5)),
-      sprite.with(animation),
       sprite
-        .with(position(position.x, position.y.plus(64)))
+        .with(position(x, position.y.minus(0)))
+        .with(animation),
+      sprite
+        .with(position(x, position.y.plus(64)))
         .with(scale(2, 2))
         .with(parallaxRatio(2)));
 

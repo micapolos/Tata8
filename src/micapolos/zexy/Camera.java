@@ -23,6 +23,7 @@ public final class Camera extends Component {
   @Override
   void addRunners() {
     position.addRunnersOnce();
+    anchor.addRunnersOnce();
   }
 
   @Override
