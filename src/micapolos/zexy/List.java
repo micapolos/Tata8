@@ -42,6 +42,8 @@ public class List<T extends Component> extends Component implements Drawable {
     for (T component : components) {
       if (component instanceof Drawable drawable) {
         drawable.drawOn(canvas);
+      } else if (component instanceof Drawing drawing) {
+        drawing.drawOn(canvas);
       }
     }
   }

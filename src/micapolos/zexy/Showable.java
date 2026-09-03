@@ -13,9 +13,11 @@ public interface Showable {
 
         @Override
         float step(float seconds) {
+          background.canvas.clear();
           if (Showable.this instanceof Drawable drawable) {
-            background.canvas.clear();
             drawable.drawOn(background.canvas);
+          } else if (Showable.this instanceof Drawing drawing) {
+            drawing.drawOn(background.canvas);
           } else {
             log(Showable.this);
           }

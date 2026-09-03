@@ -14,7 +14,7 @@ import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Scale.*;
 import static micapolos.zexy.Value.*;
 
-public final class Sprite extends Component implements Drawable {
+public final class Sprite extends Drawing {
   public final Value<Image> image;
   public final Anchor anchor;
   public final Position position;
@@ -86,7 +86,7 @@ public final class Sprite extends Component implements Drawable {
   }
 
   @Override
-  public void drawOn(Canvas canvas) {
+  void drawOn(Canvas canvas) {
     canvas.draw(
       image.get().state,
       (float) anchor.x.get(), (float) anchor.y.get(),
