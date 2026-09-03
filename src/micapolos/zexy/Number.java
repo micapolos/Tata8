@@ -215,6 +215,18 @@ public class Number extends ValueComponent {
     return update(DoubleUtils::fraction);
   }
 
+  public Number floor() {
+    return update(Math::floor);
+  }
+
+  public Number ceil() {
+    return update(Math::ceil);
+  }
+
+  public Number round() {
+    return update(Math::round);
+  }
+
   public Integer integer() {
     return mapToInteger(d -> (int) d);
   }

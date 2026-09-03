@@ -133,6 +133,14 @@ public class Integer extends ValueComponent {
     return update(n, IntegerUtils::times);
   }
 
+  public Integer floorMod(int i) {
+    return floorMod(integer(i));
+  }
+
+  public Integer floorMod(Integer integer) {
+    return update(i -> Math.floorMod(Integer.this.get(), integer.get()));
+  }
+
   public Number number() {
     return mapToNumber(IntegerUtils::toDouble);
   }

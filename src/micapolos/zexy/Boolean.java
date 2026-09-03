@@ -186,6 +186,17 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  public Integer select(Integer trueInteger, Integer falseInteger) {
+    return new Integer(() -> get() ? trueInteger.get() : falseInteger.get()) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunners();
+        trueInteger.addRunnersOnce();
+        falseInteger.addRunnersOnce();
+      }
+    };
+  }
+
   public Number number() {
     return new Number(() -> get() ? 1 : 0) {
       @Override
