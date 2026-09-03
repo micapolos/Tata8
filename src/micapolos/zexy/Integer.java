@@ -22,27 +22,27 @@ public class Integer extends ValueComponent {
     this.defaultValue = defaultValue;
   }
 
-  public int get() {
+  int get() {
     IntSupplier supplier = this.supplier;
     return supplier != null ? supplier.getAsInt() : defaultValue;
   }
 
-  public static Integer randomBetween(int min, int max) {
+  public static Integer randomIntegerBetween(int min, int max) {
     return integer(() -> Random.between(min, max));
   }
 
-  public static Integer randomUntil(int limit) {
+  public static Integer randomIntegerUntil(int limit) {
     return integer(() -> Random.until(limit));
   }
 
-  public static Integer zero = integer(0);
-  public static Integer one = integer(1);
+  public static Integer integerZero = integer(0);
+  public static Integer integerOne = integer(1);
 
   public static Integer integer(int value) {
     return integer(() -> value);
   }
 
-  public static Integer integer(IntSupplier supplier) {
+  static Integer integer(IntSupplier supplier) {
     return new Integer(noAnimation, supplier, 0);
   }
 
@@ -210,6 +210,6 @@ public class Integer extends ValueComponent {
   }
 
   static void main() {
-    randomUntil(10).show();
+    randomIntegerUntil(10).show();
   }
 }

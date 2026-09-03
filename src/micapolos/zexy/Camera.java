@@ -32,7 +32,7 @@ public final class Camera extends Component {
   }
 
   static void main() {
-    camera.position.x.setImmediately(seconds);
+    camera.position.x.setImmediately(numberOfSeconds);
     camera.show();
   }
 }

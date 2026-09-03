@@ -32,11 +32,7 @@ public class Value<T> extends ValueComponent {
     this.currentValue = defaultValue;
   }
 
-  public Value<T> with(Animation animation) {
-    return new Value<>(animation, this::get);
-  }
-
-  public T get() {
+  T get() {
     var supplier = this.currentSupplier;
     return supplier != null ? supplier.get() : currentValue;
   }
@@ -80,7 +76,7 @@ public class Value<T> extends ValueComponent {
     };
   }
 
-  public Value<T> readonly() {
+  public Value<T> toReadonly() {
     return isReadonly() ? this : value(this);
   }
 
@@ -210,7 +206,7 @@ public class Value<T> extends ValueComponent {
     return mapToAction(value, () -> setImmediately(value.get()));
   }
 
-  public static <T> Value<T> randomFrom(T... values) {
+  public static <T> Value<T> randomValueFrom(T... values) {
     return new Value<>(() -> values[Random.until(values.length)]);
   }
 

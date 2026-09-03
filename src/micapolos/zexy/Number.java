@@ -34,7 +34,7 @@ public class Number extends ValueComponent {
     this.animation = animation;
   }
 
-  public double get() {
+  double get() {
     DoubleSupplier supplier = this.currentSupplier;
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
@@ -54,13 +54,13 @@ public class Number extends ValueComponent {
     };
   }
 
-  public static final Number random = randomNumber();
+  public static final Number randomNumber = randomNumber();
 
-  public static Number randomNumber() {
+  static Number randomNumber() {
     return number(Math::random);
   }
 
-  public static final Number seconds = new Number(noAnimation) {
+  public static final Number numberOfSeconds = new Number(noAnimation) {
     @Override
     void addRunners() {
       Game.add(new Runner() {
@@ -77,9 +77,9 @@ public class Number extends ValueComponent {
     }
   };
 
-  public static final Number zero = number(0);
-  public static final Number half = number(0.5f);
-  public static final Number one = number(1);
+  public static final Number numberZero = number(0);
+  public static final Number numberHalf = number(0.5f);
+  public static final Number numberOne = number(1);
 
   public static Number number(double value) {
     return new Number(value);
@@ -102,7 +102,7 @@ public class Number extends ValueComponent {
     return new Number();
   }
 
-  public Number readonly() {
+  public Number toReadonly() {
     return isReadonly() ? this : number(this);
   }
 
@@ -227,15 +227,15 @@ public class Number extends ValueComponent {
     return update(Math::round);
   }
 
-  public Integer integer() {
+  public Integer toInteger() {
     return mapToInteger(d -> (int) d);
   }
 
-  public void setImmediately(double x) {
+  void setImmediately(double x) {
     setImmediately(null, x);
   }
 
-  public void setImmediately(Number number) {
+  void setImmediately(Number number) {
     setImmediately(number::get, 0);
   }
 

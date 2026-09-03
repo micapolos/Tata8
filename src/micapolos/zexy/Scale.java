@@ -23,7 +23,7 @@ public final class Scale extends Component {
     return scale(Number.newNumber(), Number.newNumber());
   }
 
-  public static final Scale noScale = scale(one, one);
+  public static final Scale noScale = scale(numberOne, numberOne);
 
   public static Scale scale(double x, double y) {
     return scale(number(x), number(y));

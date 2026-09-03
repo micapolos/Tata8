@@ -5,7 +5,6 @@ import micapolos.tata8.Color;
 
 import java.util.function.BooleanSupplier;
 
-import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Animation.*;
 
 public class Event extends ValueComponent {
@@ -18,12 +17,14 @@ public class Event extends ValueComponent {
     this.defaultOccurs = defaultOccurs;
   }
 
-  public boolean occurs() {
+  public static final Event noEvent = event(false);
+
+  boolean occurs() {
     BooleanSupplier supplier = this.occursSupplier;
     return supplier != null ? supplier.getAsBoolean() : defaultOccurs;
   }
 
-  public static Event event(boolean occurs) {
+  static Event event(boolean occurs) {
     return new Event(noAnimation, null, occurs);
   }
 
@@ -36,7 +37,7 @@ public class Event extends ValueComponent {
     };
   }
 
-  public static Event event(BooleanSupplier occursSupplier) {
+  static Event event(BooleanSupplier occursSupplier) {
     return new Event(noAnimation, occursSupplier, false);
   }
 

@@ -29,6 +29,7 @@ public class Action extends Component {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public static Action set(micapolos.tata8.Sprite sprite, Image image) {
     return new Action() {
       @Override
@@ -38,6 +39,7 @@ public class Action extends Component {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public static Action setX(micapolos.tata8.Position position, float x) {
     return new Action() {
       @Override
@@ -47,6 +49,7 @@ public class Action extends Component {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public static Action setY(micapolos.tata8.Position position, float y) {
     return new Action() {
       @Override

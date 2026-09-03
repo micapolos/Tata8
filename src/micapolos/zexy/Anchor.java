@@ -23,7 +23,7 @@ public final class Anchor extends Component {
     return anchor(Number.newNumber(), Number.newNumber());
   }
 
-  public static final Anchor topLeftAnchor = anchor(Number.zero, Number.zero);
+  public static final Anchor topLeftAnchor = anchor(Number.numberZero, Number.numberZero);
 
   public static Anchor anchor(double x, double y) {
     return anchor(number(x), number(y));

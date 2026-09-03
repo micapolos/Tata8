@@ -24,7 +24,7 @@ public class Boolean extends ValueComponent {
     this.animation = animation;
   }
 
-  public boolean get() {
+  boolean get() {
     BooleanSupplier supplier = this.currentSupplier;
     return supplier != null ? supplier.getAsBoolean() : currentValue;
   }
@@ -33,12 +33,8 @@ public class Boolean extends ValueComponent {
     return bool(() -> b);
   }
 
-  public static Boolean bool(BooleanSupplier supplier) {
+  static Boolean bool(BooleanSupplier supplier) {
     return new Boolean(supplier);
-  }
-
-  public static Boolean bool(Animation animation) {
-    return new Boolean(animation);
   }
 
   public static Boolean newBoolean() {
@@ -169,6 +165,7 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public <T> Value<T> selectValue(T trueValue, T falseValue) {
     return new Value<>(() -> get() ? trueValue : falseValue) {
       @Override
@@ -178,6 +175,7 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
     return new Value<>(() -> get() ? trueValue.get() : falseValue.get()) {
       @Override
@@ -187,6 +185,7 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public Number select(Number trueNumber, Number falseNumber) {
     return new Number(() -> get() ? trueNumber.get() : falseNumber.get()) {
       @Override
@@ -198,6 +197,7 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  @Deprecated(forRemoval = true)
   public Integer select(Integer trueInteger, Integer falseInteger) {
     return new Integer(() -> get() ? trueInteger.get() : falseInteger.get()) {
       @Override

@@ -62,6 +62,6 @@ public final class Position extends Component {
   }
 
   static void main() {
-    position(seconds, seconds.negated()).show();
+    position(numberOfSeconds, numberOfSeconds.negated()).show();
   }
 }
