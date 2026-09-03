@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class Game {
-  static final boolean FULLSCREEN = true;
+  static final boolean FULLSCREEN = false;
 
   public static final int WIDTH = 512 - 32;
   public static final int HEIGHT = 256;
