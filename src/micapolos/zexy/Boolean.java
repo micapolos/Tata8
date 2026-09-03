@@ -3,6 +3,9 @@ package micapolos.zexy;
 import java.util.function.BooleanSupplier;
 
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Integer.*;
+import static micapolos.zexy.Number.*;
+import static micapolos.zexy.Value.*;
 
 public class Boolean extends ValueComponent {
   BooleanSupplier currentSupplier;
@@ -175,6 +178,15 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  public <T> Value<T> select(Value<T> trueValue, Value<T> falseValue) {
+    return new Value<>(() -> get() ? trueValue.get() : falseValue.get()) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunners();
+      }
+    };
+  }
+
   public Number select(Number trueNumber, Number falseNumber) {
     return new Number(() -> get() ? trueNumber.get() : falseNumber.get()) {
       @Override
@@ -197,7 +209,31 @@ public class Boolean extends ValueComponent {
     };
   }
 
-  public Number number() {
+  public <T extends Component> IfTrue.WithComponent<T> ifTrue(T t) {
+    return ifTrue(value(t));
+  }
+
+  public <T extends Component> IfTrue.WithComponent<T> ifTrue(Value<T> value) {
+    return new IfTrue.WithComponent<>(this, value);
+  }
+
+  public IfTrue.WithNumber ifTrue(double d) {
+    return ifTrue(number(d));
+  }
+
+  public IfTrue.WithNumber ifTrue(Number number) {
+    return new IfTrue.WithNumber(this, number);
+  }
+
+  public IfTrue.WithInteger ifTrue(int i) {
+    return ifTrue(integer(i));
+  }
+
+  public IfTrue.WithInteger ifTrue(Integer integer) {
+    return new IfTrue.WithInteger(this, integer);
+  }
+
+  public Number toNumber() {
     return new Number(() -> get() ? 1 : 0) {
       @Override
       void addRunners() {

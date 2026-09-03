@@ -32,8 +32,8 @@ final class Chicken {
       .with(position)
       .with(flip(isLeft, bool(false)));
 
-    var speed = Key.Z.isPressed.select(number(2), number(1));
-    var step = isLeft.select(speed.negated().times(3), speed.times(3));
+    var speed = Key.Z.isPressed.ifTrue(2.0).orElse(1.0);
+    var step = isLeft.ifTrue(speed.negated().times(3)).orElse(speed.times(3));
     var move = position.x.add(step);
 
     var walk = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).then(move)))

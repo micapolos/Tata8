@@ -83,9 +83,9 @@ public final class Color extends Component implements Drawable {
   static void main() {
     var brightness = Key.Z.isPressed.select(seconds.fraction(), number(1));
     Color.rgb(
-        Key.LEFT.isPressed.number().times(brightness),
-        Key.DOWN.isPressed.number().times(brightness),
-        Key.RIGHT.isPressed.number().times(brightness))
+        Key.LEFT.isPressed.toNumber().times(brightness),
+        Key.DOWN.isPressed.toNumber().times(brightness),
+        Key.RIGHT.isPressed.toNumber().times(brightness))
       .show();
   }
 }
