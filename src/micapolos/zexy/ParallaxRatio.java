@@ -12,7 +12,7 @@ public final class ParallaxRatio extends ValueComponent {
     this.number = number;
   }
 
-  public static final ParallaxRatio noParallaxRatio = parallaxRatio(0);
+  public static final ParallaxRatio noParallaxRatio = parallaxRatio(1);
 
   public static ParallaxRatio parallaxRatio(double d) {
     return parallaxRatio(number(d));

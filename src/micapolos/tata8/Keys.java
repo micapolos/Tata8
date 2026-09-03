@@ -13,8 +13,10 @@ public final class Keys {
   public final Key up = new Key();
   public final Key down = new Key();
   public final Key reset = new Key();
+  public final Key slow = new Key();
+  public final Key fast = new Key();
 
-  final Key[] array = new Key[] { z, x, left, right, up, down, reset };
+  final Key[] array = new Key[]{z, x, left, right, up, down, reset, slow, fast};
 
   final KeyListener listener = new KeyAdapter() {
     @Override
@@ -43,7 +45,9 @@ public final class Keys {
       case KeyEvent.VK_RIGHT -> right;
       case KeyEvent.VK_UP -> up;
       case KeyEvent.VK_DOWN -> down;
-      case KeyEvent.VK_R -> (event.getModifiersEx() & KeyEvent.META_DOWN_MASK) != 0 ? reset : null;
+      case KeyEvent.VK_R -> reset;
+      case KeyEvent.VK_S -> slow;
+      case KeyEvent.VK_F -> fast;
       default -> null;
     };
   }
@@ -51,13 +55,16 @@ public final class Keys {
   @Override
   public String toString() {
     return String.format(
-        "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s, RESET: %s)",
-        left.isPressed,
-        right.isPressed,
-        up.isPressed,
-        down.isPressed,
-        z.isPressed,
-        x.isPressed,
-        reset.isPressed);
+      "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s, RESET: %s, SLOW: %s, FAST: %s)",
+      left.isPressed,
+      right.isPressed,
+      up.isPressed,
+      down.isPressed,
+      z.isPressed,
+      x.isPressed,
+      reset.isPressed,
+      slow.isPressed,
+      fast.isPressed
+    );
   }
 }

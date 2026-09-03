@@ -198,7 +198,10 @@ public final class Game {
 
     Timer timer = new Timer(16, _ -> {
       frame.setTitle(title);
-      animation.advanceInternal(1/60f);
+      float multiplier = keys.slow.isPressed
+        ? keys.fast.isPressed ? 1f : 0.25f
+        : keys.fast.isPressed ? 4f : 1f;
+      animation.advanceInternal(multiplier / 60f);
       onUpdate.run();
       panel.repaint();
       for (Key key : keys.array) {

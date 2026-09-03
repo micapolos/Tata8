@@ -1,5 +1,7 @@
 package micapolos.zexy;
 
+import micapolos.tata8.Math;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +75,14 @@ public final class Game {
     startedValue = false;
   }
 
+  static float speedValue = 1;
+
   static void update() {
-    step(1/60f);
+    speedValue = Math.elastic(speedValue,
+      keys.slow.isPressed
+        ? keys.fast.isPressed ? 1f : 0.125f
+        : keys.fast.isPressed ? 8f : 1f, 0.1f);
+    step(speedValue / 60);
   }
 
   public static void show() {

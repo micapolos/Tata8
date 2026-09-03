@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
-import static micapolos.zexy.Animation.*;
-
 public class Stack extends Drawing {
   final java.util.List<Drawing> drawings;
 
