@@ -112,10 +112,6 @@ class CaveStory {
       }
     }
 
-    if (Game.keys.z.pressed()) {
-      Game.screen.shader = Shader.MAME;
-    }
-
     if (Game.keys.x.pressed()) {
       Game.screen.shader = null;
     }

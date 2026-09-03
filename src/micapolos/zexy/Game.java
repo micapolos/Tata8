@@ -1,6 +1,7 @@
 package micapolos.zexy;
 
 import micapolos.tata8.Math;
+import micapolos.tata8.Shader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,7 @@ public final class Game {
   }
 
   public static void show() {
+    screen.shader = Shader.CRT_PHOSPHOR;
     init();
     onUpdate = Game::update;
     micapolos.tata8.Game.start();

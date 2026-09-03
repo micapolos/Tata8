@@ -29,13 +29,14 @@ public final class Game {
 
   public static String title = "Game";
   public static final FinalSize size = new FinalSize(WIDTH, HEIGHT);
-  public static Background background = new Background(new Canvas(WIDTH, HEIGHT),  TileMap.create(64, 32, 16, 16));
-  public static Foreground foreground = new Foreground(new Canvas(WIDTH, HEIGHT),  TileMap.create(64, 32, 16, 16));
+  public static Background background = new Background(new Canvas(WIDTH, HEIGHT), TileMap.create(64, 32, 16, 16));
+  public static Foreground foreground = new Foreground(new Canvas(WIDTH, HEIGHT), TileMap.create(64, 32, 16, 16));
   public static final Camera camera = new Camera();
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
   public static final Mouse mouse = new Mouse();
-  public static Runnable onUpdate = () -> {};
+  public static Runnable onUpdate = () -> {
+  };
   public static final Screen screen = new Screen();
   public static Animation animation = Animation.instant();
 
@@ -48,7 +49,8 @@ public final class Game {
   @Deprecated(forRemoval = true)
   public static final TileMap foregroundTileMap = foreground.tileMap;
 
-  private Game() {}
+  private Game() {
+  }
 
   public static Image loadImage(Class<?> baseClass, String fileName) {
     Image image = Image.load(baseClass, fileName);
@@ -116,7 +118,7 @@ public final class Game {
           }
         }
         logStrings.clear();
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         BufferedImageOp imageOp = screen.imageOp();
         if (imageOp == null) {
           int containerWidth = getWidth();
@@ -201,6 +203,9 @@ public final class Game {
       float multiplier = keys.slow.isPressed
         ? keys.fast.isPressed ? 1f : 0.25f
         : keys.fast.isPressed ? 4f : 1f;
+      if (keys.shader.pressed()) {
+        screen.shader = Shader.nextOf(screen.shader);
+      }
       animation.advanceInternal(multiplier / 60f);
       onUpdate.run();
       panel.repaint();
@@ -222,9 +227,9 @@ public final class Game {
 
   public static String info() {
     return String.format(
-        "game(sprites: %d / %d, imagePixels: %d / %d)",
-        spriteCount(), MAX_SPRITE_COUNT,
-        loadedImagePixelCount, MAX_IMAGES_PIXEL_COUNT);
+      "game(sprites: %d / %d, imagePixels: %d / %d)",
+      spriteCount(), MAX_SPRITE_COUNT,
+      loadedImagePixelCount, MAX_IMAGES_PIXEL_COUNT);
   }
 
   static void main() {

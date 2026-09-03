@@ -15,8 +15,9 @@ public final class Keys {
   public final Key reset = new Key();
   public final Key slow = new Key();
   public final Key fast = new Key();
+  public final Key shader = new Key();
 
-  final Key[] array = new Key[]{z, x, left, right, up, down, reset, slow, fast};
+  final Key[] array = new Key[]{z, x, left, right, up, down, reset, slow, fast, shader};
 
   final KeyListener listener = new KeyAdapter() {
     @Override
@@ -48,6 +49,7 @@ public final class Keys {
       case KeyEvent.VK_R -> reset;
       case KeyEvent.VK_S -> slow;
       case KeyEvent.VK_F -> fast;
+      case KeyEvent.VK_D -> shader;
       default -> null;
     };
   }
@@ -55,7 +57,7 @@ public final class Keys {
   @Override
   public String toString() {
     return String.format(
-      "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s, RESET: %s, SLOW: %s, FAST: %s)",
+      "keys(left: %s, right: %s, up: %s, down: %s, Z: %s, X: %s, RESET: %s, SLOW: %s, FAST: %s, SHADER: %s)",
       left.isPressed,
       right.isPressed,
       up.isPressed,
@@ -64,7 +66,8 @@ public final class Keys {
       x.isPressed,
       reset.isPressed,
       slow.isPressed,
-      fast.isPressed
+      fast.isPressed,
+      shader.isPressed
     );
   }
 }
