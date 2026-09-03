@@ -288,16 +288,13 @@ public abstract class Animation extends Component {
     return new Animation() {
       @Override
       void start() {
-        for (ConditionalActivity conditionalActivity : conditionalActivities) {
-          conditionalActivity.animation.start();
-        }
       }
 
       @Override
       float step(float seconds) {
         for (ConditionalActivity conditionalActivity : conditionalActivities) {
           if (conditionalActivity.condition.get()) {
-            return conditionalActivity.animation.step(seconds);
+            conditionalActivity.activity.advance(seconds);
           }
         }
         return 0;
@@ -497,10 +494,6 @@ public abstract class Animation extends Component {
           : 0;
       }
     };
-  }
-
-  static ConditionalActivity whenKeep(Boolean condition, Animation animation) {
-    return new ConditionalActivity(condition, animation);
   }
 
   @Override

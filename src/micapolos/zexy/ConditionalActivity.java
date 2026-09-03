@@ -4,15 +4,15 @@ import static micapolos.Leo.*;
 
 public final class ConditionalActivity {
   final Boolean condition;
-  final Animation animation;
+  final Activity activity;
 
-  ConditionalActivity(Boolean condition, Animation animation) {
+  ConditionalActivity(Boolean condition, Activity activity) {
     this.condition = condition;
-    this.animation = animation;
+    this.activity = activity;
   }
 
   @Override
   public String toString() {
-    return leo("when", condition, leo("execute", animation));
+    return leo("when", condition, leo("keep", activity));
   }
 }
