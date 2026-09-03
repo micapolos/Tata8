@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class Game {
+  static final boolean FULLSCREEN = true;
+
   public static final int WIDTH = 512 - 32;
   public static final int HEIGHT = 256;
   public static final int MAX_SPRITE_COUNT = 256;
@@ -81,7 +83,15 @@ public final class Game {
 
   public static void start() {
     JFrame frame = new JFrame(title);
+    frame.setLayout(new java.awt.GridLayout(1, 1));
+    frame.setBackground(java.awt.Color.RED);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice device = ge.getDefaultScreenDevice();
+
+    var fullScreen = FULLSCREEN && device.isFullScreenSupported();
+
     frame.setResizable(false);
 
     JPanel panel = new JPanel() {
@@ -98,16 +108,35 @@ public final class Game {
         }
         foreground.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
         compositeCanvas.graphics.drawImage(foreground.canvas.image, null, null);
-        int y = 0;
-        for (String string : logStrings) {
-          compositeCanvas.draw(string, 1, y, Color.YELLOW, Font.system, true);
-          y += 8;
+        {
+          int textY = 0;
+          for (String string : logStrings) {
+            compositeCanvas.draw(string, 1, textY, Color.YELLOW, Font.system, true);
+            textY += 8;
+          }
         }
         logStrings.clear();
         Graphics2D g2d = (Graphics2D)g;
         BufferedImageOp imageOp = screen.imageOp();
         if (imageOp == null) {
-          g.drawImage(compositeCanvas.image, 0, 0, Game.WIDTH * SCALE, Game.HEIGHT * SCALE, null);
+          int containerWidth = getWidth();
+          int containerHeight = getHeight();
+
+          int imageWidth = compositeCanvas.image.getWidth();
+          int imageHeight = compositeCanvas.image.getHeight();
+
+          double scale = java.lang.Math.min((double) containerWidth / imageWidth, (double) containerHeight / imageHeight);
+
+          int scaledWidth = (int) java.lang.Math.round(imageWidth * scale);
+          int scaledHeight = (int) java.lang.Math.round(imageHeight * scale);
+
+          int x = (containerWidth - scaledWidth) / 2;
+          int y = (containerHeight - scaledHeight) / 2;
+
+          if (fullScreen) {
+            //g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+          }
+          g2d.drawImage(compositeCanvas.image, x, y, scaledWidth, scaledHeight, null);
         } else {
           g2d.drawImage(compositeCanvas.image, imageOp, 0, 0);
         }
@@ -116,11 +145,18 @@ public final class Game {
 
     panel.addKeyListener(keys.listener);
 
-    panel.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+    if (!fullScreen) {
+      panel.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+    }
     panel.setBackground(java.awt.Color.BLACK);
     frame.add(panel);
-    frame.pack();
-    frame.setVisible(true);
+
+    if (fullScreen) {
+      device.setFullScreenWindow(frame);
+    } else {
+      frame.pack();
+      frame.setVisible(true);
+    }
 
     panel.requestFocus();
 
