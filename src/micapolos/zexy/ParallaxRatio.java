@@ -12,6 +12,8 @@ public final class ParallaxRatio extends ValueComponent {
     this.number = number;
   }
 
+  public static final ParallaxRatio noParallaxRatio = parallaxRatio(0);
+
   public static ParallaxRatio parallaxRatio(double d) {
     return parallaxRatio(number(d));
   }
@@ -34,7 +36,7 @@ public final class ParallaxRatio extends ValueComponent {
     parallaxRatio(numberOfSeconds).show();
   }
 
-  static double transform(double obj, double anchor, double camera, double parallaxRatio) {
+  static double applyParallaxRatio(double obj, double anchor, double camera, double parallaxRatio) {
     return anchor + (obj - camera) * parallaxRatio;
   }
 }

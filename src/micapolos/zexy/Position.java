@@ -24,6 +24,8 @@ public final class Position extends Component {
     return position(newNumber(), newNumber());
   }
 
+  public static final Position positionZero = position(0, 0);
+
   public static Position position(double x, double y) {
     return position(number(x), number(y));
   }

@@ -37,7 +37,7 @@ public class Value<T> extends ValueComponent {
     return supplier != null ? supplier.get() : currentValue;
   }
 
-  public static <T> Value<T> nullValue() {
+  public static <T> Value<T> valueNull() {
     return value((T) null);
   }
 

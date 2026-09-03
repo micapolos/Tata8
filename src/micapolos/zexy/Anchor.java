@@ -1,8 +1,8 @@
 package micapolos.zexy;
 
 import static micapolos.zexy.Action.sequence;
-import static micapolos.zexy.Number.number;
 import static micapolos.Leo.*;
+import static micapolos.zexy.Number.*;
 
 public final class Anchor extends Component {
   public final Number x;
@@ -23,7 +23,7 @@ public final class Anchor extends Component {
     return anchor(Number.newNumber(), Number.newNumber());
   }
 
-  public static final Anchor topLeftAnchor = anchor(Number.numberZero, Number.numberZero);
+  public static final Anchor anchorZero = anchor(0, 0);
 
   public static Anchor anchor(double x, double y) {
     return anchor(number(x), number(y));

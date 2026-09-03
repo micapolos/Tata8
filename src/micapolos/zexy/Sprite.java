@@ -5,8 +5,8 @@ import micapolos.tata8.Composite;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Anchor.*;
-import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Number.*;
@@ -54,7 +54,7 @@ public final class Sprite extends Drawing {
   }
 
   public static Sprite newSprite() {
-    return new Sprite(Animation.noAnimation, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, value(Composite.NORMAL), parallaxRatio(1));
+    return new Sprite(noAnimation, valueNull(), anchorZero, positionZero, noFlip, noScale, value(Composite.NORMAL), noParallaxRatio);
   }
 
   public Sprite with(Animation animation) {
@@ -107,8 +107,8 @@ public final class Sprite extends Drawing {
     canvas.draw(
       image.get().state,
       (float) anchor.x.get(), (float) anchor.y.get(),
-      (float) ParallaxRatio.transform(position.x.get(), camera.anchor.x.get(), camera.position.x.get(), parallaxRatio.number.get()),
-      (float) ParallaxRatio.transform(position.y.get(), camera.anchor.y.get(), camera.position.y.get(), 1),
+      (float) applyParallaxRatio(position.x.get(), camera.anchor.x.get(), camera.position.x.get(), parallaxRatio.number.get()),
+      (float) applyParallaxRatio(position.y.get(), camera.anchor.y.get(), camera.position.y.get(), 1),
       flip.x.get(), flip.y.get(),
       (float) scale.x.get(), (float) scale.y.get(),
       composite.get(),
