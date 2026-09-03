@@ -1,5 +1,7 @@
 package micapolos.zexy;
 
+import micapolos.tata8.Game;
+
 public class Component implements Showable {
   Animation animation;
   boolean didAddClips;
@@ -31,6 +33,102 @@ public class Component implements Showable {
   public void show() {
     addRunnersOnce();
     Showable.super.show();
+  }
+
+  public Action log() {
+    return new Action() {
+      @Override
+      void execute() {
+        IO.println(Component.this);
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Action log(String label) {
+    return new Action() {
+      @Override
+      void execute() {
+        IO.println(String.format("%s: %s", label, Component.this));
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Animation startLogging() {
+    return new Animation() {
+      @Override
+      void start() {
+
+      }
+
+      @Override
+      float step(float seconds) {
+        Game.log(Component.this);
+        return 0;
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Animation startLoggingWith(String label) {
+    return new Animation() {
+      @Override
+      void start() {
+
+      }
+
+      @Override
+      float step(float seconds) {
+        Game.log(label, Component.this);
+        return 0;
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Activity keepLogging() {
+    return new Activity() {
+      @Override
+      void advance(float seconds) {
+        Game.log(Component.this);
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Activity keepLogging(String label) {
+    return new Activity() {
+      @Override
+      void advance(float seconds) {
+        Game.log(label, Component.this);
+      }
+
+      @Override
+      void addRunners() {
+        Component.this.addRunnersOnce();
+      }
+    };
   }
 
   final void addRunnersOnce() {

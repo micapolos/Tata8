@@ -11,6 +11,10 @@ public class Event extends ValueComponent {
   BooleanSupplier occursSupplier;
   boolean defaultOccurs;
 
+  Event() {
+    this(noAnimation, null, false);
+  }
+
   Event(Animation animation, BooleanSupplier occursSupplier, boolean defaultOccurs) {
     this.animation = animation;
     this.occursSupplier = occursSupplier;

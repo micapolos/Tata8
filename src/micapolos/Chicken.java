@@ -48,11 +48,12 @@ final class Chicken {
         select(
           on(Key.RIGHT.press).lets(isLeft.set(false).then(startWalking)),
           on(Key.LEFT.press).lets(isLeft.set(true).then(startWalking)),
-          on(any(Key.RIGHT.release, Key.LEFT.release)).lets(stop))));
+          on(any(Key.RIGHT.release, Key.LEFT.release)).lets(stop)),
+        Key.Z.isPressed.startLoggingWith("Z")));
 
     sprite = sprite.with(animation);
 
-    var x = position.x.elastic(0.25);
+    var x = position.x.elastic(0.25).loggedWith("x");
     var sprites = stackOf(
       sprite
         .with(position(x, position.y.minus(48)))

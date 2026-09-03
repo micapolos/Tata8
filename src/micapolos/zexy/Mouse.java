@@ -1,11 +1,12 @@
 package micapolos.zexy;
 
-import static micapolos.tata8.Game.mouse;
-import static micapolos.zexy.Number.number;
+import static micapolos.tata8.Game.*;
+import static micapolos.zexy.Number.*;
+import static micapolos.zexy.Position.*;
 
 public final class Mouse implements Showable {
   public final Position position =
-    Position.position(
+    position(
       number(() -> mouse.position.x),
       number(() -> mouse.position.y));
 

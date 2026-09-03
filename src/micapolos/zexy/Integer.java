@@ -6,6 +6,7 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
+import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
 
 public class Integer extends ValueComponent {
@@ -202,6 +203,20 @@ public class Integer extends ValueComponent {
         integer.addRunnersOnce();
       }
     };
+  }
+
+  public Integer logged() {
+    return update(n -> {
+      micapolos.tata8.Game.log(Integer.this);
+      return n;
+    });
+  }
+
+  public Integer loggedWith(String label) {
+    return update(n -> {
+      micapolos.tata8.Game.log(leo(label, Integer.this));
+      return n;
+    });
   }
 
   @Override

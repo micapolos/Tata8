@@ -5,7 +5,7 @@ import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Number.number;
 
-public final class Position extends Component {
+public class Position extends Component {
   public final Number x;
   public final Number y;
 
@@ -57,6 +57,35 @@ public final class Position extends Component {
   public Action capture(Position position) {
     return sequence(x.capture(position.x), y.capture(position.y));
   }
+
+  public Position logged() {
+    return new Position(x, y) {
+      @Override
+      void addRunners() {
+        Game.add(new Runner() {
+          @Override
+          public void update(float seconds) {
+            micapolos.tata8.Game.log(Position.this);
+          }
+        });
+      }
+    };
+  }
+
+  public Position loggedWith(String label) {
+    return new Position(x, y) {
+      @Override
+      void addRunners() {
+        Game.add(new Runner() {
+          @Override
+          public void update(float seconds) {
+            micapolos.tata8.Game.log(leo(label, Position.this));
+          }
+        });
+      }
+    };
+  }
+
 
   @Override
   public String toString() {

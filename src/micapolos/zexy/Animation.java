@@ -555,7 +555,7 @@ public abstract class Animation extends Component {
             if (component instanceof Drawable drawable) {
               drawable.drawOn(background.canvas);
             }
-            log(component);
+            micapolos.tata8.Game.log(component);
           }
           return 0;
         }

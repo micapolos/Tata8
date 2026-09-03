@@ -1,7 +1,11 @@
 package micapolos.zexy;
 
-import java.util.function.BooleanSupplier;
+import micapolos.BooleanUnaryOperator;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.IntUnaryOperator;
+
+import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Integer.*;
 import static micapolos.zexy.Number.*;
@@ -52,6 +56,15 @@ public class Boolean extends ValueComponent {
   void setImmediately(BooleanSupplier supplier, boolean defaultValue) {
     this.currentSupplier = supplier;
     this.currentValue = defaultValue;
+  }
+
+  public Boolean update(BooleanUnaryOperator operator) {
+    return new Boolean(() -> operator.apply(get())) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+      }
+    };
   }
 
   public Action set(boolean x) {
@@ -242,12 +255,56 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  public Event changeTo(boolean b) {
+    return changeTo(bool(b));
+  }
+
+  public Event changeTo(Boolean bool) {
+    return new Event() {
+      boolean previous;
+
+      @Override
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        bool.addRunnersOnce();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            previous = false;
+            currentValue = false;
+          }
+
+          @Override
+          public void update(float seconds) {
+            previous = currentValue;
+            currentValue = get() != bool.get();
+          }
+        });
+      }
+    };
+  }
+
+  public Boolean logged() {
+    return update(n -> {
+      micapolos.tata8.Game.log(Boolean.this);
+      return n;
+    });
+  }
+
+  public Boolean loggedWith(String label) {
+    return update(n -> {
+      micapolos.tata8.Game.log(leo(label, Boolean.this));
+      return n;
+    });
+  }
+
   @Override
   public String toString() {
     return String.valueOf(get());
   }
 
   static void main() {
-    bool(false).show();
+    numberOfSeconds.startLogging().show();
   }
 }

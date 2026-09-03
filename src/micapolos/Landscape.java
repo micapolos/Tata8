@@ -13,7 +13,6 @@ import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
 import static micapolos.zexy.Stack.*;
-import static micapolos.zexy.Value.*;
 
 public class Landscape {
   static void main() {
@@ -52,7 +51,8 @@ public class Landscape {
     var startGame = parallel(
       instant(camera.anchor.set(160, 128)),
       instant(camera.position.x.set(cameraX)),
-      startMoving);
+      startMoving,
+      girlSprite.position.startLoggingWith("girl"));
 
     var stack = stackOf(backSprites, girlSprite, frontSprites);
 

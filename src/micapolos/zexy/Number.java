@@ -336,6 +336,20 @@ public class Number extends ValueComponent {
     };
   }
 
+  public Number logged() {
+    return update(n -> {
+      micapolos.tata8.Game.log(Number.this);
+      return n;
+    });
+  }
+
+  public Number loggedWith(String label) {
+    return update(n -> {
+      micapolos.tata8.Game.log(leo(label, Number.this));
+      return n;
+    });
+  }
+
   @Override
   public String toString() {
     return String.format(Locale.ROOT, "%.3f", get());

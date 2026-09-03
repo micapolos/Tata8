@@ -56,6 +56,8 @@ public final class Game {
         return 0;
       }
     });
+    event.addRunnersOnce();
+    action.addRunnersOnce();
   }
 
   static void init() {
