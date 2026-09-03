@@ -1,21 +1,20 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Animation.select;
+import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.On.*;
+import static micapolos.zexy.Value.*;
 
 public enum HorizontalDirection implements Showable {
   LEFT, RIGHT;
 
   public static Value<HorizontalDirection> fromSpans(Span leftSpan, Span rightSpan) {
-    Value<HorizontalDirection> direction = Value.newVariable();
-
     return
-      direction
-        .with(
-          select(
-            Animation.onExecute(leftSpan.start, direction.set(HorizontalDirection.LEFT)),
-            Animation.onExecute(leftSpan.end, direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
-            Animation.onExecute(rightSpan.start, direction.set(HorizontalDirection.RIGHT)),
-            Animation.onExecute(rightSpan.end, direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
+      value(direction ->
+        select(
+          on(leftSpan.start).execute(direction.set(HorizontalDirection.LEFT)),
+          on(leftSpan.end).execute(direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
+          on(rightSpan.start).execute(direction.set(HorizontalDirection.RIGHT)),
+          on(rightSpan.end).execute(direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
   }
 
   static void main() {
