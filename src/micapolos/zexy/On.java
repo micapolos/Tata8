@@ -13,6 +13,11 @@ public final class On {
     return new On(event);
   }
 
+  public EventOption lets(Animation animation) {
+    return Animation.onStart(event, animation);
+  }
+
+  @Deprecated(forRemoval = true)
   public EventOption start(Animation animation) {
     return Animation.onStart(event, animation);
   }
@@ -21,6 +26,11 @@ public final class On {
     return Animation.onStart(event, noAction.thenKeep(activity));
   }
 
+  public EventOption lets(Action action) {
+    return Animation.onExecute(event, action);
+  }
+
+  @Deprecated(forRemoval = true)
   public EventOption execute(Action action) {
     return Animation.onExecute(event, action);
   }

@@ -38,7 +38,12 @@ public abstract class Animation extends Component {
     });
   }
 
+  @Deprecated(forRemoval = true)
   public static Animation animation(Activity activity) {
+    return start(activity);
+  }
+
+  public static Animation start(Activity activity) {
     return animation(noAction, activity);
   }
 
@@ -67,6 +72,10 @@ public abstract class Animation extends Component {
     step(seconds);
   }
 
+  public static Animation startWith(Action action) {
+    return instant(action);
+  }
+
   public static Animation instant(Action action) {
     return new Animation() {
       @Override
@@ -91,10 +100,17 @@ public abstract class Animation extends Component {
     };
   }
 
+  public static Animation startWith(Action... actions) {
+    return instant(actions);
+  }
+
   public static Animation instant(Action... actions) {
     return instant(Action.sequence(actions));
   }
 
+  public static final Animation noAnimation = startWith();
+
+  @Deprecated(forRemoval = true)
   public static Animation instant() {
     return instant(noAction);
   }
@@ -114,13 +130,11 @@ public abstract class Animation extends Component {
     };
   }
 
-  public static final Animation noAnimation = with(Activity.noActivity);
-
   public static Animation frame(Action action) {
     return frame(1, action);
   }
 
-  public static Animation frame(float seconds, Action action) {
+  public static Animation frame(double seconds, Action action) {
     return sequence(instant(action), pause(seconds));
   }
 
@@ -138,17 +152,17 @@ public abstract class Animation extends Component {
     };
   }
 
-  public final Animation delay(float seconds) {
+  public final Animation delayed(double seconds) {
     return pause(seconds).then(this);
   }
 
-  public static Animation pause(float pauseSeconds) {
+  public static Animation pause(double pauseSeconds) {
     return new Animation() {
       float remainingSeconds;
 
       @Override
       void start() {
-        remainingSeconds = pauseSeconds;
+        remainingSeconds = (float) pauseSeconds;
       }
 
       @Override

@@ -21,7 +21,7 @@ public class Landscape {
     var girlX = newNumber();
     var cameraX = girlX;
 
-    var move = select(
+    var startMoving = select(
       when(Key.RIGHT.isPressed).keep(girlX.adding(300)),
       when(Key.LEFT.isPressed).keep(girlX.adding(-300)));
 
@@ -39,7 +39,7 @@ public class Landscape {
         .withImage(images.get(i))
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) i / 6.0))
-        .with(move));
+        .with(startMoving));
 
     var frontSprites = stack(3, i ->
       newSprite()
@@ -47,15 +47,15 @@ public class Landscape {
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) (i + 4) / 6.0))
         .with(i + 4 == 4 ? Composite.SOFT_LIGHT : i + 4 == 5 ? Composite.MULTIPLY : Composite.NORMAL)
-        .with(move));
+        .with(startMoving));
 
-    var animation = parallel(
+    var startGame = parallel(
       instant(camera.anchor.set(160, 128)),
       instant(camera.position.x.set(cameraX)),
-      move);
+      startMoving);
 
     var stack = stackOf(backSprites, girlSprite, frontSprites);
 
-    stack.with(animation).show();
+    stack.lets(startGame).show();
   }
 }

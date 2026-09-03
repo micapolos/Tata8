@@ -111,6 +111,10 @@ public class Action extends Component {
     };
   }
 
+  public Animation thenPause(double seconds) {
+    return frame(seconds, this);
+  }
+
   static void main() {
     sequence(noAction, noAction).show();
   }
