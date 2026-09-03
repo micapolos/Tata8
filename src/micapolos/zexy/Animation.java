@@ -8,7 +8,6 @@ import static micapolos.Leo.*;
 import static micapolos.tata8.Game.*;
 import static micapolos.zexy.Action.*;
 
-// TODO: Consider renaming to Span
 public abstract class Animation extends Component {
   /**
    * Starts this animation.
