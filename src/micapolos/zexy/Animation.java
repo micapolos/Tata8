@@ -301,6 +301,14 @@ public abstract class Animation extends Component {
       }
 
       @Override
+      void addRunners() {
+        for (ConditionalActivity conditionalActivity : conditionalActivities) {
+          conditionalActivity.condition.addRunnersOnce();
+          conditionalActivity.activity.addRunnersOnce();
+        }
+      }
+
+      @Override
       public String toString() {
         return leo("select", conditionalActivities);
       }
@@ -447,6 +455,14 @@ public abstract class Animation extends Component {
           : selectedOption.animation.step(seconds);
       }
 
+//      @Override
+//      void addRunners() {
+//        for (EventOption option : options) {
+//          option.event.addRunnersOnce();
+//          option.animation.addRunnersOnce();
+//        }
+//      }
+
       @Override
       public String toString() {
         return leo("select", options);
@@ -476,6 +492,12 @@ public abstract class Animation extends Component {
         } else {
           return 0;
         }
+      }
+
+      @Override
+      void addRunners() {
+        Animation.this.addRunnersOnce();
+        event.addRunnersOnce();
       }
     };
   }
