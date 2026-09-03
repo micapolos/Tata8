@@ -61,6 +61,10 @@ public final class Sprite extends Drawing {
     return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
+  public Sprite with(Image image) {
+    return new Sprite(animation, value(image), anchor, position, flip, scale, composite, parallaxRatio);
+  }
+
   public Sprite withImage(Value<Image> image) {
     return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
