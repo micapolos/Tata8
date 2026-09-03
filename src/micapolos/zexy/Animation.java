@@ -296,7 +296,7 @@ public abstract class Animation extends Component {
       @Override
       float step(float seconds) {
         for (ConditionalActivity conditionalActivity : conditionalActivities) {
-          if (conditionalActivity.condition().get()) {
+          if (conditionalActivity.condition.get()) {
             return conditionalActivity.animation.step(seconds);
           }
         }
@@ -403,21 +403,6 @@ public abstract class Animation extends Component {
     return new EventOption(event, animation);
   }
 
-  public static final class EventOption {
-    final Event event;
-    final Animation animation;
-
-    EventOption(Event event, Animation animation) {
-      this.event = event;
-      this.animation = animation;
-    }
-
-    @Override
-    public String toString() {
-      return leo("on", event, animation);
-    }
-  }
-
   public final Animation thenSelect(EventOption... options) {
     return new Animation() {
       EventOption selectedOption;
@@ -516,9 +501,6 @@ public abstract class Animation extends Component {
 
   static ConditionalActivity whenKeep(Boolean condition, Animation animation) {
     return new ConditionalActivity(condition, animation);
-  }
-
-  public record ConditionalActivity(Boolean condition, Animation animation) {
   }
 
   @Override

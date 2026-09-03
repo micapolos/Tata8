@@ -13,15 +13,15 @@ public final class On {
     return new On(event);
   }
 
-  public Animation.EventOption start(Animation animation) {
+  public EventOption start(Animation animation) {
     return Animation.onStart(event, animation);
   }
 
-  public Animation.EventOption keep(Activity activity) {
+  public EventOption keep(Activity activity) {
     return Animation.onStart(event, noAction.thenKeep(activity));
   }
 
-  public Animation.EventOption execute(Action action) {
+  public EventOption execute(Action action) {
     return Animation.onExecute(event, action);
   }
 }

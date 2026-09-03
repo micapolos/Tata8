@@ -7,7 +7,7 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.When.*;
+import static micapolos.zexy.Condition.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
