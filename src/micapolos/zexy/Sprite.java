@@ -98,8 +98,7 @@ public final class Sprite extends Component implements Drawable {
   }
 
   static void main() {
-    Number x = newNumber();
-    x.init(instant(x.set(160)).then(frame(1/60f, x.add(1)).repeat()));
+    Number x = number(n -> instant(n.set(160)).then(frame(1/60f, n.add(1)).repeat()));
 
     newSprite()
       .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))

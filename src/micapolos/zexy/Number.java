@@ -7,7 +7,7 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.When.when;
+import static micapolos.zexy.When.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -39,8 +39,10 @@ public class Number extends ValueComponent {
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
-  public Number number(Animation animation) {
-    return new Number(animation);
+  public static Number number(Initializer<Number> initializer) {
+    var number = newNumber();
+    number.init(initializer.init(number));
+    return number;
   }
 
   public Number keep(Activity activity) {
@@ -226,7 +228,6 @@ public class Number extends ValueComponent {
   }
 
   void setImmediately(DoubleSupplier supplier, double defaultValue) {
-    checkVariable();
     this.currentSupplier = supplier;
     this.currentValue = defaultValue;
   }
