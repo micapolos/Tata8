@@ -89,7 +89,6 @@ public final class Game {
   }
 
   public static void show() {
-    screen.shader = Shader.CRT_PHOSPHOR;
     init();
     onUpdate = Game::update;
     micapolos.tata8.Game.start();

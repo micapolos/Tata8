@@ -7,9 +7,9 @@ import micapolos.awt.CrtSimpleScanlineOp;
 import java.awt.image.BufferedImageOp;
 
 public enum Shader {
-  CRT_PHOSPHOR(new CrtPhosphorMatrixOp()),
   CRT_SCANLINE(new CrtSimpleScanlineOp()),
-  CRT_GRID(new CrtGridScanlineOp());
+  CRT_GRID(new CrtGridScanlineOp()),
+  CRT_PHOSPHOR(new CrtPhosphorMatrixOp());
 
   final BufferedImageOp op;
 
