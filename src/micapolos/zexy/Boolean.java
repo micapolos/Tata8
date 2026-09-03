@@ -2,43 +2,44 @@ package micapolos.zexy;
 
 import java.util.function.BooleanSupplier;
 
-public class Boolean extends ValueComponent {
-  BooleanSupplier supplier;
-  boolean defaultValue;
+import static micapolos.zexy.Animation.*;
 
-  Boolean(BooleanSupplier supplier) {
-    this(false, supplier, false);
+public class Boolean extends ValueComponent {
+  BooleanSupplier currentSupplier;
+  boolean currentValue;
+
+  Boolean() {
+
   }
 
-  Boolean(boolean isVariable, BooleanSupplier supplier, boolean defaultValue) {
-    super(isVariable);
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+  Boolean(BooleanSupplier supplier) {
+    currentSupplier = supplier;
+    animation = noAnimation;
+  }
+
+  Boolean(Animation animation) {
+    this.animation = animation;
   }
 
   public boolean get() {
-    BooleanSupplier supplier = this.supplier;
-    return supplier != null ? supplier.getAsBoolean() : defaultValue;
+    BooleanSupplier supplier = this.currentSupplier;
+    return supplier != null ? supplier.getAsBoolean() : currentValue;
   }
 
   public static Boolean bool(boolean b) {
-    return new Boolean(false, null, b);
+    return bool(() -> b);
   }
 
-  static Boolean bool(BooleanSupplier aSupplier) {
-    return new Boolean(false, aSupplier, false);
+  public static Boolean bool(BooleanSupplier supplier) {
+    return new Boolean(supplier);
+  }
+
+  public static Boolean bool(Animation animation) {
+    return new Boolean(animation);
   }
 
   public static Boolean newBoolean() {
-    return newBoolean(false);
-  }
-
-  public static Boolean newBoolean(boolean value) {
-    return newBoolean(() -> value);
-  }
-
-  static Boolean newBoolean(BooleanSupplier supplier) {
-    return new Boolean(true, supplier, false);
+    return new Boolean();
   }
 
   void setImmediately(boolean x) {
@@ -50,8 +51,8 @@ public class Boolean extends ValueComponent {
   }
 
   void setImmediately(BooleanSupplier supplier, boolean defaultValue) {
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+    this.currentSupplier = supplier;
+    this.currentValue = defaultValue;
   }
 
   public Action set(boolean x) {
@@ -93,7 +94,7 @@ public class Boolean extends ValueComponent {
   }
 
   public Boolean equals(Boolean value) {
-    return new Boolean(() -> get() == value.get()) {
+    return new Boolean() {
       @Override
       void addRunners() {
         Boolean.this.addRunnersOnce();

@@ -7,8 +7,8 @@ import static micapolos.Leo.*;
 public final class ParallaxRatio extends ValueComponent {
   public final Number number;
 
-  ParallaxRatio(Animation animation, boolean isVariable, Number number) {
-    super(animation, isVariable);
+  ParallaxRatio(Animation animation, Number number) {
+    this.animation = animation;
     this.number = number;
   }
 
@@ -17,12 +17,7 @@ public final class ParallaxRatio extends ValueComponent {
   }
 
   public static ParallaxRatio parallaxRatio(Number number) {
-    return new ParallaxRatio(EMPTY_ANIMATION, false, number);
-  }
-
-  public ParallaxRatio with(Animation animation) {
-    checkVariable();
-    return new ParallaxRatio(animation, false, number);
+    return new ParallaxRatio(noAnimation, number);
   }
 
   @Override

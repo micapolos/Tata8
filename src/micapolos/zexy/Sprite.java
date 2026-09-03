@@ -49,7 +49,7 @@ public final class Sprite extends Component implements Drawable {
   }
 
   public static Sprite newSprite() {
-    return new Sprite(Animation.EMPTY_ANIMATION, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, parallaxRatio(1));
+    return new Sprite(Animation.noAnimation, nullValue(), topLeftAnchor, position(0, 0), noFlip, noScale, parallaxRatio(1));
   }
 
   public Sprite with(Animation animation) {
@@ -98,13 +98,13 @@ public final class Sprite extends Component implements Drawable {
   }
 
   static void main() {
-    Number x = newNumber(160);
+    Number x = newNumber();
+    x.init(instant(x.set(160)).then(frame(1/60f, x.add(1)).repeat()));
 
     newSprite()
       .with(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))
       .with(anchor(16, 16))
       .with(position(x, 128))
-      .with(frame(1/60f, x.add(1)).repeat())
       .with(parallaxRatio(1))
       .show();
   }

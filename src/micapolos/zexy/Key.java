@@ -1,6 +1,8 @@
 package micapolos.zexy;
 
 import static micapolos.tata8.Game.keys;
+import static micapolos.zexy.Boolean.*;
+import static micapolos.zexy.Event.*;
 import static micapolos.zexy.Span.span;
 
 public enum Key implements Showable {
@@ -19,9 +21,9 @@ public enum Key implements Showable {
 
   Key(micapolos.tata8.Key state) {
     this.state = state;
-    this.press = Event.event(state::pressed);
-    this.release = Event.event(state::released);
-    this.isPressed = Boolean.bool(state::isPressed);
+    this.press = event(state::pressed);
+    this.release = event(state::released);
+    this.isPressed = bool(state::isPressed);
   }
 
   public Span pressedSpan() {

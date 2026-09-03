@@ -4,9 +4,11 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
+import static micapolos.zexy.Animation.*;
+
 public class Value<T> extends ValueComponent {
-  Supplier<T> supplier;
-  T defaultValue;
+  Supplier<T> currentSupplier;
+  T currentValue;
 
   Value(T value) {
     this(null, value);
@@ -17,21 +19,17 @@ public class Value<T> extends ValueComponent {
   }
 
   Value(Animation animation, Supplier<T> supplier) {
-    this(animation, false, supplier, null);
+    this(animation, supplier, null);
   }
 
   Value(Supplier<T> supplier, T defaultValue) {
-    this(false, supplier, defaultValue);
+    this(noAnimation, supplier, defaultValue);
   }
 
-  Value(boolean isVariable, Supplier<T> supplier, T defaultValue) {
-    this(Animation.EMPTY_ANIMATION, isVariable, supplier, defaultValue);
-  }
-
-  Value(Animation animation, boolean isVariable, Supplier<T> supplier, T defaultValue) {
-    super(animation, isVariable);
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+  Value(Animation animation, Supplier<T> supplier, T defaultValue) {
+    this.animation = animation;
+    this.currentSupplier = supplier;
+    this.currentValue = defaultValue;
   }
 
   public Value<T> with(Animation animation) {
@@ -39,8 +37,8 @@ public class Value<T> extends ValueComponent {
   }
 
   public T get() {
-    var supplier = this.supplier;
-    return supplier != null ? supplier.get() : defaultValue;
+    var supplier = this.currentSupplier;
+    return supplier != null ? supplier.get() : currentValue;
   }
 
   public static <T> Value<T> nullValue() {
@@ -65,51 +63,11 @@ public class Value<T> extends ValueComponent {
   }
 
   public static <T> Value<T> newVariable() {
-    return newVariable((T) null);
-  }
-
-  public static <T> Value<T> newVariable(T value) {
-    return new Value<>(true, null, value) {
-      @Override
-      void addRunners() {
-        Game.add(new Animation() {
-          @Override
-          void start() {
-            supplier = null;
-            defaultValue = value;
-          }
-
-          @Override
-          float step(float seconds) {
-            return seconds;
-          }
-        });
-      }
-    };
-  }
-
-  public static <T> Value<T> newVariable(Value<T> value) {
-    return new Value<>(true, value::get, null) {
-      @Override
-      void addRunners() {
-        Game.add(new Animation() {
-          @Override
-          void start() {
-            supplier = value::get;
-            defaultValue = null;
-          }
-
-          @Override
-          float step(float seconds) {
-            return seconds;
-          }
-        });
-      }
-    };
+    return new Value<>(null, null, null);
   }
 
   public Value<T> readonly() {
-    return isVariable ? value(this) : this;
+    return isReadonly() ? this : value(this);
   }
 
   public Value<T> update(UnaryOperator<T> operator) {
@@ -219,8 +177,8 @@ public class Value<T> extends ValueComponent {
   }
 
   void setImmediately(Supplier<T> supplier, T defaultValue) {
-    this.supplier = supplier;
-    this.defaultValue = defaultValue;
+    this.currentSupplier = supplier;
+    this.currentValue = defaultValue;
   }
 
   public Action set(T value) {

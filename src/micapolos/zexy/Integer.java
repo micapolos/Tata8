@@ -6,16 +6,18 @@ import micapolos.tata8.Random;
 import java.util.List;
 import java.util.function.*;
 
+import static micapolos.zexy.Animation.*;
+
 public class Integer extends ValueComponent {
   IntSupplier supplier;
   int defaultValue;
 
   Integer(IntSupplier supplier) {
-    this(false, supplier, 0);
+    this(noAnimation, supplier, 0);
   }
 
-  Integer(boolean isVariable, IntSupplier supplier, int defaultValue) {
-    super(isVariable);
+  Integer(Animation animation, IntSupplier supplier, int defaultValue) {
+    this.animation = animation;
     this.supplier = supplier;
     this.defaultValue = defaultValue;
   }
@@ -40,34 +42,21 @@ public class Integer extends ValueComponent {
     return integer(() -> value);
   }
 
-  public static Integer integer(IntSupplier aSupplier) {
-    return new Integer(false, aSupplier, 0);
+  public static Integer integer(IntSupplier supplier) {
+    return new Integer(noAnimation, supplier, 0);
+  }
+
+  public static Integer integer(Integer integer) {
+    return new Integer(noAnimation, integer::get, 0) {
+      @Override
+      void addRunners() {
+        integer.addRunnersOnce();
+      }
+    };
   }
 
   public static Integer newInteger() {
-    return newInteger(0);
-  }
-
-  public static Integer newInteger(int value) {
-    return newInteger(() -> value);
-  }
-
-  public static Integer newInteger(IntSupplier aSupplier) {
-    return new Integer(true, aSupplier, 0) {
-      {
-        Game.add(new Animation() {
-          @Override
-          void start() {
-            setImmediately(aSupplier, 0);
-          }
-
-          @Override
-          float step(float seconds) {
-            return 0;
-          }
-        });
-      }
-    };
+    return new Integer(null, null, 0);
   }
 
   public Integer update(IntUnaryOperator operator) {

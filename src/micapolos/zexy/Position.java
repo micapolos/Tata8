@@ -3,6 +3,7 @@ package micapolos.zexy;
 import static micapolos.Leo.*;
 import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Number.*;
+import static micapolos.zexy.Number.number;
 
 public final class Position extends Component {
   public final Number x;
@@ -23,20 +24,16 @@ public final class Position extends Component {
     return position(newNumber(), newNumber());
   }
 
-  public static Position newPosition(double x, double y) {
-    return position(newNumber(x), newNumber(y));
-  }
-
   public static Position position(double x, double y) {
-    return position(Number.number(x), Number.number(y));
+    return position(number(x), number(y));
   }
 
   public static Position position(double x, Number y) {
-    return position(Number.number(x), y);
+    return position(number(x), y);
   }
 
   public static Position position(Number x, double y) {
-    return position(x, Number.number(y));
+    return position(x, number(y));
   }
 
   public static Position position(Number x, Number y) {

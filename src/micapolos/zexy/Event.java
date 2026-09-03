@@ -5,12 +5,15 @@ import micapolos.tata8.Color;
 
 import java.util.function.BooleanSupplier;
 
-public final class Event extends ValueComponent {
+import static micapolos.zexy.Action.*;
+import static micapolos.zexy.Animation.*;
+
+public class Event extends ValueComponent {
   BooleanSupplier occursSupplier;
   boolean defaultOccurs;
 
-  Event(boolean isVariable, BooleanSupplier occursSupplier, boolean defaultOccurs) {
-    super(isVariable);
+  Event(Animation animation, BooleanSupplier occursSupplier, boolean defaultOccurs) {
+    this.animation = animation;
     this.occursSupplier = occursSupplier;
     this.defaultOccurs = defaultOccurs;
   }
@@ -21,23 +24,24 @@ public final class Event extends ValueComponent {
   }
 
   public static Event event(boolean occurs) {
-    return new Event(false, null, occurs);
+    return new Event(noAnimation, null, occurs);
   }
 
   public static Event event(Event event) {
-    return event(event::occurs);
+    return new Event(noAnimation, event::occurs, false) {
+      @Override
+      void addRunners() {
+        event.addRunnersOnce();
+      }
+    };
   }
 
   public static Event event(BooleanSupplier occursSupplier) {
-    return new Event(false, occursSupplier, false);
+    return new Event(noAnimation, occursSupplier, false);
   }
 
   public static Event newEvent() {
-    return newEvent(event(false));
-  }
-
-  public static Event newEvent(Event event) {
-    return new Event(true, event.occursSupplier, event.defaultOccurs);
+    return new Event(null, null, false);
   }
 
   void occurImmediately() {

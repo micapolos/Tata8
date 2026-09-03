@@ -14,29 +14,24 @@ public class Number extends ValueComponent {
   double currentValue;
 
   Number() {
-    this(false, null, 0);
+    this(0);
   }
 
   Number(double d) {
-    this(false, null, d);
+    this(null, d);
   }
 
   Number(DoubleSupplier supplier) {
-    this(false, supplier, 0);
+    this(supplier, 0);
   }
 
-  Number(Animation animation, DoubleSupplier supplier) {
-    this(animation, false, supplier, 0);
-  }
-
-  Number(boolean isVariable, DoubleSupplier supplier, double currentValue) {
-    this(Animation.EMPTY_ANIMATION, isVariable, supplier, currentValue);
-  }
-
-  Number(Animation animation, boolean isVariable, DoubleSupplier supplier, double currentValue) {
-    super(animation, isVariable);
+  Number(DoubleSupplier supplier, double currentValue) {
     this.currentSupplier = supplier;
     this.currentValue = currentValue;
+  }
+
+  Number(Animation animation) {
+    this.animation = animation;
   }
 
   public double get() {
@@ -44,12 +39,17 @@ public class Number extends ValueComponent {
     return supplier != null ? supplier.getAsDouble() : currentValue;
   }
 
-  public Number animate(Animation animation) {
-    return new Number(animation, this::get);
+  public Number number(Animation animation) {
+    return new Number(animation);
   }
 
   public Number keep(Activity activity) {
-    return new Number(animation(activity), this::get);
+    return new Number(animation(activity)) {
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+      }
+    };
   }
 
   public static final Number random = randomNumber();
@@ -58,7 +58,7 @@ public class Number extends ValueComponent {
     return number(Math::random);
   }
 
-  public static final Number seconds = new Number(false, null, 0) {
+  public static final Number seconds = new Number(noAnimation) {
     @Override
     void addRunners() {
       Game.add(new Runner() {
@@ -87,39 +87,21 @@ public class Number extends ValueComponent {
     return new Number(supplier);
   }
 
-  public static Number newNumber() {
-    return newNumber(0);
-  }
-
-  public static Number newNumber(double value) {
-    return newNumber(() -> value);
-  }
-
-  public static Number newNumber(Number value) {
-    return newNumber(value::get);
-  }
-
-  public static Number newNumber(DoubleSupplier aSupplier) {
-    return new Number(true, aSupplier, 0) {
+  public static Number number(Number number) {
+    return new Number(number::get) {
       @Override
       void addRunners() {
-        Game.add(new Runner() {
-          @Override
-          public void init() {
-            currentSupplier = aSupplier;
-          }
-        });
+        number.addRunnersOnce();
       }
     };
   }
 
+  public static Number newNumber() {
+    return new Number();
+  }
+
   public Number readonly() {
-    return isVariable ? new Number(this::get) {
-      @Override
-      void addRunners() {
-        Number.this.addRunnersOnce();
-      }
-    } : this;
+    return isReadonly() ? this : number(this);
   }
 
   public Number update(DoubleUnaryOperator operator) {

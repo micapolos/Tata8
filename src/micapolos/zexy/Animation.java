@@ -114,7 +114,7 @@ public abstract class Animation extends Component {
     };
   }
 
-  public static final Animation EMPTY_ANIMATION = with(Activity.noActivity);
+  public static final Animation noAnimation = with(Activity.noActivity);
 
   public static Animation frame(Action action) {
     return frame(1, action);

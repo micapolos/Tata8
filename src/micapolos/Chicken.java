@@ -23,7 +23,7 @@ final class Chicken {
   static void main() {
     var images = image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
-    var imageIndex = newInteger(0);
+    var imageIndex = newInteger();
     var isLeft = newBoolean();
     var position = newPosition();
     var sprite = newSprite()

@@ -5,6 +5,7 @@ import java.util.List;
 
 import static micapolos.tata8.Game.*;
 import static micapolos.zexy.Event.*;
+import static micapolos.zexy.Integer.*;
 import static micapolos.zexy.Number.*;
 
 public final class Game {
@@ -83,8 +84,8 @@ public final class Game {
   }
 
   static void main() {
-    Integer counter = Integer.newInteger();
-    Integer increment = Integer.newInteger(1);
+    Integer counter = newInteger();
+    Integer increment = newInteger();
     Game.on(Key.Z.press, counter.add(increment));
     Game.on(Key.X.press, increment.add(1));
     counter.show();
