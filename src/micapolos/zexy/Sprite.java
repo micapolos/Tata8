@@ -65,10 +65,6 @@ public final class Sprite extends Drawing {
     return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 
-  public Sprite withComposite(Value<Composite> composite) {
-    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
-  }
-
   public Sprite with(Anchor anchor) {
     return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
@@ -82,6 +78,14 @@ public final class Sprite extends Drawing {
   }
 
   public Sprite with(Scale scale) {
+    return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
+  }
+
+  public Sprite with(Composite composite) {
+    return new Sprite(animation, image, anchor, position, flip, scale, value(composite), parallaxRatio);
+  }
+
+  public Sprite withComposite(Value<Composite> composite) {
     return new Sprite(animation, image, anchor, position, flip, scale, composite, parallaxRatio);
   }
 

@@ -46,7 +46,7 @@ public class Landscape {
         .withImage(images.get(i + 4))
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) (i + 4) / 6.0))
-        .withComposite(value(i + 4 == 4 ? Composite.SOFT_LIGHT : i + 4 == 5 ? Composite.MULTIPLY : Composite.NORMAL))
+        .with(i + 4 == 4 ? Composite.SOFT_LIGHT : i + 4 == 5 ? Composite.MULTIPLY : Composite.NORMAL)
         .with(move));
 
     var animation = parallel(

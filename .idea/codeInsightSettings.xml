@@ -24,6 +24,7 @@
       <name>micapolos.zexy.Scale</name>
       <name>micapolos.zexy.Sprite</name>
       <name>micapolos.zexy.Stack</name>
+      <name>micapolos.zexy.Value</name>
       <name>micapolos.zexy.When</name>
     </included-static-names>
   </component>
