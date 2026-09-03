@@ -4,7 +4,7 @@ import static micapolos.tata8.Game.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Position.*;
 
-public final class Mouse implements Showable {
+public class Mouse implements Showable {
   public final Position position =
     position(
       number(() -> mouse.position.x),

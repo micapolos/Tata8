@@ -86,7 +86,6 @@ public class Position extends Component {
     };
   }
 
-
   @Override
   public String toString() {
     return leo("position", leo("x", x), leo("y", y));
