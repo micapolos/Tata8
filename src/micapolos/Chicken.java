@@ -18,6 +18,7 @@ import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Scale.*;
 import static micapolos.zexy.Sprite.*;
+import static micapolos.zexy.Stack.*;
 
 final class Chicken {
   static void main() {
@@ -53,8 +54,8 @@ final class Chicken {
 
     sprite = sprite.with(animation);
 
-    var x = position.x.elastic(0.01);
-    var sprites = listOf(
+    var x = position.x.elastic(0.25);
+    var sprites = stackOf(
       sprite
         .with(position(x, position.y.minus(48)))
         .with(scale(0.25, 0.25))

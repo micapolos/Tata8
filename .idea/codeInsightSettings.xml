@@ -11,6 +11,7 @@
       <name>micapolos.zexy.Boolean</name>
       <name>micapolos.zexy.Camera</name>
       <name>micapolos.zexy.Depth</name>
+      <name>micapolos.zexy.Drawing</name>
       <name>micapolos.zexy.Event</name>
       <name>micapolos.zexy.Flip</name>
       <name>micapolos.zexy.Image</name>
@@ -22,6 +23,7 @@
       <name>micapolos.zexy.Position</name>
       <name>micapolos.zexy.Scale</name>
       <name>micapolos.zexy.Sprite</name>
+      <name>micapolos.zexy.Stack</name>
       <name>micapolos.zexy.When</name>
     </included-static-names>
   </component>

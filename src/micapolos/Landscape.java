@@ -12,12 +12,13 @@ import static micapolos.zexy.Number.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
+import static micapolos.zexy.Stack.*;
 
 public class Landscape {
   static void main() {
 
     var girlX = newNumber();
-    var cameraX = girlX.plus(seconds);
+    var cameraX = girlX.elastic();
 
     var move = select(
       when(Key.RIGHT.isPressed).keep(girlX.adding(300)),
@@ -32,14 +33,14 @@ public class Landscape {
 
     var image = image(Landscape.class, "landscape.png");
     var images = image.sliceHorizontally(7);
-    var backSprites = list(4, i ->
+    var backSprites = stack(4, i ->
       newSprite()
         .with(images.get(i))
         .with(anchor(1024, 128))
         .with(parallaxRatio((double) i / 6.0))
         .with(move));
 
-    var frontSprites = list(3, i ->
+    var frontSprites = stack(3, i ->
       newSprite()
         .with(images.get(i + 4))
         .with(anchor(1024, 128))
@@ -51,6 +52,8 @@ public class Landscape {
       instant(camera.position.x.set(cameraX)),
       move);
 
-    animation.showWith(backSprites, girlSprite, frontSprites);
+    var stack = stackOf(backSprites, girlSprite, frontSprites);
+
+    stack.with(animation).show();
   }
 }
