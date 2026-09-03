@@ -7,13 +7,14 @@ import java.util.Arrays;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
+import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Integer.*;
 
 public class List<T extends Component> extends Component implements Drawable {
   final java.util.List<T> components;
 
   List(java.util.List<T> components) {
-    super(Animation.noAnimation);
+    super(noAnimation);
     this.components = components;
   }
 

@@ -16,18 +16,13 @@ public interface Showable {
           if (Showable.this instanceof Drawable drawable) {
             background.canvas.clear();
             drawable.drawOn(background.canvas);
+          } else {
+            log(Showable.this);
           }
-          log(Showable.this);
           return 0;
         }
       }
     );
     Game.show();
-  }
-
-  default <T> T showing() {
-    show();
-    //noinspection unchecked
-    return (T) this;
   }
 }
