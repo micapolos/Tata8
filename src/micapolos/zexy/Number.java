@@ -366,10 +366,10 @@ public class Number extends ValueComponent {
   }
 
   public Activity approaching(Number number) {
-    return approaching(number, 1);
+    return approaching(number, 0.95);
   }
 
-  public Activity approaching(Number number, float factor) {
+  public Activity approaching(Number number, double factor) {
     return approaching(number, number(factor));
   }
 
@@ -378,11 +378,11 @@ public class Number extends ValueComponent {
       micapolos.tata8.Math.elastic(
         (float) d,
         (float) number.get(),
-        (float) (factor.get() * seconds * 5)));
+        (float) (factor.get() * seconds * 60)));
   }
 
   public Number toElastic() {
-    return toElastic(1);
+    return toElastic(0.25);
   }
 
   public Number toElastic(double d) {

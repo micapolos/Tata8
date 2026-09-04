@@ -18,7 +18,7 @@ public class Landscape {
   static void main() {
 
     var girlX = newNumber();
-    var cameraX = girlX.toElastic();
+    var cameraX = girlX.toElastic(0.125);
 
     var startMoving = select(
       when(Key.RIGHT.isPressed).keep(girlX.adding(600)),
