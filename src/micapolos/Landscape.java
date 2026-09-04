@@ -5,6 +5,7 @@ import micapolos.zexy.Key;
 
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Boolean.*;
 import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Condition.*;
 import static micapolos.zexy.Image.*;
@@ -29,7 +30,8 @@ public class Landscape {
     var girlSprite = newSprite()
       .withImage(girlImage)
       .with(anchor(16, 64))
-      .with(position(girlX, 50));
+      .with(position(girlX, 50))
+      .visibleWhen(not(Key.X.isPressed));
 
     var image = image(Landscape.class, "landscape.png");
     var images = image.sliceHorizontally(7);
@@ -51,8 +53,7 @@ public class Landscape {
     var startGame = parallel(
       instant(camera.anchor.set(160, 128)),
       instant(camera.position.x.set(cameraX)),
-      startMoving,
-      girlSprite.position.startLoggingWith("girl"));
+      startMoving);
 
     var stack = stackOf(backSprites, girlSprite, frontSprites);
 

@@ -8,4 +8,21 @@ public abstract class Drawing extends Component {
   Drawing(Animation animation) {
     super(animation);
   }
+
+  public Drawing visibleWhen(Boolean condition) {
+    return new Drawing(animation) {
+      @Override
+      void drawOn(Canvas canvas) {
+        if (condition.get()) {
+          Drawing.this.drawOn(canvas);
+        }
+      }
+
+      @Override
+      void addRunners() {
+        Drawing.this.addRunnersOnce();
+        condition.addRunnersOnce();
+      }
+    };
+  }
 }
