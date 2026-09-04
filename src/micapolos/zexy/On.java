@@ -2,6 +2,7 @@ package micapolos.zexy;
 
 import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Number.*;
 
 public final class On {
   final Event event;
@@ -36,11 +37,16 @@ public final class On {
     return Animation.onExecute(event, action);
   }
 
-  public Number startAdding(double value) {
+  public Number startAdding(double d) {
+    return startAdding(number(d));
+  }
+
+  public Number startAdding(Number number) {
     return new Number(noAnimation) {
       @Override
       void addRunners() {
         event.addRunnersOnce();
+        number.addRunnersOnce();
 
         Game.add(new Runner() {
           @Override
@@ -53,7 +59,7 @@ public final class On {
             if (event.occurs()) {
               currentValue = 0;
             }
-            currentValue += seconds * value;
+            currentValue += seconds * number.get();
           }
         });
       }
