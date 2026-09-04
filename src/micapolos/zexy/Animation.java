@@ -468,12 +468,12 @@ public abstract class Animation extends Component {
           : selectedOption.animation.step(seconds);
       }
 
-      @Override
-      void addRunners() {
-        for (EventOption option : options) {
-          option.event.addRunnersOnce();
-        }
-      }
+//      @Override
+//      void addRunners() {
+//        for (EventOption option : options) {
+//          option.event.addRunnersOnce();
+//        }
+//      }
 
       @Override
       public String toString() {
