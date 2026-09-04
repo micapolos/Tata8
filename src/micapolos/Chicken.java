@@ -11,6 +11,7 @@ import static micapolos.zexy.Event.any;
 import static micapolos.zexy.Flip.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Integer.*;
+import static micapolos.zexy.Number.*;
 import static micapolos.zexy.On.*;
 import static micapolos.zexy.ParallaxRatio.*;
 import static micapolos.zexy.Position.*;
@@ -22,18 +23,19 @@ final class Chicken {
   static void main() {
     var images = image(Chicken.class, "depressedChicken.png").sliceVertically(8);
 
+    var xx = newNumber();
     var imageIndex = newInteger();
     var isLeft = newBoolean();
     var position = newPosition();
     var sprite = newSprite()
       .withImage(images.get(imageIndex))
       .with(anchor(16, 28))
-      .with(position)
+      .with(position(xx, number(0)))
       .with(flip(isLeft, bool(false)));
 
     var speed = Key.Z.isPressed.ifTrue(2.0).orElse(1.0);
     var step = isLeft.ifTrue(speed.negated().times(3)).orElse(speed.times(3));
-    var move = position.x.add(step);
+    var move = xx.add(step);
 
     var startWalking = sequence(8, i -> frame(imageIndex.set(floorMod(i + 3, 8)).then(move)))
       .stretch(0.1f)
@@ -53,7 +55,7 @@ final class Chicken {
 
     sprite = sprite.with(animation);
 
-    var x = position.x.elastic(0.25).loggedWith("x");
+    var x = xx.elastic(0.25).loggedWith("x");
     var sprites = stackOf(
       sprite
         .with(position(x, position.y.minus(48)))

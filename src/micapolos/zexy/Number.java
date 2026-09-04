@@ -27,6 +27,7 @@ public class Number extends ValueComponent {
   }
 
   Number(DoubleSupplier supplier, double currentValue) {
+    this.animation = noAnimation;
     this.currentSupplier = supplier;
     this.currentValue = currentValue;
   }
@@ -47,7 +48,7 @@ public class Number extends ValueComponent {
   }
 
   public Number keep(Activity activity) {
-    return new Number(animation(activity)) {
+    return new Number(start(activity)) {
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
@@ -100,7 +101,24 @@ public class Number extends ValueComponent {
   }
 
   public static Number newNumber() {
-    return new Number();
+    return newNumber(0);
+  }
+
+  public static Number newNumber(double d) {
+    return newNumber(number(d));
+  }
+
+  public static Number newNumber(Number number) {
+    return new Number(number::get) {
+      {
+        animation = null;
+      }
+
+      @Override
+      void addRunners() {
+        number.addRunners();
+      }
+    };
   }
 
   public Number toReadonly() {
@@ -464,10 +482,7 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    var number = newNumber();
-    var animation = select(
-      when(Key.LEFT.isPressed).keep(number.subtracting(1)),
-      when(Key.RIGHT.isPressed).keep(number.adding(1)));
-    animation.showWith(number);
+    var number = number(numberOfSeconds);
+    number.show();
   }
 }

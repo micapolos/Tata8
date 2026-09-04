@@ -59,7 +59,20 @@ public class Integer extends ValueComponent {
   }
 
   public static Integer newInteger() {
-    return new Integer(null, null, 0);
+    return newInteger(0);
+  }
+
+  public static Integer newInteger(int i) {
+    return newInteger(integer(i));
+  }
+
+  public static Integer newInteger(Integer integer) {
+    return new Integer(null, null, 0) {
+      @Override
+      void addRunners() {
+        integer.addRunnersOnce();
+      }
+    };
   }
 
   public Integer update(IntUnaryOperator operator) {

@@ -4,7 +4,6 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
-import static micapolos.tata8.Game.*;
 import static micapolos.tata8.Game.background;
 import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Image.*;
@@ -68,14 +67,20 @@ public class Value<T> extends ValueComponent {
     return value;
   }
 
-  public static <T> Value<T> newVariable() {
-    return new Value<>(null, null, null);
+  public static <T> Value<T> newValue() {
+    //noinspection DataFlowIssue
+    return newValue(null);
   }
 
-  public static <T> Value<T> newVariable(T initial) {
-    return new Value<>(null, null, null) {
-      {
-        currentValue = initial;
+  public static <T> Value<T> newValue(T initial) {
+    return newValue(value(initial));
+  }
+
+  public static <T> Value<T> newValue(Value<T> value) {
+    return new Value<>(null, value::get, null) {
+      @Override
+      void addRunners() {
+        value.addRunnersOnce();
       }
     };
   }

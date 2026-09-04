@@ -43,7 +43,24 @@ public class Boolean extends ValueComponent {
   }
 
   public static Boolean newBoolean() {
-    return new Boolean();
+    return newBoolean(false);
+  }
+
+  public static Boolean newBoolean(boolean b) {
+    return newBoolean(bool(b));
+  }
+
+  public static Boolean newBoolean(Boolean bool) {
+    return new Boolean(bool::get) {
+      {
+        animation = null;
+      }
+
+      @Override
+      void addRunners() {
+        bool.addRunnersOnce();
+      }
+    };
   }
 
   void setImmediately(boolean x) {

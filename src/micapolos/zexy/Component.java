@@ -2,11 +2,15 @@ package micapolos.zexy;
 
 import micapolos.tata8.Game;
 
+import static micapolos.zexy.Animation.*;
+
 public class Component implements Showable {
   Animation animation;
   boolean didAddClips;
 
-  Component() {}
+  Component() {
+    this(noAnimation);
+  }
 
   Component(Animation animation) {
     this.animation = animation;
@@ -25,7 +29,7 @@ public class Component implements Showable {
 
   final void checkVariable() {
     if (isReadonly()) {
-      throw new IllegalArgumentException("Animation already initialized.");
+      throw new IllegalArgumentException("Already initialized.");
     }
   }
 
