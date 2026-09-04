@@ -382,7 +382,7 @@ public class Number extends ValueComponent {
           @Override
           public void update(float seconds) {
             // TODO: Make it dependent on seconds.
-            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get(), (float) factor.get());
+            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get(), (float) factor.get() * seconds * 60);
           }
         });
       }
