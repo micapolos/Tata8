@@ -59,6 +59,17 @@ public final class Canvas {
     graphics.fillRect(x, y, w, h);
   }
 
+  public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+    fillTriangle(x1, y1, x2, y2, x3, y3, color);
+  }
+
+  public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, Color color) {
+    // TODO: Pre-allocate these.
+    int[] xs = {x1, x2, x3};
+    int[] ys = {y1, y2, y3};
+    graphics.fillPolygon(xs, ys, 3);
+  }
+
   public void draw(Image image) {
     draw(image, 0, 0);
   }

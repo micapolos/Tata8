@@ -3,6 +3,7 @@ package micapolos.zexy;
 import micapolos.tata8.Canvas;
 
 import static micapolos.Leo.*;
+import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Number.*;
 
 public final class Color extends Component implements Drawable {
@@ -47,7 +48,7 @@ public final class Color extends Component implements Drawable {
   }
 
   public Action set(Color color) {
-    return Action.sequence(
+    return sequence(
       red.set(color.red),
       green.set(color.green),
       blue.set(color.blue),

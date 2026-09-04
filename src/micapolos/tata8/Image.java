@@ -13,7 +13,6 @@ public final class Image {
     this.size = new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight());
   }
 
-
   Image(BufferedImage bufferedImage, FinalSize size) {
     this.bufferedImage = bufferedImage;
     this.size = size;
@@ -23,7 +22,11 @@ public final class Image {
     return new Canvas(bufferedImage);
   }
 
-  public Image with(BufferedImage bufferedImage) {
+  public static Image newImage(int width, int height) {
+    return with(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
+  }
+
+  static Image with(BufferedImage bufferedImage) {
     return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
   }
 
@@ -70,6 +73,10 @@ public final class Image {
       rowCount--;
     }
     return images;
+  }
+
+  public int getRGB(int x, int y) {
+    return bufferedImage.getRGB(x, y);
   }
 
   static Image load(Class<?> baseClass, String fileName) {

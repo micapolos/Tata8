@@ -7,6 +7,7 @@ import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Image.*;
 import static micapolos.zexy.Position.*;
 import static micapolos.zexy.Sprite.*;
+import static micapolos.zexy.Stack.*;
 
 public class SocksGirl {
   static int imageIndex(Direction direction) {
@@ -24,6 +25,14 @@ public class SocksGirl {
 
   static void main() {
     var sheetImages = image(SocksGirl.class, "socksgirl-sheet.png").sliceVertically(12);
+    var groundImage = newImage("ground", 500, 256);
+    var canvas = groundImage.newCanvas();
+    canvas.fillRect(0, 200, 500, 56);
+    canvas.fillTriangle(200, 200, 500, 200, 500, 100);
+    var groundSprite = newSprite()
+      .with(groundImage)
+      .with(anchor(256, 200))
+      .with(position(256, 128));
 
     var image = Direction
       .fromSpans(Key.LEFT.pressedSpan(), Key.RIGHT.pressedSpan(), Key.UP.pressedSpan(), Key.DOWN.pressedSpan())
@@ -31,10 +40,11 @@ public class SocksGirl {
       .mapToInteger(SocksGirl::imageIndex)
       .selectFrom(sheetImages);
 
-    newSprite()
+    var girlSprite = newSprite()
       .withImage(image)
       .with(anchor(32, 64))
-      .with(position(160, 128))
-      .show();
+      .with(position(160, 128));
+
+    stackOf(groundSprite, girlSprite).show();
   }
 }

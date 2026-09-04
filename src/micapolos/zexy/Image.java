@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Number.*;
-import static micapolos.zexy.Value.value;
+import static micapolos.zexy.Value.*;
 
 public final class Image implements Drawable {
   final micapolos.tata8.Image state;
@@ -19,8 +19,16 @@ public final class Image implements Drawable {
     this.size = new Size(number(state.size.width), number(state.size.height));
   }
 
+  public static Image newImage(String name, int width, int height) {
+    return new Image(micapolos.tata8.Image.newImage(width, height), name);
+  }
+
   public static Image image(Class<?> baseClass, String fileName) {
     return new Image(micapolos.tata8.Game.loadImage(baseClass, fileName), fileName);
+  }
+
+  public Canvas newCanvas() {
+    return state.newCanvas();
   }
 
   public Image crop(int x, int y, int width, int height) {

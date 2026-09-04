@@ -328,6 +328,14 @@ public class Integer extends ValueComponent {
     return mapToBool(integer, (a, b) -> a <= b);
   }
 
+  public final Color toColor() {
+    return new Color(
+      mapToNumber(i -> (double) ((i >> 16) & 0xFF) / 255.0),
+      mapToNumber(i -> (double) ((i >> 8) & 0xFF) / 255.0),
+      mapToNumber(i -> (double) (i & 0xFF) / 255.0),
+      mapToNumber(i -> (double) ((i >> 24) & 0xFF) / 255.0));
+  }
+
   @Override
   public String toString() {
     return String.valueOf(get());
