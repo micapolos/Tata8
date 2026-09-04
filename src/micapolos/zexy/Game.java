@@ -1,6 +1,7 @@
 package micapolos.zexy;
 
 import micapolos.tata8.Math;
+import micapolos.tata8.Shader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public final class Game {
   }
 
   static void init() {
+    micapolos.tata8.Game.screen.shader = Shader.CRT_PHOSPHOR;
     startedValue = true;
     for (Runner runner : runners) {
       runner.init();

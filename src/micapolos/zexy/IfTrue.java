@@ -5,7 +5,7 @@ import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Value.*;
 
 public final class IfTrue {
-  public static final class WithComponent<T extends Component> {
+  public static final class WithComponent<T> {
     final Boolean bool;
     final Value<T> trueCase;
 
@@ -14,7 +14,7 @@ public final class IfTrue {
       this.trueCase = trueCase;
     }
 
-    public Value<T> orElse(T elseCase) {
+    public Value<T> orElseValue(T elseCase) {
       return orElse(value(elseCase));
     }
 

@@ -10,10 +10,10 @@ public enum VerticalDirection implements Showable {
   public static Value<VerticalDirection> fromSpans(Span upSpan, Span downSpan) {
     return value(direction ->
       select(
-        on(upSpan.start).execute(direction.set(VerticalDirection.UP)),
-        on(upSpan.end).execute(direction.set(downSpan.isInside.selectValue(VerticalDirection.DOWN, null))),
-        on(downSpan.start).execute(direction.set(VerticalDirection.DOWN)),
-        on(downSpan.end).execute(direction.set(upSpan.isInside.selectValue(VerticalDirection.UP, null)))));
+        on(upSpan.start).lets(direction.set(VerticalDirection.UP)),
+        on(upSpan.end).lets(direction.set(downSpan.isInside.ifTrueValue(VerticalDirection.DOWN).orElseValue(null))),
+        on(downSpan.start).lets(direction.set(VerticalDirection.DOWN)),
+        on(downSpan.end).lets(direction.set(upSpan.isInside.ifTrueValue(VerticalDirection.UP).orElseValue(null)))));
   }
 
   static void main() {

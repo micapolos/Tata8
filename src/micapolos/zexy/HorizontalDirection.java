@@ -11,10 +11,10 @@ public enum HorizontalDirection implements Showable {
     return
       value(direction ->
         select(
-          on(leftSpan.start).execute(direction.set(HorizontalDirection.LEFT)),
-          on(leftSpan.end).execute(direction.set(rightSpan.isInside.selectValue(HorizontalDirection.RIGHT, null))),
-          on(rightSpan.start).execute(direction.set(HorizontalDirection.RIGHT)),
-          on(rightSpan.end).execute(direction.set(leftSpan.isInside.selectValue(HorizontalDirection.LEFT, null)))));
+          on(leftSpan.start).lets(direction.set(HorizontalDirection.LEFT)),
+          on(leftSpan.end).lets(direction.set(rightSpan.isInside.ifTrueValue(HorizontalDirection.RIGHT).orElseValue(null))),
+          on(rightSpan.start).lets(direction.set(HorizontalDirection.RIGHT)),
+          on(rightSpan.end).lets(direction.set(leftSpan.isInside.ifTrueValue(HorizontalDirection.LEFT).orElseValue(null)))));
   }
 
   static void main() {

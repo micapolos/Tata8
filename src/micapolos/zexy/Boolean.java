@@ -231,11 +231,11 @@ public class Boolean extends ValueComponent {
     };
   }
 
-  public <T extends Component> IfTrue.WithComponent<T> ifTrue(T t) {
+  public <T> IfTrue.WithComponent<T> ifTrueValue(T t) {
     return ifTrue(value(t));
   }
 
-  public <T extends Component> IfTrue.WithComponent<T> ifTrue(Value<T> value) {
+  public <T> IfTrue.WithComponent<T> ifTrue(Value<T> value) {
     return new IfTrue.WithComponent<>(this, value);
   }
 
