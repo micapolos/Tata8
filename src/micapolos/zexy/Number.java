@@ -42,7 +42,7 @@ public class Number extends ValueComponent {
 
   public static Number animatedNumber(Animator<Number> animator) {
     var number = newNumber();
-    number.init(animator.animate(number));
+    number.animate(animator.animate(number));
     return number;
   }
 
