@@ -24,6 +24,7 @@ public final class Game {
 
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
+  static final Canvas shaderCanvas = new Canvas(WIDTH * 3, HEIGHT * 3);
   static int loadedImagePixelCount;
   static final ArrayList<String> logStrings = new ArrayList<>();
 
@@ -120,27 +121,26 @@ public final class Game {
         logStrings.clear();
         Graphics2D g2d = (Graphics2D) g;
         BufferedImageOp imageOp = screen.imageOp();
+
+        int containerWidth = getWidth();
+        int containerHeight = getHeight();
+
+        int imageWidth = compositeCanvas.image.getWidth() * (imageOp == null ? 1 : 3);
+        int imageHeight = compositeCanvas.image.getHeight() * (imageOp == null ? 1 : 3);
+
+        double scale = java.lang.Math.min((double) containerWidth / imageWidth, (double) containerHeight / imageHeight);
+
+        int scaledWidth = (int) java.lang.Math.round(imageWidth * scale);
+        int scaledHeight = (int) java.lang.Math.round(imageHeight * scale);
+
+        int x = (containerWidth - scaledWidth) / 2;
+        int y = (containerHeight - scaledHeight) / 2;
+
         if (imageOp == null) {
-          int containerWidth = getWidth();
-          int containerHeight = getHeight();
-
-          int imageWidth = compositeCanvas.image.getWidth();
-          int imageHeight = compositeCanvas.image.getHeight();
-
-          double scale = java.lang.Math.min((double) containerWidth / imageWidth, (double) containerHeight / imageHeight);
-
-          int scaledWidth = (int) java.lang.Math.round(imageWidth * scale);
-          int scaledHeight = (int) java.lang.Math.round(imageHeight * scale);
-
-          int x = (containerWidth - scaledWidth) / 2;
-          int y = (containerHeight - scaledHeight) / 2;
-
-          if (fullScreen) {
-            //g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-          }
           g2d.drawImage(compositeCanvas.image, x, y, scaledWidth, scaledHeight, null);
         } else {
-          g2d.drawImage(compositeCanvas.image, imageOp, 0, 0);
+          shaderCanvas.graphics.drawImage(compositeCanvas.image, imageOp, 0, 0);
+          g2d.drawImage(shaderCanvas.image, x, y, imageWidth, imageHeight, null);
         }
       }
     };

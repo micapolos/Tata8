@@ -19,7 +19,7 @@ public interface Showable {
           } else if (Showable.this instanceof Drawing drawing) {
             drawing.drawOn(background.canvas);
           } else {
-            log(Showable.this);
+            micapolos.tata8.Game.log(Showable.this);
           }
           return 0;
         }

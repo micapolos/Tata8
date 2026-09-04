@@ -20,7 +20,7 @@ public interface Drawable {
           background.canvas.clear();
           drawOn(background.canvas);
           for (Object object : debugObjects) {
-            log(object);
+            micapolos.tata8.Game.log(object);
           }
           return 0;
         }

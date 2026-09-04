@@ -1,7 +1,6 @@
 package micapolos.zexy;
 
 import micapolos.tata8.Math;
-import micapolos.tata8.Shader;
 
 import java.util.ArrayList;
 import java.util.List;
