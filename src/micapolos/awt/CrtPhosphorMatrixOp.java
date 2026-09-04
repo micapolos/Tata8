@@ -17,6 +17,8 @@ public class CrtPhosphorMatrixOp implements BufferedImageOp {
     { 0.35f, 0.45f, 0.35f }   // Bottom scanline gap (curved)
   };
 
+  private static final float BRIGHTNESS_NORMALIZER = 1.25f;
+
   private final int bloomThreshold; // Light cutoff (0-255, e.g., 180)
   private final float bloomBoost;   // Glow intensity for light parts (e.g., 0.25f)
 
@@ -80,9 +82,22 @@ public class CrtPhosphorMatrixOp implements BufferedImageOp {
               weight += scanPunch * 0.20f;
             }
 
-            int pr = Math.min(255, (int) (r * weight));
-            int pg = Math.min(255, (int) (g * weight));
-            int pb = Math.min(255, (int) (b * weight));
+            // Apply global energy normalization factor
+            float normalizedWeight = weight * BRIGHTNESS_NORMALIZER;
+
+            int pr = (int) ((float) r * normalizedWeight);
+            int pg = (int) ((float) g * normalizedWeight);
+            int pb = (int) ((float) b * normalizedWeight);
+
+            if (pr > 255) {
+              pr = 255;
+            }
+            if (pg > 255) {
+              pg = 255;
+            }
+            if (pb > 255) {
+              pb = 255;
+            }
 
             dstData[rowOffset + subX] = (a << 24) | (pr << 16) | (pg << 8) | pb;
           }
