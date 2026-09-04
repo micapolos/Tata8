@@ -1,8 +1,10 @@
 package micapolos;
 
 import micapolos.tata8.Composite;
+import micapolos.zexy.Game;
 import micapolos.zexy.Key;
 
+import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Boolean.*;
@@ -30,8 +32,7 @@ public class Landscape {
     var girlSprite = newSprite()
       .withImage(girlImage)
       .with(anchor(16, 64))
-      .with(position(girlX, 50))
-      .visibleWhen(not(Key.X.isPressed));
+      .with(position(girlX, 50));
 
     var image = image(Landscape.class, "landscape.png");
     var images = image.sliceHorizontally(7);

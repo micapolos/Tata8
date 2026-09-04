@@ -16,8 +16,9 @@ public final class Keys {
   public final Key slow = new Key();
   public final Key fast = new Key();
   public final Key shader = new Key();
+  public final Key dusk = new Key();
 
-  final Key[] array = new Key[]{z, x, left, right, up, down, reset, slow, fast, shader};
+  final Key[] array = new Key[]{z, x, left, right, up, down, reset, slow, fast, shader, dusk};
 
   final KeyListener listener = new KeyAdapter() {
     @Override
@@ -50,6 +51,7 @@ public final class Keys {
       case KeyEvent.VK_S -> slow;
       case KeyEvent.VK_F -> fast;
       case KeyEvent.VK_D -> shader;
+      case KeyEvent.VK_K -> dusk;
       default -> null;
     };
   }

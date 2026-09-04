@@ -297,6 +297,29 @@ public class Number extends ValueComponent {
     };
   }
 
+  public Activity setting(double speed) {
+    return setting(number(speed));
+  }
+
+  public Activity setting(Number number) {
+    return new Activity() {
+      @Override
+      void advance(float seconds) {
+        setImmediately(number.get());
+      }
+
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+      }
+
+      @Override
+      public String toString() {
+        return leo("setting", number.get());
+      }
+    };
+  }
+
   public Activity subtracting(double speed) {
     return subtracting(number(speed));
   }

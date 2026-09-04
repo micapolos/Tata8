@@ -41,6 +41,8 @@ public final class Game {
   static boolean startedValue;
   public static final Event start = event(() -> startedValue);
 
+  public static final Number dusk = newNumber();
+
   public static void on(Event event, Action action) {
     add(new Animation() {
       @Override
@@ -84,6 +86,7 @@ public final class Game {
       keys.slow.isPressed
         ? keys.fast.isPressed ? 1f : 0.125f
         : keys.fast.isPressed ? 8f : 1f, 0.1f);
+    //micapolos.tata8.Game.dusk = (float) dusk.get();
     step(speedValue / 60);
   }
 

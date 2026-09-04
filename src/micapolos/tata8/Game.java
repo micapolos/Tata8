@@ -1,5 +1,6 @@
 package micapolos.tata8;
 
+import micapolos.awt.DuskFilter;
 import micapolos.zexy.Animation;
 
 import javax.swing.*;
@@ -40,6 +41,8 @@ public final class Game {
   };
   public static final Screen screen = new Screen();
   public static Animation animation = Animation.instant();
+  public static double dusk = 0;
+  public static double targetDusk = 0;
 
   @Deprecated(forRemoval = true)
   public static final Canvas backgroundCanvas = background.canvas;
@@ -118,6 +121,7 @@ public final class Game {
             textY += 8;
           }
         }
+        DuskFilter.applyDuskFilter(compositeCanvas.image, dusk);
         logStrings.clear();
         Graphics2D g2d = (Graphics2D) g;
         BufferedImageOp imageOp = screen.imageOp();
@@ -206,6 +210,10 @@ public final class Game {
         : keys.fast.isPressed ? 4f : 1f;
       if (keys.shader.pressed()) {
         screen.shader = Shader.nextOf(screen.shader);
+      }
+      dusk = Math.elastic((float) dusk, (float) targetDusk, 0.01f);
+      if (keys.dusk.pressed()) {
+        targetDusk = 1 - targetDusk;
       }
       animation.advanceInternal(multiplier / 60f);
       onUpdate.run();
