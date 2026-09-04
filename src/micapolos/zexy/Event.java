@@ -1,12 +1,10 @@
 package micapolos.zexy;
 
 import micapolos.Leo;
-import micapolos.tata8.Color;
 
 import java.util.function.BooleanSupplier;
 
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.Boolean.*;
 
 public class Event extends ValueComponent {
   BooleanSupplier occursSupplier;

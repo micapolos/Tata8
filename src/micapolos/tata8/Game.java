@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static micapolos.zexy.Image.*;
+
 public final class Game {
   static final boolean FULLSCREEN = false;
 
@@ -145,6 +147,8 @@ public final class Game {
         } else {
           shaderCanvas.clear();
           shaderCanvas.graphics.drawImage(compositeCanvas.image, imageOp, 0, 0);
+          x = (getWidth() - imageWidth) / 2;
+          y = (getHeight() - imageHeight) / 2;
           g2d.drawImage(shaderCanvas.image, x, y, imageWidth, imageHeight, null);
         }
       }
