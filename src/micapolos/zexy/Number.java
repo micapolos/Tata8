@@ -366,7 +366,7 @@ public class Number extends ValueComponent {
   }
 
   public Activity approaching(Number number) {
-    return approaching(number, 0.95);
+    return approaching(number, 0.25);
   }
 
   public Activity approaching(Number number, double factor) {
