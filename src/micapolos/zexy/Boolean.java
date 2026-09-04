@@ -1,5 +1,6 @@
 package micapolos.zexy;
 
+import micapolos.BooleanBinaryOperator;
 import micapolos.BooleanUnaryOperator;
 
 import java.util.function.BooleanSupplier;
@@ -67,6 +68,16 @@ public class Boolean extends ValueComponent {
     };
   }
 
+  public Boolean update(Boolean bool, BooleanBinaryOperator operator) {
+    return new Boolean(() -> operator.apply(get(), bool.get())) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        bool.addRunnersOnce();
+      }
+    };
+  }
+
   public Action set(boolean x) {
     return set(Boolean.bool(x));
   }
@@ -105,23 +116,24 @@ public class Boolean extends ValueComponent {
     return equals(bool(value));
   }
 
-  public Boolean equals(Boolean value) {
-    return new Boolean() {
-      @Override
-      void addRunners() {
-        Boolean.this.addRunnersOnce();
-        value.addRunnersOnce();
-      }
-    };
+  public Boolean equals(Boolean bool) {
+    return update(bool, (a, b) -> a == b);
+  }
+
+  public Boolean negated() {
+    return not(this);
   }
 
   public static Boolean not(Boolean value) {
-    return new Boolean(() -> !value.get()) {
-      @Override
-      void addRunners() {
-        value.addRunnersOnce();
-      }
-    };
+    return value.update(a -> !a);
+  }
+
+  public Boolean and(Boolean bool) {
+    return update(bool, (a, b) -> a && b);
+  }
+
+  public Boolean or(Boolean bool) {
+    return update(bool, (a, b) -> a || b);
   }
 
   public static Boolean all(Boolean... aBooleans) {
@@ -154,26 +166,6 @@ public class Boolean extends ValueComponent {
         for (Boolean bool : aBooleans) {
           bool.addRunnersOnce();
         }
-      }
-    };
-  }
-
-  public Boolean and(Boolean aBoolean) {
-    return new Boolean(() -> get() && aBoolean.get()) {
-      @Override
-      void addRunners() {
-        Boolean.this.addRunnersOnce();
-        aBoolean.addRunners();
-      }
-    };
-  }
-
-  public Boolean or(Boolean aBoolean) {
-    return new Boolean(() -> get() || aBoolean.get()) {
-      @Override
-      void addRunners() {
-        Boolean.this.addRunnersOnce();
-        aBoolean.addRunners();
       }
     };
   }

@@ -1,5 +1,6 @@
 package micapolos.zexy;
 
+import micapolos.IntBinaryPredicate;
 import micapolos.IntegerUtils;
 import micapolos.tata8.Random;
 
@@ -94,6 +95,16 @@ public class Integer extends ValueComponent {
       @Override
       void addRunners() {
         Integer.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Boolean mapToBool(Integer integer, IntBinaryPredicate predicate) {
+    return new Boolean(() -> predicate.test(get(), integer.get())) {
+      @Override
+      void addRunners() {
+        Integer.this.addRunnersOnce();
+        integer.addRunnersOnce();
       }
     };
   }
@@ -259,13 +270,39 @@ public class Integer extends ValueComponent {
   }
 
   public final Boolean isEqualTo(Integer integer) {
-    return new Boolean(() -> get() == integer.get()) {
-      @Override
-      void addRunners() {
-        Integer.this.addRunnersOnce();
-        integer.addRunnersOnce();
-      }
-    };
+    return mapToBool(integer, (a, b) -> a == b);
+  }
+
+  public final Boolean isGreaterThan(int i) {
+    return isGreaterThan(integer(i));
+  }
+
+  public final Boolean isGreaterThan(Integer integer) {
+    return mapToBool(integer, (a, b) -> a > b);
+  }
+
+  public final Boolean isLessThan(int i) {
+    return isLessThan(integer(i));
+  }
+
+  public final Boolean isLessThan(Integer integer) {
+    return mapToBool(integer, (a, b) -> a < b);
+  }
+
+  public final Boolean isGreaterOrEqualThan(int i) {
+    return isGreaterOrEqualThan(integer(i));
+  }
+
+  public final Boolean isGreaterOrEqualThan(Integer integer) {
+    return mapToBool(integer, (a, b) -> a >= b);
+  }
+
+  public final Boolean isLessOrEqualThan(int i) {
+    return isLessOrEqualThan(integer(i));
+  }
+
+  public final Boolean isLessOrEqualThan(Integer integer) {
+    return mapToBool(integer, (a, b) -> a <= b);
   }
 
   @Override

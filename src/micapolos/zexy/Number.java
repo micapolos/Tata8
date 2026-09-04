@@ -1,5 +1,6 @@
 package micapolos.zexy;
 
+import micapolos.DoubleBinaryPredicate;
 import micapolos.DoubleUtils;
 
 import java.util.Locale;
@@ -179,6 +180,16 @@ public class Number extends ValueComponent {
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
+      }
+    };
+  }
+
+  public Boolean mapToBool(Number number, DoubleBinaryPredicate predicate) {
+    return new Boolean(() -> predicate.test(get(), number.get())) {
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+        number.addRunnersOnce();
       }
     };
   }
@@ -373,18 +384,44 @@ public class Number extends ValueComponent {
     });
   }
 
-  public final Boolean isEqualTo(double i) {
-    return isEqualTo(number(i));
+  public final Boolean isEqualTo(double d) {
+    return isEqualTo(number(d));
   }
 
   public final Boolean isEqualTo(Number number) {
-    return new Boolean(() -> get() == number.get()) {
-      @Override
-      void addRunners() {
-        Number.this.addRunnersOnce();
-        number.addRunnersOnce();
-      }
-    };
+    return mapToBool(number, (a, b) -> a == b);
+  }
+
+  public final Boolean isGreaterThan(double d) {
+    return isGreaterThan(number(d));
+  }
+
+  public final Boolean isGreaterThan(Number number) {
+    return mapToBool(number, (a, b) -> a > b);
+  }
+
+  public final Boolean isGreaterOrEqualThan(double d) {
+    return isGreaterOrEqualThan(number(d));
+  }
+
+  public final Boolean isGreaterOrEqualThan(Number number) {
+    return mapToBool(number, (a, b) -> a >= b);
+  }
+
+  public final Boolean isLessThan(double d) {
+    return isLessThan(number(d));
+  }
+
+  public final Boolean isLessThan(Number number) {
+    return mapToBool(number, (a, b) -> a < b);
+  }
+
+  public final Boolean isLessOrEqualThan(double d) {
+    return isLessOrEqualThan(number(d));
+  }
+
+  public final Boolean isLessOrEqualThan(Number number) {
+    return mapToBool(number, (a, b) -> a <= b);
   }
 
   public final Event change() {
