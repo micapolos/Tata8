@@ -75,6 +75,12 @@ public class Integer extends ValueComponent {
     };
   }
 
+  public static Integer animatedInteger(Animator<Integer> animator) {
+    var number = newInteger();
+    number.init(animator.animate(number));
+    return number;
+  }
+
   public Integer update(IntUnaryOperator operator) {
     return new Integer(() -> operator.applyAsInt(get())) {
       @Override

@@ -23,6 +23,11 @@ public abstract class Drawing extends Component {
         Drawing.this.addRunnersOnce();
         condition.addRunnersOnce();
       }
+
+      @Override
+      public Drawing with(Animation animation) {
+        return this;
+      }
     };
   }
 
@@ -34,6 +39,8 @@ public abstract class Drawing extends Component {
       }
     };
   }
+
+  public abstract Drawing with(Animation animation);
 
   @Override
   public void show() {
