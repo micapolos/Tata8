@@ -18,11 +18,11 @@ public class Landscape {
   static void main() {
 
     var girlX = newNumber();
-    var cameraX = girlX.toElastic(0.05);
+    var cameraX = girlX.toElastic();
 
     var startMoving = select(
-      when(Key.RIGHT.isPressed).keep(girlX.adding(300)),
-      when(Key.LEFT.isPressed).keep(girlX.adding(-300)));
+      when(Key.RIGHT.isPressed).keep(girlX.adding(600)),
+      when(Key.LEFT.isPressed).keep(girlX.adding(-600)));
 
     var girlImage = image(Landscape.class, "socksgirl-sheet.png").sliceVertically(12).get(6);
 
