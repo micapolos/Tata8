@@ -273,7 +273,7 @@ public class Number extends ValueComponent {
   }
 
   public Action set(double x) {
-    return mapToAction(() -> setImmediately(x));
+    return set(number(0));
   }
 
   public Action set(Number number) {
@@ -285,6 +285,7 @@ public class Number extends ValueComponent {
 
       @Override
       void addRunners() {
+        Number.this.addRunnersOnce();
         number.addRunnersOnce();
       }
     };
@@ -316,6 +317,7 @@ public class Number extends ValueComponent {
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
+        speed.addRunnersOnce();
       }
 
       @Override
