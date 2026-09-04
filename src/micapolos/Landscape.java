@@ -1,13 +1,10 @@
 package micapolos;
 
 import micapolos.tata8.Composite;
-import micapolos.zexy.Game;
 import micapolos.zexy.Key;
 
-import static micapolos.zexy.Action.*;
 import static micapolos.zexy.Anchor.*;
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.Boolean.*;
 import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Condition.*;
 import static micapolos.zexy.Image.*;
@@ -21,7 +18,7 @@ public class Landscape {
   static void main() {
 
     var girlX = newNumber();
-    var cameraX = girlX;//.elastic();
+    var cameraX = girlX.toElastic(0.05);
 
     var startMoving = select(
       when(Key.RIGHT.isPressed).keep(girlX.adding(300)),
@@ -32,7 +29,8 @@ public class Landscape {
     var girlSprite = newSprite()
       .withImage(girlImage)
       .with(anchor(16, 64))
-      .with(position(girlX, 50));
+      .with(position(girlX, 50))
+      .with(parallaxRatio(3.0 / 6.0));
 
     var image = image(Landscape.class, "landscape.png");
     var images = image.sliceHorizontally(7);
@@ -58,6 +56,7 @@ public class Landscape {
 
     var stack = stackOf(backSprites, girlSprite, frontSprites);
 
-    stack.lets(startGame).show();
+    stack.lets(startGame);
+    stack.show();
   }
 }

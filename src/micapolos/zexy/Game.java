@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static micapolos.tata8.Game.*;
+import static micapolos.zexy.Camera.*;
 import static micapolos.zexy.Event.*;
 import static micapolos.zexy.Integer.*;
 import static micapolos.zexy.Number.*;
@@ -64,6 +65,7 @@ public final class Game {
   }
 
   static void init() {
+    Camera.camera.addRunnersOnce();
     micapolos.tata8.Game.screen.shader = Shader.CRT_PHOSPHOR;
     startedValue = true;
     for (Runner runner : runners) {

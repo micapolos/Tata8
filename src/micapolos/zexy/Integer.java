@@ -77,7 +77,7 @@ public class Integer extends ValueComponent {
 
   public static Integer animatedInteger(Animator<Integer> animator) {
     var number = newInteger();
-    number.animate(animator.animate(number));
+    number.lets(animator.animate(number));
     return number;
   }
 

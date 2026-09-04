@@ -36,13 +36,4 @@ public class Stack extends Drawing {
   public static Stack stack(int size, IntFunction<Drawing> function) {
     return new Stack(null, IntStream.range(0, size).mapToObj(function).toList());
   }
-
-  @Deprecated
-  public Drawing with(Animation animation) {
-    return new Stack(animation, drawings);
-  }
-
-  public Drawing lets(Animation animation) {
-    return new Stack(animation, drawings);
-  }
 }

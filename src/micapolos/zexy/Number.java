@@ -43,7 +43,7 @@ public class Number extends ValueComponent {
 
   public static Number animatedNumber(Animator<Number> animator) {
     var number = newNumber();
-    number.animate(animator.animate(number));
+    number.lets(animator.animate(number));
     return number;
   }
 
@@ -328,25 +328,31 @@ public class Number extends ValueComponent {
     };
   }
 
-  public Activity setting(double speed) {
-    return setting(number(speed));
-  }
-
-  public Activity setting(Number number) {
+  public Activity advancing(DoubleUnaryAdvancer advancer) {
     return new Activity() {
       @Override
       void advance(float seconds) {
-        setImmediately(number.get());
+        setImmediately(advancer.advance(get(), seconds));
       }
 
       @Override
       void addRunners() {
         Number.this.addRunnersOnce();
       }
+    };
+  }
+
+  public Activity advancing(Number number, DoubleBinaryAdvancer advancer) {
+    return new Activity() {
+      @Override
+      void advance(float seconds) {
+        setImmediately(advancer.advance(get(), number.get(), seconds));
+      }
 
       @Override
-      public String toString() {
-        return leo("setting", number.get());
+      void addRunners() {
+        Number.this.addRunnersOnce();
+        number.addRunnersOnce();
       }
     };
   }
@@ -359,35 +365,36 @@ public class Number extends ValueComponent {
     return adding(speed.negated());
   }
 
-  public Number elastic() {
-    return elastic(micapolos.tata8.Math.ELASTIC_FACTOR);
+  public Activity approaching(Number number) {
+    return approaching(number, 0.25f);
   }
 
-  public Number elastic(double d) {
-    return elastic(number(d));
+  public Activity approaching(Number number, float factor) {
+    return approaching(number, number(factor));
   }
 
-  public Number elastic(Number factor) {
-    return new Number() {
-      @Override
-      void addRunners() {
-        Number.this.addRunnersOnce();
-        factor.addRunnersOnce();
+  public Activity approaching(Number number, Number factor) {
+    return advancing((d, seconds) ->
+      micapolos.tata8.Math.elastic(
+        (float) d,
+        (float) number.get(),
+        (float) (factor.get() * seconds * 60)));
+  }
 
-        Game.add(new Runner() {
-          @Override
-          public void init() {
-            currentValue = Number.this.get();
-          }
+  public Number toElastic() {
+    return toElastic(micapolos.tata8.Math.ELASTIC_FACTOR);
+  }
 
-          @Override
-          public void update(float seconds) {
-            // TODO: Make it dependent on seconds.
-            currentValue = micapolos.tata8.Math.elastic((float) get(), (float) Number.this.get(), (float) factor.get() * seconds * 60);
-          }
-        });
-      }
-    };
+  public Number toElastic(double d) {
+    return toElastic(number(d));
+  }
+
+  public Number toElastic(Number factor) {
+    return animatedNumber(number ->
+      number
+        .set(this)
+        .thenKeep(
+          number.approaching(this, factor)));
   }
 
   public Number logged() {
@@ -484,8 +491,9 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    var step = on(Key.Z.press).startAdding(1).fraction().times(4).toInteger().plus(1);
-    var all = Key.Z.isPressed.ifTrue(step).orElse(0);
-    all.show();
+    animatedNumber(number -> number.set(0).thenKeep(number.approaching(Game.mouse.position.x))).show();
+//    var step = on(Key.Z.press).startAdding(1).fraction().times(4).toInteger().plus(1);
+//    var all = Key.Z.isPressed.ifTrue(step).orElse(0);
+//    all.show();
   }
 }

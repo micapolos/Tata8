@@ -22,6 +22,7 @@ public final class Camera extends Component {
 
   @Override
   void addRunners() {
+    IO.println("camera: add runners");
     position.addRunnersOnce();
     anchor.addRunnersOnce();
   }

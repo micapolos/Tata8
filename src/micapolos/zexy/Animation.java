@@ -291,6 +291,14 @@ public abstract class Animation extends Component {
       }
 
       @Override
+      void addRunners() {
+        super.addRunners();
+        for (Animation animation : animations) {
+          animation.addRunnersOnce();
+        }
+      }
+
+      @Override
       public String toString() {
         return leo("parallel", animations);
       }

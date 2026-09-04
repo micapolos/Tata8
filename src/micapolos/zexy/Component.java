@@ -18,7 +18,7 @@ public class Component implements Showable {
 
   void addRunners() {}
 
-  public final void animate(Animation animation) {
+  public final void lets(Animation animation) {
     checkVariable();
     this.animation = animation;
   }
