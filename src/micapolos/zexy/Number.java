@@ -8,6 +8,7 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.On.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -483,7 +484,8 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    var number = number(numberOfSeconds);
-    number.show();
+    var step = on(Key.Z.press).startAdding(1).fraction().times(4).toInteger().plus(1);
+    var all = Key.Z.isPressed.ifTrue(step).orElse(0);
+    all.show();
   }
 }

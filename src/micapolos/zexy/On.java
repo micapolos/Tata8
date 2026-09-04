@@ -1,6 +1,7 @@
 package micapolos.zexy;
 
 import static micapolos.zexy.Action.*;
+import static micapolos.zexy.Animation.*;
 
 public final class On {
   final Event event;
@@ -33,5 +34,29 @@ public final class On {
   @Deprecated(forRemoval = true)
   public EventOption execute(Action action) {
     return Animation.onExecute(event, action);
+  }
+
+  public Number startAdding(double value) {
+    return new Number(noAnimation) {
+      @Override
+      void addRunners() {
+        event.addRunnersOnce();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            currentValue = 0;
+          }
+
+          @Override
+          public void update(float seconds) {
+            if (event.occurs()) {
+              currentValue = 0;
+            }
+            currentValue += seconds * value;
+          }
+        });
+      }
+    };
   }
 }

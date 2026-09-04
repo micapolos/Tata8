@@ -1,7 +1,5 @@
 package micapolos.zexy;
 
-import static micapolos.zexy.Action.*;
-
 public final class Condition {
   final Boolean bool;
 
