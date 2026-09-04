@@ -8,7 +8,6 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.On.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -365,15 +364,15 @@ public class Number extends ValueComponent {
     return adding(speed.negated());
   }
 
-  public Activity approaching(Number number) {
-    return approaching(number, 0.25);
+  public Activity smoothing(Number number) {
+    return smoothing(number, 0.25);
   }
 
-  public Activity approaching(Number number, double factor) {
-    return approaching(number, number(factor));
+  public Activity smoothing(Number number, double factor) {
+    return smoothing(number, number(factor));
   }
 
-  public Activity approaching(Number number, Number factor) {
+  public Activity smoothing(Number number, Number factor) {
     return advancing((d, seconds) ->
       micapolos.tata8.Math.elastic(
         (float) d,
@@ -381,20 +380,20 @@ public class Number extends ValueComponent {
         (float) (factor.get() * seconds * 60)));
   }
 
-  public Number toElastic() {
-    return toElastic(0.25);
+  public Number smooth() {
+    return smooth(0.25);
   }
 
-  public Number toElastic(double d) {
-    return toElastic(number(d));
+  public Number smooth(double d) {
+    return smooth(number(d));
   }
 
-  public Number toElastic(Number factor) {
+  public Number smooth(Number factor) {
     return animatedNumber(number ->
       number
         .set(this)
         .thenKeep(
-          number.approaching(this, factor)));
+          number.smoothing(this, factor)));
   }
 
   public Number logged() {
@@ -491,7 +490,7 @@ public class Number extends ValueComponent {
   }
 
   static void main() {
-    animatedNumber(number -> number.set(0).thenKeep(number.approaching(Game.mouse.position.x))).show();
+    animatedNumber(number -> number.set(0).thenKeep(number.smoothing(Game.mouse.position.x))).show();
 //    var step = on(Key.Z.press).startAdding(1).fraction().times(4).toInteger().plus(1);
 //    var all = Key.Z.isPressed.ifTrue(step).orElse(0);
 //    all.show();
