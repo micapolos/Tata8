@@ -139,6 +139,7 @@ public final class Game {
         if (imageOp == null) {
           g2d.drawImage(compositeCanvas.image, x, y, scaledWidth, scaledHeight, null);
         } else {
+          shaderCanvas.clear();
           shaderCanvas.graphics.drawImage(compositeCanvas.image, imageOp, 0, 0);
           g2d.drawImage(shaderCanvas.image, x, y, imageWidth, imageHeight, null);
         }
