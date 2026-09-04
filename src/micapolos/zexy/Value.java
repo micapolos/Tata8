@@ -4,7 +4,11 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
+import static micapolos.tata8.Game.*;
+import static micapolos.tata8.Game.background;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Image.*;
+import static micapolos.zexy.Number.*;
 
 public class Value<T> extends ValueComponent {
   Supplier<T> currentSupplier;
@@ -210,12 +214,81 @@ public class Value<T> extends ValueComponent {
     return new Value<>(() -> values[Random.until(values.length)]);
   }
 
+  public final Boolean isEqualTo(T t) {
+    return isEqualTo(value(t));
+  }
+
+  public final Boolean isEqualTo(Value<T> value) {
+    return new Boolean(() -> get() == value.get()) {
+      @Override
+      void addRunners() {
+        Value.this.addRunnersOnce();
+        value.addRunnersOnce();
+      }
+    };
+  }
+
+  public final Event change() {
+    return new Event() {
+      T previous;
+
+      @Override
+      void addRunners() {
+        Value.this.addRunnersOnce();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            previous = Value.this.get();
+            defaultOccurs = false;
+          }
+
+          @Override
+          public void update(float seconds) {
+            T current = Value.this.get();
+            defaultOccurs = current != previous;
+            previous = current;
+          }
+        });
+      }
+    };
+  }
+
+  public Event changeTo(T t) {
+    return changeTo(value(t));
+  }
+
+  public Event changeTo(Value<T> value) {
+    return change().and(isEqualTo(value));
+  }
+
   @Override
   public String toString() {
     return String.valueOf(get());
   }
 
-  static void main() {
+  @Override
+  public void show() {
+    addRunnersOnce();
+    Game.add(new Runner() {
+      @Override
+      public void update(float seconds) {
+        background.canvas.clear();
+        T t = get();
+        if (t instanceof Drawable drawable) {
+          drawable.drawOn(background.canvas);
+        } else {
+          micapolos.tata8.Game.log(t);
+        }
+      }
+    });
+    Game.show();
+  }
 
+  static void main() {
+    var images = image(Image.class, "depressedChicken.png").sliceVertically(8);
+    var imageIndex = numberOfSeconds.times(8).toInteger().floorMod(8);
+    var image = imageIndex.selectFrom(images);
+    image.show();
   }
 }

@@ -32,7 +32,11 @@ public class Component implements Showable {
   @Override
   public void show() {
     addRunnersOnce();
-    Showable.super.show();
+    if (this instanceof Drawable drawable) {
+      drawable.show();
+    } else {
+      Showable.super.show();
+    }
   }
 
   public Action log() {

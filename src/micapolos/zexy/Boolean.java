@@ -255,34 +255,52 @@ public class Boolean extends ValueComponent {
     };
   }
 
-  public Event changeTo(boolean b) {
-    return changeTo(bool(b));
+  public final Boolean isEqualTo(boolean i) {
+    return isEqualTo(bool(i));
   }
 
-  public Event changeTo(Boolean bool) {
+  public final Boolean isEqualTo(Boolean bool) {
+    return new Boolean(() -> get() == bool.get()) {
+      @Override
+      void addRunners() {
+        Boolean.this.addRunnersOnce();
+        bool.addRunnersOnce();
+      }
+    };
+  }
+
+  public final Event change() {
     return new Event() {
       boolean previous;
 
       @Override
       void addRunners() {
         Boolean.this.addRunnersOnce();
-        bool.addRunnersOnce();
 
         Game.add(new Runner() {
           @Override
           public void init() {
-            previous = false;
-            currentValue = false;
+            previous = Boolean.this.get();
+            defaultOccurs = false;
           }
 
           @Override
           public void update(float seconds) {
-            previous = currentValue;
-            currentValue = get() != bool.get();
+            boolean current = Boolean.this.get();
+            defaultOccurs = current != previous;
+            previous = current;
           }
         });
       }
     };
+  }
+
+  public Event changeTo(boolean b) {
+    return changeTo(bool(b));
+  }
+
+  public Event changeTo(Boolean bool) {
+    return change().and(isEqualTo(bool));
   }
 
   public Boolean logged() {

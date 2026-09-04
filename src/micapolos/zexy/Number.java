@@ -373,6 +373,54 @@ public class Number extends ValueComponent {
     });
   }
 
+  public final Boolean isEqualTo(double i) {
+    return isEqualTo(number(i));
+  }
+
+  public final Boolean isEqualTo(Number number) {
+    return new Boolean(() -> get() == number.get()) {
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+        number.addRunnersOnce();
+      }
+    };
+  }
+
+  public final Event change() {
+    return new Event() {
+      double previous;
+
+      @Override
+      void addRunners() {
+        Number.this.addRunnersOnce();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            previous = Number.this.get();
+            defaultOccurs = false;
+          }
+
+          @Override
+          public void update(float seconds) {
+            double current = Number.this.get();
+            defaultOccurs = current != previous;
+            previous = current;
+          }
+        });
+      }
+    };
+  }
+
+  public Event changeTo(double d) {
+    return changeTo(number(d));
+  }
+
+  public Event changeTo(Number number) {
+    return change().and(isEqualTo(number));
+  }
+
   @Override
   public String toString() {
     return String.format(Locale.ROOT, "%.3f", get());

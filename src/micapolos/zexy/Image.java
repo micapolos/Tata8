@@ -1,12 +1,14 @@
 package micapolos.zexy;
 
+import micapolos.tata8.Canvas;
+
 import java.util.Arrays;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Number.*;
 import static micapolos.zexy.Value.value;
 
-public final class Image implements Showable {
+public final class Image implements Drawable {
   final micapolos.tata8.Image state;
   final String name;
   final Size size;
@@ -63,12 +65,8 @@ public final class Image implements Showable {
   }
 
   @Override
-  public void show() {
-    micapolos.tata8.Game.background.canvas.draw(
-      state,
-      (int) Game.size.width.minus(size.width).times(0.5).get(),
-      (int) Game.size.height.minus(size.height).times(0.5).get());
-    micapolos.tata8.Game.start();
+  public void drawOn(Canvas canvas) {
+    canvas.draw(state);
   }
 
   static void main() {

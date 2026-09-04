@@ -4,8 +4,13 @@ import micapolos.tata8.Canvas;
 
 import static micapolos.tata8.Game.*;
 
-public interface Drawable {
+public interface Drawable extends Showable {
   void drawOn(Canvas canvas);
+
+  @Override
+  default void show() {
+    showLogging();
+  }
 
   default void showLogging(Object... debugObjects) {
     Game.add(

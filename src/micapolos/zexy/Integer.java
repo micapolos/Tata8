@@ -8,6 +8,7 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Number.*;
 
 public class Integer extends ValueComponent {
   IntSupplier supplier;
@@ -219,12 +220,61 @@ public class Integer extends ValueComponent {
     });
   }
 
+  public Event changeTo(int i) {
+    return changeTo(integer(i));
+  }
+
+  public Event changeTo(Integer integer) {
+    return change().and(isEqualTo(integer));
+  }
+
+  public final Event change() {
+    return new Event() {
+      int previous;
+
+      @Override
+      void addRunners() {
+        Integer.this.addRunnersOnce();
+
+        Game.add(new Runner() {
+          @Override
+          public void init() {
+            previous = Integer.this.get();
+            defaultOccurs = false;
+          }
+
+          @Override
+          public void update(float seconds) {
+            int current = Integer.this.get();
+            defaultOccurs = current != previous;
+            previous = current;
+          }
+        });
+      }
+    };
+  }
+
+  public final Boolean isEqualTo(int i) {
+    return isEqualTo(integer(i));
+  }
+
+  public final Boolean isEqualTo(Integer integer) {
+    return new Boolean(() -> get() == integer.get()) {
+      @Override
+      void addRunners() {
+        Integer.this.addRunnersOnce();
+        integer.addRunnersOnce();
+      }
+    };
+  }
+
   @Override
   public String toString() {
     return String.valueOf(get());
   }
 
   static void main() {
-    randomIntegerUntil(10).show();
+    var seconds = numberOfSeconds.toInteger();
+    seconds.change().and(seconds.isEqualTo(2)).show();
   }
 }

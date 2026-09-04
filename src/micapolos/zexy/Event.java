@@ -6,6 +6,7 @@ import micapolos.tata8.Color;
 import java.util.function.BooleanSupplier;
 
 import static micapolos.zexy.Animation.*;
+import static micapolos.zexy.Boolean.*;
 
 public class Event extends ValueComponent {
   BooleanSupplier occursSupplier;
@@ -13,6 +14,10 @@ public class Event extends ValueComponent {
 
   Event() {
     this(noAnimation, null, false);
+  }
+
+  Event(BooleanSupplier occursSupplier) {
+    this(noAnimation, occursSupplier, false);
   }
 
   Event(Animation animation, BooleanSupplier occursSupplier, boolean defaultOccurs) {
@@ -26,6 +31,15 @@ public class Event extends ValueComponent {
   boolean occurs() {
     BooleanSupplier supplier = this.occursSupplier;
     return supplier != null ? supplier.getAsBoolean() : defaultOccurs;
+  }
+
+  public Boolean isOcurring() {
+    return new Boolean(this::occurs) {
+      @Override
+      void addRunners() {
+        Event.this.addRunnersOnce();
+      }
+    };
   }
 
   static Event event(boolean occurs) {
@@ -59,21 +73,40 @@ public class Event extends ValueComponent {
   }
 
   public Event or(Event event) {
-    return event(() -> occurs() && event.occurs());
+    return new Event(() -> occurs() || event.occurs()) {
+      @Override
+      void addRunners() {
+        Event.this.addRunnersOnce();
+        event.addRunnersOnce();
+      }
+    };
   }
 
-  public Event and(Boolean aBoolean) {
-    return event(() -> occurs() && aBoolean.get());
+  public Event and(Boolean bool) {
+    return new Event(() -> occurs() && bool.get()) {
+      @Override
+      void addRunners() {
+        Event.this.addRunnersOnce();
+        bool.addRunnersOnce();
+      }
+    };
   }
 
   public static Event any(Event... events) {
-    return event(() -> {
+    return new Event(() -> {
       boolean any = false;
       for (Event event : events) {
         any |= event.occurs();
       }
       return any;
-    });
+    }) {
+      @Override
+      void addRunners() {
+        for (Event event : events) {
+          event.addRunnersOnce();
+        }
+      }
+    };
   }
 
   @Override
@@ -83,11 +116,10 @@ public class Event extends ValueComponent {
 
   @Override
   public void show() {
-    micapolos.tata8.Game.onUpdate = () -> micapolos.tata8.Game.background.color = occurs() ? micapolos.tata8.Color.WHITE : Color.TRANSPARENT;
-    micapolos.tata8.Game.start();
+    isOcurring().show();
   }
 
   static void main() {
-    Key.RIGHT.press.and(Key.Z.isPressed).show();
+    Key.Z.press.show();
   }
 }

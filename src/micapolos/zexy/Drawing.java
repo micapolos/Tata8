@@ -25,4 +25,19 @@ public abstract class Drawing extends Component {
       }
     };
   }
+
+  Drawable drawable() {
+    return new Drawable() {
+      @Override
+      public void drawOn(Canvas canvas) {
+        Drawing.this.drawOn(canvas);
+      }
+    };
+  }
+
+  @Override
+  public void show() {
+    addRunnersOnce();
+    drawable().show();
+  }
 }
