@@ -72,7 +72,7 @@ public class Position extends Component {
     };
   }
 
-  public Position loggedWith(String label) {
+  public Position loggedAs(String label) {
     return new Position(x, y) {
       @Override
       void addRunners() {

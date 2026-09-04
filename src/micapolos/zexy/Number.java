@@ -8,7 +8,6 @@ import java.util.function.*;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
-import static micapolos.zexy.Condition.*;
 
 public class Number extends ValueComponent {
   DoubleSupplier currentSupplier;
@@ -395,7 +394,7 @@ public class Number extends ValueComponent {
     });
   }
 
-  public Number loggedWith(String label) {
+  public Number loggedAs(String label) {
     return update(n -> {
       micapolos.tata8.Game.log(leo(label, Number.this));
       return n;

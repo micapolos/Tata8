@@ -237,7 +237,7 @@ public class Integer extends ValueComponent {
     });
   }
 
-  public Integer loggedWith(String label) {
+  public Integer loggedAs(String label) {
     return update(n -> {
       micapolos.tata8.Game.log(leo(label, Integer.this));
       return n;

@@ -4,6 +4,7 @@ import micapolos.tata8.Random;
 
 import java.util.function.*;
 
+import static micapolos.Leo.*;
 import static micapolos.tata8.Game.background;
 import static micapolos.zexy.Animation.*;
 import static micapolos.zexy.Image.*;
@@ -265,6 +266,20 @@ public class Value<T> extends ValueComponent {
 
   public Event changeTo(Value<T> value) {
     return change().and(isEqualTo(value));
+  }
+
+  public Value<T> logged() {
+    return update(n -> {
+      micapolos.tata8.Game.log(Value.this);
+      return n;
+    });
+  }
+
+  public Value<T> loggedAs(String label) {
+    return update(n -> {
+      micapolos.tata8.Game.log(leo(label, Value.this));
+      return n;
+    });
   }
 
   @Override

@@ -55,7 +55,7 @@ final class Chicken {
 
     sprite = sprite.with(animation);
 
-    var x = xx.elastic(0.25).loggedWith("x");
+    var x = xx.elastic(0.25).loggedAs("x");
     var sprites = stackOf(
       sprite
         .with(position(x, position.y.minus(48)))

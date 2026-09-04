@@ -4,7 +4,6 @@ import micapolos.BooleanBinaryOperator;
 import micapolos.BooleanUnaryOperator;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.IntUnaryOperator;
 
 import static micapolos.Leo.*;
 import static micapolos.zexy.Animation.*;
@@ -319,7 +318,7 @@ public class Boolean extends ValueComponent {
     });
   }
 
-  public Boolean loggedWith(String label) {
+  public Boolean loggedAs(String label) {
     return update(n -> {
       micapolos.tata8.Game.log(leo(label, Boolean.this));
       return n;
