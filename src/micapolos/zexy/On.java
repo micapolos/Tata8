@@ -37,6 +37,22 @@ public final class On {
     return Animation.onExecute(event, action);
   }
 
+  public Number numberAdvancing(DoubleUnaryAdvancer advancer) {
+    return animatedNumber(number -> select(on(event).lets(number.set(0).thenKeep(number.advancing(advancer)))));
+  }
+
+  public Number startOscillating() {
+    return startOscillating(1);
+  }
+
+  public Number startOscillating(double period) {
+    return startOscillating(number(period));
+  }
+
+  public Number startOscillating(Number period) {
+    return on(event).numberAdvancing(micapolos.tata8.Math::fractSum);
+  }
+
   public Number startAdding(double d) {
     return startAdding(number(d));
   }

@@ -141,6 +141,10 @@ public class Integer extends ValueComponent {
     return update(IntegerUtils::negated);
   }
 
+  public Boolean isOdd() {
+    return mapToBool(i -> (i & 1) == 0);
+  }
+
   public Integer plus(int x) {
     return update(i -> i + x);
   }

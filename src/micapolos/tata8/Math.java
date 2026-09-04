@@ -32,6 +32,14 @@ public final class Math {
     return f - floor(f);
   }
 
+  public static double fract(double f) {
+    return f - java.lang.Math.floor(f);
+  }
+
+  public static double fractSum(double a, double b) {
+    return fract(a + b);
+  }
+
   public static final float ELASTIC_FACTOR = 0.25f;
 
   public static float elastic(float from, float to) {
