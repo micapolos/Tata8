@@ -13,7 +13,8 @@ fun main() {
     sprite()
       .with(image)
       .withPosition(x * 2.0, y - 50.0)
-      .withScale(2.0, 2.0))
+      .withScale(1.0, 1.0)
+      .withAngle(x))
 
   animation.show()
 }

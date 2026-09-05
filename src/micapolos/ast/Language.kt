@@ -4,7 +4,6 @@ import micapolos.tata8.Composite
 import micapolos.tata8.Game
 import micapolos.tata8.Image
 import micapolos.tata8.Sprite
-import micapolos.zexy.ParallaxRatio
 import kotlin.reflect.KClass
 
 internal var nextId = 0
@@ -142,10 +141,17 @@ fun Expression.Application<Sprite>.withComposite(composite: Composite) =
   withComposite(constant(Composite::class, composite))
 
 fun Expression.Application<Sprite>.withComposite(composite: Expression<Composite>) =
-  Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], composite, args[10]))
+  Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], composite, args[9], args[10]))
 
 fun Expression.Application<Sprite>.withParallax(parallax: Double) =
   withParallax(constant(parallax))
 
 fun Expression.Application<Sprite>.withParallax(parallax: Expression<Double>) =
-  Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], parallax))
+  Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], parallax, args[10]))
+
+fun Expression.Application<Sprite>.withAngle(angle: Double) =
+  withAngle(constant(angle))
+
+fun Expression.Application<Sprite>.withAngle(angle: Expression<Double>) =
+  Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], angle))
+
