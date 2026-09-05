@@ -9,7 +9,7 @@ class Generator {
     if (expression.index == 0) {
       expression.addDeps(this)
 
-      val initString = expression.initString
+      val initString = expression.declarationString
       if (initString != null) {
         lastIndex++
         expression.index = lastIndex
@@ -30,13 +30,13 @@ class Generator {
 
   val compactClassString: String get() =
     """
-import micapolos.tata8.Game;
-
-fun main() {
-  ${initStrings.joinToString("\n").replace("\n", "\n  ")}
-  Game.onUpdate = () -> {
-    ${updateStrings.joinToString("\n").replace("\n", "\n    ")}
-  };
-}
-    """.trim()
+    import micapolos.tata8.Game;
+    
+    fun main() {
+      ${initStrings.joinToString("\n").replace("\n", "\n      ")}
+      Game.onUpdate = () -> {
+        ${updateStrings.joinToString("\n").replace("\n", "\n        ")}
+      };
+    }
+    """.trimIndent()
 }

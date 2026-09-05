@@ -10,20 +10,20 @@ class GeneratorTest {
     var x = newInt(int(0))
     assertEquals(
       """
-import micapolos.tata8.Game;
-
-fun main() {
-  int v0 = 0;
-  
-  Game.onUpdate = () -> {
-    int v0 = v1 + 1;
-    v1 = v0;
-    Game.background.canvas.fillRect(v1, v1, 123, 45);
-    v1 = v0;
-    Game.background.canvas.fillRect(v1, v1, 123, 45);
-  };
-}
-      """.trim(),
+      import micapolos.tata8.Game;
+      
+      fun main() {
+        int v0 = 0;
+        
+        Game.onUpdate = () -> {
+          int v0 = v1 + 1;
+          v1 = v0;
+          Game.background.canvas.fillRect(v1, v1, 123, 45);
+          v1 = v0;
+          Game.background.canvas.fillRect(v1, v1, 123, 45);
+        };
+      }
+      """.trimIndent(),
       generator.generate(
         sequence(
           x.set(x.plus(int(1))),
