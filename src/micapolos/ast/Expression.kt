@@ -25,7 +25,6 @@ sealed class Expression<T> {
 
   data class Application<T>(
     override val kClass: KClass<*>,
-    val target: Expression<*>?,
     val name: String,
     val args: List<Expression<*>>
   ) : Expression<T>()

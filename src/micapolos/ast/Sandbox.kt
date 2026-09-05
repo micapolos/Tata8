@@ -1,8 +1,13 @@
 package micapolos.ast
 
 fun main() {
-  sequence(
-    fillRect(constant(10), constant(10), constant(30), constant(30)),
-    fillRect(constant(50), constant(70), constant(70), constant(60)))
-    .show()
+  val x = variable(10)
+  val y = x + 50
+
+  val animation = animation(
+    x.keepAdding(1),
+    fillRect(x, y, 30, 30),
+    fillRect(screenWidth - x, screenHeight - 100, 10, 10))
+
+  animation.show()
 }

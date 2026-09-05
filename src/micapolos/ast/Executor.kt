@@ -56,6 +56,20 @@ class Executor {
               }
             }
 
+            "Int.minus" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = argStates[0].value as Int - argStates[1].value as Int
+                return seconds
+              }
+            }
+
+            "Int.times" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = argStates[0].value as Int * argStates[1].value as Int
+                return seconds
+              }
+            }
+
             "sequence" -> object : Runner {
               override fun step(seconds: Float): Float {
                 return seconds
@@ -74,6 +88,13 @@ class Executor {
               }
             }
 
+            "Int.keepAdding" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                argStates[0].value = argStates[0].value as Int + argStates[1].value as Int
+                return seconds
+              }
+            }
+
             else -> TODO()
           }
         }
@@ -85,6 +106,9 @@ fun Expression<*>.show() {
   var executor = Executor()
   executor.state(this)
   executor.runners.forEach { it.init() }
-  Game.onUpdate = { executor.runners.forEach { it.step(1 / 60f) } }
+  Game.onUpdate = {
+    Game.background.canvas.clear()
+    executor.runners.forEach { it.step(1 / 60f) }
+  }
   Game.start()
 }
