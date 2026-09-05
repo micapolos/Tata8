@@ -274,7 +274,7 @@ public class Number extends ValueComponent {
   }
 
   public Action set(double x) {
-    return set(number(0));
+    return set(number(x));
   }
 
   public Action set(Number number) {
