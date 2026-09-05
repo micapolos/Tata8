@@ -3,21 +3,21 @@ package micapolos.sad
 abstract class Expression<T> {
   internal var index: Int = 0
 
-  internal abstract val declarationString: String?
+  internal abstract val initString: String?
   internal abstract val updateString: String?
   internal abstract val refString: String
   internal abstract fun addDeps(generator: Generator)
 }
 
 fun int(i: Int): Expression<Int> = object : Expression<Int>() {
-  override val declarationString: String? get() = null
+  override val initString: String? get() = null
   override val updateString: String? get() = null
   override val refString: String get() = "$i"
   override fun addDeps(generator: Generator) {}
 }
 
 operator fun Expression<Int>.unaryMinus(): Expression<Int> = object : Expression<Int>() {
-  override val declarationString: String? get() = null
+  override val initString: String? get() = null
   override val updateString: String? get() = "int $refString = -${this@unaryMinus.refString};"
   override val refString: String get() = "v$index"
   override fun addDeps(generator: Generator) {
@@ -26,7 +26,7 @@ operator fun Expression<Int>.unaryMinus(): Expression<Int> = object : Expression
 }
 
 operator fun Expression<Int>.plus(expression: Expression<Int>): Expression<Int> = object : Expression<Int>() {
-  override val declarationString: String? get() = null
+  override val initString: String? get() = null
   override val updateString: String? get() = "int $refString = ${this@plus.refString} + ${expression.refString};"
   override val refString: String get() = "v$index"
   override fun addDeps(generator: Generator) {
@@ -38,7 +38,7 @@ operator fun Expression<Int>.plus(expression: Expression<Int>): Expression<Int> 
 fun newInt() = newInt(0)
 fun newInt(i: Int) = newInt(int(i))
 fun newInt(expression: Expression<Int>): Expression<Int> = object : Expression<Int>() {
-  override val declarationString: String? get() = "int $refString = ${expression.refString};"
+  override val initString: String? get() = "int $refString = ${expression.refString};"
   override val updateString: String? get() = null
   override val refString: String get() = "v$index"
   override fun addDeps(generator: Generator) {
@@ -47,7 +47,7 @@ fun newInt(expression: Expression<Int>): Expression<Int> = object : Expression<I
 }
 
 fun <T> Expression<T>.set(expression: Expression<T>): Expression<Nothing> = object : Expression<Nothing>() {
-  override val declarationString: String? get() = null
+  override val initString: String? get() = null
   override val updateString: String? get() = "${this@set.refString} = ${expression.refString};"
   override val refString: String get() = "v$index"
   override fun addDeps(generator: Generator) {
@@ -57,8 +57,8 @@ fun <T> Expression<T>.set(expression: Expression<T>): Expression<Nothing> = obje
 }
 
 fun sequence(vararg expressions: Expression<Nothing>): Expression<Nothing> = object : Expression<Nothing>() {
-  override val declarationString: String get() =
-    expressions.asSequence().mapNotNull { it.declarationString }.joinToString("\n")
+  override val initString: String get() =
+    expressions.asSequence().mapNotNull { it.initString }.joinToString("\n")
   override val updateString: String get() =
     expressions.asSequence().mapNotNull { it.updateString }.joinToString("\n")
   override val refString: String get() = TODO()
@@ -71,7 +71,7 @@ fun sequence(vararg expressions: Expression<Nothing>): Expression<Nothing> = obj
 }
 
 fun fillRect(x: Expression<Int>, y: Expression<Int>, width: Expression<Int>, height: Expression<Int>): Expression<Nothing> = object : Expression<Nothing>() {
-  override val declarationString: String? get() = null
+  override val initString: String? get() = null
   override val updateString: String get() = "Game.background.canvas.fillRect(${x.refString}, ${y.refString}, ${width.refString}, ${height.refString});"
   override val refString: String get() = TODO()
 
