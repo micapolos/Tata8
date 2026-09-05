@@ -1,9 +1,11 @@
 package micapolos.ast
 
+import micapolos.Leo.leo
 import micapolos.tata8.Composite
 import micapolos.tata8.Game
 import micapolos.tata8.Image
 import micapolos.tata8.Shader
+import java.util.*
 import kotlin.reflect.KClass
 
 internal interface Runner {
@@ -12,6 +14,13 @@ internal interface Runner {
 }
 
 internal data class State(var value: Any? = null)
+
+internal val Any?.leoString get() =
+  when (this) {
+    is Double -> String.format(Locale.ROOT, "%.3f", this)
+    is String -> "\"$this\""
+    else -> "$this"
+  }
 
 internal class Executor {
   val runners = mutableListOf<Runner>()
@@ -53,6 +62,29 @@ internal class Executor {
         is Expression.Application<*> -> {
           val argStates = expression.args.map { state(it) }
           when (expression.name) {
+            "logged" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                when (argStates.size) {
+                  1 -> {
+                    state.value = argStates[0].value
+                    Game.log(argStates[0].value.leoString)
+                  }
+                  2 -> {
+                    state.value = argStates[1].value
+                    Game.log(leo(argStates[0].value as String, argStates[1].value.leoString))
+                  }
+                }
+                return seconds
+              }
+            }
+
+            "readOnly" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = argStates[0].value
+                return seconds
+              }
+            }
+
             "Int.plus" -> object : Runner {
               override fun step(seconds: Float): Float {
                 state.value = argStates[0].value as Int + argStates[1].value as Int
@@ -138,7 +170,8 @@ internal class Executor {
                   (argStates[7].value as Double).toFloat(),
                   (argStates[8].value as Double).toFloat(),
                   argStates[9].value as Composite,
-                  (argStates[10].value as Double).toFloat())
+                  (argStates[10].value as Double).toFloat()
+                )
                 return seconds
               }
             }

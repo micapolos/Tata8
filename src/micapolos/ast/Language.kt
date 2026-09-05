@@ -8,6 +8,15 @@ import kotlin.reflect.KClass
 
 internal var nextId = 0
 
+val <T> Expression<T>.logged get() =
+  Expression.Application<T>(kClass, "logged", listOf(this))
+
+fun <T> Expression<T>.loggedAs(name: String) =
+  Expression.Application<T>(kClass, "logged", listOf(constant(String::class, name), this))
+
+val <T> Expression<T>.readOnly get() =
+  Expression.Application<T>(kClass, "readOnly", listOf(this))
+
 fun constant(b: Boolean): Expression<Boolean> =
   Expression.Constant(Boolean::class, b)
 
@@ -154,4 +163,3 @@ fun Expression.Application<Sprite>.withAngle(angle: Double) =
 
 fun Expression.Application<Sprite>.withAngle(angle: Expression<Double>) =
   Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], angle))
-
