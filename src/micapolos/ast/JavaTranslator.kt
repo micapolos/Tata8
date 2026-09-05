@@ -1,5 +1,11 @@
 package micapolos.ast
 
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
+
+
 data class Code(val init: String? = null, val update: String? = null)
 
 internal class Translator {
@@ -60,4 +66,14 @@ void main() {
   Game.start();
 }
   """.trimIndent()
+}
+
+fun Expression<*>.writeJava(fileName: String) {
+  val path: Path = Paths.get(fileName)
+  Files.writeString(
+    Paths.get(fileName),
+    javaCode,
+    StandardOpenOption.CREATE,
+    StandardOpenOption.TRUNCATE_EXISTING
+  )
 }
