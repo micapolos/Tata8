@@ -43,7 +43,9 @@ internal class Translator {
             "sequence" -> Code()
             "fillRect" -> Code(update = "Game.background.canvas.fillRect(${args[0]}, ${args[1]}, ${args[2]}, ${args[3]});")
             "Int.keepAdding" -> Code(update = "${args[0]} += ${args[1]};")
-            else -> TODO()
+            "loadImage" -> Code(update = "Game.loadImage(${args[0]}, ${args[1]});")
+            "sprite" -> Code(update = "Game.background.canvas.draw(${args[0]}, ${args[1]}, ${args[2]}, ${args[3]}, ${args[4]}, false, false, 1, 1, Composite.NORMAL, 0);")
+            else -> error("not implemented: ${expression.name}")
           }
         }
       }
@@ -55,6 +57,7 @@ val Expression<*>.javaCode: String get() {
   translator.variableIndex(this)
   return """
 import micapolos.tata8.Game;
+import micapolos.tata8.Composite;
 
 ${translator.codes.mapNotNull { it.init }.joinToString("\n")}
 

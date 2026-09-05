@@ -1,14 +1,19 @@
 package micapolos.ast
 
+import micapolos.Blocks
+
 fun main() {
-  val x = variable(10)
-  val y = x + 50
+  val image = image(Blocks::class, "depressedChicken.png")
+
+  val x = variable(10.0)
+  val y = x + 50.0
 
   val animation = animation(
-    x.keepAdding(1),
-    fillRect(x, y, 30, 30),
-    fillRect(screenWidth - x, screenHeight - 100, 10, 10))
+    x.keepAdding(60.0),
+    sprite()
+      .with(image)
+      .withPosition(x * 2.0, y - 50.0)
+      .withScale(2.0, 2.0))
 
-  animation.writeJava("src/micapolos/Demko.java")
   animation.show()
 }

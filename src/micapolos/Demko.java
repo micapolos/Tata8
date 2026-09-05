@@ -1,4 +1,5 @@
 import micapolos.tata8.Game;
+import micapolos.tata8.Composite;
 
 int i3 = 10;
 int i2 = i3;

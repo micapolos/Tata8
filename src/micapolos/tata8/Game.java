@@ -1,5 +1,6 @@
 package micapolos.tata8;
 
+import micapolos.FloatConsumer;
 import micapolos.awt.DuskFilter;
 import micapolos.zexy.Animation;
 
@@ -39,8 +40,8 @@ public final class Game {
   public static final Keys keys = new Keys();
   public static final Audio audio = Audio.create();
   public static final Mouse mouse = new Mouse();
-  public static Runnable onUpdate = () -> {
-  };
+  public static Runnable onUpdate = () -> {};
+  public static FloatConsumer onStep = seconds -> onUpdate.run();
   public static final Screen screen = new Screen();
   public static Animation animation = Animation.instant();
   public static double dusk = 0;
@@ -220,7 +221,7 @@ public final class Game {
         targetDusk = 1 - targetDusk;
       }
       animation.advanceInternal(multiplier / 60f);
-      onUpdate.run();
+      onStep.accept(multiplier / 60f);
       panel.repaint();
       for (Key key : keys.array) {
         key.update();
