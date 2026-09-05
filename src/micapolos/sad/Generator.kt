@@ -1,7 +1,7 @@
 package micapolos.sad
 
 class Generator {
-  internal var lastIndex: Int = 0
+  internal var lastVariableIndex: Int = 0
   internal val initStrings = ArrayList<String>()
   internal val updateStrings = ArrayList<String>()
 
@@ -10,18 +10,13 @@ class Generator {
       expression.index = -1
       expression.addDeps(this)
 
-      lastIndex++
-      expression.index = lastIndex
-
-      val initString = expression.initString
-      if (initString != null) {
-        initStrings.add(initString)
+      if (expression.declaresVariable) {
+        lastVariableIndex++
+        expression.index = lastVariableIndex
       }
 
-      val updateString = expression.updateString
-      if (updateString != null) {
-        updateStrings.add(updateString)
-      }
+      expression.initString?.let { initStrings.add(it) }
+      expression.updateString?.let { updateStrings += it }
     }
   }
 
@@ -39,6 +34,7 @@ fun main() {
   Game.onUpdate = () -> {
     ${updateStrings.joinToString("\n").replace("\n", "\n    ")}
   };
+  Game.start();
 }
     """.trimIndent()
 }

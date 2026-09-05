@@ -7,26 +7,24 @@ class GeneratorTest {
   @Test
   fun test() {
     val generator = Generator()
-    val x = newInt()
-    val y = newInt()
+    val x = newInt(16)
+    val y = newInt(32)
+    val z = int(12)
     assertEquals(
       """
 import micapolos.tata8.Game;
 
 fun main() {
-  int v2 = 0;
-  int v7 = 0;
-  
+  int v1 = 16;
+  int v3 = 32;
   Game.onUpdate = () -> {
-    int v4 = v2 + 1;
-    v2 = v4;
-    int v9 = v7 + 2;
-    v7 = v9;
-    Game.background.canvas.fillRect(v2, v7, 100, 200);
-    v2 = v4;
-    v7 = v9;
-    Game.background.canvas.fillRect(v2, v7, 100, 200);
+    int v2 = v1 + 1;
+    v1 = v2;
+    int v4 = v3 + 2;
+    v3 = v4;
+    Game.background.canvas.fillRect(v1, v3, 100, 200);
   };
+  Game.start();
 }
       """.trimIndent(),
       generator.generate(
