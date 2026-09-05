@@ -2,14 +2,14 @@ package micapolos.ast
 
 import micapolos.tata8.Game
 
-interface Runner {
+internal interface Runner {
   fun init() {}
   fun step(seconds: Float) = seconds
 }
 
-data class State(var value: Any? = null)
+internal data class State(var value: Any? = null)
 
-class Executor {
+internal class Executor {
   val runners = mutableListOf<Runner>()
   val states = mutableMapOf<Expression<*>, State>()
 

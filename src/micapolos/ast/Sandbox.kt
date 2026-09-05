@@ -9,5 +9,6 @@ fun main() {
     fillRect(x, y, 30, 30),
     fillRect(screenWidth - x, screenHeight - 100, 10, 10))
 
+  println(animation.javaCode)
   animation.show()
 }
