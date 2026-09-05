@@ -8,7 +8,7 @@ class Generator {
   fun add(expression: Expression<*>) {
     if (expression.index == 0) {
       expression.index = -1
-      expression.addDeps(this)
+      expression.addRefs(this)
 
       if (expression.declaresVariable) {
         lastVariableIndex++
@@ -18,6 +18,7 @@ class Generator {
       expression.initString?.let { initStrings.add(it) }
       expression.updateString?.let { updateStrings += it }
     }
+    expression.refCount++
   }
 
   fun generate(expression: Expression<*>) : String {
