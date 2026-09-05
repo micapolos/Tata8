@@ -8,6 +8,9 @@ import kotlin.reflect.KClass
 
 internal var nextId = 0
 
+val <T> Expression<T>.variable: Expression.Variable<T> get() =
+  this as? Expression.Variable<T> ?: error("Not a variable")
+
 val <T> Expression<T>.logged get() =
   Expression.Application<T>(kClass, "logged", listOf(this))
 
@@ -41,7 +44,7 @@ fun <T> variable(initializer: Expression<T>): Expression<T> {
 }
 
 fun <T> Expression<T>.set(expression: Expression<T>): Expression<Unit> =
-  Expression.Set(this, expression)
+  Expression.Set(variable, expression)
 
 operator fun Expression<Int>.plus(i: Int): Expression<Int> = plus(constant(i))
 
@@ -86,13 +89,13 @@ fun Expression<Int>.keepAdding(i: Int): Expression<Unit> = keepAdding(constant(i
 
 @JvmName("keepAddingInt")
 fun Expression<Int>.keepAdding(expression: Expression<Int>): Expression<Unit> =
-  Expression.Application(Unit::class, "Int.keepAdding", listOf(this, expression))
+  Expression.Application(Unit::class, "Int.keepAdding", listOf(variable, expression))
 
 fun Expression<Double>.keepAdding(d: Double): Expression<Unit> = keepAdding(constant(d))
 
 @JvmName("keepAddingDouble")
 fun Expression<Double>.keepAdding(expression: Expression<Double>): Expression<Unit> =
-  Expression.Application(Unit::class, "Double.keepAdding", listOf(this, expression))
+  Expression.Application(Unit::class, "Double.keepAdding", listOf(variable, expression))
 
 val screenWidth = constant(Game.WIDTH.toDouble())
 val screenHeight = constant(Game.HEIGHT.toDouble())

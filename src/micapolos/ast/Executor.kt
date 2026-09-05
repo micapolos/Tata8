@@ -15,12 +15,13 @@ internal interface Runner {
 
 internal data class State(var value: Any? = null)
 
-internal val Any?.leoString get() =
-  when (this) {
-    is Double -> String.format(Locale.ROOT, "%.3f", this)
-    is String -> "\"$this\""
-    else -> "$this"
-  }
+internal val Any?.leoString
+  get() =
+    when (this) {
+      is Double -> String.format(Locale.ROOT, "%.3f", this)
+      is String -> "\"$this\""
+      else -> "$this"
+    }
 
 internal class Executor {
   val runners = mutableListOf<Runner>()
@@ -69,6 +70,7 @@ internal class Executor {
                     state.value = argStates[0].value
                     Game.log(argStates[0].value.leoString)
                   }
+
                   2 -> {
                     state.value = argStates[1].value
                     Game.log(leo(argStates[0].value as String, argStates[1].value.leoString))
