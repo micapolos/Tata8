@@ -2,13 +2,12 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
-import micapolos.zexy2.live.Animation
 
 val Double.live get() = live(Double::class)
 
 fun liveVariable(d: Double): Live<Double> = liveVariable(d.live)
 
-fun Live<Double>.set(d: Double): Live<Animation> = set(d.live)
+fun Live<Double>.set(d: Double): Live<Unit> = set(d.live)
 
 fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 

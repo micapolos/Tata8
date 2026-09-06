@@ -2,7 +2,6 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
-import micapolos.zexy2.live.Animation
 
 val Int.live get() = live(Int::class)
 
@@ -10,8 +9,7 @@ fun liveVariable(i: Int): Live<Int> = liveVariable(i.live)
 
 operator fun Live<Int>.plus(i: Int): Live<Int> = plus(i.live)
 
-fun Live<Int>.set(d: Int): Live<Animation> =
-  set(d.live)
+fun Live<Int>.set(d: Int): Live<Unit> = set(d.live)
 
 @JvmName("plusInt")
 operator fun Live<Int>.plus(live: Live<Int>): Live<Int> =

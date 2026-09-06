@@ -1,6 +1,5 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.live.Animation
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import kotlin.reflect.KClass
@@ -25,7 +24,7 @@ val <T> Live<T>.readOnly
 fun <T> liveVariable(initializer: Live<T>): Live<T> =
   Live.Variable(Int::class, initializer)
 
-fun <T> Live<T>.set(live: Live<T>): Live<Animation> =
+fun <T> Live<T>.set(live: Live<T>): Live<Unit> =
   Live.Set(variable, live)
 
 fun parallel(live: Live<*>, vararg lives: Live<*>) =

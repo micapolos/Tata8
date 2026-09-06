@@ -22,8 +22,8 @@ sealed class Live<out T> {
   data class Set<out T>(
     val lhs: Live<T>,
     val rhs: Live<T>
-  ) : Live<Animation>() {
-    override val kClass: KClass<*> get() = Animation::class
+  ) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
   }
 
   data class Application<out T>(
@@ -46,7 +46,7 @@ fun <T> liveConstant(kClass: KClass<*>, t: T): Live<T> = Live.Constant(kClass, t
 
 fun <T> liveVariable(kClass: KClass<*>, initializer: Live<T>): Live<T> = Live.Variable(kClass, initializer)
 
-fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Animation> = Live.Set(lhs, rhs)
+fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Unit> = Live.Set(lhs, rhs)
 
 fun <T> liveApplication(kClass: KClass<*>, primitive: Primitive, vararg args: Live<*>): Live<T> =
   Live.Application(kClass, primitive, args.toList())
