@@ -241,5 +241,29 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
         return seconds
       }
     }
+
+    Primitive.IMAGE_WIDTH -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Image).size.width.toDouble()
+        return seconds
+      }
+    }
+
+    Primitive.IMAGE_HEIGHT -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Image).size.height.toDouble()
+        return seconds
+      }
+    }
+
+    Primitive.FONT_STRING_WIDTH -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Font).width(argStates[1].value as String).toDouble()
+        return seconds
+      }
+    }
   }
 }

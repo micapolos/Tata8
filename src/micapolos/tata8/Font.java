@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public final class Font {
   public static final Font mica = newFont(Image.micaFont.bufferedImage, 2, 1, 1);
-  public static final Font kornelka = newFont(Image.kornelkaFont.bufferedImage, 2, 1, 1);
+  public static final Font kornelka = newFont(Image.koraFont.bufferedImage, 2, 1, 1);
 
   final Glyph[] glyphs;
   public final int height;
