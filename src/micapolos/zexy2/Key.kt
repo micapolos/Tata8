@@ -16,17 +16,17 @@ enum class Key(internal val tata8: micapolos.tata8.Key) {
     Live.Application(
       Boolean::class,
       Primitive.KEY_IS_PRESSED,
-      listOf(constant(micapolos.zexy2.Key::class, this)))
+      listOf(constant(Key::class, this)))
 
   val pressed: Live<Boolean> =
     Live.Application(
       Boolean::class,
       Primitive.KEY_PRESSED,
-      listOf(constant(micapolos.zexy2.Key::class, this)))
+      listOf(constant(Key::class, this)))
 
   val released: Live<Boolean> =
     Live.Application(
       Boolean::class,
       Primitive.KEY_RELEASED,
-      listOf(constant(micapolos.zexy2.Key::class, this)))
+      listOf(constant(Key::class, this)))
 }
