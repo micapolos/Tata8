@@ -16,7 +16,7 @@ fun main() {
 
   val chickenImages = DepressedChicken.images
 
-  val animation = block(
+  val animation = run(
     x.keepAdding(60.0),
 //    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
 //    Key.LEFT.isPressed.ifTrue(x.keepAdding(-60.0)).orElse(doNothing),
@@ -26,7 +26,7 @@ fun main() {
       .with(centerAlignment)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)),
-    block(3) { index ->
+    repeat(3) { index ->
       val factor = 4.shr(index)
       val scale = 1.0 / factor
       val y = 80 / factor - 80.0

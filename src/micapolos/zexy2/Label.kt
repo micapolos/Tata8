@@ -7,7 +7,7 @@ import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import micapolos.zexy2.live.withArg
 
-object Label: Drawing
+object Label: Draw
 
 val drawLabel: Live<Label>
   get() =

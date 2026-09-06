@@ -13,4 +13,4 @@ fun <T> newVariable(position: Position<T>) =
   alignment(newVariable(position.x), newVariable(position.y))
 
 fun <T> Position<T>.set(position: Position<T>) =
-  block(x.set(position.x), y.set(position.y))
+  run(x.set(position.x), y.set(position.y))

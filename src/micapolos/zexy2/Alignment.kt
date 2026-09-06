@@ -18,4 +18,4 @@ fun <T> newVariable(alignment: Alignment<T>) =
   alignment(newVariable(alignment.x), newVariable(alignment.y))
 
 fun <T> Alignment<T>.set(alignment: Alignment<T>) =
-  block(x.set(alignment.x), y.set(alignment.y))
+  run(x.set(alignment.x), y.set(alignment.y))

@@ -8,7 +8,7 @@ val Boolean.live get() = live(Boolean::class)
 
 fun newVariable(b: Boolean): Live<Boolean> = newVariable(b.live)
 
-fun Live<Boolean>.set(d: Boolean): Live<Unit> =
+fun Live<Boolean>.set(d: Boolean): Live<Run> =
   set(d.live)
 
 operator fun Live<Boolean>.not(): Live<Boolean> =

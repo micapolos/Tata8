@@ -7,12 +7,12 @@ val Double.live get() = live(Double::class)
 
 fun newVariable(d: Double): Live<Double> = newVariable(d.live)
 
-fun Live<Double>.set(d: Double): Live<Unit> = set(d.live)
+fun Live<Double>.set(d: Double): Live<Run> = set(d.live)
 
 fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 
 @JvmName("keepAddingDouble")
-fun Live<Double>.keepAdding(live: Live<Double>): Live<Unit> =
+fun Live<Double>.keepAdding(live: Live<Double>): Live<Run> =
   Live.Application(Unit::class, Primitive.DOUBLE_KEEP_ADDING, listOf(variable, live))
 
 operator fun Live<Double>.plus(d: Double): Live<Double> = plus(d.live)

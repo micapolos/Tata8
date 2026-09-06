@@ -21,14 +21,14 @@ val <T> Live<T>.readOnly get() =
 fun <T> newVariable(initializer: Live<T>): Live<T> =
   Live.Variable(Int::class, initializer)
 
-fun <T> Live<T>.set(live: Live<T>): Live<Unit> =
+fun <T> Live<T>.set(live: Live<T>): Live<Run> =
   Live.Set(variable, live)
 
-fun block(vararg lives: Live<*>) =
-  block(lives.toList())
+fun run(vararg lives: Live<Run>) =
+  run(lives.toList())
 
-fun block(lives: List<Live<*>>): Live<Unit> =
+fun run(lives: List<Live<Run>>): Live<Run> =
   Live.Application(Unit::class, Primitive.PARALLEL, lives)
 
-fun block(count: Int, fn: (Int) -> Live<*>) =
-  block(List(count) { fn(it) })
+fun repeat(count: Int, fn: (Int) -> Live<Run>) =
+  run(List(count) { fn(it) })

@@ -6,7 +6,7 @@ import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import micapolos.zexy2.live.withArg
 
-object Sprite: Drawing
+object Sprite: Draw
 
 val drawSprite: Live<Sprite>
   get() =

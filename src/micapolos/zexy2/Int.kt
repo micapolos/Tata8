@@ -9,7 +9,7 @@ fun newVariable(i: Int): Live<Int> = newVariable(i.live)
 
 operator fun Live<Int>.plus(i: Int): Live<Int> = plus(i.live)
 
-fun Live<Int>.set(d: Int): Live<Unit> =
+fun Live<Int>.set(d: Int): Live<Run> =
   set(d.live)
 
 @JvmName("plusInt")

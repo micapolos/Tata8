@@ -1,3 +1,3 @@
 package micapolos.zexy2
 
-interface Drawing
+interface Draw: Run

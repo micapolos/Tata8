@@ -1,5 +1,6 @@
 package micapolos.zexy2.live
 
+import micapolos.zexy2.Run
 import kotlin.reflect.KClass
 
 sealed class Live<out T> {
@@ -18,7 +19,7 @@ sealed class Live<out T> {
   data class Set<T>(
     val lhs: Live<T>,
     val rhs: Live<T>
-  ) : Live<Unit>() {
+  ) : Live<Run>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 
