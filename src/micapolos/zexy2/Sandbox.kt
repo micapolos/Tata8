@@ -3,7 +3,7 @@ package micapolos.zexy2
 import micapolos.DepressedChicken
 import micapolos.tata8.Color
 import micapolos.tata8.Quote
-import micapolos.zexy2.live.start
+import micapolos.zexy2.live.show
 
 fun main() {
   val fontImage = micaFontImage
@@ -16,9 +16,8 @@ fun main() {
 
   val chickenImages = DepressedChicken.images
 
-  val animation = run(
+  val animate = run(
     x.keepAdding(60.0),
-    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
     Camera.alignment.set(centerAlignment),
     drawSprite
       .with(fontImage)
@@ -48,5 +47,5 @@ fun main() {
       .with(font)
       .with(position(Screen.center.position.x, 10.0)))
 
-  animation.start()
+  animate.show()
 }
