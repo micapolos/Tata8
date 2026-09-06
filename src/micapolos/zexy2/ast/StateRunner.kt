@@ -34,8 +34,6 @@ fun <T> Expression.Set<T>.runner(expressionState: ExpressionState) =
     }
   }
 
-
-// TODO: Make sure it's short-circuit
 fun <T> Expression.Conditional<T>.runner(state: State, expressionState: ExpressionState) =
   object : Runner {
     val conditionState = expressionState(condition)
@@ -50,7 +48,6 @@ fun <T> Expression.Conditional<T>.runner(state: State, expressionState: Expressi
       return seconds
     }
   }
-
 
 fun <T> Expression.Application<T>.runner(state: State, expressionState: ExpressionState): Runner {
   return when (name) {
