@@ -2,7 +2,7 @@ package micapolos.zexy2.live
 
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
-import micapolos.zexy2.block
+import micapolos.zexy2.parallel
 import java.util.*
 
 internal val Any?.leoString
@@ -47,6 +47,6 @@ fun Live<*>.show() {
   Game.start()
 }
 
-fun show(vararg lives: Live<Run>) {
-  block(*lives).show()
+fun show(live: Live<Animation>, vararg lives: Live<Animation>) {
+  parallel(live, *lives).show()
 }

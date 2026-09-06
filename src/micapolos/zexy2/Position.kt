@@ -9,8 +9,8 @@ fun <T> position(x: Live<T>, y: T) = Position(x, y.live(x.kClass))
 fun <T> position(x: T, y: Live<T>) = Position(x.live(y.kClass), y)
 fun <T> position(x: Live<T>, y: Live<T>) = Position(x, y)
 
-fun <T> newVariable(position: Position<T>) =
-  alignment(newVariable(position.x), newVariable(position.y))
+fun <T> liveVariable(position: Position<T>) =
+  alignment(liveVariable(position.x), liveVariable(position.y))
 
 fun <T> Position<T>.set(position: Position<T>) =
-  block(x.set(position.x), y.set(position.y))
+  parallel(x.set(position.x), y.set(position.y))

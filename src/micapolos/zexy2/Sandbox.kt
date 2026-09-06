@@ -9,7 +9,7 @@ fun main() {
   val fontImage = micaFontImage
   val chickenImages = DepressedChicken.images
 
-  val xVariable = newVariable(-200.0)
+  val xVariable = liveVariable(-200.0)
   val x = xVariable.loggedAs("x")
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
@@ -18,7 +18,7 @@ fun main() {
   show(
     xVariable.keepAdding(60.0),
     Camera.alignment.set(centerAlignment),
-    drawSprite
+    liveSprite
       .with(fontImage)
       .with(centerAlignment)
       .with(scale(zoom, zoom))
@@ -27,19 +27,19 @@ fun main() {
       val factor = 4.shr(index)
       val scale = 1.0 / factor
       val y = 80 / factor - 80.0
-      drawSprite
+      liveSprite
         .with(Quote.image)
         .with(centerBottomAlignment)
         .with(position(x, y))
         .with(scale(scale, scale))
         .with(parallax(scale))
     },
-    drawSprite
+    liveSprite
       .with(chickenImages[x.times(0.125).int.floorMod(8)].loggedAs("chicken"))
       .with(centerBottomAlignment)
       .with(position(x, 40.0))
       .with(parallax(1.5)),
-    drawLabel
+    liveLabel
       .with(string)
       .with(Color.GREEN)
       .with(centerTopAlignment)

@@ -2,14 +2,14 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
-import micapolos.zexy2.live.Run
+import micapolos.zexy2.live.Animation
 import kotlin.reflect.KClass
 
 val Boolean.live get() = live(Boolean::class)
 
-fun newVariable(b: Boolean): Live<Boolean> = newVariable(b.live)
+fun liveVariable(b: Boolean): Live<Boolean> = liveVariable(b.live)
 
-fun Live<Boolean>.set(d: Boolean): Live<Run> =
+fun Live<Boolean>.set(d: Boolean): Live<Animation> =
   set(d.live)
 
 operator fun Live<Boolean>.not(): Live<Boolean> =

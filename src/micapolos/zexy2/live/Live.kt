@@ -18,8 +18,8 @@ sealed class Live<out T> {
   data class Set<out T>(
     val lhs: Live<T>,
     val rhs: Live<T>
-  ) : Live<Run>() {
-    override val kClass: KClass<*> get() = Run::class
+  ) : Live<Animation>() {
+    override val kClass: KClass<*> get() = Animation::class
   }
 
   data class Application<out T>(
