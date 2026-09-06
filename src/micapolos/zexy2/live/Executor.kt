@@ -79,7 +79,7 @@ fun show(live: Live<*>, vararg lives: Live<*>) {
 }
 
 fun main() {
-  val condition = Live.Variable(Boolean::class, Live.Constant(Boolean::class, true))
+  val condition = Live.Variable(Live.Constant(Boolean::class, true))
   val trueConstant = Live.Constant(Integer::class, 10)
   val falseConstant = Live.Bottom
   val conditional =

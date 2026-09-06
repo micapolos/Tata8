@@ -22,7 +22,7 @@ val <T> Live<T>.readOnly
     Live.Application<T>(kClass, Primitive.READONLY, listOf(this))
 
 fun <T> liveVariable(initializer: Live<T>): Live<T> =
-  Live.Variable(Int::class, initializer)
+  Live.Variable(initializer)
 
 fun <T> Live<T>.set(live: Live<T>): Live<Unit> =
   Live.Set(variable, live)

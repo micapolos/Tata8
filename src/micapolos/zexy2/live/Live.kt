@@ -15,9 +15,10 @@ sealed class Live<out T> {
   ) : Live<T>()
 
   data class Variable<out T>(
-    override val kClass: KClass<*>,
     val initializer: Live<T>
-  ) : Live<T>()
+  ) : Live<T>() {
+    override val kClass: KClass<*> get() = initializer.kClass
+  }
 
   data class Set<out T>(
     val lhs: Live<T>,
@@ -40,11 +41,13 @@ sealed class Live<out T> {
   ) : Live<T>()
 }
 
+val <T> Live<T>.asApplication get() = this as Live.Application<T>
+
 val liveBottom: Live<Nothing> = Live.Bottom
 
-fun <T> liveConstant(kClass: KClass<*>, t: T): Live<T> = Live.Constant(kClass, t)
+fun <T: Any> liveConstant(t: T): Live<T> = Live.Constant(t::class, t)
 
-fun <T> liveVariable(kClass: KClass<*>, initializer: Live<T>): Live<T> = Live.Variable(kClass, initializer)
+fun <T> liveVariable(initializer: Live<T>): Live<T> = Live.Variable(initializer)
 
 fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Unit> = Live.Set(lhs, rhs)
 
@@ -56,8 +59,6 @@ fun <T> liveConditional(
   trueLive: Live<T>,
   falseLive: Live<T>
 ): Live<T> = Live.Conditional(kClass, condition, trueLive, falseLive)
-
-val <T> Live<T>.asApplication get() = this as Live.Application<T>
 
 fun <T> Live<T>.withArg(index: Int, live: Live<*>): Live<T> =
   asApplication.run {
