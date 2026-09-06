@@ -37,7 +37,6 @@ public final class Glyph {
     }
     int vLine = 0;
     int y = height;
-    height--;
     while (height != 0) {
       y--;
       vLine <<= 1;
@@ -78,7 +77,7 @@ public final class Glyph {
     Image image = Image.load(Glyph.class, "font.png");
     Glyph glyph = Glyph.read(image.bufferedImage, 6, 8);
     if (glyph != null) {
-      glyph.draw(Game.foreground.canvas.image, 10, 10, 8, 0xff559911);
+      glyph.draw(Game.foreground.canvas.image, 10, 10, 9, 0xff559911);
     }
     Game.start();
   }

@@ -120,10 +120,10 @@ public final class Game {
         foreground.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
         compositeCanvas.graphics.drawImage(foreground.canvas.image, null, null);
         {
-          int textY = 0;
+          int textY = 1;
           for (String string : logStrings) {
             compositeCanvas.draw(string, 1, textY, Color.YELLOW, Font.system, true);
-            textY += 8;
+            textY += Font.system.height;
           }
         }
         DuskFilter.applyDuskFilter(compositeCanvas.image, dusk);
