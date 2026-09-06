@@ -11,22 +11,19 @@ public final class Glyph {
     this.width = width;
   }
 
-  static Glyph read(BufferedImage image, int x, int parts) {
+  static Glyph read(BufferedImage image, int x, int height) {
     int[] vLines = new int[8];
-    int width = readVLinesWidth(vLines, image, x, parts, image.getHeight());
+    int width = readVLinesWidth(vLines, image, x, height);
     return width == 0 ? null : new Glyph(vLines, width);
   }
 
-  static int readVLinesWidth(int[] vLines, BufferedImage image, int x, int parts, int height) {
+  static int readVLinesWidth(int[] vLines, BufferedImage image, int x, int height) {
     int width = 0;
     while (true) {
       if (x == image.getWidth()) break;
       int line = readVLine(image, x, height);
-      if (line == 0) {
-        parts--;
-        if (parts == 0) break;
-      }
-      vLines[width] = line;
+      if (line == 0) break;
+      vLines[width] = line & 0x7fffffff;
       x++;
       width++;
       if (width == vLines.length) break;
@@ -35,8 +32,12 @@ public final class Glyph {
   }
 
   static int readVLine(BufferedImage image, int x, int height) {
+    if (image.getRGB(x, height) == 0) {
+      return 0;
+    }
     int vLine = 0;
     int y = height;
+    height--;
     while (height != 0) {
       y--;
       vLine <<= 1;
@@ -44,7 +45,7 @@ public final class Glyph {
       int color = image.getRGB(x, y);
       vLine |= color == 0 ? 0 : 1;
     }
-    return vLine;
+    return vLine | 0x80000000;
   }
 
   void draw(BufferedImage image, int x, int y, int height, int color) {
@@ -75,7 +76,7 @@ public final class Glyph {
 
   static void main() {
     Image image = Image.load(Glyph.class, "font.png");
-    Glyph glyph = Glyph.read(image.bufferedImage, 6, 1);
+    Glyph glyph = Glyph.read(image.bufferedImage, 6, 8);
     if (glyph != null) {
       glyph.draw(Game.foreground.canvas.image, 10, 10, 8, 0xff559911);
     }

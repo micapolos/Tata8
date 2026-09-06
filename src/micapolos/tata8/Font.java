@@ -42,10 +42,10 @@ public final class Font {
     int index = 0;
     int x = 0;
     int width = image.getWidth();
+    int height = image.getHeight() - 1;
     while (true) {
       if (x >= width) break;
-      int parts = index == 1 ? 2 : 1;  // special case for "
-      Glyph glyph = Glyph.read(image, x, parts);
+      Glyph glyph = Glyph.read(image, x, height);
       if (glyph == null) break;
       glyphs[index] = glyph;
       x += glyph.width;
@@ -53,7 +53,7 @@ public final class Font {
       index++;
       if (index == glyphs.length) break;
     }
-    return new Font(glyphs, image.getHeight());
+    return new Font(glyphs, height);
   }
 
   private int glyphIndex(char ch) {
