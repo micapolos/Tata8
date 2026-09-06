@@ -8,7 +8,7 @@ import micapolos.zexy2.live.withArg
 
 object Sprite: Drawing
 
-val sprite: Live<Sprite>
+val drawSprite: Live<Sprite>
   get() =
     Live.Application(
       Unit::class,

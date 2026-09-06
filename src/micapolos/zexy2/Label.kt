@@ -9,7 +9,7 @@ import micapolos.zexy2.live.withArg
 
 object Label: Drawing
 
-val label: Live<Label>
+val drawLabel: Live<Label>
   get() =
     Live.Application(
       Unit::class,

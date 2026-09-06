@@ -16,33 +16,33 @@ fun main() {
 
   val chickenImages = DepressedChicken.images
 
-  val animation = inParallel(
+  val animation = block(
     x.keepAdding(60.0),
 //    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
 //    Key.LEFT.isPressed.ifTrue(x.keepAdding(-60.0)).orElse(doNothing),
     Camera.alignment.set(centerAlignment),
-    sprite
+    drawSprite
       .with(fontImage)
       .with(centerAlignment)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)),
-    inParallel(3) { index ->
+    block(3) { index ->
       val factor = 4.shr(index)
       val scale = 1.0 / factor
       val y = 80 / factor - 80.0
-      sprite
+      drawSprite
         .with(Quote.image)
         .with(centerBottomAlignment)
         .with(position(x, y))
         .with(scale(scale, scale))
         .with(parallax(scale))
     },
-    sprite
+    drawSprite
       .with(chickenImages[x.times(0.125).int.floorMod(8)])
       .with(centerBottomAlignment)
       .with(position(x, 40.0))
       .with(parallax(1.5)),
-    label
+    drawLabel
       .with(string)
       .with(Color.GREEN)
       .with(centerTopAlignment)
