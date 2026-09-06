@@ -2,6 +2,7 @@ package micapolos.zexy2.live
 
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
+import micapolos.zexy2.block
 import java.util.*
 
 internal val Any?.leoString
@@ -44,4 +45,8 @@ fun Live<*>.show() {
     runner.step(seconds)
   }
   Game.start()
+}
+
+fun show(vararg lives: Live<Run>) {
+  block(*lives).show()
 }

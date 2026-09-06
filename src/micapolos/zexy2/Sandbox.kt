@@ -16,7 +16,7 @@ fun main() {
 
   val chickenImages = DepressedChicken.images
 
-  val block = block(
+  show(
     xVariable.keepAdding(60.0),
     Camera.alignment.set(centerAlignment),
     drawSprite
@@ -46,6 +46,4 @@ fun main() {
       .with(centerTopAlignment)
       .with(font)
       .with(position(Screen.center.position.x, 10.0)))
-
-  block.show()
 }
