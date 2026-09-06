@@ -11,6 +11,7 @@ fun main() {
   val y = x + 50.0
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
+  val font = Font.system
 
   val animation = inParallel(
     x.keepAdding(60.0),
@@ -23,7 +24,8 @@ fun main() {
     label
       .with(string)
       .with(Color.GREEN)
-      .with(position(Screen.center.position.x - Font.system.width(string) * 0.5, 10.0)))
+      .with(font)
+      .with(position(Screen.center.position.x - font.width(string) * 0.5, 10.0)))
 
   animation.start()
 }
