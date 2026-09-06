@@ -76,6 +76,30 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
+    Primitive.BOOLEAN_NOT -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = !(argStates[0].value as Boolean)
+        return seconds
+      }
+    }
+
+    Primitive.BOOLEAN_AND -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = argStates[0].value as Boolean and argStates[1].value as Boolean
+        return seconds
+      }
+    }
+
+    Primitive.BOOLEAN_OR -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = argStates[0].value as Boolean or argStates[1].value as Boolean
+        return seconds
+      }
+    }
+
     Primitive.INT_PLUS -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {

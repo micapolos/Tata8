@@ -1,11 +1,23 @@
 package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
+import micapolos.zexy2.live.Primitive
 import kotlin.reflect.KClass
 
 val Boolean.live get() = live(Boolean::class)
 
 fun newVariable(b: Boolean): Live<Boolean> = newVariable(b.live)
+
+operator fun Live<Boolean>.not(): Live<Boolean> =
+  Live.Application(Boolean::class, Primitive.BOOLEAN_NOT, listOf(this))
+
+infix fun Live<Boolean>.and(b: Boolean): Live<Boolean> = and(b.live)
+infix fun Live<Boolean>.and(b: Live<Boolean>): Live<Boolean> =
+  Live.Application(Boolean::class, Primitive.BOOLEAN_AND, listOf(this, b))
+
+infix fun Live<Boolean>.or(b: Boolean): Live<Boolean> = or(b.live)
+infix fun Live<Boolean>.or(b: Live<Boolean>): Live<Boolean> =
+  Live.Application(Boolean::class, Primitive.BOOLEAN_OR, listOf(this, b))
 
 fun Live<Boolean>.ifTrue(b: Boolean) = ifTrue(b.live)
 fun Live<Boolean>.ifTrue(i: Int) = ifTrue(i.live)

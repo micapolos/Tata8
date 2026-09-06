@@ -3,6 +3,9 @@ package micapolos.zexy2.live
 enum class Primitive {
   LOGGED,
   READONLY,
+  BOOLEAN_NOT,
+  BOOLEAN_AND,
+  BOOLEAN_OR,
   INT_PLUS,
   INT_MINUS,
   INT_TIMES,
