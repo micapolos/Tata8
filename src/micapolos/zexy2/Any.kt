@@ -2,6 +2,7 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
+import micapolos.zexy2.live.Run
 import kotlin.reflect.KClass
 
 fun <T> T.live(kClass: KClass<*>) = Live.Constant(kClass, this)
@@ -28,7 +29,7 @@ fun run(vararg lives: Live<Run>) =
   run(lives.toList())
 
 fun run(lives: List<Live<Run>>): Live<Run> =
-  Live.Application(Unit::class, Primitive.PARALLEL, lives)
+  Live.Application(Run::class, Primitive.PARALLEL, lives)
 
 fun repeat(count: Int, fn: (Int) -> Live<Run>) =
   run(List(count) { fn(it) })

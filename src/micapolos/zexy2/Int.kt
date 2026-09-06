@@ -2,6 +2,7 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
+import micapolos.zexy2.live.Run
 
 val Int.live get() = live(Int::class)
 
@@ -28,11 +29,11 @@ operator fun Live<Int>.times(i: Int): Live<Int> = times(i.live)
 operator fun Live<Int>.times(live: Live<Int>): Live<Int> =
   Live.Application(kClass, Primitive.INT_TIMES, listOf(this, live))
 
-fun Live<Int>.keepAdding(i: Int): Live<Unit> = keepAdding(i.live)
+fun Live<Int>.keepAdding(i: Int): Live<Run> = keepAdding(i.live)
 
 @JvmName("keepAddingInt")
-fun Live<Int>.keepAdding(live: Live<Int>): Live<Unit> =
-  Live.Application(Unit::class, Primitive.INT_KEEP_ADDING, listOf(variable, live))
+fun Live<Int>.keepAdding(live: Live<Int>): Live<Run> =
+  Live.Application(Run::class, Primitive.INT_KEEP_ADDING, listOf(variable, live))
 
 val Live<Int>.double: Live<Double> get() =
   Live.Application(Double::class, Primitive.INT_DOUBLE, listOf(this))
