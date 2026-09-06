@@ -1,6 +1,6 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Live
+import micapolos.zexy2.live.Live
 import kotlin.reflect.KClass
 
 val Boolean.live get() = live(Boolean::class)

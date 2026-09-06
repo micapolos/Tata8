@@ -1,7 +1,7 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Live
-import micapolos.zexy2.ast.Primitive
+import micapolos.zexy2.live.Live
+import micapolos.zexy2.live.Primitive
 
 val Double.live get() = live(Double::class)
 

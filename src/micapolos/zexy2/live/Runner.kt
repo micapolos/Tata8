@@ -1,4 +1,4 @@
-package micapolos.zexy2.ast
+package micapolos.zexy2.live
 
 interface Runner {
   fun init() {}

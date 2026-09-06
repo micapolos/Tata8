@@ -1,7 +1,7 @@
 package micapolos.zexy2
 
 import micapolos.tata8.Color
-import micapolos.zexy2.ast.start
+import micapolos.zexy2.live.start
 
 fun main() {
   val image = micaFontImage

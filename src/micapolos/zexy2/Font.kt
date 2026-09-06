@@ -2,8 +2,8 @@ package micapolos.zexy2
 
 import micapolos.tata8.Font
 import micapolos.tata8.Game
-import micapolos.zexy2.ast.Live
-import micapolos.zexy2.ast.Primitive
+import micapolos.zexy2.live.Live
+import micapolos.zexy2.live.Primitive
 import kotlin.reflect.KClass
 
 val Font.live: Live<Font> get() = live(Font::class)

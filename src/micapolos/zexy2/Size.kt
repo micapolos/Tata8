@@ -1,6 +1,6 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Live
+import micapolos.zexy2.live.Live
 
 class Size<T>(val width: Live<T>, val height: Live<T>)
 

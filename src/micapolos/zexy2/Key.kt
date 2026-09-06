@@ -1,8 +1,8 @@
 package micapolos.zexy2
 
 import micapolos.tata8.Game
-import micapolos.zexy2.ast.Live
-import micapolos.zexy2.ast.Primitive
+import micapolos.zexy2.live.Live
+import micapolos.zexy2.live.Primitive
 
 enum class Key(internal val tata8: micapolos.tata8.Key) {
   LEFT(Game.keys.left),

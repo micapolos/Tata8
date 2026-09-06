@@ -1,4 +1,4 @@
-package micapolos.zexy2.ast
+package micapolos.zexy2.live
 
 enum class Primitive {
   LOGGED,

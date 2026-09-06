@@ -3,9 +3,9 @@ package micapolos.zexy2
 import micapolos.tata8.Composite
 import micapolos.tata8.Image
 import micapolos.tata8.Sprite
-import micapolos.zexy2.ast.Live
-import micapolos.zexy2.ast.Primitive
-import micapolos.zexy2.ast.withArg
+import micapolos.zexy2.live.Live
+import micapolos.zexy2.live.Primitive
+import micapolos.zexy2.live.withArg
 
 val sprite: Live<Animation<Sprite>>
   get() =

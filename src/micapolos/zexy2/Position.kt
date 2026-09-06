@@ -1,6 +1,6 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Live
+import micapolos.zexy2.live.Live
 
 class Position<T>(val x: Live<T>, val y: Live<T>)
 
