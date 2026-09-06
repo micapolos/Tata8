@@ -12,3 +12,6 @@ fun <T> alignment(x: Live<T>, y: Live<T>) = Alignment(x, y)
 val leftTopAlignment = alignment(0.0, 0.0)
 val centerAlignment = alignment(0.5, 0.5)
 val centerTopAlignment = alignment(0.5, 0.0)
+
+fun <T> newVariable(alignment: Alignment<T>) =
+  alignment(newVariable(alignment.x), newVariable(alignment.y))

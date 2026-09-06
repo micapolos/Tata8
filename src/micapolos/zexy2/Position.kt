@@ -8,3 +8,6 @@ fun position(x: Double, y: Double) = Position(x.live, y.live)
 fun <T> position(x: Live<T>, y: T) = Position(x, y.live(x.kClass))
 fun <T> position(x: T, y: Live<T>) = Position(x.live(y.kClass), y)
 fun <T> position(x: Live<T>, y: Live<T>) = Position(x, y)
+
+fun <T> newVariable(position: Position<T>) =
+  alignment(newVariable(position.x), newVariable(position.y))

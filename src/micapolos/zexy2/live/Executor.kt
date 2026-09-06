@@ -30,12 +30,14 @@ internal class Executor {
       }
     }
 
+  val runner get() = parallel(runners)
 }
 
-val Live<*>.runner get() = Executor().apply { state(this@runner) }.let { parallel(it.runners) }
-
 fun Live<Animation<*>>.start() {
-  val runner = runner
+  val executor = Executor()
+  executor.state(this)
+  val runner = executor.runner
+
   Game.screen.shader = Shader.CRT_PHOSPHOR
   runner.init()
   Game.onStep = { seconds ->
