@@ -23,8 +23,9 @@ fun main() {
     label
       .with(string)
       .with(Color.GREEN)
+      .with(alignment(0.5, 0.0))
       .with(font)
-      .with(position(Screen.center.position.x - font.width(string) * 0.5, 10.0)))
+      .with(position(Screen.center.position.x, 10.0)))
 
   animation.start()
 }

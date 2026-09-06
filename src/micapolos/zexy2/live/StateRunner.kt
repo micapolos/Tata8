@@ -2,6 +2,7 @@ package micapolos.zexy2.live
 
 import micapolos.Leo.leo
 import micapolos.tata8.*
+import micapolos.tata8.Math.lerp
 import micapolos.zexy2.Key
 import kotlin.reflect.KClass
 
@@ -180,12 +181,16 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     Primitive.LABEL -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        Game.background.canvas.draw(
-          argStates[0].value as String,
-          (argStates[1].value as Double).toInt(),
-          (argStates[2].value as Double).toInt(),
-          argStates[3].value as Color,
-          (argStates[4].value as Font?) ?: Game.font)
+        val string = argStates[0].value as String
+        val alignmentX = (argStates[1].value as Double).toFloat()
+        val alignmentY = (argStates[2].value as Double).toFloat()
+        val positionX = (argStates[3].value as Double).toFloat()
+        val positionY = (argStates[4].value as Double).toFloat()
+        val color = argStates[5].value as Color
+        val font = argStates[6].value as Font? ?: Game.font
+        val drawX = positionX - lerp(0f, font.width(string).toFloat(), alignmentX)
+        val drawY = positionY - lerp(0f, font.height.toFloat(), alignmentY)
+        Game.background.canvas.draw(string, drawX.toInt(), drawY.toInt(), color, font)
         return seconds
       }
     }

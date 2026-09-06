@@ -62,5 +62,9 @@ public final class Math {
     return java.lang.Math.max(a, b);
   }
 
+  public static float lerp(float x0, float x1, float t) {
+    return x0 + (x1 - x0) * t;
+  }
+
   private Math() {}
 }

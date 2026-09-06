@@ -27,17 +27,40 @@ public final class Font {
 
   public int width(String string) {
     int width = 0;
+    int lineWidth = 0;
+    boolean needsGlyphSpacing = false;
     for (int i = 0; i < string.length(); i++) {
       char ch = string.charAt(i);
+      if (ch == 10) {
+        width = java.lang.Math.max(width, lineWidth);
+        lineWidth = 0;
+        needsGlyphSpacing = false;
+      }
       Glyph glyph = glyph(ch);
-      if (i != 0) width += glyphSpacing;
-      if (glyph == null) {
-        width += spaceWidth;
+      if (needsGlyphSpacing) {
+        lineWidth += glyphSpacing;
       } else {
-        width += glyph.width;
+        needsGlyphSpacing = true;
+      }
+
+      if (glyph == null) {
+        lineWidth += spaceWidth;
+      } else {
+        lineWidth += glyph.width;
       }
     }
-    return width;
+    return java.lang.Math.max(width, lineWidth);
+  }
+
+  public int height(String string) {
+    int height = this.height;
+    for (int i = 0; i < string.length(); i++) {
+      char ch = string.charAt(i);
+      if (ch == 10) {
+        height += 1 + this.height;
+      }
+    }
+    return height;
   }
 
   public static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing, int lineSpacing) {
