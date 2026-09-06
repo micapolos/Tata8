@@ -6,7 +6,7 @@ import micapolos.tata8.Sprite
 
 import micapolos.zexy2.ast.Expression
 
-fun animateSprite() =
+val animateSprite get() =
   Expression.Application<Animation<Sprite>>(
     Animation::class,
     "sprite",
