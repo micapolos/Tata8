@@ -30,7 +30,7 @@ fun <T> Expression.Variable<T>.runner(state: State, expressionState: ExpressionS
 }
 
 
-fun <T> Expression.Set<T>.runner(state: State, expressionState: ExpressionState): Runner {
+fun <T> Expression.Set<T>.runner(expressionState: ExpressionState): Runner {
   val lhsState = expressionState(lhs)
   val rhsState = expressionState(rhs)
   return object : Runner {

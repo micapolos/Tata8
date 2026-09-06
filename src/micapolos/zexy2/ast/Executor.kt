@@ -28,7 +28,7 @@ internal class Executor {
       runners += when (expression) {
         is Expression.Constant<*> -> expression.runner(state)
         is Expression.Variable<*> -> expression.runner(state, ::state)
-        is Expression.Set<*> -> expression.runner(state, ::state)
+        is Expression.Set<*> -> expression.runner(::state)
         is Expression.Conditional<*> -> expression.runner(state, ::state)
         is Expression.Application<*> -> expression.runner(state, ::state)
       }
