@@ -5,6 +5,7 @@ import micapolos.tata8.Image
 import micapolos.tata8.Sprite
 
 import micapolos.zexy2.ast.Live
+import micapolos.zexy2.ast.Primitive
 import micapolos.zexy2.ast.asApplication
 
 typealias LiveSprite = Live<Animation<Sprite>>
@@ -13,7 +14,7 @@ val sprite: LiveSprite
   get() =
     Live.Application(
       Animation::class,
-      "sprite",
+      Primitive.SPRITE,
       listOf(
         constant(Image::class, null),
         constant(0.0), constant(0.0),
@@ -31,7 +32,7 @@ fun Live<Animation<Sprite>>.with(image: Image): LiveSprite =
 fun Live<Animation<Sprite>>.with(image: Live<Image>): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(image, args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10])
   )
 }
@@ -46,7 +47,7 @@ fun Live<Animation<Sprite>>.withAnchor(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(anchor: Anchor<Double>): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(args[0], anchor.x, anchor.y, args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10])
   )
 }
@@ -61,7 +62,7 @@ fun Live<Animation<Sprite>>.withPosition(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(position: Position<Double>): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(args[0], args[1], args[2], position.x, position.y, args[5], args[6], args[7], args[8], args[9], args[10])
   )
 }
@@ -76,7 +77,7 @@ fun Live<Animation<Sprite>>.withFlip(x: Live<Boolean>, y: Live<Boolean>) =
 fun Live<Animation<Sprite>>.with(flip: Flip<Boolean>): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(args[0], args[1], args[2], args[3], args[4], flip.x, flip.y, args[7], args[8], args[9], args[10])
   )
 }
@@ -91,7 +92,7 @@ fun Live<Animation<Sprite>>.withScale(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(scale: Scale<Double>): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], scale.x, scale.y, args[9], args[10])
   )
 }
@@ -103,7 +104,7 @@ fun Live<Animation<Sprite>>.withComposite(composite: Live<Composite>): LiveSprit
   asApplication.run {
     Live.Application(
       kClass,
-      name,
+      primitive,
       listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], composite, args[9], args[10])
     )
   }
@@ -115,7 +116,7 @@ fun Live<Animation<Sprite>>.withParallax(parallax: Live<Double>): LiveSprite =
   asApplication.run {
     Live.Application(
       kClass,
-      name,
+      primitive,
       listOf(
         args[0],
         args[1],
@@ -143,7 +144,7 @@ fun Live<Animation<Sprite>>.withAngle(degrees: Live<Double>) =
 fun Live<Animation<Sprite>>.with(angle: Angle): LiveSprite = asApplication.run {
   Live.Application(
     kClass,
-    name,
+    primitive,
     listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], angle.degrees)
   )
 }

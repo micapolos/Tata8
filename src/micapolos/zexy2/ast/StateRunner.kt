@@ -48,8 +48,8 @@ fun <T> Live.Conditional<T>.runner(state: State, liveState: LiveState) =
   }
 
 fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
-  return when (name) {
-    "logged" -> object : Runner {
+  return when (primitive) {
+    Primitive.LOGGED -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         when (argStates.size) {
@@ -67,7 +67,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "readOnly" -> object : Runner {
+    Primitive.READONLY -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value
@@ -75,7 +75,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Int.plus" -> object : Runner {
+    Primitive.INT_PLUS -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int + argStates[1].value as Int
@@ -83,7 +83,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Double.plus" -> object : Runner {
+    Primitive.DOUBLE_PLUS -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double + argStates[1].value as Double
@@ -91,7 +91,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Int.minus" -> object : Runner {
+    Primitive.INT_MINUS -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int - argStates[1].value as Int
@@ -99,7 +99,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Double.minus" -> object : Runner {
+    Primitive.DOUBLE_MINUS -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double - argStates[1].value as Double
@@ -107,7 +107,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Int.times" -> object : Runner {
+    Primitive.INT_TIMES -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int * argStates[1].value as Int
@@ -115,7 +115,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Double.times" -> object : Runner {
+    Primitive.DOUBLE_TIMES -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double * argStates[1].value as Double
@@ -123,20 +123,14 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "parallel" -> object : Runner {
+    Primitive.PARALLEL -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         return seconds
       }
     }
 
-//    "sequence" -> object : Runner {
-//      override fun step(seconds: Float): Float {
-//        return seconds
-//      }
-//    }
-
-    "Int.keepAdding" -> object : Runner {
+    Primitive.INT_KEEP_ADDING -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Int + argStates[1].value as Int
@@ -144,7 +138,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Double.keepAdding" -> object : Runner {
+    Primitive.DOUBLE_KEEP_ADDING -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Double + argStates[1].value as Double * seconds
@@ -152,7 +146,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "loadImage" -> object : Runner {
+    Primitive.LOAD_IMAGE -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = Game.loadImage(
@@ -163,7 +157,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "sprite" -> object : Runner {
+    Primitive.SPRITE -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         Game.background.canvas.draw(
@@ -183,7 +177,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "label" -> object : Runner {
+    Primitive.LABEL -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         Game.background.canvas.draw(
@@ -196,7 +190,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Key.isPressed" -> object : Runner {
+    Primitive.KEY_IS_PRESSED -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.isPressed
@@ -204,7 +198,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Key.pressed" -> object : Runner {
+    Primitive.KEY_PRESSED -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.pressed()
@@ -212,7 +206,7 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Key.released" -> object : Runner {
+    Primitive.KEY_RELEASED -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.released()
@@ -220,34 +214,32 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       }
     }
 
-    "Mouse.position.x" -> object : Runner {
+    Primitive.MOUSE_POSITION_X -> object : Runner {
       override fun step(seconds: Float): Float {
         state.value = Game.mouse.position.x.toDouble()
         return seconds
       }
     }
 
-    "Mouse.position.y" -> object : Runner {
+    Primitive.MOUSE_POSITION_Y -> object : Runner {
       override fun step(seconds: Float): Float {
         state.value = Game.mouse.position.y.toDouble()
         return seconds
       }
     }
 
-    "Mouse.button.isPressed" -> object : Runner {
+    Primitive.MOUSE_BUTTON_IS_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
         state.value = Game.mouse.button.isPressed()
         return seconds
       }
     }
 
-    "Mouse.button.pressed" -> object : Runner {
+    Primitive.MOUSE_BUTTON_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
         state.value = Game.mouse.button.didPress()
         return seconds
       }
     }
-
-    else -> error("Unsupported function: ${name}")
   }
 }

@@ -1,6 +1,7 @@
 package micapolos.zexy2
 
 import micapolos.zexy2.ast.Live
+import micapolos.zexy2.ast.Primitive
 import kotlin.reflect.KClass
 
 internal var nextId = 0
@@ -9,13 +10,13 @@ val <T> Live<T>.variable: Live.Variable<T> get() =
   this as? Live.Variable<T> ?: error("Not a variable")
 
 val <T> Live<T>.logged get() =
-  Live.Application<T>(kClass, "logged", listOf(this))
+  Live.Application<T>(kClass, Primitive.LOGGED, listOf(this))
 
 fun <T> Live<T>.loggedAs(name: String) =
-  Live.Application<T>(kClass, "logged", listOf(constant(String::class, name), this))
+  Live.Application<T>(kClass, Primitive.LOGGED, listOf(constant(String::class, name), this))
 
 val <T> Live<T>.readOnly get() =
-  Live.Application<T>(kClass, "readOnly", listOf(this))
+  Live.Application<T>(kClass, Primitive.READONLY, listOf(this))
 
 fun <T> constant(kClass: KClass<*>, value: T): Live<T> =
   Live.Constant(kClass, value)

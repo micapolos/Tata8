@@ -2,6 +2,7 @@ package micapolos.zexy2
 
 import micapolos.tata8.Game
 import micapolos.zexy2.ast.Live
+import micapolos.zexy2.ast.Primitive
 
 enum class Key(internal val tata8: micapolos.tata8.Key) {
   LEFT(Game.keys.left),
@@ -14,18 +15,18 @@ enum class Key(internal val tata8: micapolos.tata8.Key) {
   val isPressed: Live<Boolean> =
     Live.Application(
       Boolean::class,
-      "Key.isPressed",
+      Primitive.KEY_IS_PRESSED,
       listOf(constant(micapolos.zexy2.Key::class, this)))
 
   val pressed: Live<Boolean> =
     Live.Application(
       Boolean::class,
-      "Key.pressed",
+      Primitive.KEY_PRESSED,
       listOf(constant(micapolos.zexy2.Key::class, this)))
 
   val released: Live<Boolean> =
     Live.Application(
       Boolean::class,
-      "Key.released",
+      Primitive.KEY_RELEASED,
       listOf(constant(micapolos.zexy2.Key::class, this)))
 }

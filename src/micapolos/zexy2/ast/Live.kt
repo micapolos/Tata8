@@ -25,7 +25,7 @@ sealed class Live<out T> {
 
   data class Application<T>(
     override val kClass: KClass<*>,
-    val name: String,
+    val primitive: Primitive,
     val args: List<Live<*>>
   ) : Live<T>()
 
