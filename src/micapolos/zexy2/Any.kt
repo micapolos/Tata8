@@ -25,11 +25,11 @@ fun <T> newVariable(initializer: Live<T>): Live<T> =
 fun <T> Live<T>.set(live: Live<T>): Live<Run> =
   Live.Set(variable, live)
 
-fun run(vararg lives: Live<Run>) =
-  run(lives.toList())
+fun block(vararg lives: Live<Run>) =
+  block(lives.toList())
 
-fun run(lives: List<Live<Run>>): Live<Run> =
+fun block(lives: List<Live<Run>>): Live<Run> =
   Live.Application(Run::class, Primitive.PARALLEL, lives)
 
 fun repeat(count: Int, fn: (Int) -> Live<Run>) =
-  run(List(count) { fn(it) })
+  block(List(count) { fn(it) })
