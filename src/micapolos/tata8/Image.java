@@ -12,15 +12,20 @@ public final class Image {
 
   final BufferedImage bufferedImage;
   public final FinalSize size;
+  public final String nameOrNull;
 
   Image(BufferedImage bufferedImage) {
-    this.bufferedImage = bufferedImage;
-    this.size = new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight());
+    this(bufferedImage, null);
   }
 
-  Image(BufferedImage bufferedImage, FinalSize size) {
+  Image(BufferedImage bufferedImage, String nameOrNull) {
+    this(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()), nameOrNull);
+  }
+
+  Image(BufferedImage bufferedImage, FinalSize size, String nameOrNull) {
     this.bufferedImage = bufferedImage;
     this.size = size;
+    this.nameOrNull = nameOrNull;
   }
 
   public Canvas newCanvas() {
@@ -32,7 +37,7 @@ public final class Image {
   }
 
   static Image with(BufferedImage bufferedImage) {
-    return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
+    return new Image(bufferedImage);
   }
 
   public Image crop(int x, int y, int width, int height) {
@@ -55,8 +60,8 @@ public final class Image {
     int x = 0;
     while (columnCount != 0) {
       images[index] = new Image(
-          bufferedImage.getSubimage(x, 0, sliceWidth, size.height),
-          new FinalSize(sliceWidth, size.height));
+        bufferedImage.getSubimage(x, 0, sliceWidth, size.height),
+        nameOrNull != null ? nameOrNull + ":" + index : null);
       x += sliceWidth;
       index++;
       columnCount--;
@@ -71,8 +76,8 @@ public final class Image {
     int y = 0;
     while (rowCount != 0) {
       images[index] = new Image(
-          bufferedImage.getSubimage(0, y, size.width, sliceHeight),
-          new FinalSize(size.width, sliceHeight));
+        bufferedImage.getSubimage(0, y, size.width, sliceHeight),
+        nameOrNull != null ? nameOrNull + ":" + index : null);
       y += sliceHeight;
       index++;
       rowCount--;
@@ -86,7 +91,7 @@ public final class Image {
 
   static Image load(Class<?> baseClass, String fileName) {
     BufferedImage bufferedImage = loadBufferedImage(baseClass, fileName);
-    return new Image(bufferedImage, new FinalSize(bufferedImage.getWidth(), bufferedImage.getHeight()));
+    return new Image(bufferedImage, fileName);
   }
 
   static BufferedImage loadBufferedImage(Class<?> baseClass, String fileName) {
@@ -99,7 +104,7 @@ public final class Image {
 
   @Override
   public String toString() {
-    return leo("image", size);
+    return nameOrNull != null ? leo("image", leo("name", nameOrNull), size) : leo("image", size);
   }
 
   static void main() {
