@@ -29,16 +29,18 @@ internal class Executor {
         is Expression.Application<*> -> expression.runner(state, ::state)
       }
     }
+
 }
 
+val Expression<*>.runner get() = Executor().apply { state(this@runner) }.let { parallel(it.runners) }
+
 fun Expression<Animation<*>>.start() {
-  var executor = Executor()
-  executor.state(this)
+  val runner = runner
   Game.screen.shader = Shader.CRT_PHOSPHOR
-  executor.runners.forEach { it.init() }
+  runner.init()
   Game.onStep = { seconds ->
     Game.background.canvas.clear()
-    executor.runners.forEach { it.step(seconds) }
+    runner.step(seconds)
   }
   Game.start()
 }
