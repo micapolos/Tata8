@@ -25,7 +25,7 @@ operator fun Expression<Double>.minus(d: Double): Expression<Double> = minus(con
 operator fun Expression<Double>.minus(expression: Expression<Double>): Expression<Double> =
   Expression.Application(kClass, "Double.minus", listOf(this, expression))
 
-operator fun Expression<Double>.times(d: Double): Expression<Double> = minus(constant(d))
+operator fun Expression<Double>.times(d: Double): Expression<Double> = times(constant(d))
 
 @JvmName("timesDouble")
 operator fun Expression<Double>.times(expression: Expression<Double>): Expression<Double> =

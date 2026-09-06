@@ -2,9 +2,11 @@ package micapolos.zexy2
 
 import micapolos.zexy2.ast.Expression
 
-class Size<T>(val x: Expression<T>, val y: Expression<T>)
+class Size<T>(val width: Expression<T>, val height: Expression<T>)
 
-fun size(x: Double, y: Double) = Size(constant(x), constant(y))
-fun <T> size(x: Expression<T>, y: Double) = Size(x, constant(y))
-fun <T> size(x: Double, y: Expression<T>) = Size(constant(x), y)
-fun <T> size(x: Expression<T>, y: Expression<T>) = Size(x, y)
+fun size(width: Double, height: Double) = Size(constant(width), constant(height))
+fun <T> size(width: Expression<T>, height: Double) = Size(width, constant(height))
+fun <T> size(width: Double, height: Expression<T>) = Size(constant(width), height)
+fun <T> size(width: Expression<T>, height: Expression<T>) = Size(width, height)
+
+val Size<Double>.center get() = Center(position(width * 0.5, height * 0.5))

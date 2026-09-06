@@ -7,5 +7,5 @@ import kotlin.reflect.KClass
 fun loadImage(baseClass: KClass<*>, name: String): Image =
   Game.loadImage(baseClass.java, name)
 
-val Image.center: Center<Double> get() =
-  Center(position(size.width.toDouble() * 0.5, size.height.toDouble() * 0.5))
+val Image.center get() =
+  Center<Double>(position(size.width.toDouble() * 0.5, size.height.toDouble() * 0.5))

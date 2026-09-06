@@ -1,6 +1,5 @@
 package micapolos.zexy2
 
-import micapolos.tata8.Image
 import micapolos.zexy2.ast.Expression
 
 class Anchor<T>(val x: Expression<T>, val y: Expression<T>)

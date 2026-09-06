@@ -8,16 +8,16 @@ fun main() {
 
   val x = variable(10.0)
   val y = (x + 50.0)
-  val scale = Mouse.isPressed.ifTrue(2.0).orElse(1.0).logged
+  val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).logged
 
   val animation = inParallel(
     x.keepAdding(60.0),
     animateSprite()
       .with(image)
       .with(image.center.position.anchor)
-      .with(position(Screen.size.x - x - 100.0, Mouse.position.y))
-      .with(scale(scale, scale))
-      .with(angle(x)))
+      .with(position(Screen.size.center.position.x, Mouse.position.y))
+      .with(scale(zoom, zoom))
+      .with(angle(x * 5.0)))
 
   animation.start()
 }
