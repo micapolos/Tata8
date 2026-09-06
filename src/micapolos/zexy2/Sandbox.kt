@@ -11,7 +11,7 @@ fun main() {
   val b = constant(false).ifTrue(constant(123)).orElse(constant(123))
   val scale = Mouse.isPressed.ifTrue(2.0).orElse(1.0).logged
 
-  val animation = animation(
+  val animation = parallel(
     x.keepAdding(60.0),
     sprite()
       .with(image)
