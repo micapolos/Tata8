@@ -18,5 +18,5 @@ val Live<Image>.size get() =
 
 val Live<Image>.center get() = size.center
 
-val micaFontImage = constant(Image::class, Image.micaFont)
-val koraFontImage = constant(Image::class, Image.koraFont)
+val micaFontImage = Image.micaFont.live
+val koraFontImage = Image.koraFont.live

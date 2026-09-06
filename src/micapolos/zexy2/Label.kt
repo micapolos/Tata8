@@ -15,16 +15,16 @@ val label: Live<Animation<Label>>
       Animation::class,
       Primitive.LABEL,
       listOf(
-        constant(String::class, ""),
-        constant(0.0),
-        constant(0.0),
-        constant(Color::class, Color.WHITE),
-        constant(Font::class, Game.font)
+        "".live(String::class),
+        0.0.live,
+        0.0.live,
+        Color.WHITE.live(Color::class),
+        Game.font.live
       )
     )
 
 fun Live<Animation<Label>>.with(string: String) =
-  with(constant(String::class, string))
+  with(string.live(String::class))
 
 @JvmName("withString")
 fun Live<Animation<Label>>.with(string: Live<String>) = withArg(0, string)
@@ -32,13 +32,12 @@ fun Live<Animation<Label>>.with(string: Live<String>) = withArg(0, string)
 fun Live<Animation<Label>>.with(position: Position<Double>) = withArg(1, position.x).withArg(2, position.y)
 
 fun Live<Animation<Label>>.with(color: Color) =
-  with(constant(Color::class, color))
+  with(color.live(Color::class))
 
 @JvmName("withColor")
 fun Live<Animation<Label>>.with(color: Live<Color>) = withArg(3, color)
 
-fun Live<Animation<Label>>.with(font: Font) =
-  with(constant(Font::class, font))
+fun Live<Animation<Label>>.with(font: Font) = with(font.live)
 
 @JvmName("withFont")
 fun Live<Animation<Label>>.with(font: Live<Font>) = withArg(4, font)

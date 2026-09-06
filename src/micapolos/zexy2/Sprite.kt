@@ -13,23 +13,22 @@ val sprite: Live<Animation<Sprite>>
       Animation::class,
       Primitive.SPRITE,
       listOf(
-        constant(Image::class, null),
-        constant(0.0), constant(0.0),
-        constant(0.0), constant(0.0),
-        constant(false), constant(false),
-        constant(1.0), constant(1.0),
-        constant(Composite::class, Composite.NORMAL),
-        constant(0.0)
+        null.live(Image::class),
+        0.0.live, 0.0.live,
+        0.0.live, 0.0.live,
+        false.live, false.live,
+        1.0.live, 1.0.live,
+        Composite.NORMAL.live(Composite::class),
+        0.0.live
       )
     )
 
-fun Live<Animation<Sprite>>.with(image: Image) =
-  with(constant(Image::class, image))
+fun Live<Animation<Sprite>>.with(image: Image) = with(image.live)
 
 fun Live<Animation<Sprite>>.with(image: Live<Image>) = withArg(0, image)
 
 fun Live<Animation<Sprite>>.withAnchor(x: Double, y: Double) =
-  withAnchor(constant(x), constant(y))
+  withAnchor(x.live, y.live)
 
 fun Live<Animation<Sprite>>.withAnchor(x: Live<Double>, y: Live<Double>) =
   with(anchor(x, y))
@@ -38,7 +37,7 @@ fun Live<Animation<Sprite>>.withAnchor(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(anchor: Anchor<Double>) = withArg(1, anchor.x).withArg(2, anchor.y)
 
 fun Live<Animation<Sprite>>.withPosition(x: Double, y: Double) =
-  withPosition(constant(x), constant(y))
+  withPosition(x.live, y.live)
 
 fun Live<Animation<Sprite>>.withPosition(x: Live<Double>, y: Live<Double>) =
   with(position(x, y))
@@ -47,7 +46,7 @@ fun Live<Animation<Sprite>>.withPosition(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(position: Position<Double>) = withArg(3, position.x).withArg(4, position.y)
 
 fun Live<Animation<Sprite>>.withFlip(x: Boolean, y: Boolean) =
-  withFlip(constant(x), constant(y))
+  withFlip(x.live, y.live)
 
 fun Live<Animation<Sprite>>.withFlip(x: Live<Boolean>, y: Live<Boolean>) =
   with(flip(x, y))
@@ -56,7 +55,7 @@ fun Live<Animation<Sprite>>.withFlip(x: Live<Boolean>, y: Live<Boolean>) =
 fun Live<Animation<Sprite>>.with(flip: Flip<Boolean>) = withArg(5, flip.x).withArg(6, flip.y)
 
 fun Live<Animation<Sprite>>.withScale(x: Double, y: Double) =
-  withScale(constant(x), constant(y))
+  withScale(x.live, y.live)
 
 fun Live<Animation<Sprite>>.withScale(x: Live<Double>, y: Live<Double>) =
   with(scale(x, y))
@@ -65,7 +64,7 @@ fun Live<Animation<Sprite>>.withScale(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(scale: Scale<Double>) = withArg(7, scale.x).withArg(8, scale.y)
 
 fun Live<Animation<Sprite>>.withComposite(composite: Composite) =
-  withComposite(constant(Composite::class, composite))
+  withComposite(composite.live(Composite::class))
 
 fun Live<Animation<Sprite>>.withComposite(composite: Live<Composite>) = withArg(9, composite)
 

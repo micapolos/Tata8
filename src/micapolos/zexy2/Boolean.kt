@@ -5,22 +5,19 @@ import kotlin.reflect.KClass
 
 val Boolean.live get() = live(Boolean::class)
 
-fun Live<Boolean>.ifTrue(b: Boolean) = ifTrue(constant(b))
-fun Live<Boolean>.ifTrue(i: Int) = ifTrue(constant(i))
-fun Live<Boolean>.ifTrue(d: Double) = ifTrue(constant(d))
-fun <T> Live<Boolean>.ifTrue(kClass: KClass<*>, t: T) = ifTrue(constant(kClass, t))
+fun newVariable(b: Boolean): Live<Boolean> = newVariable(b.live)
+
+fun Live<Boolean>.ifTrue(b: Boolean) = ifTrue(b.live)
+fun Live<Boolean>.ifTrue(i: Int) = ifTrue(i.live)
+fun Live<Boolean>.ifTrue(d: Double) = ifTrue(d.live)
+fun <T> Live<Boolean>.ifTrue(kClass: KClass<*>, t: T) = ifTrue(t.live(kClass))
 fun <T> Live<Boolean>.ifTrue(trueLive: Live<T>) = IfTrue(this, trueLive)
 data class IfTrue<T>(val condition: Live<Boolean>, val trueLive: Live<T>)
 
-fun IfTrue<Boolean>.orElse(b: Boolean) = orElse(constant(b))
-fun IfTrue<Int>.orElse(i: Int) = orElse(constant(i))
-fun IfTrue<Double>.orElse(d: Double) = orElse(constant(d))
-fun <T> IfTrue<T>.orElse(t: T) = orElse(constant(trueLive.kClass, t))
+fun IfTrue<Boolean>.orElse(b: Boolean) = orElse(b.live)
+fun IfTrue<Int>.orElse(i: Int) = orElse(i.live)
+fun IfTrue<Double>.orElse(d: Double) = orElse(d.live)
+fun <T> IfTrue<T>.orElse(t: T) = orElse(t.live(trueLive.kClass))
 fun <T> IfTrue<T>.orElse(falseLive: Live<T>) =
   Live.Conditional(trueLive.kClass, condition, trueLive, falseLive)
-
-fun constant(b: Boolean): Live<Boolean> =
-  Live.Constant(Boolean::class, b)
-
-fun variable(b: Boolean): Live<Boolean> = variable(constant(b))
 
