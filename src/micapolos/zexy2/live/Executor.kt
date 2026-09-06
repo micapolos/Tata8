@@ -3,7 +3,6 @@ package micapolos.zexy2.live
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
 import micapolos.zexy2.parallel
-import micapolos.zexy2.variable
 import java.util.*
 
 internal val Any?.leoString
