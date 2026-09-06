@@ -45,7 +45,8 @@ fun main() {
     sprite
       .with(chickenImages[x.times(0.125).int.floorMod(8)])
       .with(centerBottomAlignment)
-      .with(position(0.0, 40.0)),
+      .with(position(x, 40.0))
+      .with(parallax(1.5)),
     label
       .with(string)
       .with(Color.GREEN)
