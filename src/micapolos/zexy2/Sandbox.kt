@@ -9,15 +9,17 @@ fun main() {
   val fontImage = micaFontImage
   val chickenImages = DepressedChicken.images
 
-  val xVariable = liveVariable(-200.0)
+  val xVariable = liveVariable(-100.0)
   val x = xVariable.loggedAs("x")
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
   val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont).logged
 
   show(
-    xVariable.keepAdding(60.0),
+    //xVariable.keepAdding(60.0),
     Camera.alignment.set(centerAlignment),
+    Key.RIGHT.isPressed.ifTrue(xVariable.keepAdding(60.0)).orElse(doNothing),
+    Key.LEFT.isPressed.ifTrue(xVariable.keepAdding(-60.0)).orElse(doNothing),
     liveSprite
       .with(fontImage)
       .with(centerAlignment)

@@ -13,7 +13,7 @@ fun Live<Double>.set(d: Double): Live<Animation> = set(d.live)
 fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 
 @JvmName("keepAddingDouble")
-fun Live<Double>.keepAdding(live: Live<Double>): Live<Animation> =
+fun Live<Double>.keepAdding(live: Live<Double>): Live<Unit> =
   Live.Application(Animation::class, Primitive.DOUBLE_KEEP_ADDING, listOf(variable, live))
 
 operator fun Live<Double>.plus(d: Double): Live<Double> = plus(d.live)

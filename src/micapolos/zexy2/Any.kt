@@ -28,13 +28,13 @@ fun <T> liveVariable(initializer: Live<T>): Live<T> =
 fun <T> Live<T>.set(live: Live<T>): Live<Animation> =
   Live.Set(variable, live)
 
-object Parallel : Animation
-
-fun parallel(live: Live<Animation>, vararg lives: Live<Animation>) =
+fun parallel(live: Live<*>, vararg lives: Live<*>) =
   parallel(listOf(live, *lives))
 
-fun parallel(lives: List<Live<Animation>>): Live<Parallel> =
-  Live.Application(Animation::class, Primitive.PARALLEL, lives)
+fun parallel(lives: List<Live<*>>): Live<Unit> =
+  Live.Application(Unit::class, Primitive.PARALLEL, lives)
 
 fun repeat(count: Int, fn: (Int) -> Live<Animation>) =
   parallel(List(count) { fn(it) })
+
+val doNothing: Live<Unit> get() = Unit.live(Unit::class)

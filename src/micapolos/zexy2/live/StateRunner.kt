@@ -11,6 +11,13 @@ import kotlin.reflect.KClass
 
 typealias LiveState = (Live<*>) -> State
 
+val bottomRunner =
+  object : Runner {
+    override fun step(seconds: Float): Float {
+      error("Bottom")
+    }
+  }
+
 fun <T> Live.Constant<T>.runner(state: State) =
   object : Runner {
     override fun init() {

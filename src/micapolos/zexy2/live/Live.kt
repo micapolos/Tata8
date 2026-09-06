@@ -5,6 +5,10 @@ import kotlin.reflect.KClass
 sealed class Live<out T> {
   abstract val kClass: KClass<*>
 
+  object Bottom : Live<Nothing>() {
+    override val kClass = Nothing::class
+  }
+
   data class Constant<out T>(
     override val kClass: KClass<*>,
     val value: T
