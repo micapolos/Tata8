@@ -4,18 +4,20 @@ import java.awt.image.BufferedImage;
 
 public final class Font {
   public static final Image image = Game.loadImage(Font.class, "font.png");
-  public static final Font system = newFont(image.bufferedImage, 2, 1);
+  public static final Font system = newFont(image.bufferedImage, 2, 1, 1);
 
   final Glyph[] glyphs;
   public final int height;
   public final int spaceWidth;
   public final int glyphSpacing;
+  public final int lineSpacing;
 
-  Font(Glyph[] glyphs, int height, int spaceWidth, int glyphSpacing) {
+  Font(Glyph[] glyphs, int height, int spaceWidth, int glyphSpacing, int lineSpacing) {
     this.glyphs = glyphs;
     this.height = height;
     this.spaceWidth = spaceWidth;
     this.glyphSpacing = glyphSpacing;
+    this.lineSpacing = lineSpacing;
   }
 
   public Glyph glyph(char ch) {
@@ -38,7 +40,7 @@ public final class Font {
     return width;
   }
 
-  public static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing) {
+  public static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing, int lineSpacing) {
     Glyph[] glyphs = new Glyph[96];
     int index = 0;
     int x = 0;
@@ -54,7 +56,7 @@ public final class Font {
       index++;
       if (index == glyphs.length) break;
     }
-    return new Font(glyphs, height, spaceWidth, glyphSpacing);
+    return new Font(glyphs, height, spaceWidth, glyphSpacing, lineSpacing);
   }
 
   private int glyphIndex(char ch) {
@@ -78,7 +80,7 @@ public final class Font {
       char ch = string.charAt(i);
       if (ch == 10) {
         x = startX;
-        y += height;
+        y += height + lineSpacing;
         continue;
       }
       Glyph glyph = glyph(ch);
@@ -92,12 +94,16 @@ public final class Font {
     }
   }
 
-  static void main() {
-    Font.system.drawOn(
-        Game.background.canvas.image,
-        "This is a very interesting string...\nAnd ***I LIKE IT***!!! 123456",
-        10, 10,
-        0xff2288dd);
+  public void show() {
+    drawOn(
+      Game.background.canvas.image,
+      "This is a very interesting string...\nAnd ***I LIKE IT***!!! 123456",
+      10, 10,
+      0xff2288dd);
     Game.start();
+  }
+
+  static void main() {
+    Font.system.show();
   }
 }

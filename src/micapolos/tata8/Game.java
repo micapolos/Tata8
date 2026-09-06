@@ -66,8 +66,8 @@ public final class Game {
     return image;
   }
 
-  public static Font loadFont(Class<?> baseClass, String fileName, int spaceWidth, int glyphSpacing) {
-    return Font.newFont(loadImage(baseClass, fileName).bufferedImage, spaceWidth, glyphSpacing);
+  public static Font loadFont(Class<?> baseClass, String fileName, int spaceWidth, int glyphSpacing, int lineSpacing) {
+    return Font.newFont(loadImage(baseClass, fileName).bufferedImage, spaceWidth, glyphSpacing, lineSpacing);
   }
 
   public static TileSet loadTileSet(Class<?> baseClass, String fileName) {
