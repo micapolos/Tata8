@@ -1,3 +1,7 @@
 package micapolos.zexy2
 
-val doNothing get() = Unit.live(Nothing::class)
+import micapolos.zexy2.live.Run
+
+object DoNothing : Run
+
+val doNothing get() = DoNothing.live(DoNothing::class)

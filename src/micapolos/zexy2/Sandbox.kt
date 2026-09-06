@@ -18,8 +18,7 @@ fun main() {
 
   val animation = run(
     x.keepAdding(60.0),
-//    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
-//    Key.LEFT.isPressed.ifTrue(x.keepAdding(-60.0)).orElse(doNothing),
+    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
     Camera.alignment.set(centerAlignment),
     drawSprite
       .with(fontImage)

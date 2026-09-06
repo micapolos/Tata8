@@ -5,30 +5,30 @@ import kotlin.reflect.KClass
 sealed class Live<out T> {
   abstract val kClass: KClass<*>
 
-  data class Constant<T>(
+  data class Constant<out T>(
     override val kClass: KClass<*>,
     val value: T
   ) : Live<T>()
 
-  data class Variable<T>(
+  data class Variable<out T>(
     override val kClass: KClass<*>,
     val initializer: Live<T>
   ) : Live<T>()
 
-  data class Set<T>(
+  data class Set<out T>(
     val lhs: Live<T>,
     val rhs: Live<T>
   ) : Live<Run>() {
     override val kClass: KClass<*> get() = Run::class
   }
 
-  data class Application<T>(
+  data class Application<out T>(
     override val kClass: KClass<*>,
     val primitive: Primitive,
     val args: List<Live<*>>
   ) : Live<T>()
 
-  data class Conditional<T>(
+  data class Conditional<out T>(
     override val kClass: KClass<*>,
     val condition: Live<Boolean>,
     val trueLive: Live<T>,
