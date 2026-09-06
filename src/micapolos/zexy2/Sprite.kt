@@ -29,7 +29,11 @@ fun Expression.Application<Animation<Sprite>>.withAnchor(x: Double, y: Double) =
   withAnchor(constant(x), constant(y))
 
 fun Expression.Application<Animation<Sprite>>.withAnchor(x: Expression<Double>, y: Expression<Double>) =
-  Expression.Application<Animation<Sprite>>(kClass, name, listOf(args[0], x, y, args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]))
+  with(anchor(x, y))
+
+@JvmName("withAnchor")
+fun Expression.Application<Animation<Sprite>>.with(anchor: Anchor<Double>) =
+  Expression.Application<Animation<Sprite>>(kClass, name, listOf(args[0], anchor.x, anchor.y, args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]))
 
 fun Expression.Application<Animation<Sprite>>.withPosition(x: Double, y: Double) =
   withPosition(constant(x), constant(y))

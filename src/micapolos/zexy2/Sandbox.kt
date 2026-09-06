@@ -14,7 +14,8 @@ fun main() {
     x.keepAdding(60.0),
     animateSprite()
       .with(image)
-      .with(Mouse.position)
+      .with(image.centerAnchor)
+      .with(position(Screen.size.x - x - 100.0, Mouse.position.y))
       .with(scale(scale, scale))
       .with(angle(x)))
 
