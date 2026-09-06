@@ -33,7 +33,7 @@ internal class Executor {
   val runner get() = parallel(runners)
 }
 
-fun Live<Animation<*>>.start() {
+fun Live<*>.start() {
   val executor = Executor()
   executor.state(this)
   val runner = executor.runner

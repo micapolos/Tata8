@@ -9,7 +9,7 @@ import micapolos.zexy2.live.withArg
 
 object Label
 
-val label: Live<Animation<Label>>
+val label: Live<Label>
   get() =
     Live.Application(
       Animation::class,
@@ -25,23 +25,23 @@ val label: Live<Animation<Label>>
       )
     )
 
-fun Live<Animation<Label>>.with(string: String) =
+fun Live<Label>.with(string: String) =
   with(string.live)
 
 @JvmName("withString")
-fun Live<Animation<Label>>.with(string: Live<String>) = withArg(0, string)
+fun Live<Label>.with(string: Live<String>) = withArg(0, string)
 
-fun Live<Animation<Label>>.with(alignment: Alignment<Double>) = withArg(1, alignment.x).withArg(2, alignment.y)
+fun Live<Label>.with(alignment: Alignment<Double>) = withArg(1, alignment.x).withArg(2, alignment.y)
 
-fun Live<Animation<Label>>.with(position: Position<Double>) = withArg(3, position.x).withArg(4, position.y)
+fun Live<Label>.with(position: Position<Double>) = withArg(3, position.x).withArg(4, position.y)
 
-fun Live<Animation<Label>>.with(color: Color) =
+fun Live<Label>.with(color: Color) =
   with(color.live(Color::class))
 
 @JvmName("withColor")
-fun Live<Animation<Label>>.with(color: Live<Color>) = withArg(5, color)
+fun Live<Label>.with(color: Live<Color>) = withArg(5, color)
 
-fun Live<Animation<Label>>.with(font: Font) = with(font.live)
+fun Live<Label>.with(font: Font) = with(font.live)
 
 @JvmName("withFont")
-fun Live<Animation<Label>>.with(font: Live<Font>) = withArg(6, font)
+fun Live<Label>.with(font: Live<Font>) = withArg(6, font)

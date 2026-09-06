@@ -5,8 +5,8 @@ import micapolos.zexy2.live.Primitive
 
 class Animation<out T>
 
-fun inParallel(live: Live<Animation<*>>, vararg lives: Live<Animation<*>>) =
+fun inParallel(live: Live<*>, vararg lives: Live<*>) =
   inParallel(listOf(live, *lives))
 
-fun inParallel(lives: List<Live<Animation<*>>>) =
+fun inParallel(lives: List<Live<*>>) =
   Live.Application<Animation<*>>(Animation::class, Primitive.PARALLEL, lives)
