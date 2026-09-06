@@ -2,10 +2,11 @@ package micapolos.zexy2
 
 import micapolos.tata8.Composite
 import micapolos.tata8.Image
-import micapolos.tata8.Sprite
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import micapolos.zexy2.live.withArg
+
+object Sprite: Drawing
 
 val sprite: Live<Sprite>
   get() =
