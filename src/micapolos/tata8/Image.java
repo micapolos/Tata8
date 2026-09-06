@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import static micapolos.Leo.*;
+
 public final class Image {
   public static final Image micaFont = Image.load(Font.class, "mica-font.png");
   public static final Image koraFont = Image.load(Font.class, "kora-font.png");
@@ -93,6 +95,11 @@ public final class Image {
     } catch (IOException e) {
       throw new RuntimeException("Failed to load sprite: " + fileName);
     }
+  }
+
+  @Override
+  public String toString() {
+    return leo("image", size);
   }
 
   static void main() {

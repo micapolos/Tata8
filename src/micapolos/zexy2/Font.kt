@@ -1,20 +1,10 @@
 package micapolos.zexy2
 
 import micapolos.tata8.Font
-import micapolos.tata8.Game
 import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
-import kotlin.reflect.KClass
 
 val Font.live: Live<Font> get() = live(Font::class)
-
-fun loadFont(
-  baseClass: KClass<*>,
-  name: String,
-  spaceWidth: Int = 2,
-  glyphSpacing: Int = 1,
-  lineSpacing: Int = 1
-): Live<Font> = Game.loadFont(baseClass.java, name, spaceWidth, glyphSpacing, lineSpacing).live
 
 fun Live<Font>.width(string: String) = width(string.live)
 

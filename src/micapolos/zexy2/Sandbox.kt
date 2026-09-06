@@ -8,16 +8,16 @@ import micapolos.zexy2.live.show
 fun main() {
   val fontImage = micaFontImage
 
-  val x = newVariable(-200.0)
-  val y = x + 50.0
+  val xVariable = newVariable(-200.0)
+  val x = xVariable.loggedAs("x")
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
-  val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont)
+  val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont).logged
 
   val chickenImages = DepressedChicken.images
 
   val animate = run(
-    x.keepAdding(60.0),
+    xVariable.keepAdding(60.0),
     Camera.alignment.set(centerAlignment),
     drawSprite
       .with(fontImage)
@@ -36,7 +36,7 @@ fun main() {
         .with(parallax(scale))
     },
     drawSprite
-      .with(chickenImages[x.times(0.125).int.floorMod(8)])
+      .with(chickenImages[x.times(0.125).int.floorMod(8)].loggedAs("chicken"))
       .with(centerBottomAlignment)
       .with(position(x, 40.0))
       .with(parallax(1.5)),

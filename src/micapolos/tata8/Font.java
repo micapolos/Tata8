@@ -2,6 +2,8 @@ package micapolos.tata8;
 
 import java.awt.image.BufferedImage;
 
+import static micapolos.Leo.*;
+
 public final class Font {
   public static final Font mica = newFont(Image.micaFont.bufferedImage, 2, 1, 1);
   public static final Font kora = newFont(Image.koraFont.bufferedImage, 2, 1, 1);
@@ -122,12 +124,21 @@ public final class Font {
     }
   }
 
+  @Override
+  public String toString() {
+    return leo("font",
+      leo("height", height),
+      leo("space width", spaceWidth),
+      leo("glyph spacing", glyphSpacing),
+      leo("line spacing", lineSpacing));
+  }
+
   public void show() {
     drawOn(
       Game.background.canvas.image,
       "!\"#$%&'()*+,-./0123456789:;<=>?\n" +
-      "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\n" +
-      "`abcdefghijklmnopqrstuvwxyz{|}~",
+        "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\n" +
+        "`abcdefghijklmnopqrstuvwxyz{|}~",
       10, 10,
       0xff2288dd);
     Game.start();
