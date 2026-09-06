@@ -26,22 +26,17 @@ fun main() {
       .with(centerAlignment)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)),
-    sprite
-      .with(Quote.image)
-      .with(centerBottomAlignment)
-      .with(position(x, -60.0))
-      .with(scale(0.25, 0.25))
-      .with(parallax(0.25)),
-    sprite
-      .with(Quote.image)
-      .with(centerBottomAlignment)
-      .with(position(x, -40.0))
-      .with(scale(0.5, 0.5))
-      .with(parallax(0.5)),
-    sprite
-      .with(Quote.image)
-      .with(centerBottomAlignment)
-      .with(position(x, 0.0)),
+    inParallel(3) { index ->
+      val factor = 4.shr(index)
+      val scale = 1.0 / factor
+      val y = 80 / factor - 80.0
+      sprite
+        .with(Quote.image)
+        .with(centerBottomAlignment)
+        .with(position(x, y))
+        .with(scale(scale, scale))
+        .with(parallax(scale))
+    },
     sprite
       .with(chickenImages[x.times(0.125).int.floorMod(8)])
       .with(centerBottomAlignment)

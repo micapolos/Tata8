@@ -24,8 +24,11 @@ fun <T> newVariable(initializer: Live<T>): Live<T> =
 fun <T> Live<T>.set(live: Live<T>): Live<Unit> =
   Live.Set(variable, live)
 
-fun inParallel(live: Live<*>, vararg lives: Live<*>) =
-  inParallel(listOf(live, *lives))
+fun inParallel(vararg lives: Live<*>) =
+  inParallel(lives.toList())
 
-fun inParallel(lives: List<Live<*>>) =
-  Live.Application<Unit>(Unit::class, Primitive.PARALLEL, lives)
+fun inParallel(lives: List<Live<*>>): Live<Unit> =
+  Live.Application(Unit::class, Primitive.PARALLEL, lives)
+
+fun inParallel(count: Int, fn: (Int) -> Live<*>) =
+  inParallel(List(count) { fn(it) })
