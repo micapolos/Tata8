@@ -2,14 +2,16 @@ package micapolos.zexy2
 
 import micapolos.zexy2.ast.Expression
 
-fun parallel(expression: Expression<*>, vararg expressions: Expression<*>) =
+class Animation<out T>
+
+fun parallel(expression: Expression<Animation<*>>, vararg expressions: Expression<Animation<*>>) =
   parallel(listOf(expression, *expressions))
 
-fun parallel(expressions: List<Expression<*>>) =
-  Expression.Application<Unit>(Unit::class, "parallel", expressions)
+fun parallel(expressions: List<Expression<Animation<*>>>) =
+  Expression.Application<Animation<*>>(Animation::class, "parallel", expressions)
 
-fun sequence(expression: Expression<*>, vararg expressions: Expression<*>) =
+fun sequence(expression: Expression<Animation<*>>, vararg expressions: Expression<Animation<*>>) =
   sequence(listOf(expression, *expressions))
 
-fun sequence(expressions: List<Expression<*>>) =
-  Expression.Application<Unit>(Unit::class, "sequence", expressions)
+fun sequence(expressions: List<Expression<Animation<*>>>) =
+  Expression.Application<Animation<*>>(Animation::class, "sequence", expressions)

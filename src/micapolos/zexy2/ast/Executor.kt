@@ -1,13 +1,9 @@
 package micapolos.zexy2.ast
 
-import micapolos.Leo.leo
-import micapolos.tata8.Composite
 import micapolos.tata8.Game
-import micapolos.tata8.Image
 import micapolos.tata8.Shader
-import micapolos.zexy2.Key
+import micapolos.zexy2.Animation
 import java.util.*
-import kotlin.reflect.KClass
 
 internal val Any?.leoString
   get() =
@@ -35,7 +31,7 @@ internal class Executor {
     }
 }
 
-fun Expression<*>.show() {
+fun Expression<Animation<*>>.start() {
   var executor = Executor()
   executor.state(this)
   Game.screen.shader = Shader.CRT_PHOSPHOR

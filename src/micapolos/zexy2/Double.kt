@@ -7,11 +7,11 @@ fun constant(d: Double): Expression<Double> =
 
 fun variable(d: Double): Expression<Double> = variable(constant(d))
 
-fun Expression<Double>.keepAdding(d: Double): Expression<Unit> = keepAdding(constant(d))
+fun Expression<Double>.keepAdding(d: Double) = keepAdding(constant(d))
 
 @JvmName("keepAddingDouble")
-fun Expression<Double>.keepAdding(expression: Expression<Double>): Expression<Unit> =
-  Expression.Application(Unit::class, "Double.keepAdding", listOf(variable, expression))
+fun Expression<Double>.keepAdding(expression: Expression<Double>): Expression<Animation<Double>> =
+  Expression.Application(Animation::class, "Double.keepAdding", listOf(variable, expression))
 
 operator fun Expression<Double>.plus(i: Double): Expression<Double> = plus(constant(i))
 

@@ -2,7 +2,7 @@ package micapolos.zexy2.ast
 
 import kotlin.reflect.KClass
 
-sealed class Expression<T> {
+sealed class Expression<out T> {
   abstract val kClass: KClass<*>
 
   data class Constant<T>(

@@ -1,7 +1,7 @@
 package micapolos.zexy2
 
 import micapolos.Blocks
-import micapolos.zexy2.ast.show
+import micapolos.zexy2.ast.start
 
 fun main() {
   val image = loadImage(Blocks::class, "depressedChicken.png")
@@ -19,5 +19,5 @@ fun main() {
       .withScale(scale, scale)
       .withAngle(x))
 
-  animation.show()
+  animation.start()
 }
