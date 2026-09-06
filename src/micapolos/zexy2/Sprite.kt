@@ -19,7 +19,8 @@ val sprite: Live<Animation<Sprite>>
         false.live, false.live,
         1.0.live, 1.0.live,
         Composite.NORMAL.live,
-        0.0.live
+        0.0.live,
+        1.0.live
       )
     )
 
@@ -73,3 +74,6 @@ fun Live<Animation<Sprite>>.withAngle(degrees: Live<Double>) =
 
 @JvmName("withAngle")
 fun Live<Animation<Sprite>>.with(angle: Angle) = withArg(10, angle.degrees)
+
+@JvmName("withParallaxRatio")
+fun Live<Animation<Sprite>>.with(parallax: Parallax) = withArg(11, parallax.ratio)

@@ -3,6 +3,7 @@ package micapolos.zexy2.live
 import micapolos.Leo.leo
 import micapolos.tata8.*
 import micapolos.tata8.Math.lerp
+import micapolos.zexy.ParallaxRatio.applyParallaxRatio
 import micapolos.zexy2.Key
 import kotlin.reflect.KClass
 
@@ -184,29 +185,58 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
 
     Primitive.SPRITE -> object : Runner {
       val argStates = args.map { liveState(it) }
+      var screenWidthState = liveState(micapolos.zexy2.Screen.size.width)
+      var screenHeightState = liveState(micapolos.zexy2.Screen.size.height)
+      var cameraPositionXState = liveState(micapolos.zexy2.Camera.position.x)
+      var cameraPositionYState = liveState(micapolos.zexy2.Camera.position.x)
+      var cameraScreenAlignmentXState = liveState(micapolos.zexy2.Camera.screenAlignment.x)
+      var cameraScreenAlignmentYState = liveState(micapolos.zexy2.Camera.screenAlignment.y)
+
       override fun step(seconds: Float): Float {
         (argStates[0].value as Image?)?.let { image ->
           val alignmentX = (argStates[1].value as Double).toFloat()
           val alignmentY = (argStates[2].value as Double).toFloat()
-          val positionX = (argStates[3].value as Double).toFloat()
-          val positionY = (argStates[4].value as Double).toFloat()
+          val positionX = argStates[3].value as Double
+          val positionY = argStates[4].value as Double
           val imageWidth = image.size.width.toFloat()
           val imageHeight = image.size.height.toFloat()
           val anchorX = lerp(0f, imageWidth, alignmentX)
           val anchorY = lerp(0f, imageHeight, alignmentY)
+          val screenWidth = (screenWidthState.value as Double).toFloat()
+          val screenHeight = (screenHeightState.value as Double).toFloat()
+          val cameraPositionX = cameraPositionXState.value as Double
+          val cameraPositionY = cameraPositionYState.value as Double
+          val cameraScreenAlignmentX = cameraScreenAlignmentXState.value as Double
+          val cameraScreenAlignmentY = cameraScreenAlignmentYState.value as Double
+          val cameraAnchorX = lerp(0f, screenWidth, cameraScreenAlignmentX.toFloat()).toDouble()
+          val cameraAnchorY = lerp(0f, screenHeight, cameraScreenAlignmentY.toFloat()).toDouble()
+          val parallaxRatio = argStates[11].value as Double
+
+          val drawX = applyParallaxRatio(
+            positionX,
+            cameraAnchorX,
+            cameraPositionX,
+            parallaxRatio
+          ).toFloat()
+          val drawY =
+            applyParallaxRatio(
+              positionY,
+              cameraAnchorY,
+              cameraPositionY,
+              1.0
+            ).toFloat()
 
           Game.background.canvas.draw(
             image,
             anchorX,
             anchorY,
-            positionX, positionY,
+            drawX, drawY,
             argStates[5].value as Boolean,
             argStates[6].value as Boolean,
             (argStates[7].value as Double).toFloat(),
             (argStates[8].value as Double).toFloat(),
             argStates[9].value as Composite,
             (argStates[10].value as Double).toFloat()
-
           )
         }
         return seconds
