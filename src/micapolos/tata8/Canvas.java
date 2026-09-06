@@ -10,7 +10,7 @@ public final class Canvas {
   final AffineTransform imageTransform = new AffineTransform();
 
   public Color color = Color.WHITE;
-  public Font font = Font.system;
+  public Font font = Font.mica;
   public boolean textHasShadow;
 
   Canvas(BufferedImage image) {

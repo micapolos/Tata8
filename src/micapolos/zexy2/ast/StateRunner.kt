@@ -191,7 +191,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
           (argStates[1].value as Double).toInt(),
           (argStates[2].value as Double).toInt(),
           argStates[3].value as Color,
-          argStates[4].value as Font)
+          (argStates[4].value as Font?) ?: Game.font)
         return seconds
       }
     }

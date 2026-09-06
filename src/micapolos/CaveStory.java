@@ -66,8 +66,8 @@ class CaveStory {
     Game.camera.position.set(cameraPosition);
 
     String title = "Cave Story by micapolos";
-    int titleWidth = Font.system.width(title);
-    Game.foreground.canvas.draw(title, (Game.size.width - titleWidth) / 2, 4, Color.YELLOW, Font.system, true);
+    int titleWidth = Font.mica.width(title);
+    Game.foreground.canvas.draw(title, (Game.size.width - titleWidth) / 2, 4, Color.YELLOW, Font.mica, true);
   }
 
   void update() {

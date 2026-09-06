@@ -44,6 +44,7 @@ public final class Game {
   public static Animation animation = Animation.instant();
   public static double dusk = 0;
   public static double targetDusk = 0;
+  public static Font font = Font.mica;
 
   @Deprecated(forRemoval = true)
   public static final Canvas backgroundCanvas = background.canvas;
@@ -122,8 +123,8 @@ public final class Game {
         {
           int textY = 1;
           for (String string : logStrings) {
-            compositeCanvas.draw(string, 1, textY, Color.YELLOW, Font.system, true);
-            textY += Font.system.height;
+            compositeCanvas.draw(string, 1, textY, Color.YELLOW, font, true);
+            textY += font.height + font.lineSpacing;
           }
         }
         DuskFilter.applyDuskFilter(compositeCanvas.image, dusk);

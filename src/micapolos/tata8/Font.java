@@ -3,10 +3,9 @@ package micapolos.tata8;
 import java.awt.image.BufferedImage;
 
 public final class Font {
-  public static final Image image = Game.loadImage(Font.class, "font.png");
+  public static final Image image = Image.load(Font.class, "font.png");
   public static final Font mica = newFont(image.bufferedImage, 2, 1, 1);
-  public static final Font kornelka = newFont(Game.loadImage(Font.class, "kor-font.png").bufferedImage, 2, 1, 1);
-  public static final Font system = mica;
+  public static final Font kornelka = newFont(Image.load(Font.class, "kor-font.png").bufferedImage, 2, 1, 1);
 
   final Glyph[] glyphs;
   public final int height;
@@ -113,6 +112,6 @@ public final class Font {
   }
 
   static void main() {
-    Font.system.show();
+    kornelka.show();
   }
 }

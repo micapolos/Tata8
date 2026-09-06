@@ -2,6 +2,7 @@ package micapolos.zexy2
 
 import micapolos.tata8.Color
 import micapolos.tata8.Font
+import micapolos.tata8.Game
 import micapolos.zexy2.ast.Expression
 
 object Label
@@ -15,7 +16,7 @@ val label get() =
       constant(0.0),
       constant(0.0),
       constant(Color::class, Color.WHITE),
-      constant(Font::class, Font.system)))
+      constant(Font::class, Game.font)))
 
 fun Expression.Application<Animation<Label>>.with(string: String) =
   with(constant(String::class, string))
