@@ -53,6 +53,7 @@ internal class Executor(
         }
         is Live.Application<*> -> live.runner(state, ::state)
         is Live.Bottom -> bottomRunner
+        is Live.Pause -> live.runner(::state)
       }
     }
 

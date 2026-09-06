@@ -58,6 +58,27 @@ fun <T> Live.Conditional<T>.runner(state: State, liveState: LiveState) =
     }
   }
 
+fun Live.Pause.runner(liveState: LiveState) =
+  object : Runner {
+    val secondsState = liveState(seconds)
+    var remainingSeconds: Float = 0f
+
+    override fun init() {
+      remainingSeconds = (secondsState.value as Double).toFloat()
+    }
+
+    override fun step(seconds: Float): Float {
+      remainingSeconds -= (secondsState.value as Double).toFloat()
+      if (remainingSeconds >= 0) {
+        return 0f
+      } else {
+        val leftoverSeconds = -remainingSeconds
+        remainingSeconds = 0f
+        return leftoverSeconds
+      }
+    }
+  }
+
 fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
   return when (primitive) {
     Primitive.LOGGED -> object : Runner {

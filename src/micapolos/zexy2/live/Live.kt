@@ -39,13 +39,17 @@ sealed class Live<out T> {
     val trueLive: Live<T>,
     val falseLive: Live<T>,
   ) : Live<T>()
+
+  data class Pause(val seconds: Live<Double>) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
 }
 
 val <T> Live<T>.asApplication get() = this as Live.Application<T>
 
 val liveBottom: Live<Nothing> = Live.Bottom
 
-fun <T: Any> liveConstant(t: T): Live<T> = Live.Constant(t::class, t)
+fun <T : Any> liveConstant(t: T): Live<T> = Live.Constant(t::class, t)
 
 fun <T> liveVariable(initializer: Live<T>): Live<T> = Live.Variable(initializer)
 
@@ -59,6 +63,8 @@ fun <T> liveConditional(
   trueLive: Live<T>,
   falseLive: Live<T>
 ): Live<T> = Live.Conditional(kClass, condition, trueLive, falseLive)
+
+fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
 
 fun <T> Live<T>.withArg(index: Int, live: Live<*>): Live<T> =
   asApplication.run {
