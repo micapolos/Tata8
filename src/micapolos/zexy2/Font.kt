@@ -11,7 +11,7 @@ val Font.live: Live<Font> get() = live(Font::class)
 fun loadFont(baseClass: KClass<*>, name: String, spaceWidth: Int, glyphSpacing: Int, lineSpacing: Int): Live<Font> =
   Game.loadFont(baseClass.java, name, spaceWidth, glyphSpacing, lineSpacing).live
 
-fun Live<Font>.width(string: String) = width(string.live(String::class))
+fun Live<Font>.width(string: String) = width(string.live)
 
 fun Live<Font>.width(string: Live<String>): Live<Double> =
   Live.Application(Double::class, Primitive.FONT_STRING_WIDTH, listOf(this, string))

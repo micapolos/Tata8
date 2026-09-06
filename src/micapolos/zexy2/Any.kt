@@ -13,7 +13,7 @@ val <T> Live<T>.logged get() =
   Live.Application<T>(kClass, Primitive.LOGGED, listOf(this))
 
 fun <T> Live<T>.loggedAs(name: String) =
-  Live.Application<T>(kClass, Primitive.LOGGED, listOf(name.live(String::class), this))
+  Live.Application<T>(kClass, Primitive.LOGGED, listOf(name.live, this))
 
 val <T> Live<T>.readOnly get() =
   Live.Application<T>(kClass, Primitive.READONLY, listOf(this))

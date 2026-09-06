@@ -15,7 +15,7 @@ val label: Live<Animation<Label>>
       Animation::class,
       Primitive.LABEL,
       listOf(
-        "".live(String::class),
+        "".live,
         0.0.live,
         0.0.live,
         Color.WHITE.live(Color::class),
@@ -24,7 +24,7 @@ val label: Live<Animation<Label>>
     )
 
 fun Live<Animation<Label>>.with(string: String) =
-  with(string.live(String::class))
+  with(string.live)
 
 @JvmName("withString")
 fun Live<Animation<Label>>.with(string: Live<String>) = withArg(0, string)

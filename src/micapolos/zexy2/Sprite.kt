@@ -18,7 +18,7 @@ val sprite: Live<Animation<Sprite>>
         0.0.live, 0.0.live,
         false.live, false.live,
         1.0.live, 1.0.live,
-        Composite.NORMAL.live(Composite::class),
+        Composite.NORMAL.live,
         0.0.live
       )
     )
@@ -64,7 +64,7 @@ fun Live<Animation<Sprite>>.withScale(x: Live<Double>, y: Live<Double>) =
 fun Live<Animation<Sprite>>.with(scale: Scale<Double>) = withArg(7, scale.x).withArg(8, scale.y)
 
 fun Live<Animation<Sprite>>.withComposite(composite: Composite) =
-  withComposite(composite.live(Composite::class))
+  withComposite(composite.live)
 
 fun Live<Animation<Sprite>>.withComposite(composite: Live<Composite>) = withArg(9, composite)
 
