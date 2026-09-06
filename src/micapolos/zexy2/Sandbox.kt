@@ -2,10 +2,11 @@ package micapolos.zexy2
 
 import micapolos.tata8.Color
 import micapolos.tata8.Font
+import micapolos.tata8.Image
 import micapolos.zexy2.ast.start
 
 fun main() {
-  val image = Font.image
+  val image = Image.micaFont
 
   val x = variable(10.0)
   val y = x + 50.0
