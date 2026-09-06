@@ -10,8 +10,8 @@ fun newVariable(d: Double): Live<Double> = newVariable(d.live)
 fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 
 @JvmName("keepAddingDouble")
-fun Live<Double>.keepAdding(live: Live<Double>): Live<Animation<Double>> =
-  Live.Application(Animation::class, Primitive.DOUBLE_KEEP_ADDING, listOf(variable, live))
+fun Live<Double>.keepAdding(live: Live<Double>): Live<Double> =
+  Live.Application(Unit::class, Primitive.DOUBLE_KEEP_ADDING, listOf(variable, live))
 
 operator fun Live<Double>.plus(d: Double): Live<Double> = plus(d.live)
 

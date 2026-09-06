@@ -12,7 +12,7 @@ object Label
 val label: Live<Label>
   get() =
     Live.Application(
-      Animation::class,
+      Unit::class,
       Primitive.LABEL,
       listOf(
         "".live,

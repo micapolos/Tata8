@@ -10,7 +10,7 @@ import micapolos.zexy2.live.withArg
 val sprite: Live<Sprite>
   get() =
     Live.Application(
-      Animation::class,
+      Unit::class,
       Primitive.SPRITE,
       listOf(
         null.live(Image::class),
