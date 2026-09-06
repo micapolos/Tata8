@@ -11,3 +11,6 @@ fun <T> position(x: Live<T>, y: Live<T>) = Position(x, y)
 
 fun <T> newVariable(position: Position<T>) =
   alignment(newVariable(position.x), newVariable(position.y))
+
+fun <T> Position<T>.set(position: Position<T>) =
+  inParallel(x.set(position.x), y.set(position.y))

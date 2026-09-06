@@ -189,8 +189,8 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       var screenHeightState = liveState(micapolos.zexy2.Screen.size.height)
       var cameraPositionXState = liveState(micapolos.zexy2.Camera.position.x)
       var cameraPositionYState = liveState(micapolos.zexy2.Camera.position.x)
-      var cameraScreenAlignmentXState = liveState(micapolos.zexy2.Camera.screenAlignment.x)
-      var cameraScreenAlignmentYState = liveState(micapolos.zexy2.Camera.screenAlignment.y)
+      var cameraScreenAlignmentXState = liveState(micapolos.zexy2.Camera.alignment.x)
+      var cameraScreenAlignmentYState = liveState(micapolos.zexy2.Camera.alignment.y)
 
       override fun step(seconds: Float): Float {
         (argStates[0].value as Image?)?.let { image ->

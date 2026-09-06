@@ -9,6 +9,9 @@ fun newVariable(i: Int): Live<Int> = newVariable(i.live)
 
 operator fun Live<Int>.plus(i: Int): Live<Int> = plus(i.live)
 
+fun Live<Int>.set(d: Int): Live<Unit> =
+  set(d.live)
+
 @JvmName("plusInt")
 operator fun Live<Int>.plus(live: Live<Int>): Live<Int> =
   Live.Application(kClass, Primitive.INT_PLUS, listOf(this, live))

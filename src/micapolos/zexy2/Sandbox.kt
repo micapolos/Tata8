@@ -1,12 +1,13 @@
 package micapolos.zexy2
 
 import micapolos.tata8.Color
+import micapolos.tata8.Quote
 import micapolos.zexy2.live.start
 
 fun main() {
-  val image = micaFontImage
+  val fontImage = micaFontImage
 
-  val x = newVariable(10.0)
+  val x = newVariable(-200.0)
   val y = x + 50.0
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
@@ -14,12 +15,30 @@ fun main() {
 
   val animation = inParallel(
     x.keepAdding(60.0),
+//    Key.RIGHT.isPressed.ifTrue(x.keepAdding(60.0)).orElse(doNothing),
+//    Key.LEFT.isPressed.ifTrue(x.keepAdding(-60.0)).orElse(doNothing),
+    Camera.alignment.set(centerAlignment),
     sprite
-      .with(image)
+      .with(fontImage)
       .with(centerAlignment)
-      .with(Mouse.position)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)),
+    sprite
+      .with(Quote.image)
+      .with(centerBottomAlignment)
+      .with(position(x, -60.0))
+      .with(scale(0.25, 0.25))
+      .with(parallax(0.25)),
+    sprite
+      .with(Quote.image)
+      .with(centerBottomAlignment)
+      .with(position(x, -40.0))
+      .with(scale(0.5, 0.5))
+      .with(parallax(0.5)),
+    sprite
+      .with(Quote.image)
+      .with(centerBottomAlignment)
+      .with(position(x, 0.0)),
     label
       .with(string)
       .with(Color.GREEN)

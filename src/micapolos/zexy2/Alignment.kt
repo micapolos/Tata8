@@ -12,6 +12,10 @@ fun <T> alignment(x: Live<T>, y: Live<T>) = Alignment(x, y)
 val leftTopAlignment = alignment(0.0, 0.0)
 val centerAlignment = alignment(0.5, 0.5)
 val centerTopAlignment = alignment(0.5, 0.0)
+val centerBottomAlignment = alignment(0.5, 1.0)
 
 fun <T> newVariable(alignment: Alignment<T>) =
   alignment(newVariable(alignment.x), newVariable(alignment.y))
+
+fun <T> Alignment<T>.set(alignment: Alignment<T>) =
+  inParallel(x.set(alignment.x), y.set(alignment.y))
