@@ -1,4 +1,4 @@
-package micapolos.ast
+package micapolos.zexy2.ast
 
 import kotlin.reflect.KClass
 

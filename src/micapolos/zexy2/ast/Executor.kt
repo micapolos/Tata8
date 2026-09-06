@@ -1,17 +1,13 @@
-package micapolos.ast
+package micapolos.zexy2.ast
 
 import micapolos.Leo.leo
 import micapolos.tata8.Composite
 import micapolos.tata8.Game
 import micapolos.tata8.Image
 import micapolos.tata8.Shader
+import micapolos.zexy2.Key
 import java.util.*
 import kotlin.reflect.KClass
-
-internal interface Runner {
-  fun init() {}
-  fun step(seconds: Float) = seconds
-}
 
 internal data class State(var value: Any? = null)
 

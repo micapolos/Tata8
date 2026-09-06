@@ -1,4 +1,6 @@
-package micapolos.ast
+package micapolos.zexy2
+
+import micapolos.zexy2.ast.Expression
 
 fun constant(i: Int): Expression<Int> =
   Expression.Constant(Int::class, i)

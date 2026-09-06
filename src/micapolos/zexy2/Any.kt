@@ -1,5 +1,6 @@
-package micapolos.ast
+package micapolos.zexy2
 
+import micapolos.zexy2.ast.Expression
 import kotlin.reflect.KClass
 
 internal var nextId = 0

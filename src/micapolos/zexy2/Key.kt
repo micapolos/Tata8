@@ -1,6 +1,7 @@
-package micapolos.ast
+package micapolos.zexy2
 
 import micapolos.tata8.Game
+import micapolos.zexy2.ast.Expression
 
 enum class Key(internal val tata8: micapolos.tata8.Key) {
   LEFT(Game.keys.left),
@@ -14,17 +15,17 @@ enum class Key(internal val tata8: micapolos.tata8.Key) {
     Expression.Application(
       Boolean::class,
       "Key.isPressed",
-      listOf(constant(micapolos.ast.Key::class, this)))
+      listOf(constant(micapolos.zexy2.Key::class, this)))
 
   val pressed: Expression<Boolean> =
     Expression.Application(
       Boolean::class,
       "Key.pressed",
-      listOf(constant(micapolos.ast.Key::class, this)))
+      listOf(constant(micapolos.zexy2.Key::class, this)))
 
   val released: Expression<Boolean> =
     Expression.Application(
       Boolean::class,
       "Key.released",
-      listOf(constant(micapolos.ast.Key::class, this)))
+      listOf(constant(micapolos.zexy2.Key::class, this)))
 }

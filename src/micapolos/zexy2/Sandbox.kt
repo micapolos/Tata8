@@ -1,6 +1,7 @@
-package micapolos.ast
+package micapolos.zexy2
 
 import micapolos.Blocks
+import micapolos.zexy2.ast.show
 
 fun main() {
   val image = loadImage(Blocks::class, "depressedChicken.png")

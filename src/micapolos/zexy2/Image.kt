@@ -1,4 +1,4 @@
-package micapolos.ast
+package micapolos.zexy2
 
 import micapolos.tata8.Game
 import micapolos.tata8.Image

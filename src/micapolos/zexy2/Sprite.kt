@@ -1,8 +1,9 @@
-package micapolos.ast
+package micapolos.zexy2
 
 import micapolos.tata8.Composite
 import micapolos.tata8.Image
 import micapolos.tata8.Sprite
+import micapolos.zexy2.ast.Expression
 
 fun sprite() =
   Expression.Application<Sprite>(

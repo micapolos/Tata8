@@ -1,4 +1,6 @@
-package micapolos.ast
+package micapolos.zexy2
+
+import micapolos.zexy2.ast.Expression
 
 object Mouse {
   val position =
