@@ -60,6 +60,23 @@ internal class Executor {
           }
         }
 
+        // TODO: Make sure it's short-circuit
+        is Expression.Conditional<*> -> {
+          val conditionState = state(expression.condition)
+          val trueState = state(expression.trueExpression)
+          val falseState = state(expression.falseExpression)
+          object : Runner {
+            override fun step(seconds: Float): Float {
+              state.value = if (conditionState.value as Boolean) {
+                trueState.value
+              } else {
+                falseState.value
+              }
+              return seconds
+            }
+          }
+        }
+
         is Expression.Application<*> -> {
           val argStates = expression.args.map { state(it) }
           when (expression.name) {
@@ -174,6 +191,55 @@ internal class Executor {
                   argStates[9].value as Composite,
                   (argStates[10].value as Double).toFloat()
                 )
+                return seconds
+              }
+            }
+
+            "Key.isPressed" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = (argStates[0].value as Key).tata8.isPressed
+                return seconds
+              }
+            }
+
+            "Key.pressed" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = (argStates[0].value as Key).tata8.pressed()
+                return seconds
+              }
+            }
+
+            "Key.released" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = (argStates[0].value as Key).tata8.released()
+                return seconds
+              }
+            }
+
+            "Mouse.x" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = Game.mouse.position.x.toDouble()
+                return seconds
+              }
+            }
+
+            "Mouse.y" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = Game.mouse.position.y.toDouble()
+                return seconds
+              }
+            }
+
+            "Mouse.button.isPressed" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = Game.mouse.button.isPressed()
+                return seconds
+              }
+            }
+
+            "Mouse.button.pressed" -> object : Runner {
+              override fun step(seconds: Float): Float {
+                state.value = Game.mouse.button.didPress()
                 return seconds
               }
             }

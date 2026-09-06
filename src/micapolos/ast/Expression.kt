@@ -28,4 +28,11 @@ sealed class Expression<T> {
     val name: String,
     val args: List<Expression<*>>
   ) : Expression<T>()
+
+  data class Conditional<T>(
+    override val kClass: KClass<*>,
+    val condition: Expression<Boolean>,
+    val trueExpression: Expression<T>,
+    val falseExpression: Expression<T>,
+  ) : Expression<T>()
 }

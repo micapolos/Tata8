@@ -34,6 +34,8 @@ internal class JavaTranslator {
           JavaCode(update = "$lhs = $rhs;")
         }
 
+        is Expression.Conditional<*> -> TODO()
+
         is Expression.Application<*> -> {
           val args = expression.args.map { variable(it) }
           when (expression.name) {

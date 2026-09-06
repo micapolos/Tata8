@@ -3,6 +3,7 @@ package micapolos.ast
 import micapolos.tata8.Composite
 import micapolos.tata8.Game
 import micapolos.tata8.Image
+import micapolos.tata8.Key
 import micapolos.tata8.Sprite
 import kotlin.reflect.KClass
 
@@ -19,6 +20,20 @@ fun <T> Expression<T>.loggedAs(name: String) =
 
 val <T> Expression<T>.readOnly get() =
   Expression.Application<T>(kClass, "readOnly", listOf(this))
+
+fun Expression<Boolean>.ifTrue(b: Boolean) = ifTrue(constant(b))
+fun Expression<Boolean>.ifTrue(i: Int) = ifTrue(constant(i))
+fun Expression<Boolean>.ifTrue(d: Double) = ifTrue(constant(d))
+fun <T> Expression<Boolean>.ifTrue(kClass: KClass<*>, t: T) = ifTrue(constant(kClass, t))
+fun <T> Expression<Boolean>.ifTrue(trueExpression: Expression<T>) = IfTrue(this, trueExpression)
+data class IfTrue<T>(val condition: Expression<Boolean>, val trueExpression: Expression<T>)
+
+fun IfTrue<Boolean>.orElse(b: Boolean) = orElse(constant(b))
+fun IfTrue<Int>.orElse(i: Int) = orElse(constant(i))
+fun IfTrue<Double>.orElse(d: Double) = orElse(constant(d))
+fun <T> IfTrue<T>.orElse(t: T) = orElse(constant(trueExpression.kClass, t))
+fun <T> IfTrue<T>.orElse(falseExpression: Expression<T>) =
+  Expression.Conditional(trueExpression.kClass, condition, trueExpression, falseExpression)
 
 fun constant(b: Boolean): Expression<Boolean> =
   Expression.Constant(Boolean::class, b)
@@ -166,3 +181,35 @@ fun Expression.Application<Sprite>.withAngle(angle: Double) =
 
 fun Expression.Application<Sprite>.withAngle(angle: Expression<Double>) =
   Expression.Application<Sprite>(kClass, name, listOf(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], angle))
+
+enum class Key(internal val tata8: Key) {
+  LEFT(Game.keys.left),
+  RIGHT(Game.keys.right),
+  UP(Game.keys.up),
+  DOWN(Game.keys.down),
+  Z(Game.keys.z),
+  X(Game.keys.x);
+
+  val isPressed: Expression<Boolean> =
+    Expression.Application(
+      Boolean::class,
+      "Key.isPressed",
+      listOf(constant(micapolos.ast.Key::class, this)))
+
+  val pressed: Expression<Boolean> =
+    Expression.Application(
+      Boolean::class,
+      "Key.pressed",
+      listOf(constant(micapolos.ast.Key::class, this)))
+
+  val released: Expression<Boolean> =
+    Expression.Application(
+      Boolean::class,
+      "Key.released",
+      listOf(constant(micapolos.ast.Key::class, this)))
+}
+
+val mouseX = Expression.Application<Double>(Double::class, "Mouse.x", listOf())
+val mouseY = Expression.Application<Double>(Double::class, "Mouse.y", listOf())
+val isMouseButtonPressed = Expression.Application<Boolean>(Double::class, "Mouse.button.isPressed", listOf())
+val mouseButtonPressed = Expression.Application<Boolean>(Double::class, "Mouse.button.pressed", listOf())
