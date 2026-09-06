@@ -1,5 +1,6 @@
 package micapolos.zexy2
 
+import micapolos.DepressedChicken
 import micapolos.tata8.Color
 import micapolos.tata8.Quote
 import micapolos.zexy2.live.start
@@ -12,6 +13,8 @@ fun main() {
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
   val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont)
+
+  val chickenImages = DepressedChicken.images
 
   val animation = inParallel(
     x.keepAdding(60.0),
@@ -39,6 +42,10 @@ fun main() {
       .with(Quote.image)
       .with(centerBottomAlignment)
       .with(position(x, 0.0)),
+    sprite
+      .with(chickenImages[x.times(0.125).int.floorMod(8)])
+      .with(centerBottomAlignment)
+      .with(position(0.0, 40.0)),
     label
       .with(string)
       .with(Color.GREEN)

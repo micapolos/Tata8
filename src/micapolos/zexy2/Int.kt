@@ -34,3 +34,10 @@ fun Live<Int>.keepAdding(i: Int): Live<Unit> = keepAdding(i.live)
 fun Live<Int>.keepAdding(live: Live<Int>): Live<Unit> =
   Live.Application(Unit::class, Primitive.INT_KEEP_ADDING, listOf(variable, live))
 
+val Live<Int>.double: Live<Double> get() =
+  Live.Application(Double::class, Primitive.INT_DOUBLE, listOf(this))
+
+fun Live<Int>.floorMod(int: Int) = floorMod(int.live)
+
+fun Live<Int>.floorMod(int: Live<Int>): Live<Int> =
+  Live.Application(Int::class, Primitive.INT_FLOOR_MOD, listOf(this, int))

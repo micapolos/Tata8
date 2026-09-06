@@ -32,3 +32,6 @@ operator fun Live<Double>.times(d: Double): Live<Double> = times(d.live)
 @JvmName("timesDouble")
 operator fun Live<Double>.times(live: Live<Double>): Live<Double> =
   Live.Application(kClass, Primitive.DOUBLE_TIMES, listOf(this, live))
+
+val Live<Double>.int: Live<Int> get() =
+  Live.Application(Int::class, Primitive.DOUBLE_INT, listOf(this))

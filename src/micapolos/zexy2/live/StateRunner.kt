@@ -5,6 +5,7 @@ import micapolos.tata8.*
 import micapolos.tata8.Math.lerp
 import micapolos.zexy.ParallaxRatio.applyParallaxRatio
 import micapolos.zexy2.Key
+import java.lang.Math.floorMod
 import kotlin.reflect.KClass
 
 typealias LiveState = (Live<*>) -> State
@@ -145,6 +146,38 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double * argStates[1].value as Double
+        return seconds
+      }
+    }
+
+    Primitive.INT_DOUBLE -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Int).toDouble()
+        return seconds
+      }
+    }
+
+    Primitive.DOUBLE_INT -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Double).toInt()
+        return seconds
+      }
+    }
+
+    Primitive.INT_FLOOR_MOD -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = floorMod(argStates[0].value as Int, argStates[1].value as Int)
+        return seconds
+      }
+    }
+
+    Primitive.ARRAY_GET -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Array<*>)[argStates[1].value as Int]
         return seconds
       }
     }
