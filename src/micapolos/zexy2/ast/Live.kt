@@ -12,7 +12,6 @@ sealed class Live<out T> {
 
   data class Variable<T>(
     override val kClass: KClass<*>,
-    val id: Int,
     val initializer: Live<T>
   ) : Live<T>()
 
