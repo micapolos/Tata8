@@ -15,7 +15,7 @@ fun main() {
     animateSprite
       .with(image)
       .with(image.center.position.anchor)
-      .with(position(Screen.size.center.position.x, Mouse.position.y))
+      .with(Mouse.position)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)))
 
