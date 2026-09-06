@@ -3,18 +3,19 @@ package micapolos.tata8;
 import java.awt.image.BufferedImage;
 
 public final class Font {
-  static int SPACE_WIDTH = 2;
-  static int GLYPH_SPACING = 1;
-
   public static final Image image = Game.loadImage(Font.class, "font.png");
-  public static final Font system = load(image.bufferedImage);
+  public static final Font system = load(image.bufferedImage, 2, 1);
 
   final Glyph[] glyphs;
   public final int height;
+  public final int spaceWidth;
+  public final int glyphSpacing;
 
-  Font(Glyph[] glyphs, int height) {
+  Font(Glyph[] glyphs, int height, int spaceWidth, int glyphSpacing) {
     this.glyphs = glyphs;
     this.height = height;
+    this.spaceWidth = spaceWidth;
+    this.glyphSpacing = glyphSpacing;
   }
 
   public Glyph glyph(char ch) {
@@ -27,9 +28,9 @@ public final class Font {
     for (int i = 0; i < string.length(); i++) {
       char ch = string.charAt(i);
       Glyph glyph = glyph(ch);
-      if (i != 0) width += GLYPH_SPACING;
+      if (i != 0) width += glyphSpacing;
       if (glyph == null) {
-        width += SPACE_WIDTH;
+        width += spaceWidth;
       } else {
         width += glyph.width;
       }
@@ -37,7 +38,7 @@ public final class Font {
     return width;
   }
 
-  static Font load(BufferedImage image) {
+  static Font load(BufferedImage image, int spaceWidth, int glyphSpacing) {
     Glyph[] glyphs = new Glyph[96];
     int index = 0;
     int x = 0;
@@ -53,7 +54,7 @@ public final class Font {
       index++;
       if (index == glyphs.length) break;
     }
-    return new Font(glyphs, height);
+    return new Font(glyphs, height, 2, 1);
   }
 
   private int glyphIndex(char ch) {
@@ -81,7 +82,7 @@ public final class Font {
         continue;
       }
       Glyph glyph = glyph(ch);
-      if (i != 0) x += GLYPH_SPACING;
+      if (i != 0) x += glyphSpacing;
       if (glyph == null) {
         x += 2;
       } else {
