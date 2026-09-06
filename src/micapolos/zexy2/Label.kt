@@ -5,48 +5,40 @@ import micapolos.tata8.Font
 import micapolos.tata8.Game
 import micapolos.zexy2.ast.Live
 import micapolos.zexy2.ast.Primitive
-import micapolos.zexy2.ast.asApplication
-import kotlin.system.exitProcess
+import micapolos.zexy2.ast.withArg
 
 object Label
 
-typealias LiveLabel = Live<Animation<Label>>
-
-val label: LiveLabel get() =
-  Live.Application(
-    Animation::class,
-    Primitive.LABEL,
-    listOf(
-      constant(String::class, ""),
-      constant(0.0),
-      constant(0.0),
-      constant(Color::class, Color.WHITE),
-      constant(Font::class, Game.font)))
+val label: Live<Animation<Label>>
+  get() =
+    Live.Application(
+      Animation::class,
+      Primitive.LABEL,
+      listOf(
+        constant(String::class, ""),
+        constant(0.0),
+        constant(0.0),
+        constant(Color::class, Color.WHITE),
+        constant(Font::class, Game.font)
+      )
+    )
 
 fun Live<Animation<Label>>.with(string: String) =
   with(constant(String::class, string))
 
 @JvmName("withString")
-fun Live<Animation<Label>>.with(string: Live<String>): LiveLabel = asApplication.run {
-  Live.Application(kClass, primitive, listOf(string, args[1], args[2], args[3], args[4]))
-}
+fun Live<Animation<Label>>.with(string: Live<String>) = withArg(0, string)
 
-fun Live<Animation<Label>>.with(position: Position<Double>): LiveLabel = asApplication.run {
-  Live.Application(kClass, primitive, listOf(args[0], position.x, position.y, args[3], args[4]))
-}
+fun Live<Animation<Label>>.with(position: Position<Double>) = withArg(1, position.x).withArg(2, position.y)
 
 fun Live<Animation<Label>>.with(color: Color) =
   with(constant(Color::class, color))
 
 @JvmName("withColor")
-fun Live<Animation<Label>>.with(color: Live<Color>): LiveLabel = asApplication.run {
-  Live.Application(kClass, primitive, listOf(args[0], args[1], args[2], color, args[4]))
-}
+fun Live<Animation<Label>>.with(color: Live<Color>) = withArg(3, color)
 
 fun Live<Animation<Label>>.with(font: Font) =
   with(constant(Font::class, font))
 
 @JvmName("withFont")
-fun Live<Animation<Label>>.with(font: Live<Font>): LiveLabel = asApplication.run {
-  Live.Application(kClass, primitive, listOf(args[0], args[1], args[2], args[3], font))
-}
+fun Live<Animation<Label>>.with(font: Live<Font>) = withArg(4, font)

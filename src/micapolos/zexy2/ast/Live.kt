@@ -38,3 +38,8 @@ sealed class Live<out T> {
 }
 
 val <T> Live<T>.asApplication get() = this as Live.Application<T>
+
+fun <T> Live<T>.withArg(index: Int, live: Live<*>): Live<T> =
+  asApplication.run {
+    copy(args = args.toMutableList().also { it[index] = live }.toList())
+  } as Live<T>
