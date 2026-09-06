@@ -7,15 +7,14 @@ import micapolos.zexy2.live.show
 
 fun main() {
   val fontImage = micaFontImage
+  val chickenImages = DepressedChicken.images
 
   val xVariable = newVariable(-200.0)
   val x = xVariable.loggedAs("x")
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
   val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont).logged
-
-  val chickenImages = DepressedChicken.images
-
+  
   show(
     xVariable.keepAdding(60.0),
     Camera.alignment.set(centerAlignment),
