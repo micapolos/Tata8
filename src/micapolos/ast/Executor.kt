@@ -216,14 +216,14 @@ internal class Executor {
               }
             }
 
-            "Mouse.x" -> object : Runner {
+            "Mouse.position.x" -> object : Runner {
               override fun step(seconds: Float): Float {
                 state.value = Game.mouse.position.x.toDouble()
                 return seconds
               }
             }
 
-            "Mouse.y" -> object : Runner {
+            "Mouse.position.y" -> object : Runner {
               override fun step(seconds: Float): Float {
                 state.value = Game.mouse.position.y.toDouble()
                 return seconds
