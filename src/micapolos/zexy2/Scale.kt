@@ -4,6 +4,7 @@ import micapolos.zexy2.live.Live
 
 class Scale<T>(val x: Live<T>, val y: Live<T>)
 
+val noScale = scale(1.0, 1.0)
 fun scale(x: Double, y: Double) = Scale(x.live, y.live)
 fun <T> scale(x: Live<T>, y: Double) = Scale(x, y.live)
 fun <T> scale(x: Double, y: Live<T>) = Scale(x.live, y)

@@ -2,9 +2,10 @@ package micapolos.zexy2
 
 import micapolos.zexy2.live.Live
 
-class Flip<T>(val x: Live<T>, val y: Live<T>)
+class Flip(val x: Live<Boolean>, val y: Live<Boolean>)
 
-fun flip(x: Double, y: Double) = Flip(x.live, y.live)
-fun <T> flip(x: Live<T>, y: Double) = Flip(x, y.live)
-fun <T> flip(x: Double, y: Live<T>) = Flip(x.live, y)
-fun <T> flip(x: Live<T>, y: Live<T>) = Flip(x, y)
+val noFlip = flip(false, false)
+fun flip(x: Boolean, y: Boolean) = Flip(x.live, y.live)
+fun flip(x: Live<Boolean>, y: Boolean) = Flip(x, y.live)
+fun flip(x: Boolean, y: Live<Boolean>) = Flip(x.live, y)
+fun flip(x: Live<Boolean>, y: Live<Boolean>) = Flip(x, y)

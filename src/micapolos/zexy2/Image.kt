@@ -6,6 +6,8 @@ import micapolos.zexy2.live.Primitive
 
 val Image.live get() = live(Image::class)
 
+val noImage = null.live(Image::class)
+
 val Live<Image>.size get() =
   Size<Double>(
     Live.Application(Double::class, Primitive.IMAGE_WIDTH, listOf(this)),

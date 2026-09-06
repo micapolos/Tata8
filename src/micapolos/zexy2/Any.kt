@@ -5,7 +5,7 @@ import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import kotlin.reflect.KClass
 
-fun <T> T.live(kClass: KClass<*>) = Live.Constant(kClass, this)
+fun <T> T.live(kClass: KClass<*>): Live<T> = Live.Constant(kClass, this)
 
 val <T> Live<T>.variable: Live.Variable<T>
   get() =

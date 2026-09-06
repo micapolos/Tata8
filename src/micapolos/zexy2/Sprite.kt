@@ -6,7 +6,16 @@ import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import micapolos.zexy2.live.withArg
 
-object Sprite : Drawing
+data class Sprite(
+  val image: Live<Image?> = noImage,
+  val alignment: Alignment<Double> = leftTopAlignment,
+  val position: Position<Double> = positionZero,
+  val flip: Flip = noFlip,
+  val scale: Scale<Double> = noScale,
+  val composite: Live<Composite> = normalComposite,
+  val angle: Angle = angleZero,
+  val parallax: Parallax = noParallax,
+) : Drawing
 
 val liveSprite: Live<Sprite>
   get() =
@@ -27,6 +36,7 @@ val liveSprite: Live<Sprite>
 
 fun Live<Sprite>.with(image: Image) = with(image.live)
 
+@JvmName("withImage")
 fun Live<Sprite>.with(image: Live<Image>) = withArg(0, image)
 
 fun Live<Sprite>.withAlignment(x: Double, y: Double) =
@@ -54,7 +64,7 @@ fun Live<Sprite>.withFlip(x: Live<Boolean>, y: Live<Boolean>) =
   with(flip(x, y))
 
 @JvmName("withFlip")
-fun Live<Sprite>.with(flip: Flip<Boolean>) = withArg(5, flip.x).withArg(6, flip.y)
+fun Live<Sprite>.with(flip: Flip) = withArg(5, flip.x).withArg(6, flip.y)
 
 fun Live<Sprite>.withScale(x: Double, y: Double) =
   withScale(x.live, y.live)
