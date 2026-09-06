@@ -16,14 +16,14 @@ fun main() {
     x.keepAdding(60.0),
     sprite
       .with(image)
-      .with(image.center.position.anchor)
+      .with(centerAlignment)
       .with(Mouse.position)
       .with(scale(zoom, zoom))
       .with(angle(x * 0.5)),
     label
       .with(string)
       .with(Color.GREEN)
-      .with(alignment(0.5, 0.0))
+      .with(centerTopAlignment)
       .with(font)
       .with(position(Screen.center.position.x, 10.0)))
 

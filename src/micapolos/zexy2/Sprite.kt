@@ -27,14 +27,14 @@ fun Live<Animation<Sprite>>.with(image: Image) = with(image.live)
 
 fun Live<Animation<Sprite>>.with(image: Live<Image>) = withArg(0, image)
 
-fun Live<Animation<Sprite>>.withAnchor(x: Double, y: Double) =
-  withAnchor(x.live, y.live)
+fun Live<Animation<Sprite>>.withAlignment(x: Double, y: Double) =
+  withAlignment(x.live, y.live)
 
-fun Live<Animation<Sprite>>.withAnchor(x: Live<Double>, y: Live<Double>) =
-  with(anchor(x, y))
+fun Live<Animation<Sprite>>.withAlignment(x: Live<Double>, y: Live<Double>) =
+  with(alignment(x, y))
 
 @JvmName("withAnchor")
-fun Live<Animation<Sprite>>.with(anchor: Anchor<Double>) = withArg(1, anchor.x).withArg(2, anchor.y)
+fun Live<Animation<Sprite>>.with(alignment: Alignment<Double>) = withArg(1, alignment.x).withArg(2, alignment.y)
 
 fun Live<Animation<Sprite>>.withPosition(x: Double, y: Double) =
   withPosition(x.live, y.live)

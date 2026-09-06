@@ -161,19 +161,30 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     Primitive.SPRITE -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        Game.background.canvas.draw(
-          argStates[0].value as Image,
-          (argStates[1].value as Double).toFloat(),
-          (argStates[2].value as Double).toFloat(),
-          (argStates[3].value as Double).toFloat(),
-          (argStates[4].value as Double).toFloat(),
-          argStates[5].value as Boolean,
-          argStates[6].value as Boolean,
-          (argStates[7].value as Double).toFloat(),
-          (argStates[8].value as Double).toFloat(),
-          argStates[9].value as Composite,
-          (argStates[10].value as Double).toFloat()
-        )
+        (argStates[0].value as Image?)?.let { image ->
+          val alignmentX = (argStates[1].value as Double).toFloat()
+          val alignmentY = (argStates[2].value as Double).toFloat()
+          val positionX = (argStates[3].value as Double).toFloat()
+          val positionY = (argStates[4].value as Double).toFloat()
+          val imageWidth = image.size.width.toFloat()
+          val imageHeight = image.size.height.toFloat()
+          val anchorX = lerp(0f, imageWidth, alignmentX)
+          val anchorY = lerp(0f, imageHeight, alignmentY)
+
+          Game.background.canvas.draw(
+            image,
+            anchorX,
+            anchorY,
+            positionX, positionY,
+            argStates[5].value as Boolean,
+            argStates[6].value as Boolean,
+            (argStates[7].value as Double).toFloat(),
+            (argStates[8].value as Double).toFloat(),
+            argStates[9].value as Composite,
+            (argStates[10].value as Double).toFloat()
+
+          )
+        }
         return seconds
       }
     }
