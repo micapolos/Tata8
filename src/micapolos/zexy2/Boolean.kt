@@ -3,6 +3,8 @@ package micapolos.zexy2
 import micapolos.zexy2.ast.Live
 import kotlin.reflect.KClass
 
+val Boolean.live get() = live(Boolean::class)
+
 fun Live<Boolean>.ifTrue(b: Boolean) = ifTrue(constant(b))
 fun Live<Boolean>.ifTrue(i: Int) = ifTrue(constant(i))
 fun Live<Boolean>.ifTrue(d: Double) = ifTrue(constant(d))

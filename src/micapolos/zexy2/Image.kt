@@ -6,7 +6,7 @@ import micapolos.zexy2.ast.Live
 import micapolos.zexy2.ast.Primitive
 import kotlin.reflect.KClass
 
-val Image.live get() = constant(Image::class, this)
+val Image.live get() = live(Image::class)
 
 fun loadImage(baseClass: KClass<*>, name: String): Live<Image> =
   Game.loadImage(baseClass.java, name).live

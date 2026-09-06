@@ -3,6 +3,8 @@ package micapolos.zexy2
 import micapolos.zexy2.ast.Live
 import micapolos.zexy2.ast.Primitive
 
+val Double.live get() = live(Double::class)
+
 fun constant(d: Double): Live<Double> =
   Live.Constant(Double::class, d)
 

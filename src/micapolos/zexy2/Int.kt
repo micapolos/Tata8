@@ -3,8 +3,9 @@ package micapolos.zexy2
 import micapolos.zexy2.ast.Live
 import micapolos.zexy2.ast.Primitive
 
-fun constant(i: Int): Live<Int> =
-  Live.Constant(Int::class, i)
+val Int.live get() = live(Int::class)
+
+fun constant(i: Int): Live<Int> = i.live
 
 fun variable(i: Int): Live<Int> = variable(constant(i))
 

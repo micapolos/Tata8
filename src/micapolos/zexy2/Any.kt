@@ -4,6 +4,8 @@ import micapolos.zexy2.ast.Live
 import micapolos.zexy2.ast.Primitive
 import kotlin.reflect.KClass
 
+fun <T> T.live(kClass: KClass<*>) = constant(kClass, this)
+
 val <T> Live<T>.variable: Live.Variable<T> get() =
   this as? Live.Variable<T> ?: error("Not a variable")
 

@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public final class Image {
-  public static final Image micaFont = Image.load(Font.class, "font.png");
-  public static final Image koraFont = Image.load(Font.class, "kor-font.png");
+  public static final Image micaFont = Image.load(Font.class, "mica-font.png");
+  public static final Image koraFont = Image.load(Font.class, "kora-font.png");
 
   final BufferedImage bufferedImage;
   public final FinalSize size;
