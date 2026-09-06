@@ -1,5 +1,6 @@
 package micapolos.zexy2
 
+import micapolos.tata8.Color
 import micapolos.tata8.Font
 import micapolos.zexy2.ast.start
 
@@ -12,12 +13,16 @@ fun main() {
 
   val animation = inParallel(
     x.keepAdding(60.0),
-    animateSprite
+    sprite
       .with(image)
       .with(image.center.position.anchor)
       .with(Mouse.position)
       .with(scale(zoom, zoom))
-      .with(angle(x * 0.5)))
+      .with(angle(x * 0.5)),
+    label
+      .with("Hello World!")
+      .with(Color.RED)
+      .with(position(30.0, 30.0)))
 
   animation.start()
 }

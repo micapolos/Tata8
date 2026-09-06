@@ -1,9 +1,7 @@
 package micapolos.zexy2.ast
 
 import micapolos.Leo.leo
-import micapolos.tata8.Composite
-import micapolos.tata8.Game
-import micapolos.tata8.Image
+import micapolos.tata8.*
 import micapolos.zexy2.Key
 import kotlin.reflect.KClass
 
@@ -181,6 +179,19 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
           argStates[9].value as Composite,
           (argStates[10].value as Double).toFloat()
         )
+        return seconds
+      }
+    }
+
+    "label" -> object : Runner {
+      val argStates = args.map { expressionState(it) }
+      override fun step(seconds: Float): Float {
+        Game.background.canvas.draw(
+          argStates[0].value as String,
+          (argStates[1].value as Double).toInt(),
+          (argStates[2].value as Double).toInt(),
+          argStates[3].value as Color,
+          argStates[4].value as Font)
         return seconds
       }
     }
