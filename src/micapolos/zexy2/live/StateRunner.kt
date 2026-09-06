@@ -6,6 +6,7 @@ import micapolos.tata8.Math.lerp
 import micapolos.zexy.ParallaxRatio.applyParallaxRatio
 import micapolos.zexy2.Key
 import java.lang.Math.floorMod
+import kotlin.math.floor
 import kotlin.reflect.KClass
 
 typealias LiveState = (Live<*>) -> State
@@ -170,6 +171,14 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = floorMod(argStates[0].value as Int, argStates[1].value as Int)
+        return seconds
+      }
+    }
+
+    Primitive.DOUBLE_FRACTION -> object : Runner {
+      val argStates = args.map { liveState(it) }
+      override fun step(seconds: Float): Float {
+        state.value = (argStates[0].value as Double).let { it - floor(it) }
         return seconds
       }
     }

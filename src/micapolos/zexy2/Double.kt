@@ -35,3 +35,6 @@ operator fun Live<Double>.times(live: Live<Double>): Live<Double> =
 
 val Live<Double>.int: Live<Int> get() =
   Live.Application(Int::class, Primitive.DOUBLE_INT, listOf(this))
+
+val Live<Double>.fraction: Live<Double> get() =
+  Live.Application(Double::class, Primitive.DOUBLE_FRACTION, listOf(this))
