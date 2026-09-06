@@ -3,7 +3,7 @@ package micapolos.ast
 import micapolos.Blocks
 
 fun main() {
-  val image = image(Blocks::class, "depressedChicken.png")
+  val image = loadImage(Blocks::class, "depressedChicken.png")
 
   val x = variable(10.0)
   val y = (x + 50.0)
