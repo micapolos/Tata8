@@ -1,10 +1,10 @@
 package micapolos.zexy2
 
-import micapolos.Blocks
+import micapolos.tata8.Font
 import micapolos.zexy2.ast.start
 
 fun main() {
-  val image = loadImage(Blocks::class, "depressedChicken.png")
+  val image = Font.image
 
   val x = variable(10.0)
   val y = (x + 50.0)
@@ -17,7 +17,7 @@ fun main() {
       .with(image.center.position.anchor)
       .with(position(Screen.size.center.position.x, Mouse.position.y))
       .with(scale(zoom, zoom))
-      .with(angle(x * 5.0)))
+      .with(angle(x * 0.5)))
 
   animation.start()
 }

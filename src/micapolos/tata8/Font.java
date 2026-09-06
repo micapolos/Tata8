@@ -6,7 +6,8 @@ public final class Font {
   static int SPACE_WIDTH = 2;
   static int GLYPH_SPACING = 1;
 
-  public static final Font system = load(Image.loadBufferedImage(Font.class, "font.png"));
+  public static final Image image = Game.loadImage(Font.class, "font.png");
+  public static final Font system = load(image.bufferedImage);
 
   final Glyph[] glyphs;
   public final int height;
