@@ -10,5 +10,4 @@ fun <T> anchor(x: Expression<T>, y: T) = Anchor(x, constant(x.kClass, y))
 fun <T> anchor(x: T, y: Expression<T>) = Anchor(constant(y.kClass, x), y)
 fun <T> anchor(x: Expression<T>, y: Expression<T>) = Anchor(x, y)
 
-val Image.centerAnchor: Anchor<Double> get() =
-  anchor(size.width.toDouble() * 0.5, size.height.toDouble() * 0.5)
+val <T> Position<T>.anchor: Anchor<T> get() = anchor(x, y)
