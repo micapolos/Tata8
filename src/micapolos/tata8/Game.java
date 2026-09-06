@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static micapolos.zexy.Image.*;
-
 public final class Game {
   static final boolean FULLSCREEN = false;
 
@@ -66,6 +64,10 @@ public final class Game {
       throw new RuntimeException("Could not load image (maximum total pixel count is " + MAX_IMAGES_PIXEL_COUNT + ")");
     }
     return image;
+  }
+
+  public static Font loadFont(Class<?> baseClass, String fileName, int spaceWidth, int glyphSpacing) {
+    return Font.newFont(loadImage(baseClass, fileName).bufferedImage, spaceWidth, glyphSpacing);
   }
 
   public static TileSet loadTileSet(Class<?> baseClass, String fileName) {

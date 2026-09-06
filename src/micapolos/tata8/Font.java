@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public final class Font {
   public static final Image image = Game.loadImage(Font.class, "font.png");
-  public static final Font system = load(image.bufferedImage, 2, 1);
+  public static final Font system = newFont(image.bufferedImage, 2, 1);
 
   final Glyph[] glyphs;
   public final int height;
@@ -38,7 +38,7 @@ public final class Font {
     return width;
   }
 
-  static Font load(BufferedImage image, int spaceWidth, int glyphSpacing) {
+  static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing) {
     Glyph[] glyphs = new Glyph[96];
     int index = 0;
     int x = 0;
@@ -54,7 +54,7 @@ public final class Font {
       index++;
       if (index == glyphs.length) break;
     }
-    return new Font(glyphs, height, 2, 1);
+    return new Font(glyphs, height, spaceWidth, glyphSpacing);
   }
 
   private int glyphIndex(char ch) {
