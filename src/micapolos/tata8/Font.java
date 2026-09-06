@@ -38,7 +38,7 @@ public final class Font {
     return width;
   }
 
-  static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing) {
+  public static Font newFont(BufferedImage image, int spaceWidth, int glyphSpacing) {
     Glyph[] glyphs = new Glyph[96];
     int index = 0;
     int x = 0;
