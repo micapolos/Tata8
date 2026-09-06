@@ -8,16 +8,15 @@ fun main() {
 
   val x = variable(10.0)
   val y = (x + 50.0)
-  val b = constant(false).ifTrue(constant(123)).orElse(constant(123))
   val scale = Mouse.isPressed.ifTrue(2.0).orElse(1.0).logged
 
-  val animation = parallel(
+  val animation = inParallel(
     x.keepAdding(60.0),
-    sprite()
+    animateSprite()
       .with(image)
-      .withPosition(Mouse.position.x, Mouse.position.y)
-      .withScale(scale, scale)
-      .withAngle(x))
+      .with(Mouse.position)
+      .with(scale(scale, scale))
+      .with(angle(x)))
 
   animation.start()
 }

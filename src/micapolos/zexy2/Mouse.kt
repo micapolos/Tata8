@@ -4,7 +4,7 @@ import micapolos.zexy2.ast.Expression
 
 object Mouse {
   val position =
-    Position(
+    Position<Double>(
       Expression.Application(Double::class, "Mouse.position.x", listOf()),
       Expression.Application(Double::class, "Mouse.position.y", listOf()))
 
