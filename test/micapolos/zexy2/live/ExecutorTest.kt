@@ -16,17 +16,19 @@ class ExecutorTest {
         trueConstant,
         falseConstant)
     val executor = Executor()
-    val conditionState = executor.state(condition)
     val conditionalState = executor.state(conditional)
-    val trueState = executor.state(trueConstant)
-    val falseState = executor.state(falseConstant)
-    val runner = executor.runner
+
+    // Dependent states should be created
+    val conditionState = executor.states[condition]!!
+    val trueState = executor.states[trueConstant]!!
+    val falseState = executor.states[falseConstant]!!
 
     assertNull(conditionState.value)
     assertNull(conditionalState.value)
     assertNull(trueState.value)
     assertNull(falseState.value)
 
+    val runner = executor.runner
     runner.init()
     assertEquals(true, conditionState.value)
     assertEquals(10, trueState.value)
