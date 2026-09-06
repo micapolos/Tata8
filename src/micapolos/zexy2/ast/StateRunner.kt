@@ -5,38 +5,38 @@ import micapolos.tata8.*
 import micapolos.zexy2.Key
 import kotlin.reflect.KClass
 
-typealias ExpressionState = (Expression<*>) -> State
+typealias LiveState = (Live<*>) -> State
 
-fun <T> Expression.Constant<T>.runner(state: State) =
+fun <T> Live.Constant<T>.runner(state: State) =
   object : Runner {
     override fun init() {
       state.value = value
     }
   }
 
-fun <T> Expression.Variable<T>.runner(state: State, expressionState: ExpressionState) =
+fun <T> Live.Variable<T>.runner(state: State, liveState: LiveState) =
   object : Runner {
-    val initializerState = expressionState(initializer)
+    val initializerState = liveState(initializer)
     override fun init() {
       state.value = initializerState.value
     }
   }
 
-fun <T> Expression.Set<T>.runner(expressionState: ExpressionState) =
+fun <T> Live.Set<T>.runner(liveState: LiveState) =
   object : Runner {
-    val lhsState = expressionState(lhs)
-    val rhsState = expressionState(rhs)
+    val lhsState = liveState(lhs)
+    val rhsState = liveState(rhs)
     override fun step(seconds: Float): Float {
       lhsState.value = rhsState.value
       return seconds
     }
   }
 
-fun <T> Expression.Conditional<T>.runner(state: State, expressionState: ExpressionState) =
+fun <T> Live.Conditional<T>.runner(state: State, liveState: LiveState) =
   object : Runner {
-    val conditionState = expressionState(condition)
-    val trueState = expressionState(trueExpression)
-    val falseState = expressionState(falseExpression)
+    val conditionState = liveState(condition)
+    val trueState = liveState(trueLive)
+    val falseState = liveState(falseLive)
     override fun step(seconds: Float): Float {
       state.value = if (conditionState.value as Boolean) {
         trueState.value
@@ -47,10 +47,10 @@ fun <T> Expression.Conditional<T>.runner(state: State, expressionState: Expressi
     }
   }
 
-fun <T> Expression.Application<T>.runner(state: State, expressionState: ExpressionState): Runner {
+fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
   return when (name) {
     "logged" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         when (argStates.size) {
           1 -> {
@@ -68,7 +68,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "readOnly" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value
         return seconds
@@ -76,7 +76,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Int.plus" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int + argStates[1].value as Int
         return seconds
@@ -84,7 +84,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Double.plus" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double + argStates[1].value as Double
         return seconds
@@ -92,7 +92,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Int.minus" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int - argStates[1].value as Int
         return seconds
@@ -100,7 +100,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Double.minus" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double - argStates[1].value as Double
         return seconds
@@ -108,7 +108,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Int.times" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Int * argStates[1].value as Int
         return seconds
@@ -116,7 +116,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Double.times" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = argStates[0].value as Double * argStates[1].value as Double
         return seconds
@@ -124,7 +124,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "parallel" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         return seconds
       }
@@ -137,7 +137,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
 //    }
 
     "Int.keepAdding" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Int + argStates[1].value as Int
         return seconds
@@ -145,7 +145,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Double.keepAdding" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Double + argStates[1].value as Double * seconds
         return seconds
@@ -153,7 +153,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "loadImage" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = Game.loadImage(
           (argStates[0].value as KClass<*>).java,
@@ -164,7 +164,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "sprite" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         Game.background.canvas.draw(
           argStates[0].value as Image,
@@ -184,7 +184,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "label" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         Game.background.canvas.draw(
           argStates[0].value as String,
@@ -197,7 +197,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Key.isPressed" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.isPressed
         return seconds
@@ -205,7 +205,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Key.pressed" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.pressed()
         return seconds
@@ -213,7 +213,7 @@ fun <T> Expression.Application<T>.runner(state: State, expressionState: Expressi
     }
 
     "Key.released" -> object : Runner {
-      val argStates = args.map { expressionState(it) }
+      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.released()
         return seconds

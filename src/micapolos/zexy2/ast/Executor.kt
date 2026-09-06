@@ -15,26 +15,26 @@ internal val Any?.leoString
 
 internal class Executor {
   val runners = mutableListOf<Runner>()
-  val states = mutableMapOf<Expression<*>, State>()
+  val states = mutableMapOf<Live<*>, State>()
 
-  fun state(expression: Expression<*>): State =
-    states[expression] ?: State().also { state ->
-      states[expression] = state
+  fun state(live: Live<*>): State =
+    states[live] ?: State().also { state ->
+      states[live] = state
 
-      runners += when (expression) {
-        is Expression.Constant<*> -> expression.runner(state)
-        is Expression.Variable<*> -> expression.runner(state, ::state)
-        is Expression.Set<*> -> expression.runner(::state)
-        is Expression.Conditional<*> -> expression.runner(state, ::state)
-        is Expression.Application<*> -> expression.runner(state, ::state)
+      runners += when (live) {
+        is Live.Constant<*> -> live.runner(state)
+        is Live.Variable<*> -> live.runner(state, ::state)
+        is Live.Set<*> -> live.runner(::state)
+        is Live.Conditional<*> -> live.runner(state, ::state)
+        is Live.Application<*> -> live.runner(state, ::state)
       }
     }
 
 }
 
-val Expression<*>.runner get() = Executor().apply { state(this@runner) }.let { parallel(it.runners) }
+val Live<*>.runner get() = Executor().apply { state(this@runner) }.let { parallel(it.runners) }
 
-fun Expression<Animation<*>>.start() {
+fun Live<Animation<*>>.start() {
   val runner = runner
   Game.screen.shader = Shader.CRT_PHOSPHOR
   runner.init()

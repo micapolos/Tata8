@@ -1,6 +1,6 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Expression
+import micapolos.zexy2.ast.Live
 
-class Angle(val degrees: Expression<Double>)
-fun angle(degrees: Expression<Double>) = Angle(degrees)
+class Angle(val degrees: Live<Double>)
+fun angle(degrees: Live<Double>) = Angle(degrees)

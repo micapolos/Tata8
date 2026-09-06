@@ -1,17 +1,17 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Expression
+import micapolos.zexy2.ast.Live
 
 class Animation<out T>
 
-fun inParallel(expression: Expression<Animation<*>>, vararg expressions: Expression<Animation<*>>) =
-  inParallel(listOf(expression, *expressions))
+fun inParallel(live: Live<Animation<*>>, vararg lives: Live<Animation<*>>) =
+  inParallel(listOf(live, *lives))
 
-fun inParallel(expressions: List<Expression<Animation<*>>>) =
-  Expression.Application<Animation<*>>(Animation::class, "parallel", expressions)
+fun inParallel(lives: List<Live<Animation<*>>>) =
+  Live.Application<Animation<*>>(Animation::class, "parallel", lives)
 
-fun inSequence(expression: Expression<Animation<*>>, vararg expressions: Expression<Animation<*>>) =
-  inSequence(listOf(expression, *expressions))
+fun inSequence(live: Live<Animation<*>>, vararg lives: Live<Animation<*>>) =
+  inSequence(listOf(live, *lives))
 
-fun inSequence(expressions: List<Expression<Animation<*>>>) =
-  Expression.Application<Animation<*>>(Animation::class, "sequence", expressions)
+fun inSequence(lives: List<Live<Animation<*>>>) =
+  Live.Application<Animation<*>>(Animation::class, "sequence", lives)

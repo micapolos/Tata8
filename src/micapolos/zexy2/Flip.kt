@@ -1,10 +1,10 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Expression
+import micapolos.zexy2.ast.Live
 
-class Flip<T>(val x: Expression<T>, val y: Expression<T>)
+class Flip<T>(val x: Live<T>, val y: Live<T>)
 
 fun flip(x: Double, y: Double) = Flip(constant(x), constant(y))
-fun <T> flip(x: Expression<T>, y: Double) = Flip(x, constant(y))
-fun <T> flip(x: Double, y: Expression<T>) = Flip(constant(x), y)
-fun <T> flip(x: Expression<T>, y: Expression<T>) = Flip(x, y)
+fun <T> flip(x: Live<T>, y: Double) = Flip(x, constant(y))
+fun <T> flip(x: Double, y: Live<T>) = Flip(constant(x), y)
+fun <T> flip(x: Live<T>, y: Live<T>) = Flip(x, y)

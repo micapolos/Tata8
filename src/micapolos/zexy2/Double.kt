@@ -1,32 +1,32 @@
 package micapolos.zexy2
 
-import micapolos.zexy2.ast.Expression
+import micapolos.zexy2.ast.Live
 
-fun constant(d: Double): Expression<Double> =
-  Expression.Constant(Double::class, d)
+fun constant(d: Double): Live<Double> =
+  Live.Constant(Double::class, d)
 
-fun variable(d: Double): Expression<Double> = variable(constant(d))
+fun variable(d: Double): Live<Double> = variable(constant(d))
 
-fun Expression<Double>.keepAdding(d: Double) = keepAdding(constant(d))
+fun Live<Double>.keepAdding(d: Double) = keepAdding(constant(d))
 
 @JvmName("keepAddingDouble")
-fun Expression<Double>.keepAdding(expression: Expression<Double>): Expression<Animation<Double>> =
-  Expression.Application(Animation::class, "Double.keepAdding", listOf(variable, expression))
+fun Live<Double>.keepAdding(live: Live<Double>): Live<Animation<Double>> =
+  Live.Application(Animation::class, "Double.keepAdding", listOf(variable, live))
 
-operator fun Expression<Double>.plus(i: Double): Expression<Double> = plus(constant(i))
+operator fun Live<Double>.plus(i: Double): Live<Double> = plus(constant(i))
 
 @JvmName("plusDouble")
-operator fun Expression<Double>.plus(expression: Expression<Double>): Expression<Double> =
-  Expression.Application(kClass, "Double.plus", listOf(this, expression))
+operator fun Live<Double>.plus(live: Live<Double>): Live<Double> =
+  Live.Application(kClass, "Double.plus", listOf(this, live))
 
-operator fun Expression<Double>.minus(d: Double): Expression<Double> = minus(constant(d))
+operator fun Live<Double>.minus(d: Double): Live<Double> = minus(constant(d))
 
 @JvmName("minusDouble")
-operator fun Expression<Double>.minus(expression: Expression<Double>): Expression<Double> =
-  Expression.Application(kClass, "Double.minus", listOf(this, expression))
+operator fun Live<Double>.minus(live: Live<Double>): Live<Double> =
+  Live.Application(kClass, "Double.minus", listOf(this, live))
 
-operator fun Expression<Double>.times(d: Double): Expression<Double> = times(constant(d))
+operator fun Live<Double>.times(d: Double): Live<Double> = times(constant(d))
 
 @JvmName("timesDouble")
-operator fun Expression<Double>.times(expression: Expression<Double>): Expression<Double> =
-  Expression.Application(kClass, "Double.times", listOf(this, expression))
+operator fun Live<Double>.times(live: Live<Double>): Live<Double> =
+  Live.Application(kClass, "Double.times", listOf(this, live))

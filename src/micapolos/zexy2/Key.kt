@@ -1,7 +1,7 @@
 package micapolos.zexy2
 
 import micapolos.tata8.Game
-import micapolos.zexy2.ast.Expression
+import micapolos.zexy2.ast.Live
 
 enum class Key(internal val tata8: micapolos.tata8.Key) {
   LEFT(Game.keys.left),
@@ -11,20 +11,20 @@ enum class Key(internal val tata8: micapolos.tata8.Key) {
   Z(Game.keys.z),
   X(Game.keys.x);
 
-  val isPressed: Expression<Boolean> =
-    Expression.Application(
+  val isPressed: Live<Boolean> =
+    Live.Application(
       Boolean::class,
       "Key.isPressed",
       listOf(constant(micapolos.zexy2.Key::class, this)))
 
-  val pressed: Expression<Boolean> =
-    Expression.Application(
+  val pressed: Live<Boolean> =
+    Live.Application(
       Boolean::class,
       "Key.pressed",
       listOf(constant(micapolos.zexy2.Key::class, this)))
 
-  val released: Expression<Boolean> =
-    Expression.Application(
+  val released: Live<Boolean> =
+    Live.Application(
       Boolean::class,
       "Key.released",
       listOf(constant(micapolos.zexy2.Key::class, this)))
