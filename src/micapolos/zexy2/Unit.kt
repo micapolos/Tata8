@@ -21,8 +21,8 @@ fun Live<Unit>.repeatWhile(condition: Live<Boolean>): Live<Unit> =
 val Live<Unit>.repeat: Live<Unit> get() =
   repeatWhile(true)
 
-fun Live<Unit>.runWhile(condition: Live<Boolean>): Live<Unit> =
+fun Live<Unit>.onlyIf(condition: Live<Boolean>): Live<Unit> =
   Live.ConditionalStep(condition, this)
 
-fun Live<Unit>.startWhen(condition: Live<Boolean>): Live<Unit> =
+fun Live<Unit>.on(condition: Live<Boolean>): Live<Unit> =
   Live.ConditionalInit(condition, this)

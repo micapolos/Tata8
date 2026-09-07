@@ -18,9 +18,9 @@ fun main() {
 
   show(
     Camera.alignment.set(centerAlignment),
-    xVariable.keepAdding(speed).runWhile(Key.RIGHT.isPressed),
-    xVariable.keepAdding(-speed).runWhile(Key.LEFT.isPressed),
-    speed.set(60.0.live - speed).startWhen(Key.Z.pressed),
+    xVariable.keepAdding(speed).onlyIf(Key.RIGHT.isPressed),
+    xVariable.keepAdding(-speed).onlyIf(Key.LEFT.isPressed),
+    speed.set(60.0.live - speed).on(Key.Z.press),
     xVariable.set(-100.0).then(pause(1.0)).repeat,
     liveSprite
       .with(fontImage)

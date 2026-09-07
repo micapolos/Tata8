@@ -18,7 +18,7 @@ enum class Key(internal val tata8: micapolos.tata8.Key) {
       Primitive.KEY_IS_PRESSED,
       listOf(live(Key::class)))
 
-  val pressed: Live<Boolean> =
+  val press: Live<Boolean> =
     Live.Application(
       Boolean::class,
       Primitive.KEY_PRESSED,
