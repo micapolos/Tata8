@@ -40,7 +40,7 @@ sealed class Live<out T> {
     val falseLive: Live<T>,
   ) : Live<T>()
 
-  data class Pause(val seconds: Live<Double>) : Live<Unit>() {
+  data class Sleep(val seconds: Live<Double>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 
@@ -62,7 +62,7 @@ fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Unit> = Live.Set(lhs, rhs)
 fun <T> liveApplication(kClass: KClass<*>, primitive: Primitive, vararg args: Live<*>): Live<T> =
   Live.Application(kClass, primitive, args.toList())
 
-fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
+fun livePause(seconds: Live<Double>): Live<Unit> = Live.Sleep(seconds)
 
 fun liveBlock(lives: List<Live<Unit>>): Live<Unit> = Live.Block(lives)
 

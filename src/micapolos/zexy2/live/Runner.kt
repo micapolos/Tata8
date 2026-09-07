@@ -5,7 +5,7 @@ interface Runner {
   fun step(seconds: Float) = seconds
 }
 
-fun pauseRunner(getSeconds: () -> Float) =
+fun sleepRunner(getSeconds: () -> Float) =
   object : Runner {
     var remainingSeconds: Float = 0f
 
