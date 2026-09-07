@@ -24,22 +24,22 @@ internal class Executor(
       states[live] = state
 
       animations += when (live) {
-        is Live.Constant<T> -> constantRunner(state, live.value)
+        is Live.Constant<T> -> constantAnimation(state, live.value)
 
-        is Live.Variable<T> -> variableRunner(state, state(live.initializer))
+        is Live.Variable<T> -> variableAnimation(state, state(live.initializer))
 
         is Live.Init<*> -> startOnAnimation(state(live.lhs), state(live.rhs))
 
-        is Live.Set<*> -> setRunner(state(live.lhs), state(live.rhs))
+        is Live.Set<*> -> keepSettingAnimation(state(live.lhs), state(live.rhs))
 
         is Live.Elastic -> elasticAnimation(state as State<Double>, state(live.target))
 
-        is Live.Conditional<T> -> conditionalRunner(state,
+        is Live.Conditional<T> -> conditionalAnimation(state,
           state(live.condition),
           expression(live.trueLive),
           expression(live.falseLive))
 
-        is Live.Application<T> -> applicationRunner(live.primitive, state, live.args.map(::state), ::state)
+        is Live.Application<T> -> animation(live.primitive, state, live.args.map(::state), ::state)
         is Live.Bottom -> bottomAnimation
 
         is Live.Pause -> {

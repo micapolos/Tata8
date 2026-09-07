@@ -159,14 +159,10 @@ fun elasticAnimation(current: State<Double>, target: State<Double>) =
     }
   }
 
-fun frameTimeAnimation(outState: State<Double>) =
+fun frameTimeAnimation(out: State<Double>) =
   object : Animation {
-    override fun init() {
-      outState.value = 0.0
-    }
-
     override fun step(seconds: Float): Float {
-      outState.value = seconds.toDouble();
+      out.value = seconds.toDouble()
       return seconds
     }
   }
