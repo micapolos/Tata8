@@ -141,7 +141,6 @@ fun initRunner(startState: State<Boolean>, animation: Animation) =
       } else {
         return 0f
       }
-
     }
   }
 
