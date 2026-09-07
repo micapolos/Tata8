@@ -16,13 +16,13 @@ internal val Any?.leoString
 
 internal class Executor(
   val states: MutableMap<Live<*>, State<*>> = mutableMapOf(),
-  val runners: MutableList<Runner> = mutableListOf(),
+  val animations: MutableList<Animation> = mutableListOf(),
 ) {
   fun <T> state(live: Live<T>): State<T> =
     ((states[live] ?: State<T>()) as State<T>).also { state ->
       states[live] = state
 
-      runners += when (live) {
+      animations += when (live) {
         is Live.Constant<T> -> constantRunner(state, live.value)
 
         is Live.Variable<T> -> variableRunner(state, state(live.initializer))
@@ -39,30 +39,30 @@ internal class Executor(
           expression(live.falseLive))
 
         is Live.Application<T> -> applicationRunner(live.primitive, state, live.args.map(::state), ::state)
-        is Live.Bottom -> bottomRunner
+        is Live.Bottom -> bottomAnimation
 
         is Live.Pause -> {
           val secondsState = state(live.seconds)
           sleepRunner(secondsState)
         }
 
-        is Live.Block -> sequence(live.lives.map { expression(it).runner })
+        is Live.Block -> sequence(live.lives.map { expression(it).animation })
 
         is Live.DoWhile -> {
           val conditionState = state(live.condition)
-          val bodyRunner = expression(live.body).runner
+          val bodyRunner = expression(live.body).animation
           doWhileRunner(bodyRunner, conditionState)
         }
 
         is Live.ConditionalStep -> {
           val conditionState = state(live.condition)
-          val bodyRunner = expression(live.body).runner
+          val bodyRunner = expression(live.body).animation
           stepRunner(conditionState, bodyRunner)
         }
 
         is Live.ConditionalInit -> {
           val conditionState = state(live.condition)
-          val bodyRunner = expression(live.body).runner
+          val bodyRunner = expression(live.body).animation
           initRunner(conditionState, bodyRunner)
         }
       }
@@ -74,7 +74,7 @@ internal class Executor(
     return Expression(state, executor.runner)
   }
 
-  val runner get() = parallel(runners)
+  val runner get() = parallel(animations)
 }
 
 fun Live<*>.show() {

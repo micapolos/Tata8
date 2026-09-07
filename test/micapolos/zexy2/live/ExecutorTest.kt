@@ -39,7 +39,7 @@ class ExecutorTest {
     assertEquals(true, conditionState.value)
     assertEquals(10, conditionalState.value)
 
-    conditionState.value = false
+    conditionState.internalValue = false
     try {
       runner.step(1f)
       throw AssertionError("Should throw")
