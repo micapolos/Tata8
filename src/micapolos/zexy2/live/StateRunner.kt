@@ -60,6 +60,16 @@ fun <T> Live.Conditional<T>.runner(state: State, liveState: LiveState) =
 
 fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
   return when (primitive) {
+    Primitive.FRAME_TIME -> object : Runner {
+      override fun init() {
+        state.value = 0.0
+      }
+
+      override fun step(seconds: Float): Float {
+        state.value = seconds.toDouble();
+        return seconds;
+      }
+    }
     Primitive.LOGGED -> object : Runner {
       val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {

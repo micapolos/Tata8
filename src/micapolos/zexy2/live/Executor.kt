@@ -23,8 +23,11 @@ internal class Executor(
 
       runners += when (live) {
         is Live.Constant<*> -> live.runner(state)
+
         is Live.Variable<*> -> live.runner(state, ::state)
+
         is Live.Set<*> -> live.runner(::state)
+
         is Live.Conditional<*> -> {
           val conditionState = state(live.condition)
           val (trueState, trueRunner) = childStateAndRunner(live.trueLive)
@@ -97,6 +100,9 @@ fun Live<*>.show() {
   Game.screen.shader = Shader.CRT_PHOSPHOR
   runner.init()
   Game.onStep = { seconds ->
+    if (Game.keys.reset.pressed()) {
+      runner.init()
+    }
     Game.background.canvas.clear()
     runner.step(seconds)
   }

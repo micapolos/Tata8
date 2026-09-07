@@ -13,7 +13,7 @@ fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 
 @JvmName("keepAddingDouble")
 fun Live<Double>.keepAdding(live: Live<Double>): Live<Unit> =
-  Live.Application(Animation::class, Primitive.DOUBLE_KEEP_ADDING, listOf(variable, live))
+  set(this + frameTime * live)
 
 operator fun Live<Double>.unaryMinus(): Live<Double> = 0.0.live - this
 
@@ -40,3 +40,15 @@ val Live<Double>.int: Live<Int> get() =
 
 val Live<Double>.fraction: Live<Double> get() =
   Live.Application(Double::class, Primitive.DOUBLE_FRACTION, listOf(this))
+
+val frameTime: Live<Double> get() =
+  Live.Application(Double::class, Primitive.FRAME_TIME, listOf())
+
+fun Live<Double>.add(d: Double) = add(d.live)
+fun Live<Double>.add(d: Live<Double>) = set(this + d)
+
+fun Live<Double>.subtract(d: Double) = subtract(d.live)
+fun Live<Double>.subtract(d: Live<Double>) = set(this - d)
+
+fun Live<Double>.multiply(d: Double) = multiply(d.live)
+fun Live<Double>.multiply(d: Live<Double>) = set(this + d)

@@ -1,6 +1,7 @@
 package micapolos.zexy2.live
 
 enum class Primitive {
+  FRAME_TIME,
   LOGGED,
   READONLY,
   BOOLEAN_NOT,

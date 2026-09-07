@@ -1,5 +1,6 @@
 package micapolos.zexy2.live
 
+import micapolos.zexy2.Sprite
 import kotlin.reflect.KClass
 
 sealed class Live<out T> {

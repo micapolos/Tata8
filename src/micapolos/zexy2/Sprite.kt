@@ -6,18 +6,9 @@ import micapolos.zexy2.live.Live
 import micapolos.zexy2.live.Primitive
 import micapolos.zexy2.live.withArg
 
-data class Sprite(
-  val image: Live<Image?> = noImage,
-  val alignment: Alignment<Double> = leftTopAlignment,
-  val position: Position<Double> = positionZero,
-  val flip: Flip = noFlip,
-  val scale: Scale<Double> = noScale,
-  val composite: Live<Composite> = normalComposite,
-  val angle: Angle = angleZero,
-  val parallax: Parallax = noParallax,
-) : Drawing
+object Sprite : Drawing
 
-val liveSprite: Live<Sprite>
+val drawSprite: Live<Sprite>
   get() =
     Live.Application(
       Sprite::class,
