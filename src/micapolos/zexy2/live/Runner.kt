@@ -76,3 +76,35 @@ fun sequence(runners: List<Runner>): Runner =
       }
     }
   }
+
+fun doWhileRunner(body: Runner, condition: () -> Boolean) =
+  object : Runner {
+    var needsInit = false
+    var done = false
+
+    override fun init() {
+      needsInit = true
+      done = false
+    }
+
+    override fun step(seconds: Float): Float {
+      var remainingSeconds = seconds
+      while (true) {
+        if (done) {
+          return remainingSeconds
+        } else if (needsInit) {
+          body.init()
+          needsInit = false
+        }
+
+        remainingSeconds = body.step(remainingSeconds)
+        if (remainingSeconds == 0f) {
+          return 0f
+        } else if (condition()) {
+          needsInit = true
+        } else {
+          done = true
+        }
+      }
+    }
+  }

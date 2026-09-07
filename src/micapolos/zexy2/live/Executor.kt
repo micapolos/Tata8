@@ -59,6 +59,12 @@ internal class Executor(
         }
 
         is Live.Block -> sequence(live.lives.map { childStateAndRunner(it).second })
+
+        is Live.DoWhile -> {
+          val conditionState = state(live.condition)
+          val bodyRunner = childStateAndRunner(live.body).second
+          doWhileRunner(bodyRunner) { conditionState.value as Boolean }
+        }
       }
     }
 

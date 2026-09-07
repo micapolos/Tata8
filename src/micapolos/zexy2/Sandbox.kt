@@ -3,7 +3,6 @@ package micapolos.zexy2
 import micapolos.DepressedChicken
 import micapolos.tata8.Color
 import micapolos.tata8.Quote
-import micapolos.zexy2.live.liveBottom
 import micapolos.zexy2.live.show
 
 fun main() {
@@ -20,13 +19,7 @@ fun main() {
     Camera.alignment.set(centerAlignment),
     Key.RIGHT.isPressed.ifTrue(xVariable.keepAdding(60.0)).orElse(doNothing),
     Key.LEFT.isPressed.ifTrue(xVariable.keepAdding(-60.0)).orElse(doNothing),
-    sequence(
-      1.0.pause, xVariable.set(-100.0),
-      1.0.pause, xVariable.set(-100.0),
-      1.0.pause, xVariable.set(-100.0),
-      1.0.pause, xVariable.set(-100.0),
-      1.0.pause, xVariable.set(-100.0),
-      1.0.pause, xVariable.set(-100.0)),
+    repeat(sequence(xVariable.set(-100.0), pause(1.0))),
     liveSprite
       .with(fontImage)
       .with(centerAlignment)

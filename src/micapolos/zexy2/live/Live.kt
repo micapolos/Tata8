@@ -47,6 +47,10 @@ sealed class Live<out T> {
   class Block(val lives: List<Live<Unit>>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
+
+  class DoWhile(val body: Live<Unit>, val condition: Live<Boolean>) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
 }
 
 val <T> Live<T>.asApplication get() = this as Live.Application<T>
