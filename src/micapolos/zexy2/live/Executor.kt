@@ -53,9 +53,9 @@ internal class Executor(
         is Live.Application<*> -> live.runner(state, ::state)
         is Live.Bottom -> bottomRunner
 
-        is Live.Sleep -> {
+        is Live.Pause -> {
           val secondsState = state(live.seconds)
-          sleepRunner { (secondsState.value as Double).toFloat() }
+          pauseRunner { (secondsState.value as Double).toFloat() }
         }
 
         is Live.Block -> sequence(live.lives.map { childStateAndRunner(it).second })

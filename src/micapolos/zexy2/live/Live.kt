@@ -9,42 +9,42 @@ sealed class Live<out T> {
     override val kClass = Nothing::class
   }
 
-  data class Constant<out T>(
+  class Constant<out T>(
     override val kClass: KClass<*>,
     val value: T
   ) : Live<T>()
 
-  data class Variable<out T>(
+  class Variable<out T>(
     val initializer: Live<T>
   ) : Live<T>() {
     override val kClass: KClass<*> get() = initializer.kClass
   }
 
-  data class Set<out T>(
+  class Set<out T>(
     val lhs: Live<T>,
     val rhs: Live<T>
   ) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 
-  data class Application<out T>(
+  class Application<out T>(
     override val kClass: KClass<*>,
     val primitive: Primitive,
     val args: List<Live<*>>
   ) : Live<T>()
 
-  data class Conditional<out T>(
+  class Conditional<out T>(
     override val kClass: KClass<*>,
     val condition: Live<Boolean>,
     val trueLive: Live<T>,
     val falseLive: Live<T>,
   ) : Live<T>()
 
-  data class Sleep(val seconds: Live<Double>) : Live<Unit>() {
+  class Pause(val seconds: Live<Double>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 
-  data class Block(val lives: List<Live<Unit>>) : Live<Unit>() {
+  class Block(val lives: List<Live<Unit>>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 }
@@ -62,7 +62,7 @@ fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Unit> = Live.Set(lhs, rhs)
 fun <T> liveApplication(kClass: KClass<*>, primitive: Primitive, vararg args: Live<*>): Live<T> =
   Live.Application(kClass, primitive, args.toList())
 
-fun livePause(seconds: Live<Double>): Live<Unit> = Live.Sleep(seconds)
+fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
 
 fun liveBlock(lives: List<Live<Unit>>): Live<Unit> = Live.Block(lives)
 
@@ -74,5 +74,5 @@ fun <T> liveConditional(
 
 fun <T> Live<T>.withArg(index: Int, live: Live<*>): Live<T> =
   asApplication.run {
-    copy(args = args.toMutableList().also { it[index] = live }.toList())
-  } as Live<T>
+    Live.Application(kClass, primitive, args.toMutableList().also { it[index] = live }.toList())
+  }

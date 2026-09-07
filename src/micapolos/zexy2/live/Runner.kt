@@ -5,7 +5,7 @@ interface Runner {
   fun step(seconds: Float) = seconds
 }
 
-fun sleepRunner(getSeconds: () -> Float) =
+fun pauseRunner(getSeconds: () -> Float) =
   object : Runner {
     var remainingSeconds: Float = 0f
 
@@ -35,7 +35,7 @@ fun parallel(runners: List<Runner>): Runner =
     }
 
     override fun step(seconds: Float): Float {
-      var remainingSeconds = Float.POSITIVE_INFINITY
+      var remainingSeconds = seconds
       runners.forEach { remainingSeconds = Math.min(remainingSeconds, it.step(seconds)) }
       return remainingSeconds
     }
@@ -58,11 +58,15 @@ fun sequence(runners: List<Runner>): Runner =
       var remainingSeconds = seconds
       while (true) {
         if (index == runners.size) {
-          return seconds
+          return remainingSeconds
         } else {
           val runner = runners[index]
+          if (needsInit) {
+            runner.init()
+            needsInit = false
+          }
           remainingSeconds = runner.step(remainingSeconds)
-          if (seconds == 0f) {
+          if (remainingSeconds == 0f) {
             return 0f
           } else {
             index++
