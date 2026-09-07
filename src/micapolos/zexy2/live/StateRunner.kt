@@ -18,16 +18,15 @@ val bottomRunner =
     }
   }
 
-fun <T> Live.Constant<T>.runner(state: State) =
+fun <T> constantRunner(state: State, value: T) =
   object : Runner {
     override fun init() {
       state.value = value
     }
   }
 
-fun <T> Live.Variable<T>.runner(state: State, liveState: LiveState) =
+fun variableRunner(state: State, initializerState: State) =
   object : Runner {
-    val initializerState = liveState(initializer)
     override fun init() {
       state.value = initializerState.value
     }
@@ -40,12 +39,10 @@ fun initRunner(lhs: State, rhs: State) =
     }
   }
 
-fun <T> Live.Set<T>.runner(liveState: LiveState) =
+fun setRunner(lhs: State, rhs: State) =
   object : Runner {
-    val lhsState = liveState(lhs)
-    val rhsState = liveState(rhs)
     override fun step(seconds: Float): Float {
-      lhsState.value = rhsState.value
+      lhs.value = rhs.value
       return seconds
     }
   }

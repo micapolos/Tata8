@@ -22,13 +22,13 @@ internal class Executor(
       states[live] = state
 
       runners += when (live) {
-        is Live.Constant<*> -> live.runner(state)
+        is Live.Constant<*> -> constantRunner(state, live.value)
 
-        is Live.Variable<*> -> live.runner(state, ::state)
-
-        is Live.Set<*> -> live.runner(::state)
+        is Live.Variable<*> -> variableRunner(state, state(live.initializer))
 
         is Live.Init<*> -> initRunner(state(live.lhs), state(live.rhs))
+
+        is Live.Set<*> -> setRunner(state(live.lhs), state(live.rhs))
 
         is Live.Elastic -> elasticRunner(state, state(live.target))
 
