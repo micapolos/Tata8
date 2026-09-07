@@ -51,6 +51,14 @@ sealed class Live<out T> {
   class DoWhile(val body: Live<Unit>, val condition: Live<Boolean>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
+
+  class ConditionalStep(val condition: Live<Boolean>, val body: Live<Unit>) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
+
+  class ConditionalInit(val condition: Live<Boolean>, val body: Live<Unit>) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
 }
 
 val <T> Live<T>.asApplication get() = this as Live.Application<T>

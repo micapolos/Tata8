@@ -9,11 +9,20 @@ fun pause(seconds: Live<Double>) = livePause(seconds)
 fun sequence(vararg lives: Live<Unit>): Live<Unit> =
   Live.Block(lives.toList())
 
-fun repeatWhile(body: Live<Unit>, condition: Boolean): Live<Unit> =
-  repeatWhile(body, condition.live)
+fun Live<Unit>.then(live: Live<Unit>): Live<Unit> =
+  sequence(this, live)
 
-fun repeatWhile(body: Live<Unit>, condition: Live<Boolean>): Live<Unit> =
-  Live.DoWhile(body, condition)
+fun Live<Unit>.repeatWhile(condition: Boolean): Live<Unit> =
+  repeatWhile(condition.live)
 
-fun repeat(body: Live<Unit>): Live<Unit> =
-  repeatWhile(body, true)
+fun Live<Unit>.repeatWhile(condition: Live<Boolean>): Live<Unit> =
+  Live.DoWhile(this, condition)
+
+val Live<Unit>.repeat: Live<Unit> get() =
+  repeatWhile(true)
+
+fun Live<Unit>.runWhile(condition: Live<Boolean>): Live<Unit> =
+  Live.ConditionalStep(condition, this)
+
+fun Live<Unit>.startWhen(condition: Live<Boolean>): Live<Unit> =
+  Live.ConditionalInit(condition, this)

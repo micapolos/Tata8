@@ -12,6 +12,8 @@ operator fun Live<Int>.plus(i: Int): Live<Int> = plus(i.live)
 
 fun Live<Int>.set(d: Int): Live<Unit> = set(d.live)
 
+operator fun Live<Int>.unaryMinus(): Live<Int> = 0.live - this
+
 @JvmName("plusInt")
 operator fun Live<Int>.plus(live: Live<Int>) =
   liveApplication<Int>(kClass, Primitive.INT_PLUS, this, live)

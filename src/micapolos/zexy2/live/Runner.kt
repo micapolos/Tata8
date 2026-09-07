@@ -5,7 +5,7 @@ interface Runner {
   fun step(seconds: Float) = seconds
 }
 
-fun pauseRunner(getSeconds: () -> Float) =
+fun sleepRunner(getSeconds: () -> Float) =
   object : Runner {
     var remainingSeconds: Float = 0f
 
@@ -106,5 +106,36 @@ fun doWhileRunner(body: Runner, condition: () -> Boolean) =
           done = true
         }
       }
+    }
+  }
+
+fun stepRunner(condition: () -> Boolean, runner: Runner) =
+  object : Runner {
+    override fun init() {
+      runner.init()
+    }
+
+    override fun step(seconds: Float): Float =
+      if (condition()) runner.step(seconds) else 0f
+  }
+
+fun initRunner(start: () -> Boolean, runner: Runner) =
+  object : Runner {
+    var isRunning = false
+
+    override fun init() {
+      isRunning = false;
+    }
+
+    override fun step(seconds: Float): Float {
+      if (isRunning) {
+        return runner.step(seconds)
+      } else if (start()) {
+        runner.init()
+        return runner.step(seconds)
+      } else {
+        return 0f
+      }
+
     }
   }

@@ -7,7 +7,7 @@ class RunnerTest {
   @Test
   fun testPauseRunner() {
     var pause: () -> Float = { 10f }
-    val runner = pauseRunner { pause() }
+    val runner = sleepRunner { pause() }
     runner.init()
 
     pause = { error("") }
@@ -26,7 +26,7 @@ class RunnerTest {
   fun testParallelRunner() {
     var pause1: () -> Float = { 10f }
     var pause2: () -> Float = { 5f }
-    val runner = parallel(pauseRunner { pause1() }, pauseRunner { pause2() })
+    val runner = parallel(sleepRunner { pause1() }, sleepRunner { pause2() })
     runner.init()
 
     pause1 = { error("") }
@@ -46,7 +46,7 @@ class RunnerTest {
   fun testSequenceRunner() {
     var pause1: () -> Float  = { error("") }
     var pause2: () -> Float  = { error("") }
-    val runner = sequence(pauseRunner { pause1() }, pauseRunner { pause2() })
+    val runner = sequence(sleepRunner { pause1() }, sleepRunner { pause2() })
     runner.init()
 
     pause1 = { 10f }

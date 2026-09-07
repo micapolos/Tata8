@@ -14,12 +14,14 @@ fun main() {
   val zoom = Mouse.isPressed.ifTrue(2.0).orElse(1.0).loggedAs("zoom")
   val string = "Hello, this is my new engine called ZEXY!!!"
   val font = Key.Z.isPressed.ifTrue(koraFont).orElse(micaFont).logged
+  val speed = liveVariable(60.0)
 
   show(
     Camera.alignment.set(centerAlignment),
-    Key.RIGHT.isPressed.ifTrue(xVariable.keepAdding(60.0)).orElse(doNothing),
-    Key.LEFT.isPressed.ifTrue(xVariable.keepAdding(-60.0)).orElse(doNothing),
-    repeat(sequence(xVariable.set(-100.0), pause(1.0))),
+    xVariable.keepAdding(speed).runWhile(Key.RIGHT.isPressed),
+    xVariable.keepAdding(-speed).runWhile(Key.LEFT.isPressed),
+    speed.set(60.0.live - speed).startWhen(Key.Z.pressed),
+    xVariable.set(-100.0).then(pause(1.0)).repeat,
     liveSprite
       .with(fontImage)
       .with(centerAlignment)
