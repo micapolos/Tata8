@@ -6,8 +6,9 @@ import micapolos.zexy2.live.show
 fun main() {
   withVariable(0.0) { x ->
     parallel(
-      x.set(-100.0).on(Key.LEFT.press),
-      x.set(100.0).on(Key.RIGHT.press),
+      x.init(-50.0).on(Key.LEFT.press),
+      x.init(0.0).on(Key.DOWN.press),
+      x.init(50.0).on(Key.RIGHT.press),
       drawCenteredChicken(x)
     )
   }.show()

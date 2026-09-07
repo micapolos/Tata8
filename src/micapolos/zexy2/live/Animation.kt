@@ -137,10 +137,10 @@ fun initRunner(startState: State<Boolean>, animation: Animation) =
       }
 
       if (isRunning) {
-        return animation.step(seconds)
-      } else {
-        return 0f
+        animation.step(seconds)
       }
+
+      return 0f
     }
   }
 
