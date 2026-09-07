@@ -107,7 +107,7 @@ fun Live<*>.show() {
         gameTime += seconds
       }
     } else {
-      val text = "Game finished in $gameTime seconds. Press R to restart."
+      val text = "Animation finished in $gameTime seconds. Press R to restart."
       val width = Game.font.width(text)
       Game.background.canvas.draw(text, (Game.WIDTH - width) / 2, 10, Color.YELLOW)
     }
