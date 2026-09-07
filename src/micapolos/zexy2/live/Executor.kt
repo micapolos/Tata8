@@ -32,9 +32,12 @@ internal class Executor(
 
         is Live.Elastic -> elasticRunner(state, state(live.target))
 
-        is Live.Conditional<*> -> conditionalRunner(state, state(live.condition), block(live.trueLive), block(live.falseLive))
+        is Live.Conditional<*> -> conditionalRunner(state,
+          state(live.condition),
+          expression(live.trueLive),
+          expression(live.falseLive))
 
-        is Live.Application<*> -> live.runner(state, ::state)
+        is Live.Application<*> -> applicationRunner(live.primitive, state, live.args.map(::state), ::state)
         is Live.Bottom -> bottomRunner
 
         is Live.Pause -> {
@@ -42,32 +45,32 @@ internal class Executor(
           sleepRunner { (secondsState.value as Double).toFloat() }
         }
 
-        is Live.Block -> sequence(live.lives.map { block(it).runner })
+        is Live.Block -> sequence(live.lives.map { expression(it).runner })
 
         is Live.DoWhile -> {
           val conditionState = state(live.condition)
-          val bodyRunner = block(live.body).runner
+          val bodyRunner = expression(live.body).runner
           doWhileRunner(bodyRunner) { conditionState.value as Boolean }
         }
 
         is Live.ConditionalStep -> {
           val conditionState = state(live.condition)
-          val bodyRunner = block(live.body).runner
+          val bodyRunner = expression(live.body).runner
           stepRunner({ conditionState.value as Boolean }, bodyRunner)
         }
 
         is Live.ConditionalInit -> {
           val conditionState = state(live.condition)
-          val bodyRunner = block(live.body).runner
+          val bodyRunner = expression(live.body).runner
           initRunner({ conditionState.value as Boolean }, bodyRunner)
         }
       }
     }
 
-  fun block(live: Live<*>): Block {
+  fun expression(live: Live<*>): Expression {
     val executor = Executor(states)
     val state = executor.state(live)
-    return Block(state, executor.runner)
+    return Expression(state, executor.runner)
   }
 
   val runner get() = parallel(runners)

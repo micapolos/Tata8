@@ -47,49 +47,48 @@ fun setRunner(lhs: State, rhs: State) =
     }
   }
 
-fun conditionalRunner(state: State, conditionState: State, trueBlock: Block, falseBlock: Block) =
+fun conditionalRunner(resultState: State, conditionState: State, trueExpression: Expression, falseExpression: Expression) =
   object : Runner {
     override fun init() {
-      trueBlock.runner.init()
-      falseBlock.runner.init()
+      trueExpression.runner.init()
+      falseExpression.runner.init()
     }
 
     override fun step(seconds: Float): Float {
-      state.value =
+      resultState.value =
         if (conditionState.value as Boolean) {
-          trueBlock.runner.step(seconds)
-          trueBlock.state.value
+          trueExpression.runner.step(seconds)
+          trueExpression.state.value
         } else {
-          falseBlock.runner.step(seconds)
-          falseBlock.state.value
+          falseExpression.runner.step(seconds)
+          falseExpression.state.value
         }
       return seconds
     }
   }
 
-fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
+fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<State>, globalState: LiveState): Runner {
   return when (primitive) {
     Primitive.FRAME_TIME -> object : Runner {
       override fun init() {
-        state.value = 0.0
+        resultState.value = 0.0
       }
 
       override fun step(seconds: Float): Float {
-        state.value = seconds.toDouble();
+        resultState.value = seconds.toDouble();
         return seconds;
       }
     }
     Primitive.LOGGED -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         when (argStates.size) {
           1 -> {
-            state.value = argStates[0].value
+            resultState.value = argStates[0].value
             Game.log(argStates[0].value.leoString)
           }
 
           2 -> {
-            state.value = argStates[1].value
+            resultState.value = argStates[1].value
             Game.log(leo(argStates[0].value as String, argStates[1].value.leoString))
           }
         }
@@ -98,134 +97,117 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.READONLY -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value
+        resultState.value = argStates[0].value
         return seconds
       }
     }
 
     Primitive.BOOLEAN_NOT -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = !(argStates[0].value as Boolean)
+        resultState.value = !(argStates[0].value as Boolean)
         return seconds
       }
     }
 
     Primitive.BOOLEAN_AND -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Boolean and argStates[1].value as Boolean
+        resultState.value = argStates[0].value as Boolean and argStates[1].value as Boolean
         return seconds
       }
     }
 
     Primitive.BOOLEAN_OR -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Boolean or argStates[1].value as Boolean
+        resultState.value = argStates[0].value as Boolean or argStates[1].value as Boolean
         return seconds
       }
     }
 
     Primitive.INT_PLUS -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Int + argStates[1].value as Int
+        resultState.value = argStates[0].value as Int + argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_PLUS -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Double + argStates[1].value as Double
+        resultState.value = argStates[0].value as Double + argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_MINUS -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Int - argStates[1].value as Int
+        resultState.value = argStates[0].value as Int - argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_MINUS -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Double - argStates[1].value as Double
+        resultState.value = argStates[0].value as Double - argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_TIMES -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Int * argStates[1].value as Int
+        resultState.value = argStates[0].value as Int * argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_TIMES -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = argStates[0].value as Double * argStates[1].value as Double
+        resultState.value = argStates[0].value as Double * argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_DOUBLE -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Int).toDouble()
+        resultState.value = (argStates[0].value as Int).toDouble()
         return seconds
       }
     }
 
     Primitive.DOUBLE_INT -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Double).toInt()
+        resultState.value = (argStates[0].value as Double).toInt()
         return seconds
       }
     }
 
     Primitive.INT_FLOOR_MOD -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = floorMod(argStates[0].value as Int, argStates[1].value as Int)
+        resultState.value = floorMod(argStates[0].value as Int, argStates[1].value as Int)
         return seconds
       }
     }
 
     Primitive.DOUBLE_FRACTION -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Double).let { it - floor(it) }
+        resultState.value = (argStates[0].value as Double).let { it - floor(it) }
         return seconds
       }
     }
 
     Primitive.ARRAY_GET -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Array<*>)[argStates[1].value as Int]
+        resultState.value = (argStates[0].value as Array<*>)[argStates[1].value as Int]
         return seconds
       }
     }
 
     Primitive.PARALLEL -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         return seconds
       }
     }
 
     Primitive.INT_KEEP_ADDING -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Int + argStates[1].value as Int
         return seconds
@@ -233,7 +215,6 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.DOUBLE_KEEP_ADDING -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         argStates[0].value = argStates[0].value as Double + argStates[1].value as Double * seconds
         return seconds
@@ -241,9 +222,8 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.LOAD_IMAGE -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = Game.loadImage(
+        resultState.value = Game.loadImage(
           (argStates[0].value as KClass<*>).java,
           argStates[1].value as String
         )
@@ -252,13 +232,12 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.SPRITE -> object : Runner {
-      val argStates = args.map { liveState(it) }
-      var screenWidthState = liveState(micapolos.zexy2.Screen.size.width)
-      var screenHeightState = liveState(micapolos.zexy2.Screen.size.height)
-      var cameraPositionXState = liveState(micapolos.zexy2.Camera.position.x)
-      var cameraPositionYState = liveState(micapolos.zexy2.Camera.position.x)
-      var cameraScreenAlignmentXState = liveState(micapolos.zexy2.Camera.alignment.x)
-      var cameraScreenAlignmentYState = liveState(micapolos.zexy2.Camera.alignment.y)
+      var screenWidthState = globalState(micapolos.zexy2.Screen.size.width)
+      var screenHeightState = globalState(micapolos.zexy2.Screen.size.height)
+      var cameraPositionXState = globalState(micapolos.zexy2.Camera.position.x)
+      var cameraPositionYState = globalState(micapolos.zexy2.Camera.position.x)
+      var cameraScreenAlignmentXState = globalState(micapolos.zexy2.Camera.alignment.x)
+      var cameraScreenAlignmentYState = globalState(micapolos.zexy2.Camera.alignment.y)
 
       override fun step(seconds: Float): Float {
         (argStates[0].value as Image?)?.let { image ->
@@ -312,7 +291,6 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.LABEL -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
         val string = argStates[0].value as String
         val alignmentX = (argStates[1].value as Double).toFloat()
@@ -329,90 +307,83 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
     }
 
     Primitive.KEY_IS_PRESSED -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun init() {
-        state.value = false
+        resultState.value = false
       }
 
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Key).tata8.isPressed
+        resultState.value = (argStates[0].value as Key).tata8.isPressed
         return seconds
       }
     }
 
     Primitive.KEY_PRESSED -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun init() {
-        state.value = false
+        resultState.value = false
       }
 
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Key).tata8.pressed()
+        resultState.value = (argStates[0].value as Key).tata8.pressed()
         return seconds
       }
     }
 
     Primitive.KEY_RELEASED -> object : Runner {
-      val argStates = args.map { liveState(it) }
-
       override fun init() {
-        state.value = false
+        resultState.value = false
       }
 
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Key).tata8.released()
+        resultState.value = (argStates[0].value as Key).tata8.released()
         return seconds
       }
     }
 
     Primitive.MOUSE_POSITION_X -> object : Runner {
       override fun step(seconds: Float): Float {
-        state.value = Game.mouse.position.x.toDouble()
+        resultState.value = Game.mouse.position.x.toDouble()
         return seconds
       }
     }
 
     Primitive.MOUSE_POSITION_Y -> object : Runner {
       override fun step(seconds: Float): Float {
-        state.value = Game.mouse.position.y.toDouble()
+        resultState.value = Game.mouse.position.y.toDouble()
         return seconds
       }
     }
 
     Primitive.MOUSE_BUTTON_IS_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
-        state.value = Game.mouse.button.isPressed()
+        resultState.value = Game.mouse.button.isPressed()
         return seconds
       }
     }
 
     Primitive.MOUSE_BUTTON_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
-        state.value = Game.mouse.button.didPress()
+        resultState.value = Game.mouse.button.didPress()
         return seconds
       }
     }
 
     Primitive.IMAGE_WIDTH -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Image).size.width.toDouble()
+        resultState.value = (argStates[0].value as Image).size.width.toDouble()
         return seconds
       }
     }
 
     Primitive.IMAGE_HEIGHT -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Image).size.height.toDouble()
+        resultState.value = (argStates[0].value as Image).size.height.toDouble()
         return seconds
       }
     }
 
     Primitive.FONT_STRING_WIDTH -> object : Runner {
-      val argStates = args.map { liveState(it) }
       override fun step(seconds: Float): Float {
-        state.value = (argStates[0].value as Font).width(argStates[1].value as String).toDouble()
+        resultState.value = (argStates[0].value as Font).width(argStates[1].value as String).toDouble()
         return seconds
       }
     }
