@@ -1,4 +1,8 @@
 package micapolos.zexy2.live
 
-// TODO: Refactor to State<T>
-data class State(var value: Any? = null)
+@Suppress("UNCHECKED_CAST")
+data class State<T>(var internalValue: Any? = null) {
+  var value: T
+    get() = internalValue as T
+    set(value) { internalValue = value }
+}

@@ -1,3 +1,3 @@
 package micapolos.zexy2.live
 
-class Expression(val state: State, val runner: Runner)
+class Expression<out T>(val state: State<out T>, val runner: Runner)

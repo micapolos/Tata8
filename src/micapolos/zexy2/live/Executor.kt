@@ -2,6 +2,7 @@ package micapolos.zexy2.live
 
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
+import micapolos.zexy2.Key
 import micapolos.zexy2.parallel
 import java.util.*
 
@@ -14,35 +15,35 @@ internal val Any?.leoString
     }
 
 internal class Executor(
-  val states: MutableMap<Live<*>, State> = mutableMapOf(),
+  val states: MutableMap<Live<*>, State<*>> = mutableMapOf(),
   val runners: MutableList<Runner> = mutableListOf(),
 ) {
-  fun state(live: Live<*>): State =
-    states[live] ?: State().also { state ->
+  fun <T> state(live: Live<T>): State<T> =
+    ((states[live] ?: State<T>()) as State<T>).also { state ->
       states[live] = state
 
       runners += when (live) {
-        is Live.Constant<*> -> constantRunner(state, live.value)
+        is Live.Constant<T> -> constantRunner(state, live.value)
 
-        is Live.Variable<*> -> variableRunner(state, state(live.initializer))
+        is Live.Variable<T> -> variableRunner(state, state(live.initializer))
 
         is Live.Init<*> -> initRunner(state(live.lhs), state(live.rhs))
 
         is Live.Set<*> -> setRunner(state(live.lhs), state(live.rhs))
 
-        is Live.Elastic -> elasticRunner(state, state(live.target))
+        is Live.Elastic -> elasticRunner(state as State<Double>, state(live.target))
 
-        is Live.Conditional<*> -> conditionalRunner(state,
+        is Live.Conditional<T> -> conditionalRunner(state,
           state(live.condition),
           expression(live.trueLive),
           expression(live.falseLive))
 
-        is Live.Application<*> -> applicationRunner(live.primitive, state, live.args.map(::state), ::state)
+        is Live.Application<T> -> applicationRunner(live.primitive, state, live.args.map(::state), ::state)
         is Live.Bottom -> bottomRunner
 
         is Live.Pause -> {
           val secondsState = state(live.seconds)
-          sleepRunner { (secondsState.value as Double).toFloat() }
+          sleepRunner { (secondsState.value).toFloat() }
         }
 
         is Live.Block -> sequence(live.lives.map { expression(it).runner })
@@ -50,24 +51,24 @@ internal class Executor(
         is Live.DoWhile -> {
           val conditionState = state(live.condition)
           val bodyRunner = expression(live.body).runner
-          doWhileRunner(bodyRunner) { conditionState.value as Boolean }
+          doWhileRunner(bodyRunner) { conditionState.value }
         }
 
         is Live.ConditionalStep -> {
           val conditionState = state(live.condition)
           val bodyRunner = expression(live.body).runner
-          stepRunner({ conditionState.value as Boolean }, bodyRunner)
+          stepRunner(conditionState, bodyRunner)
         }
 
         is Live.ConditionalInit -> {
           val conditionState = state(live.condition)
           val bodyRunner = expression(live.body).runner
-          initRunner({ conditionState.value as Boolean }, bodyRunner)
+          initRunner(conditionState, bodyRunner)
         }
       }
     }
 
-  fun expression(live: Live<*>): Expression {
+  fun <T> expression(live: Live<T>): Expression<T> {
     val executor = Executor(states)
     val state = executor.state(live)
     return Expression(state, executor.runner)
@@ -78,6 +79,9 @@ internal class Executor(
 
 fun Live<*>.show() {
   val executor = Executor()
+  executor.state(Key.Z.press)
+  executor.state(Key.Z.isPressed)
+  executor.state(Key.Z.released)
   executor.state(this)
   val runner = executor.runner
 
@@ -113,8 +117,6 @@ fun main() {
   val runner = executor.runner
   runner.init()
   runner.step(1f)
-
-  IO.println(state)
 
   conditionState.value = false
   try {

@@ -18,10 +18,11 @@ fun main() {
       withVariable(10.0) { textY ->
         withVariable(60.0) { speed ->
           parallel(
+            Key.Z.press.loggedAs("key z press"),
             Camera.alignment.set(centerAlignment),
             x.keepAdding(speed).onlyIf(Key.RIGHT.isPressed),
             x.keepAdding(-speed).onlyIf(Key.LEFT.isPressed),
-            speed.set(60.0.live - speed).on(Key.Z.press),
+            //speed.init(60.0.live - speed).on(Key.Z.press),
             x.set(-100.0).then(pause(5.0)).repeat,
             textY.add(frameTime * 60.0),
             drawSprite

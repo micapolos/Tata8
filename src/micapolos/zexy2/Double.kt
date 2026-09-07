@@ -9,6 +9,8 @@ fun newVariable(d: Double): Live<Double> = newVariable(d.live)
 
 fun Live<Double>.set(d: Double): Live<Unit> = set(d.live)
 
+fun Live<Double>.init(d: Double): Live<Unit> = init(d.live)
+
 fun withVariable(initial: Double, fn: (Live<Double>) -> Live<Unit>) =
   withVariable(initial.live, fn)
 

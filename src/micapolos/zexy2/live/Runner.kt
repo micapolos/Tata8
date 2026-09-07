@@ -111,17 +111,17 @@ fun doWhileRunner(body: Runner, condition: () -> Boolean) =
     }
   }
 
-fun stepRunner(condition: () -> Boolean, runner: Runner) =
+fun stepRunner(conditionState: State<Boolean>, runner: Runner) =
   object : Runner {
     override fun init() {
       runner.init()
     }
 
     override fun step(seconds: Float): Float =
-      if (condition()) runner.step(seconds) else 0f
+      if (conditionState.value) runner.step(seconds) else 0f
   }
 
-fun initRunner(start: () -> Boolean, runner: Runner) =
+fun initRunner(startState: State<Boolean>, runner: Runner) =
   object : Runner {
     var isRunning = false
 
@@ -130,10 +130,12 @@ fun initRunner(start: () -> Boolean, runner: Runner) =
     }
 
     override fun step(seconds: Float): Float {
-      if (isRunning) {
-        return runner.step(seconds)
-      } else if (start()) {
+      if (startState.value) {
         runner.init()
+        isRunning = true
+      }
+
+      if (isRunning) {
         return runner.step(seconds)
       } else {
         return 0f
@@ -142,17 +144,16 @@ fun initRunner(start: () -> Boolean, runner: Runner) =
     }
   }
 
-fun elasticRunner(current: State, target: State) =
+fun elasticRunner(current: State<Double>, target: State<Double>) =
   object : Runner {
     override fun init() {
-      IO.println("Elastic init: ${target.value}")
       current.value = target.value
     }
 
     override fun step(seconds: Float): Float {
       current.value = elastic(
-        (current.value as Double).toFloat(),
-        (target.value as Double).toFloat()).toDouble()
+        current.value.toFloat(),
+        target.value.toFloat()).toDouble()
       return 0f
     }
   }

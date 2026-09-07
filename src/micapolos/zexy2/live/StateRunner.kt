@@ -9,8 +9,6 @@ import java.lang.Math.floorMod
 import kotlin.math.floor
 import kotlin.reflect.KClass
 
-typealias LiveState = (Live<*>) -> State
-
 val bottomRunner =
   object : Runner {
     override fun step(seconds: Float): Float {
@@ -18,28 +16,28 @@ val bottomRunner =
     }
   }
 
-fun <T> constantRunner(state: State, value: T) =
+fun <T> constantRunner(state: State<T>, value: T) =
   object : Runner {
     override fun init() {
       state.value = value
     }
   }
 
-fun variableRunner(state: State, initializerState: State) =
+fun <T> variableRunner(state: State<T>, initializerState: State<T>) =
   object : Runner {
     override fun init() {
       state.value = initializerState.value
     }
   }
 
-fun initRunner(lhs: State, rhs: State) =
+fun <T> initRunner(lhs: State<T>, rhs: State<T>) =
   object : Runner {
     override fun init() {
       lhs.value = rhs.value
     }
   }
 
-fun setRunner(lhs: State, rhs: State) =
+fun <T> setRunner(lhs: State<T>, rhs: State<T>) =
   object : Runner {
     override fun step(seconds: Float): Float {
       lhs.value = rhs.value
@@ -47,7 +45,7 @@ fun setRunner(lhs: State, rhs: State) =
     }
   }
 
-fun conditionalRunner(resultState: State, conditionState: State, trueExpression: Expression, falseExpression: Expression) =
+fun <T> conditionalRunner(resultState: State<T>, conditionState: State<Boolean>, trueExpression: Expression<T>, falseExpression: Expression<T>) =
   object : Runner {
     override fun init() {
       trueExpression.runner.init()
@@ -56,7 +54,7 @@ fun conditionalRunner(resultState: State, conditionState: State, trueExpression:
 
     override fun step(seconds: Float): Float {
       resultState.value =
-        if (conditionState.value as Boolean) {
+        if (conditionState.value) {
           trueExpression.runner.step(seconds)
           trueExpression.state.value
         } else {
@@ -67,15 +65,15 @@ fun conditionalRunner(resultState: State, conditionState: State, trueExpression:
     }
   }
 
-fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<State>, globalState: LiveState): Runner {
+fun <T> applicationRunner(primitive: Primitive, resultState: State<T>, argStates: List<State<*>>, globalState: (Live<*>) -> State<*>): Runner {
   return when (primitive) {
     Primitive.FRAME_TIME -> object : Runner {
       override fun init() {
-        resultState.value = 0.0
+        resultState.internalValue = 0.0
       }
 
       override fun step(seconds: Float): Float {
-        resultState.value = seconds.toDouble();
+        resultState.internalValue = seconds.toDouble();
         return seconds;
       }
     }
@@ -83,12 +81,12 @@ fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<
       override fun step(seconds: Float): Float {
         when (argStates.size) {
           1 -> {
-            resultState.value = argStates[0].value
+            resultState.internalValue = argStates[0].value
             Game.log(argStates[0].value.leoString)
           }
 
           2 -> {
-            resultState.value = argStates[1].value
+            resultState.internalValue = argStates[1].value
             Game.log(leo(argStates[0].value as String, argStates[1].value.leoString))
           }
         }
@@ -98,105 +96,105 @@ fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<
 
     Primitive.READONLY -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value
+        resultState.internalValue = argStates[0].value
         return seconds
       }
     }
 
     Primitive.BOOLEAN_NOT -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = !(argStates[0].value as Boolean)
+        resultState.internalValue = !(argStates[0].value as Boolean)
         return seconds
       }
     }
 
     Primitive.BOOLEAN_AND -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Boolean and argStates[1].value as Boolean
+        resultState.internalValue = argStates[0].value as Boolean and argStates[1].value as Boolean
         return seconds
       }
     }
 
     Primitive.BOOLEAN_OR -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Boolean or argStates[1].value as Boolean
+        resultState.internalValue = argStates[0].value as Boolean or argStates[1].value as Boolean
         return seconds
       }
     }
 
     Primitive.INT_PLUS -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Int + argStates[1].value as Int
+        resultState.internalValue = argStates[0].value as Int + argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_PLUS -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Double + argStates[1].value as Double
+        resultState.internalValue = argStates[0].value as Double + argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_MINUS -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Int - argStates[1].value as Int
+        resultState.internalValue = argStates[0].value as Int - argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_MINUS -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Double - argStates[1].value as Double
+        resultState.internalValue = argStates[0].value as Double - argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_TIMES -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Int * argStates[1].value as Int
+        resultState.internalValue = argStates[0].value as Int * argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_TIMES -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = argStates[0].value as Double * argStates[1].value as Double
+        resultState.internalValue = argStates[0].value as Double * argStates[1].value as Double
         return seconds
       }
     }
 
     Primitive.INT_DOUBLE -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Int).toDouble()
+        resultState.internalValue = (argStates[0].value as Int).toDouble()
         return seconds
       }
     }
 
     Primitive.DOUBLE_INT -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Double).toInt()
+        resultState.internalValue = (argStates[0].value as Double).toInt()
         return seconds
       }
     }
 
     Primitive.INT_FLOOR_MOD -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = floorMod(argStates[0].value as Int, argStates[1].value as Int)
+        resultState.internalValue = floorMod(argStates[0].value as Int, argStates[1].value as Int)
         return seconds
       }
     }
 
     Primitive.DOUBLE_FRACTION -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Double).let { it - floor(it) }
+        resultState.internalValue = (argStates[0].value as Double).let { it - floor(it) }
         return seconds
       }
     }
 
     Primitive.ARRAY_GET -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Array<*>)[argStates[1].value as Int]
+        resultState.internalValue = (argStates[0].value as Array<*>)[argStates[1].value as Int]
         return seconds
       }
     }
@@ -209,21 +207,21 @@ fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<
 
     Primitive.INT_KEEP_ADDING -> object : Runner {
       override fun step(seconds: Float): Float {
-        argStates[0].value = argStates[0].value as Int + argStates[1].value as Int
+        argStates[0].internalValue = argStates[0].value as Int + argStates[1].value as Int
         return seconds
       }
     }
 
     Primitive.DOUBLE_KEEP_ADDING -> object : Runner {
       override fun step(seconds: Float): Float {
-        argStates[0].value = argStates[0].value as Double + argStates[1].value as Double * seconds
+        argStates[0].internalValue = argStates[0].value as Double + argStates[1].value as Double * seconds
         return seconds
       }
     }
 
     Primitive.LOAD_IMAGE -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = Game.loadImage(
+        resultState.internalValue = Game.loadImage(
           (argStates[0].value as KClass<*>).java,
           argStates[1].value as String
         )
@@ -308,82 +306,82 @@ fun applicationRunner(primitive: Primitive, resultState: State, argStates: List<
 
     Primitive.KEY_IS_PRESSED -> object : Runner {
       override fun init() {
-        resultState.value = false
+        resultState.internalValue = false
       }
 
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Key).tata8.isPressed
+        resultState.internalValue = (argStates[0].value as Key).tata8.isPressed
         return seconds
       }
     }
 
     Primitive.KEY_PRESSED -> object : Runner {
       override fun init() {
-        resultState.value = false
+        resultState.internalValue = false
       }
 
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Key).tata8.pressed()
+        resultState.internalValue = (argStates[0].value as Key).tata8.pressed()
         return seconds
       }
     }
 
     Primitive.KEY_RELEASED -> object : Runner {
       override fun init() {
-        resultState.value = false
+        resultState.internalValue = false
       }
 
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Key).tata8.released()
+        resultState.internalValue = (argStates[0].value as Key).tata8.released()
         return seconds
       }
     }
 
     Primitive.MOUSE_POSITION_X -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = Game.mouse.position.x.toDouble()
+        resultState.internalValue = Game.mouse.position.x.toDouble()
         return seconds
       }
     }
 
     Primitive.MOUSE_POSITION_Y -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = Game.mouse.position.y.toDouble()
+        resultState.internalValue = Game.mouse.position.y.toDouble()
         return seconds
       }
     }
 
     Primitive.MOUSE_BUTTON_IS_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = Game.mouse.button.isPressed()
+        resultState.internalValue = Game.mouse.button.isPressed()
         return seconds
       }
     }
 
     Primitive.MOUSE_BUTTON_PRESSED -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = Game.mouse.button.didPress()
+        resultState.internalValue = Game.mouse.button.didPress()
         return seconds
       }
     }
 
     Primitive.IMAGE_WIDTH -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Image).size.width.toDouble()
+        resultState.internalValue = (argStates[0].value as Image).size.width.toDouble()
         return seconds
       }
     }
 
     Primitive.IMAGE_HEIGHT -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Image).size.height.toDouble()
+        resultState.internalValue = (argStates[0].value as Image).size.height.toDouble()
         return seconds
       }
     }
 
     Primitive.FONT_STRING_WIDTH -> object : Runner {
       override fun step(seconds: Float): Float {
-        resultState.value = (argStates[0].value as Font).width(argStates[1].value as String).toDouble()
+        resultState.internalValue = (argStates[0].value as Font).width(argStates[1].value as String).toDouble()
         return seconds
       }
     }
