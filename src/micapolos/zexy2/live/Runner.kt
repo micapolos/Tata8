@@ -1,5 +1,7 @@
 package micapolos.zexy2.live
 
+import micapolos.Leo.leo
+import micapolos.tata8.Game
 import micapolos.tata8.Math.elastic
 
 interface Runner {
@@ -153,7 +155,64 @@ fun elasticRunner(current: State<Double>, target: State<Double>) =
     override fun step(seconds: Float): Float {
       current.value = elastic(
         current.value.toFloat(),
-        target.value.toFloat()).toDouble()
+        target.value.toFloat()
+      ).toDouble()
       return 0f
     }
   }
+
+fun frameTimeRunner(outState: State<Double>) =
+  object : Runner {
+    override fun init() {
+      outState.value = 0.0
+    }
+
+    override fun step(seconds: Float): Float {
+      outState.value = seconds.toDouble();
+      return seconds
+    }
+  }
+
+fun <T> loggedRunner(outState: State<T>, state: State<T>) = object : Runner {
+  override fun step(seconds: Float): Float {
+    outState.value = state.value
+    Game.log(state.value.leoString)
+    return seconds
+  }
+}
+
+fun <T> loggedAsRunner(outState: State<T>, state: State<T>, string: State<String>) = object : Runner {
+  override fun step(seconds: Float): Float {
+    outState.value = state.value
+    Game.log(string.value, state.value.leoString)
+    return seconds
+  }
+}
+
+fun <T, V> applyRunner(resultState: State<T>, state: State<V>, fn: (V) -> T) =
+  object : Runner {
+    override fun step(seconds: Float): Float {
+      resultState.internalValue = fn(state.value)
+      return seconds
+    }
+  }
+
+fun <T, V1, V2> applyRunner(resultState: State<T>, state1: State<V1>, state2: State<V2>, fn: (V1, V2) -> T) =
+  object : Runner {
+    override fun step(seconds: Float): Float {
+      resultState.internalValue = fn(state1.value, state2.value)
+      return seconds
+    }
+  }
+
+fun <T> readonlyRunner(outState: State<T>, state: State<T>) =
+  applyRunner(outState, state) { it }
+
+fun booleanNotRunner(resultState: State<Boolean>, state: State<Boolean>) =
+  object : Runner {
+    override fun step(seconds: Float): Float {
+      resultState.internalValue = !state.value
+      return seconds
+    }
+  }
+

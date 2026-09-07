@@ -1,6 +1,5 @@
 package micapolos.zexy2.live
 
-import micapolos.Leo.leo
 import micapolos.tata8.*
 import micapolos.tata8.Math.lerp
 import micapolos.zexy.ParallaxRatio.applyParallaxRatio
@@ -45,7 +44,12 @@ fun <T> setRunner(lhs: State<T>, rhs: State<T>) =
     }
   }
 
-fun <T> conditionalRunner(resultState: State<T>, conditionState: State<Boolean>, trueExpression: Expression<T>, falseExpression: Expression<T>) =
+fun <T> conditionalRunner(
+  resultState: State<T>,
+  conditionState: State<Boolean>,
+  trueExpression: Expression<T>,
+  falseExpression: Expression<T>
+) =
   object : Runner {
     override fun init() {
       trueExpression.runner.init()
@@ -65,48 +69,24 @@ fun <T> conditionalRunner(resultState: State<T>, conditionState: State<Boolean>,
     }
   }
 
-fun <T> applicationRunner(primitive: Primitive, resultState: State<T>, argStates: List<State<*>>, globalState: (Live<*>) -> State<*>): Runner {
+fun <T> applicationRunner(
+  primitive: Primitive,
+  resultState: State<T>,
+  argStates: List<State<*>>,
+  globalState: (Live<*>) -> State<*>
+): Runner {
   return when (primitive) {
-    Primitive.FRAME_TIME -> object : Runner {
-      override fun init() {
-        resultState.internalValue = 0.0
+    Primitive.FRAME_TIME -> frameTimeRunner(resultState as State<Double>)
+
+    Primitive.LOGGED ->
+      when (argStates.size) {
+        1 -> loggedRunner(resultState, argStates[0] as State<T>)
+        else -> loggedAsRunner(resultState, argStates[1] as State<T>, argStates[0] as State<String>)
       }
 
-      override fun step(seconds: Float): Float {
-        resultState.internalValue = seconds.toDouble();
-        return seconds;
-      }
-    }
-    Primitive.LOGGED -> object : Runner {
-      override fun step(seconds: Float): Float {
-        when (argStates.size) {
-          1 -> {
-            resultState.internalValue = argStates[0].value
-            Game.log(argStates[0].value.leoString)
-          }
+    Primitive.READONLY -> readonlyRunner(resultState, argStates[0] as State<T>)
 
-          2 -> {
-            resultState.internalValue = argStates[1].value
-            Game.log(leo(argStates[0].value as String, argStates[1].value.leoString))
-          }
-        }
-        return seconds
-      }
-    }
-
-    Primitive.READONLY -> object : Runner {
-      override fun step(seconds: Float): Float {
-        resultState.internalValue = argStates[0].value
-        return seconds
-      }
-    }
-
-    Primitive.BOOLEAN_NOT -> object : Runner {
-      override fun step(seconds: Float): Float {
-        resultState.internalValue = !(argStates[0].value as Boolean)
-        return seconds
-      }
-    }
+    Primitive.BOOLEAN_NOT -> booleanNotRunner(resultState as State<Boolean>, argStates[0] as State<Boolean>)
 
     Primitive.BOOLEAN_AND -> object : Runner {
       override fun step(seconds: Float): Float {
