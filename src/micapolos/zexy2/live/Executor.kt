@@ -1,5 +1,6 @@
 package micapolos.zexy2.live
 
+import micapolos.tata8.Color
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
 import micapolos.zexy2.Key
@@ -84,15 +85,32 @@ fun Live<*>.show() {
   executor.state(Key.Z.released)
   executor.state(this)
   val runner = executor.runner
+  var gameTime = 0f
+  var finished = false
 
   Game.screen.shader = Shader.CRT_PHOSPHOR
   runner.init()
   Game.onStep = { seconds ->
+    Game.background.canvas.clear()
     if (Game.keys.reset.pressed()) {
+      gameTime = 0f
+      finished = false
       runner.init()
     }
-    Game.background.canvas.clear()
-    runner.step(seconds)
+
+    if (!finished) {
+      val leftover = runner.step(seconds)
+      if (leftover != 0f) {
+        gameTime += seconds - leftover
+        finished = true
+      } else {
+        gameTime += seconds
+      }
+    } else {
+      val text = "Game finished in $gameTime seconds. Press R to restart."
+      val width = Game.font.width(text)
+      Game.background.canvas.draw(text, (Game.WIDTH - width) / 2, 10, Color.YELLOW)
+    }
   }
   Game.start()
 }
