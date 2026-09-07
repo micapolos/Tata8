@@ -5,9 +5,12 @@ import micapolos.zexy2.live.Primitive
 
 val Double.live get() = live(Double::class)
 
-fun liveVariable(d: Double): Live<Double> = liveVariable(d.live)
+fun newVariable(d: Double): Live<Double> = newVariable(d.live)
 
 fun Live<Double>.set(d: Double): Live<Unit> = set(d.live)
+
+fun withVariable(initial: Double, fn: (Live<Double>) -> Live<Unit>) =
+  withVariable(initial.live, fn)
 
 fun Live<Double>.keepAdding(d: Double) = keepAdding(d.live)
 
@@ -35,6 +38,12 @@ operator fun Live<Double>.times(d: Double): Live<Double> = times(d.live)
 operator fun Live<Double>.times(live: Live<Double>): Live<Double> =
   Live.Application(kClass, Primitive.DOUBLE_TIMES, listOf(this, live))
 
+@JvmName("timesInt")
+operator fun Live<Double>.times(i: Int): Live<Double> = times(i.live)
+
+@JvmName("timesInt")
+operator fun Live<Double>.times(live: Live<Int>): Live<Double> = times(live.double)
+
 val Live<Double>.int: Live<Int> get() =
   Live.Application(Int::class, Primitive.DOUBLE_INT, listOf(this))
 
@@ -52,3 +61,5 @@ fun Live<Double>.subtract(d: Live<Double>) = set(this - d)
 
 fun Live<Double>.multiply(d: Double) = multiply(d.live)
 fun Live<Double>.multiply(d: Live<Double>) = set(this + d)
+
+val Live<Double>.elastic get() = Live.Elastic(this)

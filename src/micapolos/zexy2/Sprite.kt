@@ -8,6 +8,11 @@ import micapolos.zexy2.live.withArg
 
 object Sprite : Drawing
 
+fun draw(image: Image) = draw(image.live)
+fun draw(image: Live<Image>) = drawSprite.with(image)
+fun draw(image: Image, position: Position<Double>) = draw(image.live, position)
+fun draw(image: Live<Image>, position: Position<Double>) = drawSprite.with(image).with(position)
+
 val drawSprite: Live<Sprite>
   get() =
     Live.Application(

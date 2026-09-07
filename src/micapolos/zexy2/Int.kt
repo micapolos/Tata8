@@ -6,7 +6,7 @@ import micapolos.zexy2.live.liveApplication
 
 val Int.live get() = live(Int::class)
 
-fun liveVariable(i: Int): Live<Int> = liveVariable(i.live)
+fun newVariable(i: Int): Live<Int> = newVariable(i.live)
 
 operator fun Live<Int>.plus(i: Int): Live<Int> = plus(i.live)
 

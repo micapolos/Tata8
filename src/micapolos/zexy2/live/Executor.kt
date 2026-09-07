@@ -28,6 +28,10 @@ internal class Executor(
 
         is Live.Set<*> -> live.runner(::state)
 
+        is Live.Init<*> -> initRunner(state(live.lhs), state(live.rhs))
+
+        is Live.Elastic -> elasticRunner(state, state(live.target))
+
         is Live.Conditional<*> -> {
           val conditionState = state(live.condition)
           val (trueState, trueRunner) = childStateAndRunner(live.trueLive)

@@ -1,6 +1,5 @@
 package micapolos.zexy2.live
 
-import micapolos.zexy2.Sprite
 import kotlin.reflect.KClass
 
 sealed class Live<out T> {
@@ -28,6 +27,17 @@ sealed class Live<out T> {
     override val kClass: KClass<*> get() = Unit::class
   }
 
+  class Init<out T>(
+    val lhs: Live<T>,
+    val rhs: Live<T>
+  ) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
+
+  class Elastic(val target: Live<Double>) : Live<Double>() {
+    override val kClass: KClass<*> get() = Double::class
+  }
+
   class Application<out T>(
     override val kClass: KClass<*>,
     val primitive: Primitive,
@@ -45,7 +55,7 @@ sealed class Live<out T> {
     override val kClass: KClass<*> get() = Unit::class
   }
 
-  class Block(val lives: List<Live<Unit>>) : Live<Unit>() {
+  class Block(val lives: List<Live<*>>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 

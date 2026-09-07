@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 
 val Boolean.live get() = live(Boolean::class)
 
-fun liveVariable(b: Boolean): Live<Boolean> = liveVariable(b.live)
+fun newVariable(b: Boolean): Live<Boolean> = newVariable(b.live)
 
 fun Live<Boolean>.set(d: Boolean): Live<Unit> =
   set(d.live)

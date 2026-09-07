@@ -5,3 +5,6 @@ import micapolos.zexy2.live.Primitive
 
 operator fun <T> Array<T>.get(index: Live<Int>): Live<T> =
   Live.Application(first()!!::class, Primitive.ARRAY_GET, listOf(live(Array::class), index))
+
+fun <T> Array<T>.forEach(fn: (T) -> Live<*>): Live<Unit> =
+  repeat(size) { index -> fn(this[index]) }

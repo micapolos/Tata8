@@ -33,6 +33,13 @@ fun <T> Live.Variable<T>.runner(state: State, liveState: LiveState) =
     }
   }
 
+fun initRunner(lhs: State, rhs: State) =
+  object : Runner {
+    override fun init() {
+      lhs.value = rhs.value
+    }
+  }
+
 fun <T> Live.Set<T>.runner(liveState: LiveState) =
   object : Runner {
     val lhsState = liveState(lhs)
@@ -321,6 +328,10 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
 
     Primitive.KEY_IS_PRESSED -> object : Runner {
       val argStates = args.map { liveState(it) }
+      override fun init() {
+        state.value = false
+      }
+
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.isPressed
         return seconds
@@ -329,6 +340,10 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
 
     Primitive.KEY_PRESSED -> object : Runner {
       val argStates = args.map { liveState(it) }
+      override fun init() {
+        state.value = false
+      }
+
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.pressed()
         return seconds
@@ -337,6 +352,11 @@ fun <T> Live.Application<T>.runner(state: State, liveState: LiveState): Runner {
 
     Primitive.KEY_RELEASED -> object : Runner {
       val argStates = args.map { liveState(it) }
+
+      override fun init() {
+        state.value = false
+      }
+
       override fun step(seconds: Float): Float {
         state.value = (argStates[0].value as Key).tata8.released()
         return seconds

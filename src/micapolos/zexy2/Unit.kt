@@ -6,10 +6,10 @@ import micapolos.zexy2.live.livePause
 fun pause(seconds: Double) = pause(seconds.live)
 fun pause(seconds: Live<Double>) = livePause(seconds)
 
-fun sequence(vararg lives: Live<Unit>): Live<Unit> =
+fun sequence(vararg lives: Live<*>): Live<Unit> =
   Live.Block(lives.toList())
 
-fun Live<Unit>.then(live: Live<Unit>): Live<Unit> =
+fun Live<Unit>.then(live: Live<*>): Live<Unit> =
   sequence(this, live)
 
 fun Live<Unit>.repeatWhile(condition: Boolean): Live<Unit> =

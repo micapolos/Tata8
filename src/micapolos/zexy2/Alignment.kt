@@ -16,8 +16,8 @@ val centerAlignment = alignment(0.5, 0.5)
 val centerTopAlignment = alignment(0.5, 0.0)
 val centerBottomAlignment = alignment(0.5, 1.0)
 
-fun <T> liveVariable(alignment: Alignment<T>) =
-  alignment(liveVariable(alignment.x), liveVariable(alignment.y))
+fun <T> newVariable(alignment: Alignment<T>) =
+  alignment(newVariable(alignment.x), newVariable(alignment.y))
 
 fun <T> Alignment<T>.set(alignment: Alignment<T>) =
   parallel(x.set(alignment.x), y.set(alignment.y))

@@ -1,5 +1,7 @@
 package micapolos.zexy2.live
 
+import micapolos.tata8.Math.elastic
+
 interface Runner {
   fun init() {}
   fun step(seconds: Float) = seconds
@@ -124,7 +126,7 @@ fun initRunner(start: () -> Boolean, runner: Runner) =
     var isRunning = false
 
     override fun init() {
-      isRunning = false;
+      isRunning = false
     }
 
     override fun step(seconds: Float): Float {
@@ -137,5 +139,20 @@ fun initRunner(start: () -> Boolean, runner: Runner) =
         return 0f
       }
 
+    }
+  }
+
+fun elasticRunner(current: State, target: State) =
+  object : Runner {
+    override fun init() {
+      IO.println("Elastic init: ${target.value}")
+      current.value = target.value
+    }
+
+    override fun step(seconds: Float): Float {
+      current.value = elastic(
+        (current.value as Double).toFloat(),
+        (target.value as Double).toFloat()).toDouble()
+      return 0f
     }
   }

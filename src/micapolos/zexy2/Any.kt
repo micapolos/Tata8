@@ -21,8 +21,14 @@ val <T> Live<T>.readOnly
   get() =
     Live.Application<T>(kClass, Primitive.READONLY, listOf(this))
 
-fun <T> liveVariable(initializer: Live<T>): Live<T> =
+fun <T> newVariable(initializer: Live<T>): Live<T> =
   Live.Variable(initializer)
+
+fun <T> Live<T>.init(live: Live<T>): Live<Unit> =
+  Live.Init(variable, live)
+
+fun <T> withVariable(initial: Live<T>, fn: (Live<T>) -> Live<Unit>) =
+  newVariable(initial).let { variable -> parallel(variable.init(initial), fn(variable)) }
 
 fun <T> Live<T>.set(live: Live<T>): Live<Unit> =
   Live.Set(variable, live)
@@ -33,7 +39,7 @@ fun parallel(live: Live<*>, vararg lives: Live<*>) =
 fun parallel(lives: List<Live<*>>): Live<Unit> =
   Live.Application(Unit::class, Primitive.PARALLEL, lives)
 
-fun repeat(count: Int, fn: (Int) -> Live<Animation>) =
+fun repeat(count: Int, fn: (Int) -> Live<*>) =
   parallel(List(count) { fn(it) })
 
 val doNothing: Live<Unit> get() = Unit.live(Unit::class)
