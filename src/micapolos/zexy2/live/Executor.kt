@@ -28,11 +28,11 @@ internal class Executor(
 
         is Live.Variable<T> -> variableRunner(state, state(live.initializer))
 
-        is Live.Init<*> -> initRunner(state(live.lhs), state(live.rhs))
+        is Live.Init<*> -> startOnAnimation(state(live.lhs), state(live.rhs))
 
         is Live.Set<*> -> setRunner(state(live.lhs), state(live.rhs))
 
-        is Live.Elastic -> elasticRunner(state as State<Double>, state(live.target))
+        is Live.Elastic -> elasticAnimation(state as State<Double>, state(live.target))
 
         is Live.Conditional<T> -> conditionalRunner(state,
           state(live.condition),
@@ -44,7 +44,7 @@ internal class Executor(
 
         is Live.Pause -> {
           val secondsState = state(live.seconds)
-          sleepRunner(secondsState)
+          pauseAnimation(secondsState)
         }
 
         is Live.Block -> sequence(live.lives.map { expression(it).animation })
@@ -64,7 +64,7 @@ internal class Executor(
         is Live.ConditionalInit -> {
           val conditionState = state(live.condition)
           val bodyRunner = expression(live.body).animation
-          initRunner(conditionState, bodyRunner)
+          startOnAnimation(conditionState, bodyRunner)
         }
       }
     }

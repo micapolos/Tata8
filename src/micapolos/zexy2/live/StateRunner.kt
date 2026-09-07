@@ -29,7 +29,7 @@ fun <T> variableRunner(state: State<T>, initializerState: State<T>) =
     }
   }
 
-fun <T> initRunner(lhs: State<T>, rhs: State<T>) =
+fun <T> startOnAnimation(lhs: State<T>, rhs: State<T>) =
   object : Animation {
     override fun init() {
       lhs.value = rhs.value
@@ -76,17 +76,17 @@ fun <T> applicationRunner(
   globalState: (Live<*>) -> State<*>
 ): Animation {
   return when (primitive) {
-    Primitive.FRAME_TIME -> frameTimeRunner(resultState as State<Double>)
+    Primitive.FRAME_TIME -> frameTimeAnimation(resultState as State<Double>)
 
     Primitive.LOGGED ->
       when (argStates.size) {
-        1 -> loggedRunner(resultState, argStates[0] as State<T>)
-        else -> loggedAsRunner(resultState, argStates[1] as State<T>, argStates[0] as State<String>)
+        1 -> loggedAnimation(resultState, argStates[0] as State<T>)
+        else -> loggedAsAnimation(resultState, argStates[1] as State<T>, argStates[0] as State<String>)
       }
 
-    Primitive.READONLY -> readonlyRunner(resultState, argStates[0] as State<T>)
+    Primitive.READONLY -> readonlyAnimation(resultState, argStates[0] as State<T>)
 
-    Primitive.BOOLEAN_NOT -> booleanNotRunner(resultState as State<Boolean>, argStates[0] as State<Boolean>)
+    Primitive.BOOLEAN_NOT -> booleanNotAnimation(resultState as State<Boolean>, argStates[0] as State<Boolean>)
 
     Primitive.BOOLEAN_AND -> object : Animation {
       override fun step(seconds: Float): Float {

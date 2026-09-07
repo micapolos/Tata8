@@ -7,7 +7,7 @@ class AnimationTest {
   @Test
   fun testPauseRunner() {
     var pauseState = State<Double>(10.0)
-    val runner = sleepRunner(pauseState)
+    val runner = pauseAnimation(pauseState)
     runner.init()
 
     pauseState.internalValue = null
@@ -26,7 +26,7 @@ class AnimationTest {
   fun testParallelRunner() {
     var pause1 = State<Double>(10.0)
     var pause2 = State<Double>(10.0)
-    val runner = parallel(sleepRunner(pause1), sleepRunner(pause2))
+    val runner = parallel(pauseAnimation(pause1), pauseAnimation(pause2))
     runner.init()
 
     pause1.internalValue = null
@@ -46,7 +46,7 @@ class AnimationTest {
   fun testSequenceRunner() {
     var pause1 = State<Double>(null)
     var pause2 = State<Double>(null)
-    val runner = sequence(sleepRunner(pause1), sleepRunner(pause2))
+    val runner = sequence(pauseAnimation(pause1), pauseAnimation(pause2))
     runner.init()
 
     pause1.value = 10.0

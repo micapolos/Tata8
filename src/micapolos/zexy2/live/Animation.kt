@@ -8,12 +8,12 @@ interface Animation {
   fun step(seconds: Float) = seconds
 }
 
-fun sleepRunner(secondsState: State<Double>) =
+fun pauseAnimation(seconds: State<Double>) =
   object : Animation {
     var remainingSeconds: Float = 0f
 
     override fun init() {
-      remainingSeconds = secondsState.value.toFloat()
+      remainingSeconds = seconds.value.toFloat()
     }
 
     override fun step(seconds: Float): Float {
@@ -122,7 +122,7 @@ fun stepRunner(conditionState: State<Boolean>, animation: Animation) =
       if (conditionState.value) animation.step(seconds) else 0f
   }
 
-fun initRunner(startState: State<Boolean>, animation: Animation) =
+fun startOnAnimation(event: State<Boolean>, animation: Animation) =
   object : Animation {
     var isRunning = false
 
@@ -131,7 +131,7 @@ fun initRunner(startState: State<Boolean>, animation: Animation) =
     }
 
     override fun step(seconds: Float): Float {
-      if (startState.value) {
+      if (event.value) {
         animation.init()
         isRunning = true
       }
@@ -144,7 +144,7 @@ fun initRunner(startState: State<Boolean>, animation: Animation) =
     }
   }
 
-fun elasticRunner(current: State<Double>, target: State<Double>) =
+fun elasticAnimation(current: State<Double>, target: State<Double>) =
   object : Animation {
     override fun init() {
       current.value = target.value
@@ -159,7 +159,7 @@ fun elasticRunner(current: State<Double>, target: State<Double>) =
     }
   }
 
-fun frameTimeRunner(outState: State<Double>) =
+fun frameTimeAnimation(outState: State<Double>) =
   object : Animation {
     override fun init() {
       outState.value = 0.0
@@ -171,7 +171,7 @@ fun frameTimeRunner(outState: State<Double>) =
     }
   }
 
-fun <T> loggedRunner(outState: State<T>, state: State<T>) = object : Animation {
+fun <T> loggedAnimation(outState: State<T>, state: State<T>) = object : Animation {
   override fun step(seconds: Float): Float {
     outState.value = state.value
     Game.log(state.value.leoString)
@@ -179,7 +179,7 @@ fun <T> loggedRunner(outState: State<T>, state: State<T>) = object : Animation {
   }
 }
 
-fun <T> loggedAsRunner(outState: State<T>, state: State<T>, string: State<String>) = object : Animation {
+fun <T> loggedAsAnimation(outState: State<T>, state: State<T>, string: State<String>) = object : Animation {
   override fun step(seconds: Float): Float {
     outState.value = state.value
     Game.log(string.value, state.value.leoString)
@@ -187,7 +187,7 @@ fun <T> loggedAsRunner(outState: State<T>, state: State<T>, string: State<String
   }
 }
 
-fun <T, V> applyRunner(resultState: State<T>, state: State<V>, fn: (V) -> T) =
+fun <T, V> applyAnimation(resultState: State<T>, state: State<V>, fn: (V) -> T) =
   object : Animation {
     override fun step(seconds: Float): Float {
       resultState.internalValue = fn(state.value)
@@ -195,7 +195,7 @@ fun <T, V> applyRunner(resultState: State<T>, state: State<V>, fn: (V) -> T) =
     }
   }
 
-fun <T, V1, V2> applyRunner(resultState: State<T>, state1: State<V1>, state2: State<V2>, fn: (V1, V2) -> T) =
+fun <T, V1, V2> applyAnimation(resultState: State<T>, state1: State<V1>, state2: State<V2>, fn: (V1, V2) -> T) =
   object : Animation {
     override fun step(seconds: Float): Float {
       resultState.internalValue = fn(state1.value, state2.value)
@@ -203,10 +203,10 @@ fun <T, V1, V2> applyRunner(resultState: State<T>, state1: State<V1>, state2: St
     }
   }
 
-fun <T> readonlyRunner(outState: State<T>, state: State<T>) =
-  applyRunner(outState, state) { it }
+fun <T> readonlyAnimation(outState: State<T>, state: State<T>) =
+  applyAnimation(outState, state) { it }
 
-fun booleanNotRunner(resultState: State<Boolean>, state: State<Boolean>) =
+fun booleanNotAnimation(resultState: State<Boolean>, state: State<Boolean>) =
   object : Animation {
     override fun step(seconds: Float): Float {
       resultState.internalValue = !state.value
