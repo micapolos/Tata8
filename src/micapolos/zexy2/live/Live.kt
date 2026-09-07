@@ -44,7 +44,7 @@ sealed class Live<out T> {
     override val kClass: KClass<*> get() = Unit::class
   }
 
-  data class Sequence(val lives: List<Live<Unit>>) : Live<Unit>() {
+  data class Block(val lives: List<Live<Unit>>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
 }
@@ -64,7 +64,7 @@ fun <T> liveApplication(kClass: KClass<*>, primitive: Primitive, vararg args: Li
 
 fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
 
-fun liveSequence(lives: List<Live<Unit>>): Live<Unit> = Live.Sequence(lives)
+fun liveBlock(lives: List<Live<Unit>>): Live<Unit> = Live.Block(lives)
 
 fun <T> liveConditional(
   kClass: KClass<*>, condition: Live<Boolean>,

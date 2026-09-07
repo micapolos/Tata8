@@ -58,8 +58,7 @@ internal class Executor(
           pauseRunner { (secondsState.value as Double).toFloat() }
         }
 
-        is Live.Sequence ->
-          sequence(live.lives.map { childStateAndRunner(it).second })
+        is Live.Block -> sequence(live.lives.map { childStateAndRunner(it).second })
       }
     }
 
