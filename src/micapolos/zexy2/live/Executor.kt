@@ -25,37 +25,49 @@ internal class Executor(
         is Live.Constant<*> -> live.runner(state)
         is Live.Variable<*> -> live.runner(state, ::state)
         is Live.Set<*> -> live.runner(::state)
-        is Live.Conditional<*> -> object : Runner {
+        is Live.Conditional<*> -> {
           val conditionState = state(live.condition)
-          val trueExecutor = Executor(states)
-          val falseExecutor = Executor(states)
-          val trueState = trueExecutor.run { state(live.trueLive) }
-          val falseState = falseExecutor.run { state(live.falseLive) }
-          val trueRunner = trueExecutor.runner
-          val falseRunner = falseExecutor.runner
+          val (trueState, trueRunner) = childStateAndRunner(live.trueLive)
+          val (falseState, falseRunner) = childStateAndRunner(live.falseLive)
 
-          override fun init() {
-            trueRunner.init()
-            falseRunner.init()
-          }
+          object : Runner {
+            override fun init() {
+              trueRunner.init()
+              falseRunner.init()
+            }
 
-          override fun step(seconds: Float): Float {
-            state.value =
-              if (conditionState.value as Boolean) {
-                trueRunner.step(seconds)
-                trueState.value
-              } else {
-                falseRunner.step(seconds)
-                falseState.value
-              }
-            return seconds
+            override fun step(seconds: Float): Float {
+              state.value =
+                if (conditionState.value as Boolean) {
+                  trueRunner.step(seconds)
+                  trueState.value
+                } else {
+                  falseRunner.step(seconds)
+                  falseState.value
+                }
+              return seconds
+            }
           }
         }
+
         is Live.Application<*> -> live.runner(state, ::state)
         is Live.Bottom -> bottomRunner
-        is Live.Pause -> live.runner(::state)
+
+        is Live.Pause -> {
+          val secondsState = state(live.seconds)
+          pauseRunner { (secondsState.value as Double).toFloat() }
+        }
+
+        is Live.Sequence ->
+          sequence(live.lives.map { childStateAndRunner(it).second })
       }
     }
+
+  fun <T> childStateAndRunner(live: Live<T>): Pair<State, Runner> {
+    val executor = Executor(states)
+    val state = executor.state(live)
+    return state to executor.runner
+  }
 
   val runner get() = parallel(runners)
 }

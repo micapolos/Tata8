@@ -5,6 +5,26 @@ interface Runner {
   fun step(seconds: Float) = seconds
 }
 
+fun pauseRunner(getSeconds: () -> Float) =
+  object : Runner {
+    var remainingSeconds: Float = 0f
+
+    override fun init() {
+      remainingSeconds = getSeconds()
+    }
+
+    override fun step(seconds: Float): Float {
+      remainingSeconds -= seconds
+      if (remainingSeconds >= 0) {
+        return 0f
+      } else {
+        val leftoverSeconds = -remainingSeconds
+        remainingSeconds = 0f
+        return leftoverSeconds
+      }
+    }
+  }
+
 fun parallel(runner: Runner, vararg runners: Runner) =
   parallel(listOf(runner, *runners))
 

@@ -43,6 +43,10 @@ sealed class Live<out T> {
   data class Pause(val seconds: Live<Double>) : Live<Unit>() {
     override val kClass: KClass<*> get() = Unit::class
   }
+
+  data class Sequence(val lives: List<Live<Unit>>) : Live<Unit>() {
+    override val kClass: KClass<*> get() = Unit::class
+  }
 }
 
 val <T> Live<T>.asApplication get() = this as Live.Application<T>
@@ -58,13 +62,15 @@ fun <T> liveSet(lhs: Live<T>, rhs: Live<T>): Live<Unit> = Live.Set(lhs, rhs)
 fun <T> liveApplication(kClass: KClass<*>, primitive: Primitive, vararg args: Live<*>): Live<T> =
   Live.Application(kClass, primitive, args.toList())
 
+fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
+
+fun liveSequence(lives: List<Live<Unit>>): Live<Unit> = Live.Sequence(lives)
+
 fun <T> liveConditional(
   kClass: KClass<*>, condition: Live<Boolean>,
   trueLive: Live<T>,
   falseLive: Live<T>
 ): Live<T> = Live.Conditional(kClass, condition, trueLive, falseLive)
-
-fun livePause(seconds: Live<Double>): Live<Unit> = Live.Pause(seconds)
 
 fun <T> Live<T>.withArg(index: Int, live: Live<*>): Live<T> =
   asApplication.run {
