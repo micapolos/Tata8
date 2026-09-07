@@ -163,7 +163,7 @@ fun frameTimeAnimation(out: State<Double>) =
   object : Animation {
     override fun step(seconds: Float): Float {
       out.value = seconds.toDouble()
-      return seconds
+      return 0f
     }
   }
 
