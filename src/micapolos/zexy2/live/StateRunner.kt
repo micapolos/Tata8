@@ -47,17 +47,22 @@ fun setRunner(lhs: State, rhs: State) =
     }
   }
 
-fun <T> Live.Conditional<T>.runner(state: State, liveState: LiveState) =
+fun conditionalRunner(state: State, conditionState: State, trueBlock: Block, falseBlock: Block) =
   object : Runner {
-    val conditionState = liveState(condition)
-    val trueState = liveState(trueLive)
-    val falseState = liveState(falseLive)
+    override fun init() {
+      trueBlock.runner.init()
+      falseBlock.runner.init()
+    }
+
     override fun step(seconds: Float): Float {
-      state.value = if (conditionState.value as Boolean) {
-        trueState.value
-      } else {
-        falseState.value
-      }
+      state.value =
+        if (conditionState.value as Boolean) {
+          trueBlock.runner.step(seconds)
+          trueBlock.state.value
+        } else {
+          falseBlock.runner.step(seconds)
+          falseBlock.state.value
+        }
       return seconds
     }
   }

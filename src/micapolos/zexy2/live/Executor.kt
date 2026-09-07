@@ -32,30 +32,7 @@ internal class Executor(
 
         is Live.Elastic -> elasticRunner(state, state(live.target))
 
-        is Live.Conditional<*> -> {
-          val conditionState = state(live.condition)
-          val (trueState, trueRunner) = childStateAndRunner(live.trueLive)
-          val (falseState, falseRunner) = childStateAndRunner(live.falseLive)
-
-          object : Runner {
-            override fun init() {
-              trueRunner.init()
-              falseRunner.init()
-            }
-
-            override fun step(seconds: Float): Float {
-              state.value =
-                if (conditionState.value as Boolean) {
-                  trueRunner.step(seconds)
-                  trueState.value
-                } else {
-                  falseRunner.step(seconds)
-                  falseState.value
-                }
-              return seconds
-            }
-          }
-        }
+        is Live.Conditional<*> -> conditionalRunner(state, state(live.condition), block(live.trueLive), block(live.falseLive))
 
         is Live.Application<*> -> live.runner(state, ::state)
         is Live.Bottom -> bottomRunner
@@ -65,32 +42,32 @@ internal class Executor(
           sleepRunner { (secondsState.value as Double).toFloat() }
         }
 
-        is Live.Block -> sequence(live.lives.map { childStateAndRunner(it).second })
+        is Live.Block -> sequence(live.lives.map { block(it).runner })
 
         is Live.DoWhile -> {
           val conditionState = state(live.condition)
-          val bodyRunner = childStateAndRunner(live.body).second
+          val bodyRunner = block(live.body).runner
           doWhileRunner(bodyRunner) { conditionState.value as Boolean }
         }
 
         is Live.ConditionalStep -> {
           val conditionState = state(live.condition)
-          val bodyRunner = childStateAndRunner(live.body).second
+          val bodyRunner = block(live.body).runner
           stepRunner({ conditionState.value as Boolean }, bodyRunner)
         }
 
         is Live.ConditionalInit -> {
           val conditionState = state(live.condition)
-          val bodyRunner = childStateAndRunner(live.body).second
+          val bodyRunner = block(live.body).runner
           initRunner({ conditionState.value as Boolean }, bodyRunner)
         }
       }
     }
 
-  fun <T> childStateAndRunner(live: Live<T>): Pair<State, Runner> {
+  fun block(live: Live<*>): Block {
     val executor = Executor(states)
     val state = executor.state(live)
-    return state to executor.runner
+    return Block(state, executor.runner)
   }
 
   val runner get() = parallel(runners)
