@@ -38,6 +38,10 @@ fun <T> startOnAnimation(lhs: State<T>, rhs: State<T>) =
 
 fun <T> keepSettingAnimation(lhs: State<T>, rhs: State<T>) =
   object : Animation {
+    override fun init() {
+      lhs.value = rhs.value
+    }
+
     override fun step(seconds: Float): Float {
       lhs.value = rhs.value
       return seconds
