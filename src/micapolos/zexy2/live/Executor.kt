@@ -43,7 +43,7 @@ internal class Executor(
 
         is Live.Pause -> {
           val secondsState = state(live.seconds)
-          sleepRunner { (secondsState.value).toFloat() }
+          sleepRunner(secondsState)
         }
 
         is Live.Block -> sequence(live.lives.map { expression(it).runner })
@@ -51,7 +51,7 @@ internal class Executor(
         is Live.DoWhile -> {
           val conditionState = state(live.condition)
           val bodyRunner = expression(live.body).runner
-          doWhileRunner(bodyRunner) { conditionState.value }
+          doWhileRunner(bodyRunner, conditionState)
         }
 
         is Live.ConditionalStep -> {

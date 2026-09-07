@@ -7,12 +7,12 @@ interface Runner {
   fun step(seconds: Float) = seconds
 }
 
-fun sleepRunner(getSeconds: () -> Float) =
+fun sleepRunner(secondsState: State<Double>) =
   object : Runner {
     var remainingSeconds: Float = 0f
 
     override fun init() {
-      remainingSeconds = getSeconds()
+      remainingSeconds = secondsState.value.toFloat()
     }
 
     override fun step(seconds: Float): Float {
@@ -79,7 +79,7 @@ fun sequence(runners: List<Runner>): Runner =
     }
   }
 
-fun doWhileRunner(body: Runner, condition: () -> Boolean) =
+fun doWhileRunner(body: Runner, conditionState: State<Boolean>) =
   object : Runner {
     var needsInit = false
     var done = false
@@ -102,7 +102,7 @@ fun doWhileRunner(body: Runner, condition: () -> Boolean) =
         remainingSeconds = body.step(remainingSeconds)
         if (remainingSeconds == 0f) {
           return 0f
-        } else if (condition()) {
+        } else if (conditionState.value) {
           needsInit = true
         } else {
           done = true
