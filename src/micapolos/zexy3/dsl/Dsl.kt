@@ -51,3 +51,11 @@ fun Bool.set(bool: Bool): Action = Action.BoolSet(this, bool)
 fun Integer.set(integer: Integer): Action = Action.IntegerSet(this, integer)
 fun Number.set(number: Number): Action = Action.NumberSet(this, number)
 fun Number.capture(number: Number): Action = Action.NumberCapture(this, number)
+
+class IfTrueNumber(val condition: Bool, val trueNumber: Number)
+fun Bool.ifTrue(d: Double) = ifTrue(number(d))
+fun Bool.ifTrue(number: Number) = IfTrueNumber(this, number)
+fun IfTrueNumber.orElse(falseNumber: Double): Number = orElse(number(falseNumber))
+fun IfTrueNumber.orElse(falseNumber: Number): Number = Number.Conditional(condition, trueNumber, falseNumber)
+
+val Key.isPressed: Bool get() = Bool.KeyPressed(this)

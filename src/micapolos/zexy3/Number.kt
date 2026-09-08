@@ -11,6 +11,8 @@ sealed class Number {
   class Fraction(val a: Number): Number()
   class FromInteger(val i: Integer): Number()
 
+  class Conditional(val condition: Bool, val trueNumber: Number, val falseNumber: Number): Number()
+
   class Animated(val variable: Variable, val animation: Animation): Number()
 
   object FrameSeconds: Number()

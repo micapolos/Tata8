@@ -3,18 +3,20 @@ package micapolos.zexy3.runtime
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
 import micapolos.zexy3.*
+import micapolos.zexy3.Color
 import micapolos.zexy3.Number
-import micapolos.zexy3.dsl.Screen
-import micapolos.zexy3.dsl.capture
-import micapolos.zexy3.dsl.image
-import micapolos.zexy3.dsl.minus
-import micapolos.zexy3.dsl.newVariable
-import micapolos.zexy3.dsl.number
-import micapolos.zexy3.dsl.plus
-import micapolos.zexy3.dsl.position
-import micapolos.zexy3.dsl.sprite
-import micapolos.zexy3.dsl.times
+import micapolos.zexy3.dsl.*
 import kotlin.math.floor
+
+val Key.tata get() =
+  when (this) {
+    Key.LEFT -> Game.keys.left
+    Key.RIGHT -> Game.keys.right
+    Key.UP -> Game.keys.up
+    Key.DOWN -> Game.keys.down
+    Key.Z -> Game.keys.z
+    Key.X -> Game.keys.x
+  }
 
 class Compiler(val baseClass: Class<*>) {
   val loadedImages: MutableMap<String, micapolos.tata8.Image> = mutableMapOf()
@@ -78,7 +80,10 @@ class Compiler(val baseClass: Class<*>) {
       is Bool.Constant -> { -> bool.b }
       is Bool.And -> TODO()
       is Bool.IndexEqual -> TODO()
-      is Bool.KeyPressed -> TODO()
+      is Bool.KeyPressed -> {
+        val key = bool.key.tata
+        return { key.isPressed }
+      }
       Bool.MousePressed -> TODO()
       is Bool.Not -> TODO()
       is Bool.NumberEqual -> TODO()
@@ -166,6 +171,13 @@ class Compiler(val baseClass: Class<*>) {
         val i = supplier(number.i)
         return { i().toDouble() }
       }
+
+      is Number.Conditional -> {
+        val condition = supplier(number.condition)
+        val trueNumber = supplier(number.trueNumber)
+        val falseNumber = supplier(number.falseNumber)
+        return { if (condition()) trueNumber() else falseNumber() }
+      }
     }
 
   fun runnable(action: Action): () -> Unit =
@@ -193,7 +205,7 @@ class Compiler(val baseClass: Class<*>) {
 
 fun main() {
   val compiler = Compiler(DepressedChicken::class.java)
-  val x = newVariable(100.0)
+  val x = newVariable(0.0)
   val box = compiler.box(x)
   val drawing = compiler.runnable(
     sprite(
@@ -202,7 +214,8 @@ fun main() {
     )
   )
   compiler.updates.add(drawing)
-  compiler.updates.add(compiler.runnable(x.capture(x + 1.0)))
+  compiler.updates.add(compiler.runnable(x.capture(x + Key.LEFT.isPressed.ifTrue(-1.0).orElse(0.0))))
+  compiler.updates.add(compiler.runnable(x.capture(x + Key.RIGHT.isPressed.ifTrue(1.0).orElse(0.0))))
   compiler.inits.forEach { it() }
   IO.println(box.value)
   Game.onUpdate = {
