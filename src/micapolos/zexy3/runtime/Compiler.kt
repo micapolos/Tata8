@@ -2,12 +2,8 @@ package micapolos.zexy3.runtime
 
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
-import micapolos.zexy3.Action
-import micapolos.zexy3.Drawing
-import micapolos.zexy3.Image
-import micapolos.zexy3.Integer
+import micapolos.zexy3.*
 import micapolos.zexy3.Number
-import java.util.function.Supplier
 import kotlin.math.floor
 
 class Compiler(val baseClass: Class<*>) {
@@ -19,13 +15,13 @@ class Compiler(val baseClass: Class<*>) {
   fun supplier(image: Image): () -> micapolos.tata8.Image =
     when (image) {
       is Image.Create -> TODO()
-      is Image.Load ->
-        loadedImages.getOrPut(image::class.java.name) {
+      is Image.Load -> {
+        val image = loadedImages.getOrPut(image::class.java.name) {
           IO.println("Loading image: ${image.fileName}")
           Game.loadImage(baseClass, image.fileName)
-        }.let { image ->
-          { image }
         }
+        return { image }
+      }
 
       is Image.Slice -> TODO()
       is Image.Variable -> TODO()
@@ -36,9 +32,11 @@ class Compiler(val baseClass: Class<*>) {
       is Drawing.Rotate -> TODO()
       is Drawing.Scale -> TODO()
       is Drawing.Select -> TODO()
-      is Drawing.Stack -> drawing.drawings.map { runnable(it) }.let { runnables ->
-        { -> runnables.forEach { it() } }
+      is Drawing.Stack -> {
+        val drawings = drawing.drawings.map { runnable(it) }
+        return { drawings.forEach { it() } }
       }
+
       is Drawing.Translate -> TODO()
       is Drawing.Variable -> TODO()
       is Drawing.WithColor -> TODO()
@@ -65,58 +63,58 @@ class Compiler(val baseClass: Class<*>) {
       is Integer.Variable -> TODO()
     }
 
-  fun box(number: Number): Box<Double> =
-    (number as Number.Variable).let { variable ->
-      supplier(variable.initial).let { initial ->
-        numberBoxes.computeIfAbsent(variable) {
-          Box(defaultValue = 0.0).also { box ->
-            inits.add({ box.supplier = initial })
-          }
-        }
-      }
+  fun box(number: Number): Box<Double> {
+    val variable = number as Number.Variable
+    val initial = supplier(variable.initial)
+    return numberBoxes.computeIfAbsent(variable) {
+      val box = Box(defaultValue = 0.0)
+      inits.add({ box.supplier = initial })
+      box
     }
+  }
 
   fun supplier(number: Number): () -> Double =
     when (number) {
       is Number.Animated -> TODO()
-      is Number.Constant ->
-        { -> number.d }
-      is Number.Fraction ->
-        supplier(number.a).let { a ->
-          { a().let { it - floor(it) } }
-        }
-      Number.FrameSeconds ->
-        { -> 1/60.0 }
-      is Number.Negate ->
-        supplier(number.a).let { a ->
-          { -a() }
-        }
-      is Number.Plus ->
-        supplier(number.a).let { a ->
-          supplier(number.b).let { b ->
-            { a() + b() }
-          }
-        }
-      is Number.Minus ->
-        supplier(number.a).let { a ->
-          supplier(number.b).let { b ->
-            { a() - b() }
-          }
-        }
-      is Number.Times ->
-        supplier(number.a).let { a ->
-          supplier(number.b).let { b ->
-            { a() * b() }
-          }
-        }
-      is Number.Variable ->
-        box(number).let { box ->
-          { box.value }
-        }
-      is Number.FromInteger ->
-        supplier(number.i).let { i ->
-          { i().toDouble() }
-        }
+      is Number.Constant -> { -> number.d }
+      is Number.Fraction -> {
+        val a = supplier(number.a)
+        return { a().let { it - floor(it) } }
+      }
+
+      Number.FrameSeconds -> { -> 1 / 60.0 }
+      is Number.Negate -> {
+        val a = supplier(number.a)
+        return { -a() }
+      }
+
+      is Number.Plus -> {
+        val a = supplier(number.a)
+        val b = supplier(number.b)
+        return { a() + b() }
+      }
+
+      is Number.Minus -> {
+        val a = supplier(number.a)
+        val b = supplier(number.b)
+        return { a() - b() }
+      }
+
+      is Number.Times -> {
+        val a = supplier(number.a)
+        val b = supplier(number.b)
+        return { a() * b() }
+      }
+
+      is Number.Variable -> {
+        val box = box(number)
+        return { box.value }
+      }
+
+      is Number.FromInteger -> {
+        val i = supplier(number.i)
+        return { i().toDouble() }
+      }
     }
 
   fun runnable(action: Action): () -> Unit =
@@ -131,11 +129,13 @@ class Compiler(val baseClass: Class<*>) {
         val value = supplier(action.value)
         return { box.supplier = value }
       }
+
       is Action.NumberCapture -> {
         val box = box(action.variable)
         val value = supplier(action.value)
         return { box.value = value() }
       }
+
       is Action.TextSet -> TODO()
     }
 }
@@ -147,7 +147,9 @@ fun main() {
   val drawing = compiler.runnable(
     sprite(
       image("depressedChicken.png"),
-      position(x + (Screen.width.number - 32.0) * 0.5, 10.0)))
+      position(x + (Screen.width.number - 32.0) * 0.5, 10.0)
+    )
+  )
   compiler.updates.add(drawing)
   compiler.updates.add(compiler.runnable(x.capture(x + 1.0)))
   compiler.inits.forEach { it() }
