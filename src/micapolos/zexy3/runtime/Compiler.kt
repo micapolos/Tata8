@@ -2,9 +2,18 @@ package micapolos.zexy3.runtime
 
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
-import micapolos.zexy2.runtime.value
 import micapolos.zexy3.*
 import micapolos.zexy3.Number
+import micapolos.zexy3.dsl.Screen
+import micapolos.zexy3.dsl.capture
+import micapolos.zexy3.dsl.image
+import micapolos.zexy3.dsl.minus
+import micapolos.zexy3.dsl.newVariable
+import micapolos.zexy3.dsl.number
+import micapolos.zexy3.dsl.plus
+import micapolos.zexy3.dsl.position
+import micapolos.zexy3.dsl.sprite
+import micapolos.zexy3.dsl.times
 import kotlin.math.floor
 
 class Compiler(val baseClass: Class<*>) {

@@ -1,11 +1,7 @@
-package micapolos.zexy3.runtime
+package micapolos.zexy3.dsl
 
-import micapolos.zexy3.Action
-import micapolos.zexy3.Animation
-import micapolos.zexy3.Bool
-import micapolos.zexy3.Drawing
-import micapolos.zexy3.Image
-import micapolos.zexy3.Integer
+import micapolos.zexy3.*
+import micapolos.zexy3.Color
 import micapolos.zexy3.Number
 
 object Screen {
@@ -23,6 +19,10 @@ fun position(x: Double, y: Number) = position(number(x), y)
 fun position(x: Number, y: Double) = position(x, number(y))
 fun position(x: Number, y: Number) = Position(x, y)
 
+fun bool(b: Boolean): Bool = Bool.Constant(b)
+
+fun integer(i: Int): Integer = Integer.Constant(i)
+
 fun number(d: Double): Number = Number.Constant(d)
 fun newVariable(d: Double): Number = newVariable(number(d))
 fun newVariable(initial: Number): Number = Number.Variable(initial)
@@ -38,6 +38,11 @@ val Integer.number: Number get() = Number.FromInteger(this)
 fun Number.animated(animation: Animation) = Number.Animated(this as Number.Variable, animation)
 
 fun image(fileName: String): Image = Image.Load(fileName)
+
+object Color {
+  val black: Color = Color.Black
+  val yellow: Color = Color.Yellow
+}
 
 fun sprite(image: Image, position: Position): Drawing = Drawing.Sprite(image, position.x, position.y)
 fun stack(vararg drawings: Drawing): Drawing = Drawing.Stack(drawings.toList())
