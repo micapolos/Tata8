@@ -1,6 +1,8 @@
 package micapolos.zexy3.runtime
 
+import micapolos.zexy3.Action
 import micapolos.zexy3.Animation
+import micapolos.zexy3.Bool
 import micapolos.zexy3.Drawing
 import micapolos.zexy3.Image
 import micapolos.zexy3.Integer
@@ -39,3 +41,8 @@ fun image(fileName: String): Image = Image.Load(fileName)
 
 fun sprite(image: Image, position: Position): Drawing = Drawing.Sprite(image, position.x, position.y)
 fun stack(vararg drawings: Drawing): Drawing = Drawing.Stack(drawings.toList())
+
+fun Bool.set(bool: Bool): Action = Action.BoolSet(this, bool)
+fun Integer.set(integer: Integer): Action = Action.IntegerSet(this, integer)
+fun Number.set(number: Number): Action = Action.NumberSet(this, number)
+fun Number.capture(number: Number): Action = Action.NumberCapture(this, number)

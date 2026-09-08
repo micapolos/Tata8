@@ -16,22 +16,7 @@ class Compiler(val baseClass: Class<*>) {
   val inits = mutableListOf<() -> Unit>()
   val updates = mutableListOf<() -> Unit>()
 
-  fun supplier(action: Action): () -> Unit =
-    when (action) {
-      is Action.BoolSet -> TODO()
-      is Action.DrawingSet -> TODO()
-      is Action.FontSet -> TODO()
-      is Action.ImageSet -> TODO()
-      is Action.IndexSet -> TODO()
-      is Action.NumberSet -> box(action.variable).let { box ->
-        supplier(action.value).let { d ->
-          { -> box.supplier = d }
-        }
-      }
-      is Action.TextSet -> TODO()
-    }
-
-  fun supplier(image: Image): Supplier<micapolos.tata8.Image> =
+  fun supplier(image: Image): () -> micapolos.tata8.Image =
     when (image) {
       is Image.Create -> TODO()
       is Image.Load ->
@@ -39,7 +24,7 @@ class Compiler(val baseClass: Class<*>) {
           IO.println("Loading image: ${image.fileName}")
           Game.loadImage(baseClass, image.fileName)
         }.let { image ->
-          Supplier { image }
+          { image }
         }
 
       is Image.Slice -> TODO()
@@ -61,7 +46,7 @@ class Compiler(val baseClass: Class<*>) {
       is Drawing.WithFont -> TODO()
       is Drawing.Sprite -> { ->
         Game.background.canvas.draw(
-          supplier(drawing.image).get(),
+          supplier(drawing.image).invoke(),
           supplier(drawing.x).invoke().toInt(),
           supplier(drawing.y).invoke().toInt()
         )
@@ -133,19 +118,38 @@ class Compiler(val baseClass: Class<*>) {
           { i().toDouble() }
         }
     }
+
+  fun runnable(action: Action): () -> Unit =
+    when (action) {
+      is Action.BoolSet -> TODO()
+      is Action.DrawingSet -> TODO()
+      is Action.FontSet -> TODO()
+      is Action.ImageSet -> TODO()
+      is Action.IntegerSet -> TODO()
+      is Action.NumberSet -> {
+        val box = box(action.variable)
+        val value = supplier(action.value)
+        return { box.supplier = value }
+      }
+      is Action.NumberCapture -> {
+        val box = box(action.variable)
+        val value = supplier(action.value)
+        return { box.value = value() }
+      }
+      is Action.TextSet -> TODO()
+    }
 }
 
 fun main() {
   val compiler = Compiler(DepressedChicken::class.java)
-  val image = compiler.supplier(image("depressedChicken.png")).get()
-  val xVariable = newVariable(100.0)
-  val box = compiler.box(xVariable)
+  val x = newVariable(100.0)
+  val box = compiler.box(x)
   val drawing = compiler.runnable(
     sprite(
       image("depressedChicken.png"),
-      position(xVariable + (Screen.width.number - 32.0) * 0.5, 10.0)))
+      position(x + (Screen.width.number - 32.0) * 0.5, 10.0)))
   compiler.updates.add(drawing)
-  compiler.updates.add({ box.value = (box.value + 1) })
+  compiler.updates.add(compiler.runnable(x.capture(x + 1.0)))
   compiler.inits.forEach { it() }
   IO.println(box.value)
   Game.onUpdate = {
