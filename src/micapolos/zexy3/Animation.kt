@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Animation {
+sealed class Animation : Value {
   object Instant: Animation()
   object Forever: Animation()
   class Pause(val seconds: Number): Animation()
@@ -13,3 +13,8 @@ sealed class Animation {
   class Select(val animations: List<Animation>, val integer: Integer): Animation()
   class Stretch(val animation: Animation, val factor: Number): Animation()
 }
+
+val Action.animation: Animation get() = Animation.WithAction(this)
+
+fun pause(seconds: Double): Animation = pause(number(seconds))
+fun pause(seconds: Number): Animation = Animation.Pause(seconds)

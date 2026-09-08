@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Drawing {
+sealed class Drawing : Value {
   class Variable(val initial: Drawing): Drawing()
   class Sprite(
     val image: Image,

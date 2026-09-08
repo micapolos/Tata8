@@ -3,6 +3,8 @@ package micapolos.zexy3.dsl
 import micapolos.zexy3.*
 import micapolos.zexy3.Number
 
+// TODO: Move to corresponding model files.
+
 object Screen {
   val width: Integer = Integer.ScreenWidth
   val height: Integer = Integer.ScreenHeight

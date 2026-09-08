@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Image {
+sealed class Image : Value {
   class Load(val fileName: String): Image()
   class Create(val width: Int, val height: Int): Image()
   class Variable(val initial: Image): Image()

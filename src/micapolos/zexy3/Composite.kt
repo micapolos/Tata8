@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Composite {
+sealed class Composite : Value {
   object Normal : Composite()
   object SoftLight : Composite()
   object Multiply : Composite()

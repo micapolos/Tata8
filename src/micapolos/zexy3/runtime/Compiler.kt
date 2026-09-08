@@ -24,6 +24,11 @@ class Compiler(val baseClass: Class<*>) {
   val inits = mutableListOf<() -> Unit>()
   val updates = mutableListOf<() -> Unit>()
 
+  fun add(runner: Runner) {
+    inits.add({ runner.start() })
+    updates.add({ runner.step(1/60f) })
+  }
+
   fun runner(animation: Animation): Runner =
     when (animation) {
       Animation.Instant -> instantRunner

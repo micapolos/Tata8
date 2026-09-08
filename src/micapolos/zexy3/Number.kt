@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Number {
+sealed class Number : Value {
   class Constant(val d: Double): Number()
   class Variable(val initial: Number): Number()
 
@@ -27,3 +27,4 @@ fun Number.plus(d: Double): Number = plus(number(d))
 fun Number.plus(number: Number): Number = Number.Plus(this, number)
 
 val frameSeconds: Number = Number.FrameSeconds
+
