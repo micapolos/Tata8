@@ -137,20 +137,13 @@ class Compiler(val baseClass: Class<*>) {
 
 fun main() {
   val compiler = Compiler(DepressedChicken::class.java)
-  val image = compiler.supplier(Image.Load("depressedChicken.png")).get()
-  val xVariable = Number.Variable(Number.Constant(100.0))
+  val image = compiler.supplier(image("depressedChicken.png")).get()
+  val xVariable = newVariable(100.0)
   val box = compiler.box(xVariable)
   val drawing = compiler.runnable(
-    Drawing.Sprite(
-      Image.Load("depressedChicken.png"),
-      Number.Plus(
-        Number.Times(
-          Number.Minus(
-            Number.FromInteger(Integer.ScreenWidth),
-            Number.Constant(32.0)),
-          Number.Constant(0.5)),
-        xVariable),
-      Number.Constant(10.0)))
+    sprite(
+      image("depressedChicken.png"),
+      position(xVariable + (Screen.width.number - 32.0) * 0.5, 10.0)))
   compiler.updates.add(drawing)
   compiler.updates.add({ box.value = (box.value + 1) })
   compiler.inits.forEach { it() }

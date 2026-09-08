@@ -11,7 +11,7 @@ sealed class Number {
   class Fraction(val a: Number): Number()
   class FromInteger(val i: Integer): Number()
 
-  class Animated(val number: Number, val animation: Animation): Number()
+  class Animated(val variable: Variable, val animation: Animation): Number()
 
   object FrameSeconds: Number()
 }

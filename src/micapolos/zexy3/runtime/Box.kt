@@ -5,6 +5,6 @@ class Box<T>(var defaultValue: T, var supplier: (() -> T)? = null) {
     get() = if (supplier != null) supplier!!() else defaultValue
     set(v: T) {
       supplier = null
-      value = v
+      defaultValue = v
     }
 }
