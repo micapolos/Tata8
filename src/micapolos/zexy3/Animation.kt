@@ -2,6 +2,7 @@ package micapolos.zexy3
 
 sealed class Animation {
   object Instant: Animation()
+  object Forever: Animation()
   class Pause(val seconds: Number): Animation()
   class WithAction(val action: Action): Animation()
   class Parallel(val animations: List<Animation>): Animation()

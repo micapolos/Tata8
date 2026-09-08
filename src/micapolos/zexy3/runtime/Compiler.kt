@@ -27,6 +27,7 @@ class Compiler(val baseClass: Class<*>) {
   fun runner(animation: Animation): Runner =
     when (animation) {
       Animation.Instant -> instantRunner
+      Animation.Forever -> foreverRunner
       is Animation.Parallel -> TODO()
       is Animation.Pause -> TODO()
       is Animation.RunWhile -> TODO()
