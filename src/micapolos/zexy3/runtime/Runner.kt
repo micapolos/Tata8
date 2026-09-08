@@ -12,8 +12,14 @@ val foreverRunner = object : Runner {
 }
 
 fun startRunner(fn: () -> Unit): Runner =
-  object: Runner {
+  object : Runner {
     override fun start() {
       fn()
     }
+  }
+
+fun stepRunner(fn: (Float) -> Float): Runner =
+  object : Runner {
+    override fun step(seconds: Float): Float = fn(seconds)
+
   }
