@@ -2,7 +2,7 @@ package micapolos.zexy3
 
 sealed class Number {
   class Constant(val d: Double): Number()
-  class Variable(val initial: Double): Number()
+  class Variable(val initial: Number): Number()
 
   class Negate(val a: Number): Number()
   class Plus(val a: Number, val b: Number): Number()
@@ -18,7 +18,7 @@ sealed class Number {
 
 fun number(d: Double): Number = Number.Constant(d)
 
-fun newVariable(initial: Double): Number = Number.Variable(initial)
+fun newVariable(initial: Number): Number = Number.Variable(initial)
 
 fun Number.plus(d: Double): Number = plus(number(d))
 fun Number.plus(number: Number): Number = Number.Plus(this, number)
