@@ -208,6 +208,7 @@ class Compiler(val baseClass: Class<*>) {
 
   fun runnable(action: Action): () -> Unit =
     when (action) {
+      Action.Empty -> { -> }
       is Action.BoolSet -> TODO()
       is Action.DrawingSet -> TODO()
       is Action.FontSet -> TODO()
