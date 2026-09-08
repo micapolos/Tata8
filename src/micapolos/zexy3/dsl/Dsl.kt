@@ -25,8 +25,6 @@ fun bool(b: Boolean): Bool = Bool.Constant(b)
 fun integer(i: Int): Integer = Integer.Constant(i)
 
 fun number(d: Double): Number = Number.Constant(d)
-fun newVariable(d: Double): Number = newVariable(number(d))
-fun newVariable(initial: Number): Number = Number.Variable(Block.Root, initial)
 operator fun Number.unaryMinus(): Number = Number.Negate(this)
 //operator fun Number.plus(d: Double): Number = plus(number(d))
 //operator fun Number.plus(number: Number): Number = Number.Plus(this, number)

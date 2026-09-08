@@ -237,24 +237,27 @@ class Compiler(val baseClass: Class<*>) {
 }
 
 fun main() {
-  val compiler = Compiler(DepressedChicken::class.java)
-  val x = newVariable(0.0)
-  val box = compiler.box(x)
-  val drawing = compiler.runnable(
-    sprite(
-      image("depressedChicken.png"),
-      position(x.logged + (Screen.width.number - 32.0) * 0.5, 10.0)
+  main {
+    val compiler = Compiler(DepressedChicken::class.java)
+    val x = newVariable(0.0)
+    val box = compiler.box(x)
+    val drawing = compiler.runnable(
+      sprite(
+        image("depressedChicken.png"),
+        position(x.logged + (Screen.width.number - 32.0) * 0.5, 10.0)
+      )
     )
-  )
-  compiler.updates.add(drawing)
-  compiler.updates.add(compiler.runnable(x.capture(x + Key.LEFT.isPressed.ifTrue(-1.0).orElse(0.0))))
-  compiler.updates.add(compiler.runnable(x.capture(x + Key.RIGHT.isPressed.ifTrue(1.0).orElse(0.0))))
-  compiler.inits.forEach { it() }
-  IO.println(box.value)
-  Game.screen.shader = Shader.CRT_PHOSPHOR
-  Game.onUpdate = {
-    Game.background.canvas.clear()
-    compiler.updates.forEach { it() }
+    compiler.updates.add(drawing)
+    compiler.updates.add(compiler.runnable(x.capture(x + Key.LEFT.isPressed.ifTrue(-1.0).orElse(0.0))))
+    compiler.updates.add(compiler.runnable(x.capture(x + Key.RIGHT.isPressed.ifTrue(1.0).orElse(0.0))))
+    compiler.inits.forEach { it() }
+    IO.println(box.value)
+    Game.screen.shader = Shader.CRT_PHOSPHOR
+    Game.onUpdate = {
+      Game.background.canvas.clear()
+      compiler.updates.forEach { it() }
+    }
+    Game.start()
+    Void
   }
-  Game.start()
 }
