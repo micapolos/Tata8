@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Action : Value {
+sealed class Action : Value<Action> {
   object Empty: Action()
   class BoolSet(val variable: Bool, val value: Bool): Action()
   class IntegerSet(val variable: Integer, val value: Integer): Action()

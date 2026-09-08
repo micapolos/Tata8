@@ -1,8 +1,8 @@
 package micapolos.zexy3
 
-sealed class Number : Value {
+sealed class Number : Value<Number> {
   class Constant(val d: Double): Number()
-  class Variable(val initial: Number): Number()
+  class Variable(val scope: Block, val initial: Number): Number()
 
   class Negate(val a: Number): Number()
   class Plus(val a: Number, val b: Number): Number()
@@ -21,10 +21,11 @@ sealed class Number : Value {
 
 fun number(d: Double): Number = Number.Constant(d)
 
-fun newVariable(initial: Number): Number = Number.Variable(initial)
+fun Block.newVariable(initial: Double): Number = newVariable(number(initial))
+fun Block.newVariable(initial: Number): Number = Number.Variable(this, initial)
 
-fun Number.plus(d: Double): Number = plus(number(d))
-fun Number.plus(number: Number): Number = Number.Plus(this, number)
+operator fun Number.plus(d: Double): Number = plus(number(d))
+operator fun Number.plus(number: Number): Number = Number.Plus(this, number)
 
 val frameSeconds: Number = Number.FrameSeconds
 

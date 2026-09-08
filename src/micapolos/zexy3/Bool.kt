@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Bool : Value {
+sealed class Bool : Value<Bool> {
   class Constant(val b: Boolean) : Bool()
   class Variable(val initial: Bool) : Bool()
 

@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Animation : Value {
+sealed class Animation : Value<Animation> {
   object Instant: Animation()
   object Forever: Animation()
   class Pause(val seconds: Number): Animation()

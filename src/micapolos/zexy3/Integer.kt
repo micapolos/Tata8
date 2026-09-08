@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-sealed class Integer : Value {
+sealed class Integer : Value<Integer> {
   class Constant(val i: Int): Integer()
   class Variable(val initial: Integer): Integer()
 

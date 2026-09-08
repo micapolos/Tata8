@@ -1,3 +1,3 @@
 package micapolos.zexy3
 
-sealed interface Value
+sealed interface Value<T: Value<T>>
