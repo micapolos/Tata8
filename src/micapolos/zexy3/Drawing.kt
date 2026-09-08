@@ -1,0 +1,20 @@
+package micapolos.zexy3
+
+sealed class Drawing {
+  class Variable(val initial: Drawing): Drawing()
+  class Sprite(
+    val image: Image,
+    val x: Integer,
+    val y: Integer
+  ): Drawing()
+  class WithText(val text: Text): Drawing()
+  class Stack(val drawings: List<Drawing>): Drawing()
+  class Translate(val drawing: Drawing, val x: Number, val y: Number): Drawing()
+  class Scale(val drawing: Drawing, val x: Number, val y: Number): Drawing()
+  class Rotate(val drawing: Drawing, val angle: Number): Drawing()
+  class WithFont(val drawing: Drawing, val font: Font): Drawing()
+  class WithColor(val drawing: Drawing, val color: Color): Drawing()
+  class WithComposite(val drawing: Drawing, val composite: Composite): Drawing()
+  class WithParallax(val drawing: Drawing, val parallax: Number): Drawing()
+  class Select(val drawing: List<Drawing>, val integer: Integer): Drawing()
+}
