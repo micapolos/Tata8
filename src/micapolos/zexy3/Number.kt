@@ -6,6 +6,7 @@ sealed class Number {
 
   class Negate(val a: Number): Number()
   class Plus(val a: Number, val b: Number): Number()
+  class Minus(val a: Number, val b: Number): Number()
   class Times(val a: Number, val b: Number): Number()
   class Fraction(val a: Number): Number()
   class FromInteger(val i: Integer): Number()

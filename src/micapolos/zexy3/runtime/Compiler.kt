@@ -11,6 +11,7 @@ import kotlin.math.floor
 
 class Compiler(val baseClass: Class<*>) {
   val loadedImages: MutableMap<String, micapolos.tata8.Image> = mutableMapOf()
+  val numberBoxes = mutableMapOf<Number.Variable, Box<Double>>()
 
   fun supplier(image: Image): Supplier<micapolos.tata8.Image> =
     when (image) {
@@ -42,9 +43,8 @@ class Compiler(val baseClass: Class<*>) {
         Game.background.canvas.draw(
           supplier(drawing.image).get(),
           supplier(drawing.x).invoke().toInt(),
-          supplier(drawing.x).invoke().toInt()
+          supplier(drawing.y).invoke().toInt()
         )
-
       }
 
       is Drawing.WithParallax -> TODO()
@@ -81,13 +81,22 @@ class Compiler(val baseClass: Class<*>) {
             { a() + b() }
           }
         }
+      is Number.Minus ->
+        supplier(number.a).let { a ->
+          supplier(number.b).let { b ->
+            { a() - b() }
+          }
+        }
       is Number.Times ->
         supplier(number.a).let { a ->
           supplier(number.b).let { b ->
             { a() * b() }
           }
         }
-      is Number.Variable -> TODO()
+      is Number.Variable ->
+        numberBoxes.computeIfAbsent(number) { Box(0.0) }.let { box ->
+          { box.value }
+        }
       is Number.FromInteger ->
         supplier(number.i).let { i ->
           { i().toDouble() }
@@ -101,9 +110,11 @@ fun main() {
   val drawing = compiler.runnable(
     Drawing.Sprite(
       Image.Load("depressedChicken.png"),
-      Integer.Constant(100),
-      Integer.Constant(100)
-    )
-  ).run()
+      Number.Times(
+        Number.Minus(
+          Number.FromInteger(Integer.ScreenWidth),
+          Number.Constant(32.0)),
+        Number.Constant(0.5)),
+      Number.Constant(10.0))).run()
   Game.start()
 }

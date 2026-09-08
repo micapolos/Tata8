@@ -4,8 +4,8 @@ sealed class Drawing {
   class Variable(val initial: Drawing): Drawing()
   class Sprite(
     val image: Image,
-    val x: Integer,
-    val y: Integer
+    val x: Number,
+    val y: Number
   ): Drawing()
   class WithText(val text: Text): Drawing()
   class Stack(val drawings: List<Drawing>): Drawing()
