@@ -5,9 +5,16 @@ sealed class Drawing {
   class Sprite(
     val image: Image,
     val x: Number,
-    val y: Number
+    val y: Number,
   ): Drawing()
-  class WithText(val text: Text): Drawing()
+  class Label(
+    val text: Text,
+    val x: Number,
+    val y: Number,
+    val color: Color,
+    val font: Font,
+    val shadow: Bool,
+  ): Drawing()
   class Stack(val drawings: List<Drawing>): Drawing()
   class Translate(val drawing: Drawing, val x: Number, val y: Number): Drawing()
   class Scale(val drawing: Drawing, val x: Number, val y: Number): Drawing()

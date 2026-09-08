@@ -2,6 +2,7 @@ package micapolos.zexy3.runtime
 
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
+import micapolos.zexy2.runtime.value
 import micapolos.zexy3.*
 import micapolos.zexy3.Number
 import kotlin.math.floor
@@ -51,7 +52,29 @@ class Compiler(val baseClass: Class<*>) {
       }
 
       is Drawing.WithParallax -> TODO()
-      is Drawing.WithText -> TODO()
+      is Drawing.Label -> { ->
+        Game.background.canvas.draw(
+          supplier(drawing.text).invoke(),
+          supplier(drawing.x).invoke().toInt(),
+          supplier(drawing.y).invoke().toInt(),
+          supplier(drawing.color).invoke(),
+          supplier(drawing.font).invoke(),
+          supplier(drawing.shadow).invoke(),
+        )
+      }
+    }
+
+  fun supplier(bool: Bool): () -> Boolean =
+    when (bool) {
+      is Bool.Constant -> { -> bool.b }
+      is Bool.And -> TODO()
+      is Bool.IndexEqual -> TODO()
+      is Bool.KeyPressed -> TODO()
+      Bool.MousePressed -> TODO()
+      is Bool.Not -> TODO()
+      is Bool.NumberEqual -> TODO()
+      is Bool.Or -> TODO()
+      is Bool.Variable -> TODO()
     }
 
   fun supplier(integer: Integer): () -> Int =
@@ -72,6 +95,25 @@ class Compiler(val baseClass: Class<*>) {
       box
     }
   }
+
+  fun supplier(text: Text): () -> String =
+    when (text) {
+      is Text.Constant -> { -> text.string }
+      is Text.Variable -> TODO()
+    }
+
+  fun supplier(color: Color): () -> micapolos.tata8.Color =
+    when (color) {
+      Color.Black -> { -> micapolos.tata8.Color.BLACK }
+      Color.Yellow -> { -> micapolos.tata8.Color.YELLOW }
+      is Color.Variable -> TODO()
+    }
+
+  fun supplier(font: Font): () -> micapolos.tata8.Font =
+    when (font) {
+      is Font.Load -> TODO()
+      is Font.Variable -> TODO()
+    }
 
   fun supplier(number: Number): () -> Double =
     when (number) {

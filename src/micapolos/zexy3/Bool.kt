@@ -1,7 +1,7 @@
 package micapolos.zexy3
 
 sealed class Bool {
-  class Constant(b: Boolean) : Bool()
+  class Constant(val b: Boolean) : Bool()
   class Variable(val initial: Bool): Bool()
 
   class Not(val bool: Bool): Bool()
