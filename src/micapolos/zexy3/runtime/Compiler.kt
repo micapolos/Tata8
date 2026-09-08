@@ -51,7 +51,9 @@ class Compiler(val baseClass: Class<*>) {
       is Drawing.Rotate -> TODO()
       is Drawing.Scale -> TODO()
       is Drawing.Select -> TODO()
-      is Drawing.Stack -> TODO()
+      is Drawing.Stack -> drawing.drawings.map { runnable(it) }.let { runnables ->
+        { -> runnables.forEach { it() } }
+      }
       is Drawing.Translate -> TODO()
       is Drawing.Variable -> TODO()
       is Drawing.WithColor -> TODO()
