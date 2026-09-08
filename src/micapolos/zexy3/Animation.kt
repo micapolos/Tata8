@@ -11,6 +11,4 @@ sealed class Animation {
   class RunWhile(val animation: Animation, val bool: Bool): Animation()
   class Select(val animations: List<Animation>, val integer: Integer): Animation()
   class Stretch(val animation: Animation, val factor: Number): Animation()
-  class GenSequence(val count: Int, fn: (Int) -> Animation): Animation()
-  class GenParallel(val count: Int, fn: (Int) -> Animation): Animation()
 }

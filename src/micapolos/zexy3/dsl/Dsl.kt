@@ -1,7 +1,6 @@
 package micapolos.zexy3.dsl
 
 import micapolos.zexy3.*
-import micapolos.zexy3.Color
 import micapolos.zexy3.Number
 
 object Screen {

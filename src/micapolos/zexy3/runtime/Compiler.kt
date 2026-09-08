@@ -3,7 +3,6 @@ package micapolos.zexy3.runtime
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
 import micapolos.zexy3.*
-import micapolos.zexy3.Color
 import micapolos.zexy3.Number
 import micapolos.zexy3.dsl.*
 import kotlin.math.floor
@@ -24,6 +23,20 @@ class Compiler(val baseClass: Class<*>) {
   val numberBoxes = mutableMapOf<Number.Variable, Box<Double>>()
   val inits = mutableListOf<() -> Unit>()
   val updates = mutableListOf<() -> Unit>()
+
+  fun runner(animation: Animation): Runner =
+    when (animation) {
+      Animation.Instant -> instantRunner
+      is Animation.Parallel -> TODO()
+      is Animation.Pause -> TODO()
+      is Animation.RunWhile -> TODO()
+      is Animation.Select -> TODO()
+      is Animation.Sequence -> TODO()
+      is Animation.StartOn -> TODO()
+      is Animation.StopOn -> TODO()
+      is Animation.Stretch -> TODO()
+      is Animation.WithAction -> startRunner(runnable(animation.action))
+    }
 
   fun supplier(image: Image): () -> micapolos.tata8.Image =
     when (image) {
