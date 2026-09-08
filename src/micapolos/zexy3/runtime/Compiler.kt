@@ -2,6 +2,7 @@ package micapolos.zexy3.runtime
 
 import micapolos.DepressedChicken
 import micapolos.tata8.Game
+import micapolos.tata8.Shader
 import micapolos.zexy3.*
 import micapolos.zexy3.Number
 import micapolos.zexy3.dsl.*
@@ -250,6 +251,7 @@ fun main() {
   compiler.updates.add(compiler.runnable(x.capture(x + Key.RIGHT.isPressed.ifTrue(1.0).orElse(0.0))))
   compiler.inits.forEach { it() }
   IO.println(box.value)
+  Game.screen.shader = Shader.CRT_PHOSPHOR
   Game.onUpdate = {
     Game.background.canvas.clear()
     compiler.updates.forEach { it() }
