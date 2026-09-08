@@ -8,15 +8,16 @@ import micapolos.zexy3.Number
 import micapolos.zexy3.dsl.*
 import kotlin.math.floor
 
-val Key.tata get() =
-  when (this) {
-    Key.LEFT -> Game.keys.left
-    Key.RIGHT -> Game.keys.right
-    Key.UP -> Game.keys.up
-    Key.DOWN -> Game.keys.down
-    Key.Z -> Game.keys.z
-    Key.X -> Game.keys.x
-  }
+val Key.tata
+  get() =
+    when (this) {
+      Key.LEFT -> Game.keys.left
+      Key.RIGHT -> Game.keys.right
+      Key.UP -> Game.keys.up
+      Key.DOWN -> Game.keys.down
+      Key.Z -> Game.keys.z
+      Key.X -> Game.keys.x
+    }
 
 class Compiler(val baseClass: Class<*>) {
   val loadedImages: MutableMap<String, micapolos.tata8.Image> = mutableMapOf()
@@ -84,6 +85,7 @@ class Compiler(val baseClass: Class<*>) {
         val key = bool.key.tata
         return { key.isPressed }
       }
+
       Bool.MousePressed -> TODO()
       is Bool.Not -> TODO()
       is Bool.NumberEqual -> TODO()
@@ -178,6 +180,16 @@ class Compiler(val baseClass: Class<*>) {
         val falseNumber = supplier(number.falseNumber)
         return { if (condition()) trueNumber() else falseNumber() }
       }
+
+      is Number.Logged -> {
+        val label = number.label
+        val number = supplier(number.number)
+        return {
+          val double = number()
+          if (label != null) Game.log(label, double) else Game.log(double)
+          double
+        }
+      }
     }
 
   fun runnable(action: Action): () -> Unit =
@@ -210,7 +222,7 @@ fun main() {
   val drawing = compiler.runnable(
     sprite(
       image("depressedChicken.png"),
-      position(x + (Screen.width.number - 32.0) * 0.5, 10.0)
+      position(x.logged + (Screen.width.number - 32.0) * 0.5, 10.0)
     )
   )
   compiler.updates.add(drawing)

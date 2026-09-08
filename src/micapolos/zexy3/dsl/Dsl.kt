@@ -36,6 +36,8 @@ operator fun Number.times(number: Number): Number = Number.Times(this, number)
 val Number.fraction: Number get() = Number.Fraction(this)
 val Integer.number: Number get() = Number.FromInteger(this)
 fun Number.animated(animation: Animation) = Number.Animated(this as Number.Variable, animation)
+val Number.logged: Number get() = Number.Logged(this, null)
+fun Number.loggedAs(label: String): Number = Number.Logged(this, label)
 
 fun image(fileName: String): Image = Image.Load(fileName)
 

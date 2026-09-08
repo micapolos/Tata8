@@ -14,6 +14,7 @@ sealed class Number {
   class Conditional(val condition: Bool, val trueNumber: Number, val falseNumber: Number): Number()
 
   class Animated(val variable: Variable, val animation: Animation): Number()
+  class Logged(val number: Number, val label: String?): Number()
 
   object FrameSeconds: Number()
 }
