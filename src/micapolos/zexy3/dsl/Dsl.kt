@@ -41,11 +41,6 @@ fun Number.loggedAs(label: String): Number = Number.Logged(this, label)
 
 fun image(fileName: String): Image = Image.Load(fileName)
 
-object Color {
-  val black: Color = Color.Black
-  val yellow: Color = Color.Yellow
-}
-
 fun sprite(image: Image, position: Position): Drawing = Drawing.Sprite(image, position.x, position.y)
 fun stack(vararg drawings: Drawing): Drawing = Drawing.Stack(drawings.toList())
 
