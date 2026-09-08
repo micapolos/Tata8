@@ -82,7 +82,7 @@ class Compiler(val baseClass: Class<*>) {
     (number as Number.Variable).let { variable ->
       supplier(variable.initial).let { initial ->
         numberBoxes.computeIfAbsent(variable) {
-          Box(value = 0.0).also { box ->
+          Box(defaultValue = 0.0).also { box ->
             inits.add({ box.supplier = initial })
           }
         }
@@ -124,7 +124,7 @@ class Compiler(val baseClass: Class<*>) {
         }
       is Number.Variable ->
         box(number).let { box ->
-          { box.get() }
+          { box.value }
         }
       is Number.FromInteger ->
         supplier(number.i).let { i ->
@@ -150,9 +150,9 @@ fun main() {
         xVariable),
       Number.Constant(10.0)))
   compiler.updates.add(drawing)
-  compiler.updates.add({ box.set(box.get() + 1) })
+  compiler.updates.add({ box.value = (box.value + 1) })
   compiler.inits.forEach { it() }
-  IO.println(box.get())
+  IO.println(box.value)
   Game.onUpdate = {
     Game.background.canvas.clear()
     compiler.updates.forEach { it() }
