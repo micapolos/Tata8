@@ -3,8 +3,8 @@ package micapolos.zexy3.indexer
 import micapolos.zexy3.indexed.Key
 import micapolos.zexy3.model.Key as ModelKey
 
-fun Indexer.indexed(model: ModelKey): Key =
-  when (model) {
+val ModelKey.indexed: Key get() =
+  when (this) {
     ModelKey.LEFT -> Key.LEFT
     ModelKey.RIGHT -> Key.RIGHT
     ModelKey.UP -> Key.UP

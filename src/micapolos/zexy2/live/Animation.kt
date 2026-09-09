@@ -8,6 +8,8 @@ interface Animation {
   fun step(seconds: Float) = seconds
 }
 
+val noAnimation = object : Animation {}
+
 fun pauseAnimation(seconds: State<Double>) =
   object : Animation {
     var remainingSeconds: Float = 0f

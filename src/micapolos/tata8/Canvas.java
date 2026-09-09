@@ -11,6 +11,7 @@ public final class Canvas {
 
   public Color color = Color.WHITE;
   public Font font = Font.mica;
+  public Composite composite = Composite.NORMAL;
   public boolean textHasShadow;
 
   Canvas(BufferedImage image) {

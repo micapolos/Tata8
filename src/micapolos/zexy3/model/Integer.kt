@@ -9,7 +9,6 @@ sealed class Integer : Value<Integer> {
 
   enum class Op1 {
     NEG,
-    CHANGE,
   }
 
   enum class Op2 {
@@ -22,11 +21,11 @@ sealed class Integer : Value<Integer> {
 
   class Constant(val i: Int) : Integer()
 
-  class Apply0(val op: Op0): Integer()
+  class Apply0(val op: Op0) : Integer()
 
-  class Apply1(val op: Op1, val integer: Value<Integer>): Integer()
+  class Apply1(val op: Op1, val integer: Value<Integer>) : Integer()
 
-  class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>): Integer()
+  class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
 
   class KeyDown(val key: Key) : Integer()
 
@@ -34,9 +33,9 @@ sealed class Integer : Value<Integer> {
 
   class ImageHeight(val image: Value<Image>) : Integer()
 
-  class TextWidth(val text: Value<Text>) : Integer()
+  class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
 
-  class TextHeight(val text: Value<Text>) : Integer()
+  class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()
 
   class FromNumber(val number: Value<Number>) : Integer()
 }

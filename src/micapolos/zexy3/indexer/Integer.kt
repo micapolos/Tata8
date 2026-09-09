@@ -21,7 +21,6 @@ val ModelOp1.indexed
   get() =
     when (this) {
       ModelOp1.NEG -> Op1.NEG
-      ModelOp1.CHANGE -> Op1.CHANGE
     }
 
 val ModelOp2.indexed
@@ -50,8 +49,8 @@ fun Indexer.indexed(model: ModelInteger): Integer =
     is ModelInteger.FromNumber -> FromNumber(indexed(model.number))
     is ModelInteger.ImageWidth -> ImageWidth(indexed(model.image))
     is ModelInteger.ImageHeight -> ImageHeight(indexed(model.image))
-    is ModelInteger.KeyDown -> KeyDown(indexed(model.key))
-    is ModelInteger.TextWidth -> TextWidth(indexed(model.text))
-    is ModelInteger.TextHeight -> TextHeight(indexed(model.text))
+    is ModelInteger.KeyDown -> KeyDown(model.key.indexed)
+    is ModelInteger.TextWidth -> TextWidth(indexed(model.text), indexed(model.font))
+    is ModelInteger.TextHeight -> TextHeight(indexed(model.text), indexed(model.font))
     is ModelNumber.Test2 -> Number.Test2(model.pred.indexed, indexed(model.lhs), indexed(model.rhs))
   }

@@ -1,9 +1,16 @@
 package micapolos.zexy3.compiler
 
 import micapolos.zexy3.indexed.Text
+import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.ObjectEvaluator
+import micapolos.zexy3.runtime.noAnimation
 
-fun Compiler.compile(text: Text): ObjectEvaluator<String> =
+fun Compiler.animation(text: Text): Animation =
+  when (text) {
+    is Text.Constant -> noAnimation
+  }
+
+fun Compiler.evaluator(text: Text): ObjectEvaluator<String> =
   when (text) {
     is Text.Constant -> ObjectEvaluator { text.string }
   }

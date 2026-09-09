@@ -1,5 +1,5 @@
 package micapolos.zexy3.model
 
-enum class Key : Value<Key> {
+enum class Key {
   LEFT, RIGHT, UP, DOWN, Z, X
 }

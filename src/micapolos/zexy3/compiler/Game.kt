@@ -1,11 +1,11 @@
 package micapolos.zexy3.compiler
 
-import micapolos.zexy.Drawable
-import micapolos.zexy3.runtime.ObjectEvaluator
+import micapolos.zexy3.indexed.Game
+import micapolos.zexy3.runtime.Animated
+import micapolos.zexy3.runtime.Game as RuntimeGame
 
-class Game(
-  val title: String,
-  val width: Int,
-  val height: Int,
-  val drawableEvaluator: ObjectEvaluator<Drawable>,
-)
+fun Compiler.compile(game: Game): RuntimeGame =
+  RuntimeGame(game.title,
+    Animated(
+      evaluator(game.drawing),
+      animation(game.drawing)))

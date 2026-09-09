@@ -3,10 +3,21 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.Integer
 import micapolos.zexy3.indexed.Number
+import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.DoubleEvaluator
+import micapolos.zexy3.runtime.noAnimation
 import kotlin.math.*
 
-fun Compiler.compile(number: Number): DoubleEvaluator =
+fun Compiler.animation(number: Number): Animation =
+  when (number) {
+    is Number.Apply0 -> noAnimation
+    is Number.Apply1 -> noAnimation
+    is Number.Apply2 -> noAnimation
+    is Number.Constant -> noAnimation
+    is Number.FromInteger -> noAnimation
+  }
+
+fun Compiler.evaluator(number: Number): DoubleEvaluator =
   when (number) {
     is Number.Constant -> DoubleEvaluator { number.d }
 
@@ -18,7 +29,7 @@ fun Compiler.compile(number: Number): DoubleEvaluator =
       }
 
     is Number.Apply1 -> {
-      val evaluator = compile(number.n as Number)
+      val evaluator = evaluator(number.n as Number)
       when (number.op) {
         Number.Op1.NEG -> DoubleEvaluator { -evaluator.eval() }
         Number.Op1.SIN -> DoubleEvaluator { sin(evaluator.eval()) }
@@ -33,8 +44,8 @@ fun Compiler.compile(number: Number): DoubleEvaluator =
     }
 
     is Number.Apply2 -> {
-      val lhs = compile(number.lhs as Number)
-      val rhs = compile(number.rhs as Number)
+      val lhs = evaluator(number.lhs as Number)
+      val rhs = evaluator(number.rhs as Number)
       when (number.op) {
         Number.Op2.ADD -> DoubleEvaluator { lhs.eval() + rhs.eval() }
         Number.Op2.SUB -> DoubleEvaluator { lhs.eval() - rhs.eval() }
@@ -43,7 +54,23 @@ fun Compiler.compile(number: Number): DoubleEvaluator =
     }
 
     is Number.FromInteger -> {
-      val i = compile(number.i as Integer)
+      val i = evaluator(number.i as Integer)
       DoubleEvaluator { i.eval().toDouble() }
     }
   }
+
+fun main() {
+  println(
+    Compiler(
+      Number::class,
+      IntArray(10),
+      DoubleArray(10),
+      Array(10) { null },
+    )
+      .evaluator(
+        Number.Apply2(
+          Number.Op2.ADD,
+          Number.Constant(12.0),
+          Number.FromInteger(
+            Integer.Apply0(Integer.Op0.SCREEN_WIDTH)))).eval())
+}

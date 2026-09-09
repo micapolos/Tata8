@@ -7,14 +7,11 @@ import micapolos.zexy3.model.Drawing as ModelDrawing
 fun Indexer.indexed(model: ModelDrawing): Drawing =
   when (model) {
     ModelDrawing.Empty -> Empty
-    ModelDrawing.Rect -> Drawing.Rect
-    is ModelDrawing.Label -> Drawing.Label(indexed(model.text))
-    is ModelDrawing.Sprite -> TODO()
-    is ModelDrawing.Stack -> Drawing.Stack(model.drawings.map { indexed(it) })
-    is ModelDrawing.Blend -> Drawing.Blend(indexed(model.drawing), indexed(model.composite))
-    is ModelDrawing.Rotate -> Drawing.Rotate(indexed(model.drawing), indexed(model.radians))
-    is ModelDrawing.Scale -> Drawing.Scale(indexed(model.drawing), indexed(model.x), indexed(model.y))
-    is ModelDrawing.Translate -> Drawing.Translate(indexed(model.drawing), indexed(model.x), indexed(model.y))
+    is ModelDrawing.Rect -> Drawing.Rect(indexed(model.x), indexed(model.y), indexed(model.width), indexed(model.height))
+    is ModelDrawing.Label -> Drawing.Label(indexed(model.text), indexed(model.x), indexed(model.y))
+    is ModelDrawing.Sprite -> Drawing.Sprite(indexed(model.image), indexed(model.x), indexed(model.y))
+    is ModelDrawing.WithComposite -> Drawing.WithComposite(indexed(model.drawing), model.composite.indexed)
     is ModelDrawing.WithColor -> Drawing.WithColor(indexed(model.drawing), indexed(model.color))
     is ModelDrawing.WithFont -> Drawing.WithColor(indexed(model.drawing), indexed(model.font))
+    is ModelDrawing.Stack -> Drawing.Stack(model.drawings.map { indexed(it) })
   }
