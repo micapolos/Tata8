@@ -1,11 +1,11 @@
 package micapolos.zexy3.model
 
 sealed class Number : Value<Number> {
-  data object FrameTime : Number()
+  object FrameTime : Number()
 
-  data object MouseX : Number()
+  object MouseX : Number()
 
-  data object MouseY : Number()
+  object MouseY : Number()
 
   class Constant(val d: Double) : Number()
 

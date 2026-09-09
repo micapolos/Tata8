@@ -1,17 +1,17 @@
 package micapolos.zexy3.model
 
 sealed class Integer : Value<Integer> {
-  data object ScreenWidth : Integer()
+  object ScreenWidth : Integer()
 
-  data object ScreenHeight : Integer()
+  object ScreenHeight : Integer()
 
-  data object MouseDown : Integer()
+  object MouseDown : Integer()
 
-  data class KeyDown(val key: Key) : Integer()
+  class KeyDown(val key: Key) : Integer()
 
-  data class ImageWidth(val image: Value<Image>) : Integer()
+  class ImageWidth(val image: Value<Image>) : Integer()
 
-  data class ImageHeight(val image: Value<Image>) : Integer()
+  class ImageHeight(val image: Value<Image>) : Integer()
 
   class Constant(val i: Int) : Integer()
 

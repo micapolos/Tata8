@@ -1,7 +1,7 @@
 package micapolos.zexy3.model
 
 sealed class Color : Value<Color> {
-  data class Rgba(
+  class Rgba(
     val red: Value<Number>,
     val green: Value<Number>,
     val blue: Value<Number>,
