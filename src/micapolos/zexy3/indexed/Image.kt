@@ -1,6 +1,6 @@
-package micapolos.zexy3.model
+package micapolos.zexy3.indexed
 
-sealed class Image : Value<Image> {
+sealed class Image: Value<Image> {
   class Resource(val fileName: String): Image()
 
   class Render(
