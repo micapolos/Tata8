@@ -1,6 +1,6 @@
 package micapolos.zexy3
 
-enum class CoordinateSystem {
+enum class CoordinateSystem : Value<CoordinateSystem> {
   CAMERA,
   SCREEN
 }

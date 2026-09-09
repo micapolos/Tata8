@@ -7,7 +7,7 @@ sealed class Drawing : Value<Drawing> {
 
   data class Sprite(val image: Value<Image>) : Drawing()
 
-  data class WithColor(val drawing: Value<Drawing>, val color: Color) : Drawing()
+  data class WithColor(val drawing: Value<Drawing>, val color: Value<Color>) : Drawing()
 
   data class WithFont(val drawing: Value<Drawing>, val font: Value<Font>) : Drawing()
 
@@ -17,7 +17,7 @@ sealed class Drawing : Value<Drawing> {
 
   data class Rotate(val drawing: Value<Drawing>, val radians: Value<Number>) : Drawing()
 
-  data class Blend(val drawing: Value<Drawing>, val composite: Composite) : Drawing()
+  data class Blend(val drawing: Value<Drawing>, val composite: Value<Composite>) : Drawing()
 
   data class Stack(val drawings: List<Value<Drawing>>) : Drawing()
 }
