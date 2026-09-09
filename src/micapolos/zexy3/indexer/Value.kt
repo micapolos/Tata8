@@ -32,7 +32,7 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
     is ModelValue.Logged<*> -> Value.Logged(model.label, indexed(model.value))
     is ModelValue.Parallel<*> -> Value.Parallel(model.background.map { indexed(it) }, indexed(model.result))
     is ModelValue.Sequence<*> -> Value.Sequence(model.preceding.map { indexed(it) }, indexed(model.result))
-    is ModelValue.Select<*> -> Value.Select(indexed(model.index), model.options.map { indexed(it) }, indexed(model.defaultValue))
+    is ModelValue.Select<*> -> Value.Select(indexed(model.index), model.options.map { indexed(it) })
     is ModelValue.RunWhile<*> -> Value.RunWhile(indexed(model.condition), indexed(model.value))
     is ModelValue.StartWhen<*> -> Value.StartWhen(indexed(model.condition), indexed(model.value))
     is ModelValue.Stretch<*> -> Value.Stretch(indexed(model.factor), indexed(model.value))
