@@ -9,7 +9,6 @@ sealed class Integer: Value<Integer> {
 
   enum class Op1 {
     NEG,
-    CHANGE,
   }
 
   enum class Op2 {
@@ -34,9 +33,9 @@ sealed class Integer: Value<Integer> {
 
   class ImageHeight(val image: Value<Image>) : Integer()
 
-  class TextWidth(val text: Value<Text>) : Integer()
+  class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
 
-  class TextHeight(val text: Value<Text>) : Integer()
+  class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()
 
   class FromNumber(val number: Value<Number>) : Integer()
 }
