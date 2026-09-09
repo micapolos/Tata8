@@ -14,13 +14,14 @@ val ModelVariable<*>.indexType get() = when (initial) {
   else -> IndexType.OTHER
 }
 
-fun <T: Value<T>> Indexer.indexed(modelVariable: ModelVariable<*>): Variable<T> =
-  variableOrNull<T>(modelVariable).orIfNull {
-    val indexType = modelVariable.indexType
-    val indexed = indexed(modelVariable.initial)
-    val index = initialValuesOf(indexType).size
+fun <T: Value<T>> Indexer.indexed(model: ModelVariable<*>): Variable<T> =
+  variableOrNull<T>(model).orIfNull {
+    val indexType = model.indexType
+    val indexed = indexed(model.initial)
+    val initialValues = initialValuesOf(indexType)
+    val index = initialValues.size
     val variable = Variable<T>(indexType, index)
-    variableMap[modelVariable] = variable
-    initialValuesOf(indexType).add(indexed)
+    variableMap[model] = variable
+    initialValues.add(indexed)
     return variable
   }
