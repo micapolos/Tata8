@@ -10,7 +10,7 @@ fun Boolean.toInt() = if (this) 1 else 0
 fun Compiler.compile(integer: Integer): IntEvaluator =
   when (integer) {
     is Integer.Constant -> IntEvaluator { integer.i }
-    
+
     is Integer.FromNumber -> {
       val d = compile(integer.number as Number)
       IntEvaluator { d.eval().toInt() }
