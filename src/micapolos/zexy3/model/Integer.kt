@@ -1,11 +1,26 @@
 package micapolos.zexy3.model
 
 sealed class Integer : Value<Integer> {
-  object ScreenWidth : Integer()
+  enum class Op0 {
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT,
+    MOUSE_DOWN,
+  }
 
-  object ScreenHeight : Integer()
+  enum class Op1 {
+    NEG,
+    CHANGE,
+  }
 
-  object MouseDown : Integer()
+  enum class Op2 {
+    ADD,
+    SUB,
+    MUL,
+    EQ,
+    LT,
+  }
+
+  class Constant(val i: Int) : Integer()
 
   class KeyDown(val key: Key) : Integer()
 
@@ -13,23 +28,11 @@ sealed class Integer : Value<Integer> {
 
   class ImageHeight(val image: Value<Image>) : Integer()
 
-  class Constant(val i: Int) : Integer()
+  class Apply0(val op: Op0): Integer()
 
-  class Add(val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
+  class Apply1(val op: Op1, val integer: Value<Integer>): Integer()
 
-  class Sub(val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
-
-  class Mul(val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
-
-  class IntegerEq(val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
-
-  class IntegerLt(val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
-
-  class NumberEq(val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
-
-  class NumberLt(val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
-
-  class RisingEdge(val condition: Value<Integer>) : Integer()
+  class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>): Integer()
 
   class FromNumber(val number: Value<Number>) : Integer()
 }
