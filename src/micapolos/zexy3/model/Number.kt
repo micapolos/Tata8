@@ -31,5 +31,5 @@ sealed class Number : Value<Number> {
 
   class Sqrt(val lhs: Value<Number>) : Number()
 
-  class FromInteger(val i: Value<ModelInteger>) : Number()
+  class FromInteger(val i: Value<Integer>) : Number()
 }

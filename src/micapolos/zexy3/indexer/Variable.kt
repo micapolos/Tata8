@@ -4,12 +4,12 @@ import micapolos.orIfNull
 import micapolos.zexy3.indexed.IndexType
 import micapolos.zexy3.indexed.Value
 import micapolos.zexy3.indexed.Variable
-import micapolos.zexy3.model.ModelInteger
+import micapolos.zexy3.model.Integer
 import micapolos.zexy3.model.Number as ModelNumber
 import micapolos.zexy3.model.Variable as ModelVariable
 
 val ModelVariable<*>.indexType get() = when (initial) {
-  is ModelInteger -> IndexType.INTEGER
+  is Integer -> IndexType.INTEGER
   is ModelNumber -> IndexType.NUMBER
   else -> IndexType.OTHER
 }

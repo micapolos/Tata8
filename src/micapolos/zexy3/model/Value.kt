@@ -6,7 +6,7 @@ sealed interface Value<T : Value<T>> {
   class Capture<T : Value<T>>(val value: Value<T>) : Value<T>
 
   class Select<T : Value<T>>(
-    val index: Value<ModelInteger>,
+    val index: Value<Integer>,
     val options: List<Value<T>>,
     val defaultValue: Value<T>
   ) : Value<T>
@@ -17,7 +17,7 @@ sealed interface Value<T : Value<T>> {
 
   class Stretch<T: Value<T>>(val value: Value<T>, val factor: Value<Number>): Value<T>
 
-  class RunWhile<T: Value<T>>(val condition: Value<ModelInteger>, val value: Value<T>): Value<T>
+  class RunWhile<T: Value<T>>(val condition: Value<Integer>, val value: Value<T>): Value<T>
 
-  class StartWhen<T: Value<T>>(val condition: Value<ModelInteger>, val value: Value<T>): Value<T>
+  class StartWhen<T: Value<T>>(val condition: Value<Integer>, val value: Value<T>): Value<T>
 }
