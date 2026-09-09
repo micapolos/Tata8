@@ -3,7 +3,7 @@ package micapolos.zexy3.indexer
 import micapolos.zexy3.indexed.Color
 import micapolos.zexy3.model.Color as ModelColor
 
-fun Indexer.indexedColor(modelColor: ModelColor): Color =
+fun Indexer.indexed(modelColor: ModelColor): Color =
   when (modelColor) {
     is ModelColor.Rgba ->
       Color.Rgba(

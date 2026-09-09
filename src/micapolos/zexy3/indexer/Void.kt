@@ -3,9 +3,9 @@ package micapolos.zexy3.indexer
 import micapolos.zexy3.indexed.Void
 import micapolos.zexy3.model.Void as ModelVoid
 
-fun Indexer.indexedVoid(modelVoid: ModelVoid): Void =
-  when (modelVoid) {
+fun Indexer.indexed(v: ModelVoid): Void =
+  when (v) {
     ModelVoid.Empty -> Void.Empty
     ModelVoid.Pause -> Void.Pause
-    is ModelVoid.Set<*> -> Void.Set(indexedVariable(modelVoid.variable), indexed(modelVoid.value))
+    is ModelVoid.Set<*> -> Void.Set(indexed(v.variable), indexed(v.value))
   }

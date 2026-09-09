@@ -14,7 +14,7 @@ val ModelVariable<*>.indexType get() = when (initial) {
   else -> IndexType.OTHER
 }
 
-fun <T: Value<T>> Indexer.indexedVariable(modelVariable: ModelVariable<*>): Variable<T> =
+fun <T: Value<T>> Indexer.indexed(modelVariable: ModelVariable<*>): Variable<T> =
   variableOrNull<T>(modelVariable).orIfNull {
     val indexType = modelVariable.indexType
     val indexed = indexed(modelVariable.initial)
