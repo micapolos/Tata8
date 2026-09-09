@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 enum class Composite : Value<Composite> {
   NORMAL,

@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 data class Game(
   val title: String,

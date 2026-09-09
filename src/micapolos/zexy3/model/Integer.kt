@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 sealed class Integer : Value<Integer> {
   data object ScreenWidth : Integer()

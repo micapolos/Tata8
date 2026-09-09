@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 sealed class Number : Value<Number> {
   data object FrameTime : Number()

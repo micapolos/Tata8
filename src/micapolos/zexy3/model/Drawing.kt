@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 sealed class Drawing : Value<Drawing> {
   data object Empty : Drawing()
@@ -6,6 +6,8 @@ sealed class Drawing : Value<Drawing> {
   data object Rect : Drawing()
 
   data class Sprite(val image: Value<Image>) : Drawing()
+
+  data class Label(val text: Value<Text>) : Drawing()
 
   data class WithColor(val drawing: Value<Drawing>, val color: Value<Color>) : Drawing()
 

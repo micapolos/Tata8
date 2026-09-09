@@ -1,3 +1,3 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 class Variable<T: Value<T>>(val initialValue: Value<T>): Value<T>

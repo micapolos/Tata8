@@ -1,4 +1,4 @@
-package micapolos.zexy3
+package micapolos.zexy3.model
 
 sealed class Image : Value<Image> {
   class Resource(val fileName: String): Image()
