@@ -5,6 +5,7 @@ import micapolos.zexy3.model.Color as ModelColor
 import micapolos.zexy3.model.Composite as ModelComposite
 import micapolos.zexy3.model.Font as ModelFont
 import micapolos.zexy3.model.Image as ModelImage
+import micapolos.zexy3.model.Key as ModelKey
 import micapolos.zexy3.model.Text as ModelText
 import micapolos.zexy3.model.Value as ModelValue
 import micapolos.zexy3.model.Variable as ModelVariable
@@ -19,5 +20,7 @@ fun <T: Value<T>> Indexer.indexed(value: ModelValue<*>): Value<T> =
     is ModelFont -> indexed(value)
     is ModelImage -> indexed(value)
     is ModelText -> indexed(value)
+    is ModelKey -> indexed(value)
+
     else -> TODO()
   } as Value<T>
