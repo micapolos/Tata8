@@ -11,9 +11,9 @@ sealed class Image : Value<Image> {
 
   class Slice(
     val image: Value<Image>,
-    val x: Value<Integer>,
-    val y: Value<Integer>,
-    val width: Value<Integer>,
-    val height: Value<Integer>
+    val x: Value<ModelInteger>,
+    val y: Value<ModelInteger>,
+    val width: Value<ModelInteger>,
+    val height: Value<ModelInteger>
   ): Image()
 }
