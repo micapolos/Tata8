@@ -1,7 +1,10 @@
 package micapolos.zexy3
 
-sealed class Color : Value<Canvas> {
-  object Black : Color()
-  object Yellow : Color()
-  class Variable(val initial: Color): Color()
+sealed class Color : Value<Color> {
+  data class Rgba(
+    val red: Value<Number>,
+    val green: Value<Number>,
+    val blue: Value<Number>,
+    val alpha: Value<Number>,
+  ) : Color()
 }

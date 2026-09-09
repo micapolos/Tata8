@@ -1,31 +1,15 @@
 package micapolos.zexy3
 
 sealed class Number : Value<Number> {
-  class Constant(val d: Double): Number()
-  class Variable(val scope: Scope<*>, val initial: Number): Number()
+  data object FrameTime : Number()
+  data object MouseX : Number()
+  data object MouseY : Number()
 
-  class Negate(val a: Number): Number()
-  class Plus(val a: Number, val b: Number): Number()
-  class Minus(val a: Number, val b: Number): Number()
-  class Times(val a: Number, val b: Number): Number()
-  class Fraction(val a: Number): Number()
-  class FromInteger(val i: Integer): Number()
+  class Constant(val d: Double) : Number()
 
-  class Conditional(val condition: Bool, val trueNumber: Number, val falseNumber: Number): Number()
+  class Add(val lhs: Value<Number>, val rhs: Value<Number>) : Number()
+  class Sub(val lhs: Value<Number>, val rhs: Value<Number>) : Number()
+  class Mul(val lhs: Value<Number>, val rhs: Value<Number>) : Number()
 
-  class Animated(val variable: Variable, val animation: Animation): Number()
-  class Logged(val number: Number, val label: String?): Number()
-
-  object FrameSeconds: Number()
+  class FromInteger(val i: Value<Integer>) : Number()
 }
-
-fun number(d: Double): Number = Number.Constant(d)
-
-fun Scope<*>.newVariable(initial: Double): Number = newVariable(number(initial))
-fun Scope<*>.newVariable(initial: Number): Number = Number.Variable(this, initial)
-
-operator fun Number.plus(d: Double): Number = plus(number(d))
-operator fun Number.plus(number: Number): Number = Number.Plus(this, number)
-
-val frameSeconds: Number = Number.FrameSeconds
-
