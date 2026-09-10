@@ -9,12 +9,12 @@ interface Animation {
 
 val noAnimation: Animation = object : Animation {}
 
-fun pauseAnimation(secondsEvaluator: DoubleEvaluator) =
+val DoubleEvaluator.pause get() =
   object : Animation {
     var remainingSeconds = 0.0
 
     override fun start() {
-      remainingSeconds = secondsEvaluator.eval()
+      remainingSeconds = eval()
     }
 
     override fun step(seconds: Double): Double {
