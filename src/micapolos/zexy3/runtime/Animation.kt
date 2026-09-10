@@ -40,15 +40,15 @@ fun Animation.stretch(ratioEvaluator: DoubleEvaluator) =
     }
   }
 
-fun parallel(lhs: Animation, rhs: Animation) =
+infix fun Animation.then(rhs: Animation) =
   object : Animation {
     override fun start() {
-      lhs.start()
+      this@then.start()
       rhs.start()
     }
 
     override fun step(seconds: Double): Double {
-      val lhsSeconds = lhs.step(seconds)
+      val lhsSeconds = this@then.step(seconds)
       val rhsSeconds = rhs.step(seconds)
       return min(lhsSeconds, rhsSeconds)
     }

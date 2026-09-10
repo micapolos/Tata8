@@ -6,22 +6,23 @@ import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.IntEvaluator
 import micapolos.zexy3.runtime.noAnimation
+import micapolos.zexy3.runtime.then
 
 fun Boolean.toInt() = if (this) 1 else 0
 
 fun Compiler.animation(integer: Integer): Animation =
   when (integer) {
     is Integer.Apply0 -> noAnimation
-    is Integer.Apply1 -> noAnimation
-    is Integer.Apply2 -> noAnimation
+    is Integer.Apply1 -> animation(integer.integer)
+    is Integer.Apply2 -> animation(integer.lhs).then(animation(integer.rhs))
     is Integer.Constant -> noAnimation
-    is Integer.FromNumber -> noAnimation
-    is Integer.ImageHeight -> noAnimation
-    is Integer.ImageWidth -> noAnimation
+    is Integer.FromNumber -> animation(integer.number)
+    is Integer.ImageHeight -> animation(integer.image)
+    is Integer.ImageWidth -> animation(integer.image)
     is Integer.KeyDown -> noAnimation
-    is Integer.TextHeight -> noAnimation
-    is Integer.TextWidth -> noAnimation
-    is Number.Test2 -> noAnimation
+    is Integer.TextHeight -> animation(integer.font).then(animation(integer.text))
+    is Integer.TextWidth -> animation(integer.font).then(animation(integer.text))
+    is Number.Test2 -> animation(integer.lhs).then(animation(integer.rhs))
   }
 
 fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =

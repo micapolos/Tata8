@@ -6,15 +6,16 @@ import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.DoubleEvaluator
 import micapolos.zexy3.runtime.noAnimation
+import micapolos.zexy3.runtime.then
 import kotlin.math.*
 
 fun Compiler.animation(number: Number): Animation =
   when (number) {
     is Number.Apply0 -> noAnimation
-    is Number.Apply1 -> noAnimation
-    is Number.Apply2 -> noAnimation
+    is Number.Apply1 -> animation(number.number)
+    is Number.Apply2 -> animation(number.lhs) then animation(number.rhs)
     is Number.Constant -> noAnimation
-    is Number.FromInteger -> noAnimation
+    is Number.FromInteger -> animation(number.integer)
   }
 
 fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
@@ -29,7 +30,7 @@ fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
       }
 
     is Number.Apply1 -> {
-      val evaluator = numberEvaluator(number.n as Number)
+      val evaluator = numberEvaluator(number.number as Number)
       when (number.op) {
         Number.Op1.NEG -> DoubleEvaluator { -evaluator.eval() }
         Number.Op1.SIN -> DoubleEvaluator { sin(evaluator.eval()) }
@@ -54,7 +55,7 @@ fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
     }
 
     is Number.FromInteger -> {
-      val i = integerEvaluator(number.i as Integer)
+      val i = integerEvaluator(number.integer as Integer)
       DoubleEvaluator { i.eval().toDouble() }
     }
   }

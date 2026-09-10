@@ -34,11 +34,11 @@ sealed class Number : Value<Number> {
 
   class Apply0(val op: Op0) : Number()
 
-  class Apply1(val op: Op1, val n: Value<Number>) : Number()
+  class Apply1(val op: Op1, val number: Value<Number>) : Number()
 
   class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
 
   class Test2(val pred: Pred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
 
-  class FromInteger(val i: Value<Integer>) : Number()
+  class FromInteger(val integer: Value<Integer>) : Number()
 }
