@@ -30,3 +30,5 @@ fun <T : Value<T>> Value<T>.repeatWhile(condition: Value<Bool>): Value<T> =
   Value(ModelValue.RunWhile(condition.integer.modelInteger, model))
 
 fun <T : Value<T>> Value<T>.repeat(): Value<T> = repeatWhile(true)
+
+fun Value<*>.show() { TODO() }

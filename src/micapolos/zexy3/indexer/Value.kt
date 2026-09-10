@@ -32,4 +32,5 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
     is ModelValue.Stretch<*> -> Value.Stretch(indexed(model.factor), indexed(model.value))
     is ModelValue.Stateful<*> -> Value.Stateful(indexed(model.state), indexed(model.value))
     is ModelValue.Race<*> -> Value.Race(indexed(model.value), model.others.map { indexed(it) })
+    is ModelValue.Frame<*> -> Value.Frame(indexed(model.value))
   } as Value<T>
