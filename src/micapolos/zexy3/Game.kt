@@ -11,22 +11,22 @@ import micapolos.zexy3.runtime.show
 import kotlin.reflect.KClass
 import micapolos.zexy3.model.Game as ModelGame
 
-class Game internal constructor(
-  val baseClass: KClass<*>,
+data class Game internal constructor(
+  val resourcesKClass: KClass<*>,
   internal val model: ModelGame,
 )
 
-fun game(
-  resourcesClass: KClass<*> = Game::class,
-  title: String = "Zexy game",
-  drawing: Value<Drawing> = noDrawing,
-) = Game(resourcesClass, ModelGame(title, 480, 256, drawing.modelDrawing))
+val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing))
+
+fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
+fun Game.withTitle(title: String): Game = copy(model = model.copy(title = title))
+fun Game.with(vararg drawings: Value<Drawing>): Game = copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
 fun Game.show() {
   val indexer = Indexer()
   val indexed = indexer.indexed(model)
   val compiler = Compiler(
-    baseClass,
+    resourcesKClass,
     IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
     Array(indexer.initialValuesOf(IndexType.OTHER).size) { null })
@@ -37,10 +37,12 @@ fun Game.show() {
 
 fun main() {
   val x = newVariable(10)
-  game(
-    resourcesClass = Sandbox::class,
-    drawing = stack(
+  game
+    .withResources(Sandbox::class)
+    .withTitle("Sandbox")
+    .with(
       rect(Mouse.x.logged.integer.loggedAs("mouse x") + 40, Mouse.y.integer.loggedAs("mouse y") + 40, 30.value, 30.value),
       sprite(image("quote.png"), Mouse.x.integer, Mouse.y.integer),
-      sprite(image("quote.png"), 60, 60))).show()
+      sprite(image("quote.png"), 60, 60))
+    .show()
 }

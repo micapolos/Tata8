@@ -8,6 +8,8 @@ class Image internal constructor(model: Any): Value<Image>(model)
 
 internal val Value<Image>.modelImage get() = model as ModelValue<ModelImage>
 
+val noImage = Image(ModelImage.Empty)
+
 fun image(fileName: String) = Image(ModelImage.Resource(fileName))
 
 val Value<Image>.width get() = Integer(ModelInteger.ImageWidth(modelImage))

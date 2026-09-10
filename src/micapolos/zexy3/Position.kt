@@ -3,6 +3,7 @@ package micapolos.zexy3
 class Position internal constructor(model: Any?): Value<Position>(model)
 
 internal val Position.coords: List<Integer> get() = modelOrChildren as List<Integer>
+internal val Value<Position>.position get() = this as Position
 
 val Position.x: Integer get() = coords[0]
 val Position.y: Integer get() = coords[1]

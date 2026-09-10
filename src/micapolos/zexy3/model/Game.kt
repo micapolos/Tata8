@@ -1,6 +1,6 @@
 package micapolos.zexy3.model
 
-class Game(
+data class Game(
   val title: String,
   val width: Int,
   val height: Int,

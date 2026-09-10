@@ -1,9 +1,10 @@
 package micapolos.zexy3
 
+import micapolos.zexy3.model.Drawing.Sprite
 import micapolos.zexy3.model.Drawing as ModelDrawing
 import micapolos.zexy3.model.Value as ModelValue
 
-class Drawing internal constructor(model: Any): Value<Drawing>(model)
+class Drawing internal constructor(model: Any) : Value<Drawing>(model)
 
 internal val Value<Drawing>.modelDrawing get() = model as ModelValue<ModelDrawing>
 
@@ -15,7 +16,7 @@ fun rect(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Va
 
 fun sprite(image: Value<Image>, x: Int, y: Int) = sprite(image, x.value, y.value)
 fun sprite(image: Value<Image>, x: Value<Integer>, y: Value<Integer>) =
-  Drawing(ModelDrawing.Sprite(image.modelImage, x.modelInteger, y.modelInteger))
+  Drawing(Sprite(image.modelImage, x.modelInteger, y.modelInteger))
 
 fun label(string: String, x: Int, y: Int) = label(string.value, x.value, y.value)
 fun label(text: Value<Text>, x: Int, y: Int) = label(text, x.value, y.value)
