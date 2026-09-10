@@ -17,3 +17,9 @@ infix fun <T: Value<T>> Value<T>.loggedAs(label: String): Value<T> = Value(Model
 
 infix fun <T: Value<T>> Value<T>.then(value: Value<T>): Value<T> =
   sequence(this, value)
+
+fun <T: Value<T>> Value<T>.finishAfter(activity: Value<Activity>): Value<T> =
+  Value(ModelValue.Stateful(activity.model, model))
+
+fun <T: Value<T>> Value<T>.raceWith(vararg values: Value<T>): Value<T> =
+  Value(ModelValue.Race(model, values.map { it.model }))
