@@ -17,12 +17,13 @@ fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Drawing -> animatedDrawing(value)
     is Void -> animatedVoid(value)
 
-    is Value.Logged<*> -> Animated(evaluator(value.value).logged(value.label), animation(value.value))
-    is Value.RunWhile<*> -> TODO()//evaluator(value.value)
-    is Value.Select<*> -> TODO()
-    is Value.Sequence<*> -> TODO()
-    is Value.StartWhen<*> -> TODO()//evaluator(value.value)
-    is Value.Stretch<*> -> TODO()//evaluator(value.value)
+    is Value.Logged -> Animated(evaluator(value.value).logged(value.label), animation(value.value))
+    is Value.RunWhile -> TODO()//evaluator(value.value)
+    is Value.Select -> TODO()
+    is Value.Sequence -> TODO()
+    is Value.StartWhen -> TODO()//evaluator(value.value)
+    is Value.Stretch -> TODO()//evaluator(value.value)
+    is Value.Stateful -> TODO()
   }
 
 fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
@@ -37,12 +38,13 @@ fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Drawing -> drawingEvaluator(value)
     is Void -> voidEvaluator(value)
 
-    is Value.Logged<*> -> evaluator(value.value).logged(value.label)
-    is Value.RunWhile<*> -> TODO()//evaluator(value.value)
-    is Value.Select<*> -> TODO()
-    is Value.Sequence<*> -> TODO()
-    is Value.StartWhen<*> -> TODO()//evaluator(value.value)
-    is Value.Stretch<*> -> TODO()//evaluator(value.value)
+    is Value.Logged -> evaluator(value.value).logged(value.label)
+    is Value.RunWhile -> TODO()//evaluator(value.value)
+    is Value.Select -> TODO()
+    is Value.Sequence -> TODO()
+    is Value.StartWhen -> TODO()//evaluator(value.value)
+    is Value.Stretch -> TODO()//evaluator(value.value)
+    is Value.Stateful -> TODO()
   }
 
 fun Compiler.intEvaluator(value: Value<Integer>): IntEvaluator =
@@ -67,16 +69,17 @@ fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Void -> voidAnimation(value)
 
     is Value.Logged -> noAnimation
-    is Value.RunWhile<*> ->
+    is Value.RunWhile ->
       animation(value.value)
         .runWhileNotZero(intEvaluator(value.condition))
-    is Value.Select<*> -> TODO()
-    is Value.Sequence<*> ->
+    is Value.Select -> TODO()
+    is Value.Sequence ->
       SequenceAnimation(value.values.map { animation(it) })
-    is Value.StartWhen<*> ->
+    is Value.StartWhen ->
       animation(value.value)
         .startWhenNotZero(intEvaluator(value.condition))
-    is Value.Stretch<*> ->
+    is Value.Stretch ->
       animation(value.value)
         .stretch(doubleEvaluator(value.factor))
+    is Value.Stateful -> TODO()
   }
