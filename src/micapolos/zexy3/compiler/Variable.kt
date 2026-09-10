@@ -24,6 +24,7 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
   }
 }
 
+// TODO: Read into animation list by index.
 fun <T : Value<T>> Compiler.animation(variable: Variable<T>): Animation = noAnimation
 
 fun main() {
