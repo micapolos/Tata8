@@ -33,8 +33,10 @@ fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       Animated(
         evaluator(value.value),
         frameAnimation {  }
-
       )
+
+    is Struct.Make -> TODO()
+    is Value.StructGet<*> -> TODO()
   }
 
 fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
@@ -58,6 +60,8 @@ fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Value.Stateful -> animated(value).evaluator
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
+    is Struct.Make -> TODO()
+    is Value.StructGet<*> -> TODO()
   }
 
 fun Compiler.intEvaluator(value: Value<Integer>): IntEvaluator =
@@ -97,4 +101,6 @@ fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Value.Stateful -> animated(value).animation
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
+    is Struct.Make -> TODO()
+    is Value.StructGet<*> -> TODO()
   }

@@ -18,4 +18,6 @@ sealed interface Value<T : Value<T>> {
   class Race<T: Value<T>>(val value: Value<T>, val others: List<Value<T>>): Value<T>
 
   class Frame<T: Value<T>>(val value: Value<T>): Value<T>
+
+  class StructGet<T: Value<T>>(val struct: Value<Struct>, val index: Int): Value<T>
 }
