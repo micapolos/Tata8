@@ -6,7 +6,24 @@ import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.*
 
 fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
-  Animated(valueEvaluator(value), valueAnimation(value))
+  when (value) {
+    is Variable -> animatedVariable(value)
+    is Integer -> animatedInteger(value)
+    is Number -> animated(value)
+    is Text -> animatedText(value)
+    is Color -> animatedColor(value)
+    is Image -> animatedImage(value)
+    is Font -> animatedFont(value)
+    is Drawing -> animatedDrawing(value)
+    is Void -> animatedVoid(value)
+
+    is Value.Logged<*> -> Animated(valueEvaluator(value.value).logged(value.label), valueAnimation(value.value))
+    is Value.RunWhile<*> -> TODO()//evaluator(value.value)
+    is Value.Select<*> -> TODO()
+    is Value.Sequence<*> -> TODO()
+    is Value.StartWhen<*> -> TODO()//evaluator(value.value)
+    is Value.Stretch<*> -> TODO()//evaluator(value.value)
+  }
 
 fun <T: Value<T>> Compiler.valueEvaluator(value: Value<T>): Evaluator<*> =
   when (value) {

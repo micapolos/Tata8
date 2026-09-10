@@ -60,7 +60,7 @@ fun interface ObjectEvaluator<T> : Evaluator<T> {
     }
 }
 
-fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<*> =
+fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<Unit> =
   ObjectEvaluator {
     evaluators.forEach { it.evalUnit() }
   }

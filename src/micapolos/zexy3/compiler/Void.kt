@@ -4,6 +4,9 @@ import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.*
 
+fun Compiler.animatedVoid(indexed: Void): Animated<Unit> =
+  Animated(voidEvaluator(indexed), voidAnimation(indexed))
+
 fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
     Void.Empty -> noAnimation
@@ -12,7 +15,7 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
     is Void.Parallel<*> -> parallel(indexed.values.map { valueAnimation(it) })
   }
 
-fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
+fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<Unit> =
   when (indexed) {
     Void.Empty -> ObjectEvaluator { Unit }
     is Void.Pause -> ObjectEvaluator { Unit }
