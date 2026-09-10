@@ -12,16 +12,16 @@ val noDrawing get() = Drawing(ModelDrawing.Empty)
 
 fun rect(x: Int, y: Int, width: Int, height: Int) = rect(x.value, y.value, width.value, height.value)
 fun rect(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
-  Drawing(ModelDrawing.Rect(x.modelInteger, y.modelInteger, width.modelInteger, height.modelInteger))
+  Drawing(ModelDrawing.Rect(x.cast, y.cast, width.cast, height.cast))
 
 fun sprite(image: Value<Image>, x: Int, y: Int) = sprite(image, x.value, y.value)
 fun sprite(image: Value<Image>, x: Value<Integer>, y: Value<Integer>) =
-  Drawing(Sprite(image.modelImage, x.modelInteger, y.modelInteger))
+  Drawing(Sprite(image.modelImage, x.cast, y.cast))
 
 fun label(string: String, x: Int, y: Int) = label(string.value, x.value, y.value)
 fun label(text: Value<Text>, x: Int, y: Int) = label(text, x.value, y.value)
 fun label(text: Value<Text>, x: Value<Integer>, y: Value<Integer>) =
-  Drawing(ModelDrawing.Label(text.modelText, x.modelInteger, y.modelInteger))
+  Drawing(ModelDrawing.Label(text.modelText, x.cast, y.cast))
 
 fun stack(vararg drawings: Value<Drawing>) = stack(drawings.toList())
 fun stack(drawings: List<Value<Drawing>>) = Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))

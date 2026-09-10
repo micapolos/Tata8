@@ -5,14 +5,14 @@ import micapolos.zexy3.model.Value as ModelValue
 
 class Integer internal constructor(model: ModelInteger): Value<Integer>(model)
 
-internal val Value<Integer>.modelIntegerValue get() = modelOrChildren as ModelValue<ModelInteger>
-internal val Value<Integer>.modelInteger get() = modelIntegerValue as ModelInteger
+internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<ModelInteger>
+internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value get() = Integer(ModelInteger.Constant(this))
 
 fun newVariable(i: Int) = newVariable(i.value)
 
-internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>) =
+internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
 
 operator fun Value<Integer>.plus(i: Int) = plus(i.value)
@@ -35,7 +35,7 @@ infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.X
 
 fun <T: Value<T>> Value<Integer>.select(values: List<Value<T>>): Value<T> =
   when (values.first()) {
-    is ModelValue<*> -> Value(ModelValue.Select(modelInteger, values.map { it.model }))
+    is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
     else -> Value(children.map { this@select.select(it.children) })
   }
 

@@ -5,6 +5,8 @@ sealed class Integer : Value<Integer> {
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
     MOUSE_DOWN,
+    MOUSE_X,
+    MOUSE_Y,
   }
 
   enum class Op1 {

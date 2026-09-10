@@ -8,8 +8,8 @@ fun main() {
     .withResources(Sandbox::class)
     .withTitle("My first game")
     .with(
-      rect(Mouse.x.logged.integer.loggedAs("mouse x") + 40, Mouse.y.integer.loggedAs("mouse y") + 40, 30.value, 30.value),
-      sprite(image("quote.png"), Mouse.x.integer, Mouse.y.integer),
+      rect(Mouse.x.logged.loggedAs("mouse x") + 40, Mouse.y.loggedAs("mouse y") + 40, 30.value, 30.value),
+      sprite(image("quote.png"), Mouse.x, Mouse.y),
       sprite(image("quote.png"), 60, 60))
     .show()
 }

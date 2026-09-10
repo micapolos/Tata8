@@ -3,8 +3,6 @@ package micapolos.zexy3.model
 sealed class Number : Value<Number> {
   enum class Op0 {
     FRAME_TIME,
-    MOUSE_X,
-    MOUSE_Y,
   }
 
   enum class Op1 {

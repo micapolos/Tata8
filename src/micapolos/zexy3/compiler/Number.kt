@@ -29,8 +29,6 @@ fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
     is Number.Apply0 ->
       when (number.op) {
         Number.Op0.FRAME_TIME -> DoubleEvaluator { 1.0 / 60 }
-        Number.Op0.MOUSE_X -> DoubleEvaluator { Game.mouse.position.x.toDouble() }
-        Number.Op0.MOUSE_Y -> DoubleEvaluator { Game.mouse.position.y.toDouble() }
       }
 
     is Number.Apply1 -> {

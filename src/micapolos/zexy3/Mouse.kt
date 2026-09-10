@@ -1,9 +1,9 @@
 package micapolos.zexy3
 
-import micapolos.zexy3.model.Number as ModelNumber
+import micapolos.zexy3.model.Integer as ModelInteger
 
 object Mouse {
-  val x = Number(ModelNumber.Apply0(ModelNumber.Op0.MOUSE_X))
-  val y = Number(ModelNumber.Apply0(ModelNumber.Op0.MOUSE_Y))
+  val x: Value<Integer> = Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_X))
+  val y: Value<Integer> = Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_Y))
 }
 

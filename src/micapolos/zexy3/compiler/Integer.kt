@@ -3,11 +3,7 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Number
-import micapolos.zexy3.runtime.Animated
-import micapolos.zexy3.runtime.Animation
-import micapolos.zexy3.runtime.IntEvaluator
-import micapolos.zexy3.runtime.noAnimation
-import micapolos.zexy3.runtime.then
+import micapolos.zexy3.runtime.*
 
 fun Boolean.toInt() = if (this) 1 else 0
 
@@ -43,6 +39,8 @@ fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =
         Integer.Op0.SCREEN_WIDTH -> IntEvaluator { Game.WIDTH }
         Integer.Op0.SCREEN_HEIGHT -> IntEvaluator { Game.HEIGHT }
         Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
+        Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
+        Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
       }
 
     is Integer.Apply1 -> {

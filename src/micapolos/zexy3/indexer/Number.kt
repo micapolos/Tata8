@@ -15,8 +15,6 @@ import micapolos.zexy3.model.Number.Op2 as ModelOp2
 val ModelOp0.indexed get() =
   when (this) {
     ModelOp0.FRAME_TIME -> Op0.FRAME_TIME
-    ModelOp0.MOUSE_X -> Op0.MOUSE_X
-    ModelOp0.MOUSE_Y -> Op0.MOUSE_Y
   }
 
 val ModelOp1.indexed get() =

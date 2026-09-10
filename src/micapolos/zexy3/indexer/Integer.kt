@@ -15,6 +15,8 @@ val ModelOp0.indexed
       ModelOp0.SCREEN_WIDTH -> Op0.SCREEN_WIDTH
       ModelOp0.SCREEN_HEIGHT -> Op0.SCREEN_HEIGHT
       ModelOp0.MOUSE_DOWN -> Op0.MOUSE_DOWN
+      ModelOp0.MOUSE_X -> Op0.MOUSE_X
+      ModelOp0.MOUSE_Y -> Op0.MOUSE_Y
     }
 
 val ModelOp1.indexed
