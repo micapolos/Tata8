@@ -36,6 +36,6 @@ fun <T : Value<T>> Value<T>.repeat(): Value<T> = repeatWhile(true)
 fun <T : Value<T>> Value<T>.also(state: Value<*>): Value<T> =
   Value(ModelValue.Stateful(state.model, model))
 
-fun Value<*>.show() {
+fun <T: Value<T>> Value<T>.show() {
   noDrawing.also(loggedAs("showing")).show()
 }

@@ -20,7 +20,7 @@ val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing)
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
 fun Game.withTitle(title: String): Game = copy(model = model.copy(title = title))
-fun Game.with(vararg drawings: Drawing<*>): Game =
+fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
   copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
 fun Game.show() {
@@ -41,9 +41,6 @@ fun main() {
   game
     .withResources(Sandbox::class)
     .withTitle("Sandbox")
-    .with(
-      rect(Mouse.x.logged.loggedAs("mouse x") + 40, Mouse.y.loggedAs("mouse y") + 40, 30.value, 30.value),
-      sprite(image("quote.png"), Mouse.x, Mouse.y),
-      sprite(image("quote.png"), 60, 60))
+    .with(sprite.with(image("quote.png")))
     .show()
 }

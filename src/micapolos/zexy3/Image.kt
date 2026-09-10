@@ -15,9 +15,6 @@ fun image(fileName: String) = Image(ModelImage.Resource(fileName))
 val Value<Image>.width get() = Integer(ModelInteger.ImageWidth(modelImage))
 val Value<Image>.height get() = Integer(ModelInteger.ImageHeight(modelImage))
 
-fun Value<Image>.sprite(x: Int, y: Int) = sprite(this, x.value, y.value)
-fun Value<Image>.sprite(x: Value<Integer>, y: Value<Integer>) = sprite(this, x, y)
-
 fun Value<Image>.show() {
   sprite.with(this).show()
 }

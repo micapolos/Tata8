@@ -3,7 +3,8 @@ package micapolos.zexy3.examples
 import micapolos.zexy3.*
 
 fun main() {
-  sprite(image("/micapolos/quote.png"), 0, 0)
-    .also { pause(5.0) }
+  sprite
+    .with(image("/micapolos/quote.png"))
+    .withPosition(100.value, 100.value)
     .show()
 }

@@ -1,7 +1,7 @@
 package micapolos.zexy3.runtime
 
 import micapolos.tata8.Game
-import java.awt.Color
+import micapolos.tata8.Shader
 import micapolos.tata8.Color as TataColor
 
 class Animated<out T>(val evaluator: Evaluator<T>, val animation: Animation)
@@ -23,6 +23,7 @@ fun Animated<Drawing>.show() {
       seconds += seconds - leftOverSeconds
     }
   }
+  Game.screen.shader = Shader.CRT_PHOSPHOR
   Game.start()
 }
 
