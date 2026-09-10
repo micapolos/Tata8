@@ -8,6 +8,3 @@ open class Variable<T : Value<T>> internal constructor(modelVariable: ModelVaria
 internal val Variable<*>.erasedModelVariable get() = model as ModelVariable<ModelVoid>
 
 fun <T : Value<T>> newVariable(initial: Value<T>): Variable<T> = Variable(ModelVariable(initial.model))
-
-fun <T: Value<T>> Variable<T>.set(value: Value<T>): Void =
-  Void(ModelVoid.Set(erasedModelVariable, value.model))

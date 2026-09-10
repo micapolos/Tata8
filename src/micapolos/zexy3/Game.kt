@@ -40,7 +40,7 @@ fun main() {
   game(
     resourcesClass = Sandbox::class,
     drawing = stack(
-      rect(Mouse.x.logged.integer.logged("mouse x") + 40, Mouse.y.integer.logged("mouse y") + 40, 30.value, 30.value),
+      rect(Mouse.x.logged.integer.loggedAs("mouse x") + 40, Mouse.y.integer.loggedAs("mouse y") + 40, 30.value, 30.value),
       sprite(image("quote.png"), Mouse.x.integer, Mouse.y.integer),
       sprite(image("quote.png"), 60, 60))).show()
 }
