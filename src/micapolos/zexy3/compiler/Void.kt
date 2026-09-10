@@ -37,5 +37,5 @@ fun <T: Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
         }
       }
     }
-    is Void.Parallel<*> -> ObjectEvaluator { null }
+    is Void.Parallel<*> -> parallelEvaluator(indexed.values.map { evaluator(it) })
   }

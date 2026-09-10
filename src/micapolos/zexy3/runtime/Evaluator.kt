@@ -3,6 +3,8 @@ package micapolos.zexy3.runtime
 import micapolos.tata8.Game
 
 sealed interface Evaluator<out T> {
+  fun evalUnit(): Unit
+
   fun evalBoxed(): T
 
   fun logged(label: String?) =
@@ -16,6 +18,10 @@ sealed interface Evaluator<out T> {
 fun interface IntEvaluator : Evaluator<Int> {
   fun eval(): Int
 
+  override fun evalUnit() {
+    eval()
+  }
+
   override fun evalBoxed() = eval()
 
   fun loggedInt(label: String?): IntEvaluator =
@@ -26,6 +32,10 @@ fun interface IntEvaluator : Evaluator<Int> {
 
 fun interface DoubleEvaluator : Evaluator<Double> {
   fun eval(): Double
+
+  override fun evalUnit() {
+    eval()
+  }
 
   override fun evalBoxed() = eval()
 
@@ -38,6 +48,10 @@ fun interface DoubleEvaluator : Evaluator<Double> {
 fun interface ObjectEvaluator<T> : Evaluator<T> {
   fun eval(): T
 
+  override fun evalUnit() {
+    eval()
+  }
+
   override fun evalBoxed() = eval()
 
   fun loggedObject(label: String?): ObjectEvaluator<T> =
@@ -45,3 +59,8 @@ fun interface ObjectEvaluator<T> : Evaluator<T> {
       eval().also { Game.log(label, it) }
     }
 }
+
+fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<*> =
+  ObjectEvaluator {
+    evaluators.forEach { it.evalUnit() }
+  }
