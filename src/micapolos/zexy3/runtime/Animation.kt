@@ -72,13 +72,13 @@ fun parallel(animations: List<Animation>): Animation =
     }
   }
 
-fun frameAnimation(action: () -> Unit): Animation =
+fun frameAnimation(animation: Animation): Animation =
   object : Animation {
     override fun start() {}
 
     override fun step(seconds: Double): Double {
-      action()
-      return 0.0
+      animation.start()
+      return animation.step(seconds)
     }
   }
 

@@ -26,15 +26,16 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Value.Stateful ->
       Animated(
         statefulEvaluator(evaluator(value.state), evaluator(value.value)),
-        race(listOf(animation(value.state), animation(value.value)))
+        parallel(listOf(animation(value.state), animation(value.value)))
       )
 
     is Value.Race -> TODO()
-    is Value.Frame ->
-      Animated(
-        evaluator(value.value),
-        frameAnimation { }
-      )
+    is Value.Frame -> {
+      val animated = animated(value.value)
+      val evaluator = animated.evaluator
+      val animation = animated.animation
+      Animated(evaluator, frameAnimation(animation))
+    }
   }
 
 fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
