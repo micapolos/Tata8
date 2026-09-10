@@ -1,8 +1,9 @@
 package micapolos.zexy3
 
+import micapolos.zexy3.model.Value as ModelValue
 import micapolos.zexy3.model.Void as ModelVoid
 
-class Activity internal constructor(model: ModelVoid): Value<Activity>(model)
+class Activity internal constructor(model: Any): Value<Activity>(model)
 
 fun pause(seconds: Value<Number>): Value<Activity> =
   Activity(ModelVoid.Pause(seconds.modelNumber))

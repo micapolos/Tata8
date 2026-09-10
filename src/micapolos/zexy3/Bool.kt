@@ -6,6 +6,8 @@ internal val Value<Bool>.integer get() = children[0] as Value<Integer>
 
 fun bool(b: Boolean) = Bool(if (b) 1.value else 0.value)
 
+val Boolean.value: Value<Bool> get() = bool(this)
+
 infix fun Value<Bool>.and(bool: Value<Bool>) = integer and bool.integer
 
 infix fun Value<Bool>.or(bool: Value<Bool>) = integer or bool.integer
