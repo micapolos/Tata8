@@ -2,9 +2,9 @@ package micapolos.zexy3.compiler
 
 import micapolos.Sandbox
 import micapolos.tata8.Game
-import micapolos.zexy.Drawable
 import micapolos.zexy3.indexed.*
 import micapolos.zexy3.runtime.Animation
+import micapolos.zexy3.runtime.Drawing as RuntimeDrawing
 import micapolos.zexy3.runtime.ObjectEvaluator
 import micapolos.zexy3.runtime.noAnimation
 
@@ -20,16 +20,16 @@ fun Compiler.animation(drawing: Drawing): Animation =
     is Drawing.WithFont -> noAnimation
   }
 
-fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
+fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
   when (drawing) {
-    Drawing.Empty -> ObjectEvaluator { Drawable {} }
+    Drawing.Empty -> ObjectEvaluator { RuntimeDrawing {} }
 
     is Drawing.Rect -> ObjectEvaluator {
       val xEvaluator = intEvaluator(drawing.x)
       val yEvaluator = intEvaluator(drawing.y)
       val widthEvaluator = intEvaluator(drawing.width)
       val heightEvaluator = intEvaluator(drawing.height)
-      Drawable { canvas ->
+      RuntimeDrawing { canvas ->
         canvas.drawRect(xEvaluator.eval(), yEvaluator.eval(), widthEvaluator.eval(), heightEvaluator.eval())
       }
     }
@@ -39,7 +39,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
       val xEvaluator = intEvaluator(drawing.x)
       val yEvaluator = intEvaluator(drawing.y)
       ObjectEvaluator {
-        Drawable { canvas ->
+        RuntimeDrawing { canvas ->
           canvas.draw(imageEvaluator.eval(), xEvaluator.eval(), yEvaluator.eval())
         }
       }
@@ -50,7 +50,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
       val xEvaluator = intEvaluator(drawing.x)
       val yEvaluator = intEvaluator(drawing.y)
       ObjectEvaluator {
-        Drawable { canvas ->
+        RuntimeDrawing { canvas ->
           canvas.draw(textEvaluator.eval(), xEvaluator.eval(), yEvaluator.eval())
         }
       }
@@ -59,7 +59,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
     is Drawing.Stack -> {
       val drawings = drawing.drawings.map { evaluator(it as Drawing) }
       ObjectEvaluator {
-        Drawable { canvas ->
+        RuntimeDrawing { canvas ->
           drawings.forEach { drawing ->
             drawing.eval().drawOn(canvas)
           }
@@ -73,7 +73,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
       val drawingEvaluator = evaluator(drawing.drawing as Drawing)
       val fontEvaluator = evaluator(drawing.font as Font)
       ObjectEvaluator {
-        Drawable { canvas ->
+        RuntimeDrawing { canvas ->
           val previousFont = canvas.font
           canvas.font = fontEvaluator.eval()
           drawingEvaluator.eval().drawOn(canvas)
@@ -86,7 +86,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<Drawable> =
       val drawingEvaluator = evaluator(drawing.drawing as Drawing)
       val composite = drawing.composite.tata8
       ObjectEvaluator {
-        Drawable { canvas ->
+        RuntimeDrawing { canvas ->
           val previousComposite = canvas.composite
           canvas.composite = composite
           drawingEvaluator.eval().drawOn(canvas)

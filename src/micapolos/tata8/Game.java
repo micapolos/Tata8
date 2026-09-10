@@ -235,7 +235,11 @@ public final class Game {
   }
 
   public static void log(String label, Object object) {
-    log(String.format("%s: %s", label, object));
+    if (label == null) {
+      log(object);
+    } else {
+      log(String.format("%s: %s", label, object));
+    }
   }
 
   public static void log(Object object) {

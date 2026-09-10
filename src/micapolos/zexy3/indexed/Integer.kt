@@ -17,6 +17,9 @@ sealed class Integer: Value<Integer> {
     MUL,
     EQ,
     LT,
+    AND,
+    OR,
+    XOR,
   }
 
   class Constant(val i: Int) : Integer()

@@ -31,6 +31,9 @@ val ModelOp2.indexed
       ModelOp2.MUL -> Op2.MUL
       ModelOp2.EQ -> Op2.EQ
       ModelOp2.LT -> Op2.LT
+      ModelOp2.AND -> Op2.AND
+      ModelOp2.OR -> Op2.OR
+      ModelOp2.XOR -> Op2.XOR
     }
 
 val ModelNumber.Pred2.indexed

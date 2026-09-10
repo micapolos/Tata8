@@ -48,6 +48,7 @@ public final class Canvas {
 
   public void drawRect(int x, int y, int w, int h, Color color) {
     graphics.setColor(color.awtColor);
+    graphics.setComposite(composite.awt);
     graphics.drawRect(x, y, w, h);
   }
 
@@ -57,6 +58,7 @@ public final class Canvas {
 
   public void fillRect(int x, int y, int w, int h, Color color) {
     graphics.setColor(color.awtColor);
+    graphics.setComposite(composite.awt);
     graphics.fillRect(x, y, w, h);
   }
 
@@ -68,6 +70,7 @@ public final class Canvas {
     // TODO: Pre-allocate these.
     int[] xs = {x1, x2, x3};
     int[] ys = {y1, y2, y3};
+    graphics.setComposite(composite.awt);
     graphics.fillPolygon(xs, ys, 3);
   }
 
@@ -92,6 +95,7 @@ public final class Canvas {
         imageTransform.translate(0, image.bufferedImage.getHeight());
         imageTransform.scale(1, -1);
       }
+      graphics.setComposite(composite.awt);
       graphics.drawImage(awtImage, imageTransform, null);
     }
   }
@@ -108,7 +112,7 @@ public final class Canvas {
         Math.round(x) + Math.round(sprite.position.x), Math.round(y) + Math.round(sprite.position.y),
         sprite.flip.x, sprite.flip.y,
         sprite.scale.x, sprite.scale.y,
-        Composite.NORMAL,
+        composite,
         sprite.angle);
     }
   }
@@ -146,6 +150,7 @@ public final class Canvas {
   public void draw(String text, int x, int y, Color color, Font font, boolean shadow) {
     int rgb = color.awtColor.getRGB();
     int blackRgb = Color.BLACK.awtColor.getRGB();
+    graphics.setComposite(composite.awt);
     if (font != null) {
       if (shadow) {
         font.drawOn(image, text, x, y - 1, blackRgb);

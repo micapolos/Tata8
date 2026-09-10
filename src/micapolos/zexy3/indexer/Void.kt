@@ -8,4 +8,5 @@ fun Indexer.indexed(model: ModelVoid): Void =
     ModelVoid.Empty -> Void.Empty
     ModelVoid.Pause -> Void.Pause
     is ModelVoid.Set<*> -> Void.Set(indexed(model.variable), indexed(model.value))
+    is ModelVoid.Parallel<*> -> Void.Parallel(model.values.map { indexed(it) })
   }

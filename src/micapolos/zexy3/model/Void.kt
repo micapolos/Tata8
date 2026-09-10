@@ -6,4 +6,6 @@ sealed class Void: Value<Void> {
   object Pause: Void()
 
   class Set<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
+
+  class Parallel<T: Value<T>>(val values: List<Value<*>>): Void()
 }

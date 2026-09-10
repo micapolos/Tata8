@@ -3,6 +3,7 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Number
+import micapolos.zexy3.runtime.Animated
 import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.IntEvaluator
 import micapolos.zexy3.runtime.noAnimation
@@ -56,6 +57,9 @@ fun Compiler.evaluator(integer: Integer): IntEvaluator =
         Integer.Op2.MUL -> IntEvaluator { lhs.eval() * rhs.eval() }
         Integer.Op2.EQ -> IntEvaluator { (lhs.eval() == rhs.eval()).toInt() }
         Integer.Op2.LT -> IntEvaluator { (lhs.eval() < rhs.eval()).toInt() }
+        Integer.Op2.AND -> IntEvaluator { lhs.eval() and rhs.eval() }
+        Integer.Op2.OR -> IntEvaluator { lhs.eval() or rhs.eval() }
+        Integer.Op2.XOR -> IntEvaluator { lhs.eval() xor rhs.eval() }
       }
     }
 

@@ -22,6 +22,7 @@ fun Compiler.evaluator(image: Image): ObjectEvaluator<TataImage?> =
     }
     is Image.Resource -> {
       val image = tataImages.computeIfAbsent(image.fileName) {
+        IO.println("Loading ${image.fileName}...")
         Game.loadImage(baseClass.java, image.fileName)
       }
       ObjectEvaluator { image }
