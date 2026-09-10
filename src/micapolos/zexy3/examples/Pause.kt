@@ -4,7 +4,8 @@ import micapolos.zexy3.*
 
 fun main() {
   sprite
-    .with(image("/micapolos/quote.png"))
+    .with(image("/micapolos/depressedChicken.png"))
     .withPosition(100.value, 100.value)
+    .finishAfter(pause(1.0))
     .show()
 }
