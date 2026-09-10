@@ -7,7 +7,7 @@ import micapolos.zexy3.runtime.*
 fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
     Void.Empty -> noAnimation
-    Void.Pause -> DoubleEvaluator { 1.0 }.pause
+    is Void.Pause -> doubleEvaluator(indexed.seconds).pause
     is Void.Set<*> -> noAnimation
     is Void.Parallel<*> -> parallel(indexed.values.map { valueAnimation(it) })
   }
@@ -15,7 +15,7 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
 fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
   when (indexed) {
     Void.Empty -> ObjectEvaluator { Unit }
-    Void.Pause -> ObjectEvaluator { Unit }
+    is Void.Pause -> ObjectEvaluator { Unit }
     is Void.Set<*> -> {
       val variable = indexed.variable
       val index = variable.typedIndex
