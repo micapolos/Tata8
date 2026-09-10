@@ -31,9 +31,9 @@ fun Game.show() {
     IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
     Array(indexer.initialValuesOf(IndexType.OTHER).size) { null })
-  val runtime = compiler.compile(indexed)
+  val runtimeGame = compiler.compile(indexed)
   indexer.initialValues.forEach { compiler.animatedVariables.add(compiler.animated(it)) }
-  runtime.show()
+  runtimeGame.show()
 }
 
 fun main() {

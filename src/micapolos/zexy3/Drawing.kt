@@ -8,7 +8,7 @@ class Drawing internal constructor(model: Any) : Value<Drawing>(model)
 
 internal val Value<Drawing>.modelDrawing get() = model as ModelValue<ModelDrawing>
 
-val noDrawing get() = Drawing(ModelDrawing.Empty)
+val noDrawing: Value<Drawing> get() = Drawing(ModelDrawing.Empty)
 
 fun rect(x: Int, y: Int, width: Int, height: Int) = rect(x.value, y.value, width.value, height.value)
 fun rect(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
@@ -25,3 +25,7 @@ fun label(text: Value<Text>, x: Value<Integer>, y: Value<Integer>) =
 
 fun stack(vararg drawings: Value<Drawing>) = stack(drawings.toList())
 fun stack(drawings: List<Value<Drawing>>) = Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))
+
+fun Value<Drawing>.show() {
+  game.with(this).show()
+}

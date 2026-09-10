@@ -81,11 +81,11 @@ fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing>
     }
 
     is Drawing.Stack -> {
-      val drawings = drawing.drawings.map { drawingEvaluator(it as Drawing) }
+      val drawings = drawing.drawings.map { evaluator(it) }
       ObjectEvaluator {
         RuntimeDrawing { canvas ->
           drawings.forEach { drawing ->
-            drawing.eval().drawOn(canvas)
+            (drawing.evalBoxed() as RuntimeDrawing).drawOn(canvas)
           }
         }
       }

@@ -13,7 +13,7 @@ sealed interface Value<T : Value<T>> {
 
   class StartWhen<T: Value<T>>(val condition: Value<Integer>, val value: Value<T>): Value<T>
 
-  class Stateful<T: Value<T>>(val state: Value<Void>, val value: Value<T>): Value<T>
+  class Stateful<T: Value<T>>(val state: Value<*>, val value: Value<T>): Value<T>
 
   class Race<T: Value<T>>(val value: Value<T>, val others: List<Value<T>>): Value<T>
 

@@ -13,7 +13,9 @@ fun <T: Value<T>> sequence(vararg values: Value<T>): Value<T> =
   Value(ModelValue.Sequence(values.map { it.model }))
 
 val <T: Value<T>> Value<T>.logged: Value<T> get() = Value(ModelValue.Logged(null, model))
-infix fun <T: Value<T>> Value<T>.loggedAs(label: String): Value<T> = Value(ModelValue.Logged(label, model))
+
+infix fun <T: Value<T>> Value<T>.loggedAs(label: String): Value<T> =
+  Value(ModelValue.Logged(label, model))
 
 infix fun <T: Value<T>> Value<T>.then(value: Value<T>): Value<T> =
   sequence(this, value)
@@ -31,4 +33,9 @@ fun <T : Value<T>> Value<T>.repeatWhile(condition: Value<Bool>): Value<T> =
 
 fun <T : Value<T>> Value<T>.repeat(): Value<T> = repeatWhile(true)
 
-fun Value<*>.show() { TODO() }
+fun <T : Value<T>> Value<T>.also(state: Value<*>): Value<T> =
+  Value(ModelValue.Stateful(state.model, model))
+
+fun Value<*>.show() {
+  noDrawing.also(loggedAs("showing")).show()
+}

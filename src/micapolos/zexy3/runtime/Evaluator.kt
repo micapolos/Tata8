@@ -65,7 +65,7 @@ fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<Unit> =
     evaluators.forEach { it.evalUnit() }
   }
 
-fun <T> statefulEvaluator(stateEvaluator: Evaluator<Unit>, evaluator: Evaluator<T>): Evaluator<T> =
+fun <T> statefulEvaluator(stateEvaluator: Evaluator<*>, evaluator: Evaluator<T>): Evaluator<T> =
   when (evaluator) {
     is DoubleEvaluator -> DoubleEvaluator {
       stateEvaluator.evalUnit()

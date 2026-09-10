@@ -25,8 +25,8 @@ fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Value.Stretch -> TODO()//evaluator(value.value)
     is Value.Stateful ->
       Animated(
-        statefulEvaluator(evaluator(value.state) as Evaluator<Unit>, evaluator(value.value)),
-        race(listOf(animation(value.state), animation(value.state)))
+        statefulEvaluator(evaluator(value.state), evaluator(value.value)),
+        race(listOf(animation(value.state), animation(value.value)))
       )
     is Value.Race -> TODO()
     is Value.Frame ->
@@ -55,7 +55,7 @@ fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Value.Sequence -> TODO()
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)
-    is Value.Stateful -> TODO()
+    is Value.Stateful -> animated(value).evaluator
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
   }
@@ -94,7 +94,7 @@ fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Value.Stretch ->
       animation(value.value)
         .stretch(doubleEvaluator(value.factor))
-    is Value.Stateful -> TODO()
+    is Value.Stateful -> animated(value).animation
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
   }
