@@ -15,15 +15,15 @@ import micapolos.zexy3.model.Void as ModelVoid
 
 fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
   when (model) {
-    is ModelVoid -> indexed(model)
-    is ModelVariable<*> -> indexed(model)
-    is ModelColor -> indexed(model)
-    is ModelFont -> indexed(model)
-    is ModelImage -> indexed(model)
-    is ModelText -> indexed(model)
-    is ModelInteger -> indexed(model)
-    is ModelNumber -> indexed(model)
-    is ModelDrawing -> indexed(model)
+    is ModelVoid -> indexedVoid(model)
+    is ModelVariable<*> -> indexedVariable(model)
+    is ModelColor -> indexedColor(model)
+    is ModelFont -> indexedFont(model)
+    is ModelImage -> indexedImage(model)
+    is ModelText -> indexedText(model)
+    is ModelInteger -> indexedInteger(model)
+    is ModelNumber -> indexedNumber(model)
+    is ModelDrawing -> indexedDrawing(model)
 
     is ModelValue.Logged<*> -> Logged(model.label, indexed(model.value))
     is ModelValue.Sequence<*> -> Sequence(model.values.map { indexed(it) })

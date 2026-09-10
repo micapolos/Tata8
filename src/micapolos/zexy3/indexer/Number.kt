@@ -37,7 +37,7 @@ val ModelOp2.indexed get() =
     ModelOp2.MUL -> Op2.MUL
   }
 
-fun Indexer.indexed(model: ModelNumber): Number =
+fun Indexer.indexedNumber(model: ModelNumber): Number =
   when (model) {
     is ModelConstant -> Constant(model.d)
     is ModelApply0 -> Apply0(model.op.indexed)

@@ -45,7 +45,7 @@ val ModelNumber.Pred2.indexed
       ModelNumber.Pred2.LT -> Number.Pred2.LT
     }
 
-fun Indexer.indexed(model: ModelInteger): Integer =
+fun Indexer.indexedInteger(model: ModelInteger): Integer =
   when (model) {
     is ModelInteger.Constant -> Constant(model.i)
     is ModelInteger.Apply0 -> Apply0(model.op.indexed)

@@ -95,13 +95,13 @@ fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =
       IntEvaluator { key.isPressed.toInt() }
     }
 
-    is Integer.TextHeight -> {
+    is Integer.TextWidth -> {
       val text = textEvaluator(integer.text as Text)
       val font = fontEvaluator(integer.font as Font)
       IntEvaluator { font.eval().width(text.eval()) }
     }
 
-    is Integer.TextWidth -> {
+    is Integer.TextHeight -> {
       val text = textEvaluator(integer.text as Text)
       val font = fontEvaluator(integer.font as Font)
       IntEvaluator { font.eval().height(text.eval()) }

@@ -1,6 +1,5 @@
 package micapolos.zexy3
 
-import micapolos.zexy3.model.Drawing.Sprite as ModelSprite
 import micapolos.zexy3.model.Drawing as ModelDrawing
 import micapolos.zexy3.model.Value as ModelValue
 
@@ -27,6 +26,9 @@ fun label(text: Value<Text>, x: Value<Integer>, y: Value<Integer>) =
 fun <T: Drawing<T>> stack(vararg drawings: Value<T>) = stack(drawings.toList())
 
 fun <T: Drawing<T>> stack(drawings: List<Value<T>>) = Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))
+
+fun <T: Drawing<T>> Value<T>.with(font: Value<Font>): Value<T> =
+  Drawing(ModelDrawing.WithFont(modelDrawing, font.modelFont))
 
 fun <T: Drawing<T>> Value<T>.show() {
   game.with(this).show()

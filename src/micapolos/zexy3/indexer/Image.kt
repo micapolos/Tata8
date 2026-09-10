@@ -4,7 +4,7 @@ import micapolos.zexy3.indexed.Image
 import micapolos.zexy3.indexed.Image.*
 import micapolos.zexy3.model.Image as ModelImage
 
-fun Indexer.indexed(model: ModelImage): Image =
+fun Indexer.indexedImage(model: ModelImage): Image =
   when (model) {
     ModelImage.Empty -> Empty
     is ModelImage.Render -> Render(indexed(model.drawing), model.width, model.height)
