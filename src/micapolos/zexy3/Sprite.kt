@@ -23,3 +23,7 @@ fun Value<Sprite>.withPosition(x: Value<Integer>, y: Value<Integer>): Value<Spri
       modelSprite.sprite.image,
       x.modelInteger,
       y.modelInteger))
+
+@JvmName("withPosition")
+fun Value<Sprite>.with(position: Value<Position>): Value<Sprite> =
+  withPosition((position as Position).x, (position as Position).y)

@@ -8,7 +8,7 @@ class Integer internal constructor(model: ModelInteger): Value<Integer>(model)
 internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<ModelInteger>
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
-val Int.value get() = Integer(ModelInteger.Constant(this))
+val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
 
 fun variable(i: Int) = variable(i.value)
 
