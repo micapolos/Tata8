@@ -8,14 +8,19 @@ open class Value<T : Value<T>> internal constructor(internal val modelOrChildren
 internal val Value<*>.model get() = modelOrChildren as ModelValue<ModelVoid>
 internal val Value<*>.children get() = modelOrChildren as List<Value<*>>
 internal fun <T> Value<*>.children() = modelOrChildren as List<T>
+internal val Value<*>.safeModel: ModelValue<*> get() =
+  when (modelOrChildren) {
+    is ModelValue<*> -> modelOrChildren
+    else -> children[0].safeModel
+  }
 
 fun <T : Value<T>> sequence(vararg values: Value<T>): Value<T> =
   Value(ModelValue.Sequence(values.map { it.model }))
 
-val <T : Value<T>> Value<T>.logged: Value<T> get() = Value(ModelValue.Logged(null, model))
+val <T : Value<T>> Value<T>.logged: Value<T> get() = Value(ModelValue.Logged(null, safeModel))
 
 infix fun <T : Value<T>> Value<T>.loggedAs(label: String): Value<T> =
-  Value(ModelValue.Logged(label, model))
+  Value(ModelValue.Logged(label, safeModel))
 
 infix fun <T : Value<T>> Value<T>.then(value: Value<T>): Value<T> =
   sequence(this, value)
@@ -29,7 +34,7 @@ fun <T : Value<T>> Value<T>.raceWith(vararg values: Value<T>): Value<T> =
 fun <T : Value<T>> Value<T>.repeatWhile(b: Boolean): Value<T> = repeatWhile(b.value)
 
 fun <T : Value<T>> Value<T>.repeatWhile(condition: Value<Bool>): Value<T> =
-  Value(ModelValue.RunWhile(condition.integer.modelInteger, model))
+  Value(ModelValue.RunWhile(condition.cast.integer.modelInteger, model))
 
 fun <T : Value<T>> Value<T>.repeat(): Value<T> = repeatWhile(true)
 
@@ -39,5 +44,5 @@ fun <T : Value<T>> Value<T>.also(fn: (Value<T>) -> Value<*>): Value<T> =
 fun <T : Value<T>> Value<T>.apply(fn: Value<T>.() -> Value<*>): Value<T> = also(fn)
 
 fun <T : Value<T>> Value<T>.show() {
-  noDrawing.also { loggedAs("showing") }.show()
+  noDrawing.also { logged }.show()
 }

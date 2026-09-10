@@ -9,7 +9,7 @@ fun pause(seconds: Double) = pause(seconds.value)
 fun pause(seconds: Value<Number>): Value<Activity> =
   Activity(ModelVoid.Pause(seconds.modelNumber))
 
-fun <T : Value<T>> parallel(vararg values: Value<T>): Value<Activity> =
+fun <T : Value<T>> parallel(vararg values: Value<*>): Value<Activity> =
   Activity(ModelVoid.Parallel(values.map { it.model }))
 
 fun sequence(activities: List<Value<Activity>>): Value<Activity> =

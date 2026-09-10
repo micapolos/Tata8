@@ -1,21 +1,21 @@
 package micapolos.zexy3
 
-class Bool internal constructor(impl: Any): Value<Bool>(impl)
+class Bool internal constructor(internal val integer: Value<Integer>): Value<Bool>(listOf(integer))
 
-internal val Value<Bool>.integer get() = children[0] as Value<Integer>
+val Value<Bool>.cast: Bool get() = this as Bool
 
-fun bool(b: Boolean): Value<Bool> = Bool(listOf(if (b) 1.value else 0.value))
-
-val Boolean.value: Value<Bool> get() = bool(this)
+val Boolean.value: Value<Bool> get() = Bool(if (this) 1.value else 0.value)
 
 fun variable(initial: Boolean) = animatedVariable(initial.value)
-fun animatedVariable(initial: Boolean, fn: (Value<Bool>) -> Value<Action>) = animatedVariable(initial.value, fn)
 
-infix fun Value<Bool>.and(bool: Value<Bool>) = integer and bool.integer
+fun animatedVariable(initial: Boolean, fn: (Value<Bool>) -> Value<Action>) =
+  animatedVariable(initial.value, fn)
 
-infix fun Value<Bool>.or(bool: Value<Bool>) = integer or bool.integer
+infix fun Value<Bool>.and(bool: Value<Bool>) = Bool(cast.integer and bool.cast.integer)
 
-operator fun Value<Bool>.not() = integer xor 1
+infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(cast.integer or bool.cast.integer)
+
+operator fun Value<Bool>.not() = Bool(cast.integer xor 1)
 
 fun <T: Value<T>> Value<Bool>.select(trueValue: Value<T>, falseValue: Value<T>): Value<T> =
-  integer.select(trueValue, falseValue)
+  cast.integer.select(trueValue, falseValue)
