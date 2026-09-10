@@ -2,6 +2,7 @@ package micapolos.zexy3
 
 import micapolos.Sandbox
 import micapolos.zexy3.compiler.Compiler
+import micapolos.zexy3.compiler.animated
 import micapolos.zexy3.compiler.compile
 import micapolos.zexy3.indexed.IndexType
 import micapolos.zexy3.indexer.Indexer
@@ -30,6 +31,7 @@ fun Game.show() {
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
     Array(indexer.initialValuesOf(IndexType.OTHER).size) { null })
   val runtime = compiler.compile(indexed)
+  indexer.initialValues.forEach { compiler.animatedVariables.add(compiler.animated(it)) }
   runtime.show()
 }
 

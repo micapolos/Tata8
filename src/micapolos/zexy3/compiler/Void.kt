@@ -18,7 +18,7 @@ fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
     Void.Pause -> ObjectEvaluator { Unit }
     is Void.Set<*> -> {
       val variable = indexed.variable
-      val index = variable.index
+      val index = variable.typedIndex
       when (variable.indexType) {
         IndexType.INTEGER -> {
           val intEvaluator = intEvaluator(indexed.value as Integer)

@@ -18,10 +18,12 @@ fun <T: Value<T>> Indexer.indexed(model: ModelVariable<*>): Variable<T> =
   variableOrNull<T>(model).orIfNull {
     val indexType = model.indexType
     val indexed = indexed(model.initial)
-    val initialValues = initialValuesOf(indexType)
+    val typedInitialValues = initialValuesOf(indexType)
+    val typedIndex = typedInitialValues.size
     val index = initialValues.size
-    val variable = Variable<T>(indexType, index)
+    val variable = Variable<T>(indexType, typedIndex, index)
     variableMap[model] = variable
+    typedInitialValues.add(indexed)
     initialValues.add(indexed)
     return variable
   }
