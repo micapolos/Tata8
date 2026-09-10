@@ -1,9 +1,11 @@
 package micapolos.zexy3
 
 import micapolos.zexy3.model.Text as ModelText
+import micapolos.zexy3.model.Value as ModelValue
 
-class Text(model: Any): Value<Text>(model)
+class Text internal constructor(model: Any): Value<Text>(model)
 
-internal val Value<Text>.modelText get() = model as ModelText
+internal val Value<Text>.modelText get() = model as ModelValue<ModelText>
 
-val String.value get() = Text(ModelText.Constant(this))
+val String.value: Value<Text> get() =
+  Text(ModelText.Constant(this))

@@ -1,10 +1,11 @@
 package micapolos.zexy3
 
 import micapolos.zexy3.model.Drawing as ModelDrawing
+import micapolos.zexy3.model.Value as ModelValue
 
-class Drawing(model: Any): Value<Drawing>(model)
+class Drawing internal constructor(model: Any): Value<Drawing>(model)
 
-internal val Value<Drawing>.modelDrawing get() = model as ModelDrawing
+internal val Value<Drawing>.modelDrawing get() = model as ModelValue<ModelDrawing>
 
 val noDrawing get() = Drawing(ModelDrawing.Empty)
 

@@ -2,7 +2,7 @@ package micapolos.zexy3
 
 class Bool internal constructor(integer: Integer): Value<Bool>(listOf(integer))
 
-internal val Value<Bool>.integer get() = children[0] as Integer
+internal val Value<Bool>.integer get() = children[0] as Value<Integer>
 
 fun bool(b: Boolean) = Bool(if (b) 1.value else 0.value)
 

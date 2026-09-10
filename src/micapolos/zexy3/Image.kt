@@ -2,10 +2,11 @@ package micapolos.zexy3
 
 import micapolos.zexy3.model.Image as ModelImage
 import micapolos.zexy3.model.Integer as ModelInteger
+import micapolos.zexy3.model.Value as ModelValue
 
-class Image internal constructor(model: ModelImage): Value<Image>(model)
+class Image internal constructor(model: Any): Value<Image>(model)
 
-internal val Value<Image>.modelImage get() = model as ModelImage
+internal val Value<Image>.modelImage get() = model as ModelValue<ModelImage>
 
 fun image(fileName: String) = Image(ModelImage.Resource(fileName))
 
