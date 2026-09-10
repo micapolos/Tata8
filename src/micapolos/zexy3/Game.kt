@@ -37,7 +37,7 @@ fun Game.show() {
 }
 
 fun main() {
-  val x = newVariable(10)
+  val x = variable(10)
   game
     .withResources(Sandbox::class)
     .withTitle("Sandbox")

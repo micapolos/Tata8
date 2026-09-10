@@ -10,7 +10,7 @@ internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value get() = Integer(ModelInteger.Constant(this))
 
-fun newVariable(i: Int) = newVariable(i.value)
+fun variable(i: Int) = variable(i.value)
 
 internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))

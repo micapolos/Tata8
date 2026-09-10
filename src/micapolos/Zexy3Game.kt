@@ -3,7 +3,7 @@ package micapolos
 import micapolos.zexy3.*
 
 fun main() {
-  val x = newVariable(10)
+  val x = variable(10)
   game
     .withResources(Sandbox::class)
     .withTitle("My first game")
