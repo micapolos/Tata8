@@ -25,7 +25,7 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
 }
 
 // TODO: Read into animation list by index.
-fun <T : Value<T>> Compiler.animation(variable: Variable<T>): Animation =
+fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation =
   object : Animation {
     override fun start() {
       animatedVariable(variable).animation.start()

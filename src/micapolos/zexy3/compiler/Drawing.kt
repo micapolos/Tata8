@@ -3,21 +3,45 @@ package micapolos.zexy3.compiler
 import micapolos.Sandbox
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.*
-import micapolos.zexy3.runtime.Animation
+import micapolos.zexy3.indexed.Drawing
+import micapolos.zexy3.runtime.*
 import micapolos.zexy3.runtime.Drawing as RuntimeDrawing
-import micapolos.zexy3.runtime.ObjectEvaluator
-import micapolos.zexy3.runtime.noAnimation
 
-fun Compiler.animation(drawing: Drawing): Animation =
+fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
+  Animated(drawingEvaluator(drawing), drawingAnimation(drawing))
+
+fun Compiler.drawingAnimation(drawing: Drawing): Animation =
   when (drawing) {
-    Drawing.Empty -> noAnimation
-    is Drawing.Rect -> noAnimation
-    is Drawing.Sprite -> noAnimation
-    is Drawing.Label -> noAnimation
-    is Drawing.Stack -> noAnimation
-    is Drawing.WithComposite -> noAnimation
-    is Drawing.WithColor -> noAnimation
-    is Drawing.WithFont -> noAnimation
+    Drawing.Empty ->
+      noAnimation
+    is Drawing.Rect ->
+      parallel(
+        valueAnimation(drawing.x),
+        valueAnimation(drawing.y),
+        valueAnimation(drawing.width),
+        valueAnimation(drawing.height))
+    is Drawing.Sprite ->
+      parallel(
+        valueAnimation(drawing.image),
+        valueAnimation(drawing.x),
+        valueAnimation(drawing.y))
+    is Drawing.Label ->
+      parallel(
+        valueAnimation(drawing.text),
+        valueAnimation(drawing.x),
+        valueAnimation(drawing.y))
+    is Drawing.Stack ->
+      parallel(drawing.drawings.map { valueAnimation(it) })
+    is Drawing.WithComposite ->
+      valueAnimation(drawing.drawing)
+    is Drawing.WithColor ->
+      parallel(
+        valueAnimation(drawing.drawing),
+        valueAnimation(drawing.color))
+    is Drawing.WithFont ->
+      parallel(
+        valueAnimation(drawing.drawing),
+        valueAnimation(drawing.font))
   }
 
 fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =

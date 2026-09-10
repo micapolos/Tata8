@@ -9,25 +9,26 @@ interface Animation {
 
 val noAnimation: Animation = object : Animation {}
 
-val DoubleEvaluator.pause get() =
-  object : Animation {
-    var remainingSeconds = 0.0
+val DoubleEvaluator.pause
+  get() =
+    object : Animation {
+      var remainingSeconds = 0.0
 
-    override fun start() {
-      remainingSeconds = eval()
-    }
+      override fun start() {
+        remainingSeconds = eval()
+      }
 
-    override fun step(seconds: Double): Double {
-      remainingSeconds -= seconds
-      if (remainingSeconds >= 0.0) {
-        return 0.0
-      } else {
-        val leftoverSeconds = -remainingSeconds
-        remainingSeconds = 0.0
-        return leftoverSeconds
+      override fun step(seconds: Double): Double {
+        remainingSeconds -= seconds
+        if (remainingSeconds >= 0.0) {
+          return 0.0
+        } else {
+          val leftoverSeconds = -remainingSeconds
+          remainingSeconds = 0.0
+          return leftoverSeconds
+        }
       }
     }
-  }
 
 fun Animation.stretch(ratioEvaluator: DoubleEvaluator) =
   object : Animation {
@@ -55,6 +56,9 @@ infix fun Animation.then(rhs: Animation) =
 
   }
 
+fun parallel(vararg animations: Animation): Animation =
+  parallel(animations.toList())
+
 fun parallel(animations: List<Animation>): Animation =
   object : Animation {
     override fun start() {
@@ -68,38 +72,39 @@ fun parallel(animations: List<Animation>): Animation =
     }
   }
 
-fun sequence(animations: List<Animation>): Animation =
-  object : Animation {
-    var index = 0
-    var needsInit = false
+class SequenceAnimation(
+  val animations: List<Animation>,
+) : Animation {
+  var index = 0
+  var needsInit = true
 
-    override fun start() {
-      index = 0
-      needsInit = true
-    }
+  override fun start() {
+    index = 0
+    needsInit = true
+  }
 
-    override fun step(seconds: Double): Double {
-      var remainingSeconds = seconds
-      while (true) {
-        if (index == animations.size) {
-          return remainingSeconds
+  override fun step(seconds: Double): Double {
+    var remainingSeconds = seconds
+    while (true) {
+      if (index == animations.size) {
+        return remainingSeconds
+      } else {
+        val runner = animations[index]
+        if (needsInit) {
+          runner.start()
+          needsInit = false
+        }
+        remainingSeconds = runner.step(remainingSeconds)
+        if (remainingSeconds == 0.0) {
+          return 0.0
         } else {
-          val runner = animations[index]
-          if (needsInit) {
-            runner.start()
-            needsInit = false
-          }
-          remainingSeconds = runner.step(remainingSeconds)
-          if (remainingSeconds == 0.0) {
-            return 0.0
-          } else {
-            index++
-            needsInit = true
-          }
+          index++
+          needsInit = true
         }
       }
     }
   }
+}
 
 fun Animation.repeatWhileNotZero(intEvaluator: IntEvaluator): Animation =
   object : Animation {

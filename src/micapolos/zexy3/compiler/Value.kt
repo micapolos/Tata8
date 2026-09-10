@@ -6,9 +6,9 @@ import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.*
 
 fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
-  Animated(evaluator(value), animation(value))
+  Animated(valueEvaluator(value), valueAnimation(value))
 
-fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
+fun <T: Value<T>> Compiler.valueEvaluator(value: Value<T>): Evaluator<*> =
   when (value) {
     is Variable -> variableEvaluator(value)
     is Integer -> integerEvaluator(value)
@@ -20,7 +20,7 @@ fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Drawing -> drawingEvaluator(value)
     is Void -> voidEvaluator(value)
 
-    is Value.Logged<*> -> evaluator(value.value).logged(value.label)
+    is Value.Logged<*> -> valueEvaluator(value.value).logged(value.label)
     is Value.RunWhile<*> -> TODO()//evaluator(value.value)
     is Value.Select<*> -> TODO()
     is Value.Sequence<*> -> TODO()
@@ -37,29 +37,29 @@ fun Compiler.doubleEvaluator(value: Value<Number>): DoubleEvaluator =
 fun <T: Value<T>> Compiler.objectEvaluator(value: Value<T>): ObjectEvaluator<*> =
   animated(value).evaluator as ObjectEvaluator<*>
 
-fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
+fun <T: Value<T>> Compiler.valueAnimation(value: Value<T>): Animation =
   when (value) {
-    is Variable -> animation(value)
-    is Integer -> animation(value)
-    is Number -> animation(value)
-    is Color -> animation(value)
-    is Text -> animation(value)
-    is Image -> animation(value)
-    is Font -> animation(value)
-    is Drawing -> animation(value)
-    is Void -> animation(value)
+    is Variable -> variableAnimation(value)
+    is Integer -> integerAnimation(value)
+    is Number -> numberAnimation(value)
+    is Color -> colorAnimation(value)
+    is Text -> textAnimation(value)
+    is Image -> imageAnimation(value)
+    is Font -> fontAnimation(value)
+    is Drawing -> drawingAnimation(value)
+    is Void -> voidAnimation(value)
 
     is Value.Logged -> noAnimation
     is Value.RunWhile<*> ->
-      animation(value.value)
+      valueAnimation(value.value)
         .runWhileNotZero(intEvaluator(value.condition))
     is Value.Select<*> -> TODO()
     is Value.Sequence<*> ->
-      sequence(value.values.map { animation(it) })
+      SequenceAnimation(value.values.map { valueAnimation(it) })
     is Value.StartWhen<*> ->
-      animation(value.value)
+      valueAnimation(value.value)
         .startWhenNotZero(intEvaluator(value.condition))
     is Value.Stretch<*> ->
-      animation(value.value)
+      valueAnimation(value.value)
         .stretch(doubleEvaluator(value.factor))
   }

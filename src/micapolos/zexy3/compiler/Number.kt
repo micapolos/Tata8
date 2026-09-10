@@ -9,13 +9,13 @@ import micapolos.zexy3.runtime.noAnimation
 import micapolos.zexy3.runtime.then
 import kotlin.math.*
 
-fun Compiler.animation(number: Number): Animation =
+fun Compiler.numberAnimation(number: Number): Animation =
   when (number) {
     is Number.Apply0 -> noAnimation
-    is Number.Apply1 -> animation(number.number)
-    is Number.Apply2 -> animation(number.lhs) then animation(number.rhs)
+    is Number.Apply1 -> valueAnimation(number.number)
+    is Number.Apply2 -> valueAnimation(number.lhs) then valueAnimation(number.rhs)
     is Number.Constant -> noAnimation
-    is Number.FromInteger -> animation(number.integer)
+    is Number.FromInteger -> valueAnimation(number.integer)
   }
 
 fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =

@@ -5,7 +5,7 @@ import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.ObjectEvaluator
 import micapolos.zexy3.runtime.noAnimation
 
-fun Compiler.animation(text: Text): Animation =
+fun Compiler.textAnimation(text: Text): Animation =
   when (text) {
     is Text.Constant -> noAnimation
   }

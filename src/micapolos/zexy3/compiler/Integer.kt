@@ -3,6 +3,7 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Number
+import micapolos.zexy3.runtime.Animated
 import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.IntEvaluator
 import micapolos.zexy3.runtime.noAnimation
@@ -10,19 +11,22 @@ import micapolos.zexy3.runtime.then
 
 fun Boolean.toInt() = if (this) 1 else 0
 
-fun Compiler.animation(integer: Integer): Animation =
+fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
+  Animated(integerEvaluator(integer), integerAnimation(integer))
+
+fun Compiler.integerAnimation(integer: Integer): Animation =
   when (integer) {
     is Integer.Apply0 -> noAnimation
-    is Integer.Apply1 -> animation(integer.integer)
-    is Integer.Apply2 -> animation(integer.lhs).then(animation(integer.rhs))
+    is Integer.Apply1 -> valueAnimation(integer.integer)
+    is Integer.Apply2 -> valueAnimation(integer.lhs).then(valueAnimation(integer.rhs))
     is Integer.Constant -> noAnimation
-    is Integer.FromNumber -> animation(integer.number)
-    is Integer.ImageHeight -> animation(integer.image)
-    is Integer.ImageWidth -> animation(integer.image)
+    is Integer.FromNumber -> valueAnimation(integer.number)
+    is Integer.ImageHeight -> valueAnimation(integer.image)
+    is Integer.ImageWidth -> valueAnimation(integer.image)
     is Integer.KeyDown -> noAnimation
-    is Integer.TextHeight -> animation(integer.font).then(animation(integer.text))
-    is Integer.TextWidth -> animation(integer.font).then(animation(integer.text))
-    is Number.Test2 -> animation(integer.lhs).then(animation(integer.rhs))
+    is Integer.TextHeight -> valueAnimation(integer.font).then(valueAnimation(integer.text))
+    is Integer.TextWidth -> valueAnimation(integer.font).then(valueAnimation(integer.text))
+    is Number.Test2 -> valueAnimation(integer.lhs).then(valueAnimation(integer.rhs))
   }
 
 fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =
