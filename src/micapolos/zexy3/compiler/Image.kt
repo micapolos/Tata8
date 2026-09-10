@@ -15,7 +15,7 @@ fun Compiler.animation(image: Image): Animation =
     is Image.Slice -> noAnimation
   }
 
-fun Compiler.evaluator(image: Image): ObjectEvaluator<TataImage?> =
+fun Compiler.imageEvaluator(image: Image): ObjectEvaluator<TataImage?> =
   when (image) {
     Image.Empty -> {
       ObjectEvaluator { null }

@@ -5,7 +5,7 @@ import micapolos.zexy3.model.Value as ModelValue
 
 class Integer internal constructor(model: ModelInteger): Value<Integer>(model)
 
-internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelInteger
+internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<ModelInteger>
 
 val Int.value get() = Integer(ModelInteger.Constant(this))
 
@@ -40,3 +40,5 @@ fun <T: Value<T>> Value<Integer>.select(values: List<Value<T>>): Value<T> =
 
 fun <T: Value<T>> Value<Integer>.select(vararg values: Value<T>): Value<T> =
   select(values.toList())
+
+val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))

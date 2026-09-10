@@ -17,7 +17,7 @@ fun Compiler.animation(number: Number): Animation =
     is Number.FromInteger -> noAnimation
   }
 
-fun Compiler.evaluator(number: Number): DoubleEvaluator =
+fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
   when (number) {
     is Number.Constant -> DoubleEvaluator { number.d }
 
@@ -29,7 +29,7 @@ fun Compiler.evaluator(number: Number): DoubleEvaluator =
       }
 
     is Number.Apply1 -> {
-      val evaluator = evaluator(number.n as Number)
+      val evaluator = numberEvaluator(number.n as Number)
       when (number.op) {
         Number.Op1.NEG -> DoubleEvaluator { -evaluator.eval() }
         Number.Op1.SIN -> DoubleEvaluator { sin(evaluator.eval()) }
@@ -44,8 +44,8 @@ fun Compiler.evaluator(number: Number): DoubleEvaluator =
     }
 
     is Number.Apply2 -> {
-      val lhs = evaluator(number.lhs as Number)
-      val rhs = evaluator(number.rhs as Number)
+      val lhs = numberEvaluator(number.lhs as Number)
+      val rhs = numberEvaluator(number.rhs as Number)
       when (number.op) {
         Number.Op2.ADD -> DoubleEvaluator { lhs.eval() + rhs.eval() }
         Number.Op2.SUB -> DoubleEvaluator { lhs.eval() - rhs.eval() }
@@ -54,7 +54,7 @@ fun Compiler.evaluator(number: Number): DoubleEvaluator =
     }
 
     is Number.FromInteger -> {
-      val i = evaluator(number.i as Integer)
+      val i = integerEvaluator(number.i as Integer)
       DoubleEvaluator { i.eval().toDouble() }
     }
   }
@@ -67,7 +67,7 @@ fun main() {
       DoubleArray(10),
       Array(10) { null },
     )
-      .evaluator(
+      .numberEvaluator(
         Number.Apply2(
           Number.Op2.ADD,
           Number.Constant(12.0),

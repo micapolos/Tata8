@@ -20,7 +20,7 @@ fun Compiler.animation(drawing: Drawing): Animation =
     is Drawing.WithFont -> noAnimation
   }
 
-fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
+fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
   when (drawing) {
     Drawing.Empty -> ObjectEvaluator { RuntimeDrawing {} }
 
@@ -35,7 +35,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
     }
 
     is Drawing.Sprite -> {
-      val imageEvaluator = evaluator(drawing.image as Image)
+      val imageEvaluator = imageEvaluator(drawing.image as Image)
       val xEvaluator = intEvaluator(drawing.x)
       val yEvaluator = intEvaluator(drawing.y)
       ObjectEvaluator {
@@ -46,7 +46,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
     }
 
     is Drawing.Label -> {
-      val textEvaluator = evaluator(drawing.text as Text)
+      val textEvaluator = textEvaluator(drawing.text as Text)
       val xEvaluator = intEvaluator(drawing.x)
       val yEvaluator = intEvaluator(drawing.y)
       ObjectEvaluator {
@@ -57,7 +57,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
     }
 
     is Drawing.Stack -> {
-      val drawings = drawing.drawings.map { evaluator(it as Drawing) }
+      val drawings = drawing.drawings.map { drawingEvaluator(it as Drawing) }
       ObjectEvaluator {
         RuntimeDrawing { canvas ->
           drawings.forEach { drawing ->
@@ -70,8 +70,8 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
     is Drawing.WithColor -> TODO()
 
     is Drawing.WithFont -> {
-      val drawingEvaluator = evaluator(drawing.drawing as Drawing)
-      val fontEvaluator = evaluator(drawing.font as Font)
+      val drawingEvaluator = drawingEvaluator(drawing.drawing as Drawing)
+      val fontEvaluator = fontEvaluator(drawing.font as Font)
       ObjectEvaluator {
         RuntimeDrawing { canvas ->
           val previousFont = canvas.font
@@ -83,7 +83,7 @@ fun Compiler.evaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
     }
 
     is Drawing.WithComposite -> {
-      val drawingEvaluator = evaluator(drawing.drawing as Drawing)
+      val drawingEvaluator = drawingEvaluator(drawing.drawing as Drawing)
       val composite = drawing.composite.tata8
       ObjectEvaluator {
         RuntimeDrawing { canvas ->
@@ -102,7 +102,7 @@ fun main() {
     Integer.Constant(10),
     Integer.Constant(10))
   Compiler(Sandbox::class)
-    .evaluator(drawing)
+    .drawingEvaluator(drawing)
     .eval()
     .drawOn(Game.background.canvas)
   Game.start()

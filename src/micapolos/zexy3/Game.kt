@@ -34,10 +34,11 @@ fun Game.show() {
 }
 
 fun main() {
+  val x = newVariable(10)
   game(
     resourcesClass = Sandbox::class,
     drawing = stack(
-      rect(10.value, 10.value, 30.value, 30.value),
-      sprite(image("quote.png"), 10, 10),
+      rect(Mouse.x.logged.integer.logged("mouse x") + 40, Mouse.y.integer.logged("mouse y") + 40, 30.value, 30.value),
+      sprite(image("quote.png"), Mouse.x.integer, Mouse.y.integer),
       sprite(image("quote.png"), 60, 60))).show()
 }

@@ -14,3 +14,6 @@ fun <T: Value<T>> parallel(vararg values: Value<T>): Value<Void> =
 
 fun <T: Value<T>> sequence(vararg values: Value<T>): Value<T> =
   Value(ModelValue.Sequence(values.map { it.model }))
+
+val <T: Value<T>> Value<T>.logged: Value<T> get() = Value(ModelValue.Logged(null, model))
+fun <T: Value<T>> Value<T>.logged(label: String): Value<T> = Value(ModelValue.Logged(label, model))

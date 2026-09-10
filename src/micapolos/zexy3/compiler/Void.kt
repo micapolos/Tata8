@@ -15,7 +15,7 @@ fun Compiler.animation(indexed: Void): Animation =
     is Void.Parallel<*> -> parallel(indexed.values.map { animation(it) })
   }
 
-fun <T: Value<T>, R> Compiler.evaluator(indexed: Void): Evaluator<R> =
+fun <T: Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
   when (indexed) {
     Void.Empty -> ObjectEvaluator { Unit }
     Void.Pause -> ObjectEvaluator { Unit }
@@ -32,10 +32,10 @@ fun <T: Value<T>, R> Compiler.evaluator(indexed: Void): Evaluator<R> =
           ObjectEvaluator { doubleArray[index] = doubleEvaluator.eval() }
         }
         IndexType.OTHER -> {
-          val objectEvaluator = objectEvaluator<T, R>(indexed.value as T)
+          val objectEvaluator = objectEvaluator(indexed.value as T)
           ObjectEvaluator { objectArray[index] = objectEvaluator.eval() }
         }
       }
     }
     is Void.Parallel<*> -> ObjectEvaluator { null }
-  } as Evaluator<R>
+  }

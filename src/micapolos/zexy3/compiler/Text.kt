@@ -10,7 +10,7 @@ fun Compiler.animation(text: Text): Animation =
     is Text.Constant -> noAnimation
   }
 
-fun Compiler.evaluator(text: Text): ObjectEvaluator<String> =
+fun Compiler.textEvaluator(text: Text): ObjectEvaluator<String> =
   when (text) {
     is Text.Constant -> ObjectEvaluator { text.string }
   }

@@ -12,7 +12,7 @@ fun Compiler.animation(font: Font): Animation =
     is Font.Resource -> noAnimation
   }
 
-fun Compiler.evaluator(font: Font): ObjectEvaluator<TataFont> =
+fun Compiler.fontEvaluator(font: Font): ObjectEvaluator<TataFont> =
   when (font) {
     is Font.Resource -> {
       val tataFont = tataFonts.computeIfAbsent(font.fileName) {
