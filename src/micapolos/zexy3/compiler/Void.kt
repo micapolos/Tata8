@@ -9,7 +9,6 @@ fun Compiler.animatedVoid(indexed: Void): Animated<Unit> =
 
 fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
-    Void.Empty -> noAnimation
     is Void.Pause -> doubleEvaluator(indexed.seconds).pause
     is Void.Set<*> -> noAnimation
     is Void.Parallel<*> -> parallel(indexed.values.map { animation(it) })
@@ -17,7 +16,6 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
 
 fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<Unit> =
   when (indexed) {
-    Void.Empty -> ObjectEvaluator { Unit }
     is Void.Pause -> ObjectEvaluator { Unit }
     is Void.Set<*> -> {
       val variable = indexed.variable

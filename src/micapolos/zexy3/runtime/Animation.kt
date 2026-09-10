@@ -4,7 +4,7 @@ import kotlin.math.min
 
 interface Animation {
   fun start() {}
-  fun step(seconds: Double) = seconds
+  fun step(seconds: Double) = 0.0
 }
 
 val noAnimation: Animation = object : Animation {}

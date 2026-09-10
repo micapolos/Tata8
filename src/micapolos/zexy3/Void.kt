@@ -4,8 +4,6 @@ import micapolos.zexy3.model.Void as ModelVoid
 
 class Void internal constructor(model: ModelVoid): Value<Void>(model)
 
-val void = Void(ModelVoid.Empty)
-
 fun pause(seconds: Value<Number>): Value<Void> =
   Void(ModelVoid.Pause(seconds.modelNumber))
 
