@@ -16,32 +16,32 @@ fun Compiler.drawingAnimation(drawing: Drawing): Animation =
       noAnimation
     is Drawing.Rect ->
       parallel(
-        valueAnimation(drawing.x),
-        valueAnimation(drawing.y),
-        valueAnimation(drawing.width),
-        valueAnimation(drawing.height))
+        animation(drawing.x),
+        animation(drawing.y),
+        animation(drawing.width),
+        animation(drawing.height))
     is Drawing.Sprite ->
       parallel(
-        valueAnimation(drawing.image),
-        valueAnimation(drawing.x),
-        valueAnimation(drawing.y))
+        animation(drawing.image),
+        animation(drawing.x),
+        animation(drawing.y))
     is Drawing.Label ->
       parallel(
-        valueAnimation(drawing.text),
-        valueAnimation(drawing.x),
-        valueAnimation(drawing.y))
+        animation(drawing.text),
+        animation(drawing.x),
+        animation(drawing.y))
     is Drawing.Stack ->
-      parallel(drawing.drawings.map { valueAnimation(it) })
+      parallel(drawing.drawings.map { animation(it) })
     is Drawing.WithComposite ->
-      valueAnimation(drawing.drawing)
+      animation(drawing.drawing)
     is Drawing.WithColor ->
       parallel(
-        valueAnimation(drawing.drawing),
-        valueAnimation(drawing.color))
+        animation(drawing.drawing),
+        animation(drawing.color))
     is Drawing.WithFont ->
       parallel(
-        valueAnimation(drawing.drawing),
-        valueAnimation(drawing.font))
+        animation(drawing.drawing),
+        animation(drawing.font))
   }
 
 fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
