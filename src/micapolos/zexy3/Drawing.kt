@@ -4,11 +4,13 @@ import micapolos.zexy3.model.Drawing.Sprite
 import micapolos.zexy3.model.Drawing as ModelDrawing
 import micapolos.zexy3.model.Value as ModelValue
 
-class Drawing internal constructor(model: Any) : Value<Drawing>(model)
+open class Drawing<T: Drawing<T>> internal constructor(model: Any) : Value<T>(model) {
+  object Empty: Drawing<Empty>(ModelDrawing.Empty)
+}
 
-internal val Value<Drawing>.modelDrawing get() = model as ModelValue<ModelDrawing>
+internal val <T: Drawing<T>> Value<T>.modelDrawing get() = model as ModelValue<ModelDrawing>
 
-val noDrawing: Value<Drawing> get() = Drawing(ModelDrawing.Empty)
+val noDrawing: Value<Drawing.Empty> get() = Drawing.Empty
 
 fun rect(x: Int, y: Int, width: Int, height: Int) = rect(x.value, y.value, width.value, height.value)
 fun rect(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
@@ -23,9 +25,9 @@ fun label(text: Value<Text>, x: Int, y: Int) = label(text, x.value, y.value)
 fun label(text: Value<Text>, x: Value<Integer>, y: Value<Integer>) =
   Drawing(ModelDrawing.Label(text.modelText, x.cast, y.cast))
 
-fun stack(vararg drawings: Value<Drawing>) = stack(drawings.toList())
-fun stack(drawings: List<Value<Drawing>>) = Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))
+fun stack(vararg drawings: Drawing<*>) = stack(drawings.toList())
+fun stack(drawings: List<Drawing<*>>) = Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))
 
-fun Value<Drawing>.show() {
+fun Drawing<*>.show() {
   game.with(this).show()
 }

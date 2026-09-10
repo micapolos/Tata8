@@ -64,7 +64,10 @@ fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing>
       val yEvaluator = intEvaluator(drawing.y)
       ObjectEvaluator {
         RuntimeDrawing { canvas ->
-          canvas.draw(imageEvaluator.eval(), xEvaluator.eval(), yEvaluator.eval())
+          val image = imageEvaluator.eval()
+          if (image != null) {
+            canvas.draw(image, xEvaluator.eval(), yEvaluator.eval())
+          }
         }
       }
     }

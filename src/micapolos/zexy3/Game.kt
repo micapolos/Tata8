@@ -20,7 +20,7 @@ val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing)
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
 fun Game.withTitle(title: String): Game = copy(model = model.copy(title = title))
-fun Game.with(vararg drawings: Value<Drawing>): Game =
+fun Game.with(vararg drawings: Drawing<*>): Game =
   copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
 fun Game.show() {
