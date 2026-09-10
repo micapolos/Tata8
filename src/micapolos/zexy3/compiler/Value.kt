@@ -5,7 +5,7 @@ import micapolos.zexy3.indexed.Drawing
 import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.*
 
-fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
+fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
   when (value) {
     is Variable -> animatedVariable(value)
     is Integer -> animatedInteger(value)
@@ -28,18 +28,30 @@ fun <T: Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
         statefulEvaluator(evaluator(value.state), evaluator(value.value)),
         race(listOf(animation(value.state), animation(value.value)))
       )
+
     is Value.Race -> TODO()
     is Value.Frame ->
       Animated(
         evaluator(value.value),
-        frameAnimation {  }
+        frameAnimation { }
       )
 
-    is Struct.Make -> TODO()
+    is Struct.Make -> {
+      val animatedFields = value.values.map { animated(it) }
+      val fieldEvaluators = animatedFields.map { it.evaluator }
+      val fieldAnimations = animatedFields.map { it.animation }
+      Animated(
+        object : StructEvaluator(value.name, value.values.map { it.type }) {
+          override fun eval(): List<Evaluator<*>> = fieldEvaluators
+        },
+        parallel(fieldAnimations)
+      )
+    }
+
     is Value.StructGet<*> -> TODO()
   }
 
-fun <T: Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
+fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
   when (value) {
     is Variable -> variableEvaluator(value)
     is Integer -> integerEvaluator(value)
@@ -70,10 +82,10 @@ fun Compiler.intEvaluator(value: Value<Integer>): IntEvaluator =
 fun Compiler.doubleEvaluator(value: Value<Number>): DoubleEvaluator =
   animated(value).evaluator as DoubleEvaluator
 
-fun <T: Value<T>> Compiler.objectEvaluator(value: Value<T>): ObjectEvaluator<*> =
+fun <T : Value<T>> Compiler.objectEvaluator(value: Value<T>): ObjectEvaluator<*> =
   animated(value).evaluator as ObjectEvaluator<*>
 
-fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
+fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
   when (value) {
     is Variable -> variableAnimation(value)
     is Integer -> integerAnimation(value)
@@ -89,15 +101,19 @@ fun <T: Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Value.RunWhile ->
       animation(value.value)
         .runWhileNotZero(intEvaluator(value.condition))
+
     is Value.Select -> TODO()
     is Value.Sequence ->
       SequenceAnimation(value.values.map { animation(it) })
+
     is Value.StartWhen ->
       animation(value.value)
         .startWhenNotZero(intEvaluator(value.condition))
+
     is Value.Stretch ->
       animation(value.value)
         .stretch(doubleEvaluator(value.factor))
+
     is Value.Stateful -> animated(value).animation
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
