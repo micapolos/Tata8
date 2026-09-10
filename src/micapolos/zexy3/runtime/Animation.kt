@@ -1,5 +1,7 @@
 package micapolos.zexy3.runtime
 
+import kotlin.math.min
+
 interface Animation {
   fun start() {}
   fun step(seconds: Double) = seconds
@@ -36,6 +38,21 @@ fun Animation.stretch(ratioEvaluator: DoubleEvaluator) =
     override fun step(seconds: Double): Double {
       return this@stretch.step(seconds * ratioEvaluator.eval())
     }
+  }
+
+fun parallel(lhs: Animation, rhs: Animation) =
+  object : Animation {
+    override fun start() {
+      lhs.start()
+      rhs.start()
+    }
+
+    override fun step(seconds: Double): Double {
+      val lhsSeconds = lhs.step(seconds)
+      val rhsSeconds = rhs.step(seconds)
+      return min(lhsSeconds, rhsSeconds)
+    }
+
   }
 
 fun parallel(animations: List<Animation>): Animation =
