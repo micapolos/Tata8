@@ -72,6 +72,27 @@ fun parallel(animations: List<Animation>): Animation =
     }
   }
 
+fun race(animations: List<Animation>): Animation =
+  object : Animation {
+    var isFinished = true
+
+    override fun start() {
+      animations.forEach(Animation::start)
+      isFinished = false
+    }
+
+    override fun step(seconds: Double): Double {
+      if (!isFinished) {
+        var remainingSeconds = seconds
+        animations.forEach { remainingSeconds = Math.min(remainingSeconds, it.step(seconds)) }
+        isFinished = remainingSeconds != 0.0
+        return remainingSeconds
+      } else {
+        return seconds
+      }
+    }
+  }
+
 class SequenceAnimation(
   val animations: List<Animation>,
 ) : Animation {

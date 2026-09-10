@@ -11,7 +11,8 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
     is Void.Pause -> doubleEvaluator(indexed.seconds).pause
     is Void.Set<*> -> noAnimation
-    is Void.Parallel<*> -> parallel(indexed.values.map { animation(it) })
+    is Void.Parallel -> parallel(indexed.values.map { animation(it) })
+    is Void.Race -> race(indexed.values.map { animation(it) })
   }
 
 fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<Unit> =
@@ -38,5 +39,6 @@ fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<Unit> =
       }
     }
 
-    is Void.Parallel<*> -> parallelEvaluator(indexed.values.map { evaluator(it) })
+    is Void.Parallel -> parallelEvaluator(indexed.values.map { evaluator(it) })
+    is Void.Race -> parallelEvaluator(indexed.values.map { evaluator(it) })
   }

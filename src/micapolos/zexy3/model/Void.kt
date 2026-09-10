@@ -5,5 +5,7 @@ sealed class Void: Value<Void> {
 
   class Set<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
 
-  class Parallel<T: Value<T>>(val values: List<Value<*>>): Void()
+  class Parallel(val values: List<Value<*>>): Void()
+
+  class Race(val values: List<Value<*>>): Void()
 }
