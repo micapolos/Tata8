@@ -8,7 +8,6 @@ import micapolos.zexy3.model.Font as ModelFont
 import micapolos.zexy3.model.Image as ModelImage
 import micapolos.zexy3.model.Integer as ModelInteger
 import micapolos.zexy3.model.Number as ModelNumber
-import micapolos.zexy3.model.Struct as ModelStruct
 import micapolos.zexy3.model.Text as ModelText
 import micapolos.zexy3.model.Value as ModelValue
 import micapolos.zexy3.model.Variable as ModelVariable
@@ -25,7 +24,6 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
     is ModelInteger -> indexed(model)
     is ModelNumber -> indexed(model)
     is ModelDrawing -> indexed(model)
-    is ModelStruct -> indexed(model)
 
     is ModelValue.Logged<*> -> Logged(model.label, indexed(model.value))
     is ModelValue.Sequence<*> -> Sequence(model.values.map { indexed(it) })
@@ -36,5 +34,4 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
     is ModelValue.Stateful<*> -> Stateful(indexed(model.state), indexed(model.value))
     is ModelValue.Race<*> -> Race(indexed(model.value), model.others.map { indexed(it) })
     is ModelValue.Frame<*> -> Frame(indexed(model.value))
-    is ModelValue.StructGet<*> -> Value.StructGet(indexed(model.struct), model.index)
   } as Value<T>

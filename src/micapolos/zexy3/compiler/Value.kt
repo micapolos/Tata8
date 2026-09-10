@@ -35,20 +35,6 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
         evaluator(value.value),
         frameAnimation { }
       )
-
-    is Struct.Make -> {
-      val animatedFields = value.values.map { animated(it) }
-      val fieldEvaluators = animatedFields.map { it.evaluator }
-      val fieldAnimations = animatedFields.map { it.animation }
-      Animated(
-        object : StructEvaluator(value.name, value.values.map { it.type }) {
-          override fun eval(): List<Evaluator<*>> = fieldEvaluators
-        },
-        parallel(fieldAnimations)
-      )
-    }
-
-    is Value.StructGet<*> -> TODO()
   }
 
 fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
@@ -72,8 +58,6 @@ fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Value.Stateful -> animated(value).evaluator
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
-    is Struct.Make -> TODO()
-    is Value.StructGet<*> -> TODO()
   }
 
 fun Compiler.intEvaluator(value: Value<Integer>): IntEvaluator =
@@ -117,6 +101,4 @@ fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Value.Stateful -> animated(value).animation
     is Value.Race -> TODO()
     is Value.Frame -> TODO()
-    is Struct.Make -> TODO()
-    is Value.StructGet<*> -> TODO()
   }

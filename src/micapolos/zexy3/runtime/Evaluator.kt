@@ -1,6 +1,5 @@
 package micapolos.zexy3.runtime
 
-import micapolos.Leo
 import micapolos.tata8.Game
 
 sealed interface Evaluator<out T> {
@@ -13,7 +12,6 @@ sealed interface Evaluator<out T> {
       is IntEvaluator -> loggedInt(label)
       is DoubleEvaluator -> loggedDouble(label)
       is ObjectEvaluator<*> -> loggedObject(label)
-      is StructEvaluator -> loggedStruct(label)
     } as Evaluator<T>
 }
 
@@ -61,31 +59,6 @@ fun interface ObjectEvaluator<T> : Evaluator<T> {
       eval().also { Game.log(label, it) }
     }
 }
-
-abstract class StructEvaluator(val name: String, val fieldTypes: List<Type>) : ObjectEvaluator<List<Evaluator<*>>> {
-  override fun evalUnit() {
-    eval()
-  }
-
-  override fun evalBoxed() = eval()
-
-  abstract override fun eval(): List<Evaluator<*>>
-
-  fun loggedStruct(label: String?): StructEvaluator =
-    object : StructEvaluator(name, fieldTypes) {
-      override fun eval(): List<Evaluator<*>> =
-        this@StructEvaluator.eval().also { fieldEvaluators ->
-          Game.log(
-            label,
-            Leo.leo(
-              name,
-              *fieldEvaluators
-                .map { it.evalBoxed() }
-                .toTypedArray()))
-        }
-    }
-}
-
 
 fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<Unit> =
   ObjectEvaluator {
