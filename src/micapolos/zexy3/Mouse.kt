@@ -2,10 +2,14 @@ package micapolos.zexy3
 
 import micapolos.zexy3.model.Integer as ModelInteger
 
-object Mouse {
-  val x: Value<Integer> = Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_X))
-  val y: Value<Integer> = Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_Y))
-  val position: Value<Position> = position(x, y)
-}
+class Mouse internal constructor(position: Value<Position>) : Value<Mouse>(listOf(position))
 
-val mouse = Mouse
+val Value<Mouse>.position: Value<Position> get() = children[0] as Value<Position>
+
+val mouse =
+  Mouse(
+    position(
+      Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_X)),
+      Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_Y))
+    )
+  )
