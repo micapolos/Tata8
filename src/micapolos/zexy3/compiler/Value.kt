@@ -57,7 +57,7 @@ fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Value.Stretch -> TODO()//evaluator(value.value)
     is Value.Stateful -> animated(value).evaluator
     is Value.Race -> TODO()
-    is Value.Frame -> TODO()
+    is Value.Frame -> animated(value).evaluator
   }
 
 fun Compiler.intEvaluator(value: Value<Integer>): IntEvaluator =
@@ -100,5 +100,5 @@ fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
 
     is Value.Stateful -> animated(value).animation
     is Value.Race -> TODO()
-    is Value.Frame -> TODO()
+    is Value.Frame -> animated(value).animation
   }
