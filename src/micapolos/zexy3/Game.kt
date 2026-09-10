@@ -31,8 +31,10 @@ fun Game.show() {
     IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
     Array(indexer.initialValuesOf(IndexType.OTHER).size) { null })
+  indexer.initialValues.forEach {
+    compiler.animatedVariables.add(compiler.animated(it))
+  }
   val runtimeGame = compiler.compile(indexed)
-  indexer.initialValues.forEach { compiler.animatedVariables.add(compiler.animated(it)) }
   runtimeGame.show()
 }
 
