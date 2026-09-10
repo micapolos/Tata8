@@ -30,7 +30,7 @@ fun Game.show() {
     resourcesKClass,
     IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
-    Array(indexer.initialValuesOf(IndexType.OTHER).size) { null })
+    Array(indexer.initialValuesOf(IndexType.OBJECT).size) { null })
   indexer.initialValues.forEach {
     compiler.animatedValues.add(compiler.animated(it))
   }

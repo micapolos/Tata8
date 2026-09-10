@@ -39,7 +39,7 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
       }
     }
 
-    IndexType.OTHER -> {
+    IndexType.OBJECT -> {
       val array = this.objectArray
       ObjectEvaluator {
         animatedValues[index].let { animatedValue ->

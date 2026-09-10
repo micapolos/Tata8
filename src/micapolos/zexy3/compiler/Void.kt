@@ -7,8 +7,8 @@ import micapolos.zexy3.runtime.*
 fun Compiler.animatedVoid(indexed: Void): Animated<*> =
   when (indexed) {
     is Void.Pause -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
-    is Void.Set<*> -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
-    is Void.Capture<*> -> {
+    is Void.Capture<*> -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
+    is Void.Set<*> -> {
       val animatedValue = animated(indexed.value)
       val variable = indexed.variable
       val typedIndex = variable.typedIndex
@@ -25,7 +25,7 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
               animatedValues[index] = animatedValue
             }
           }
-          IndexType.OTHER -> {
+          IndexType.OBJECT -> {
             ObjectEvaluator {
               objectArray[typedIndex] = null  // avoids retention
               animatedValues[index] = animatedValue
@@ -42,8 +42,8 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
 fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
     is Void.Pause -> doubleEvaluator(indexed.seconds).pause
-    is Void.Set<*> -> instantAnimation
-    is Void.Capture<*> -> animatedVoid(indexed).animation
+    is Void.Set<*> -> animatedVoid(indexed).animation
+    is Void.Capture<*> -> instantAnimation
     is Void.Parallel -> parallel(indexed.values.map { animation(it) })
     is Void.Race -> race(indexed.values.map { animation(it) })
   }
@@ -51,7 +51,8 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
 fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
   when (indexed) {
     is Void.Pause -> ObjectEvaluator { Unit }
-    is Void.Set<*> -> {
+    is Void.Set<*> -> animatedVoid(indexed).evaluator
+    is Void.Capture<*> -> {
       val variable = indexed.variable
       val typedIndex = variable.typedIndex
       val index = variable.index
@@ -59,29 +60,28 @@ fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
         IndexType.INTEGER -> {
           val intEvaluator = intEvaluator(indexed.value as Integer)
           ObjectEvaluator {
-            intArray[typedIndex] = intEvaluator.eval()
             animatedValues[index] = null
+            intArray[typedIndex] = intEvaluator.eval()
           }
         }
 
         IndexType.NUMBER -> {
           val doubleEvaluator = doubleEvaluator(indexed.value as Number)
           ObjectEvaluator {
-            doubleArray[typedIndex] = doubleEvaluator.eval()
             animatedValues[index] = null
+            doubleArray[typedIndex] = doubleEvaluator.eval()
           }
         }
 
-        IndexType.OTHER -> {
+        IndexType.OBJECT -> {
           val objectEvaluator = objectEvaluator(indexed.value as T)
           ObjectEvaluator {
-            objectArray[typedIndex] = objectEvaluator.eval()
             animatedValues[index] = null
+            objectArray[typedIndex] = objectEvaluator.eval()
           }
         }
       }
     }
-    is Void.Capture<*> -> animatedVoid(indexed).evaluator
     is Void.Parallel -> parallelEvaluator(indexed.values.map { evaluator(it) })
     is Void.Race -> parallelEvaluator(indexed.values.map { evaluator(it) })
   }
