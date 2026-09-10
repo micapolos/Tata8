@@ -7,4 +7,7 @@ open class Variable<T : Value<T>> internal constructor(modelVariable: ModelVaria
 
 internal val Variable<*>.erasedModelVariable get() = model as ModelVariable<ModelVoid>
 
-fun <T : Value<T>> variable(initial: Value<T>): Variable<T> = Variable(ModelVariable(initial.model))
+fun <T : Value<T>> animatedVariable(initial: Value<T>): Variable<T> = Variable(ModelVariable(initial.model))
+
+fun <T : Value<T>> animatedVariable(initial: Value<T>, fn: (Value<T>) -> Value<Action>): Value<T> =
+  animatedVariable(initial).also(fn)

@@ -8,6 +8,9 @@ fun bool(b: Boolean): Value<Bool> = Bool(listOf(if (b) 1.value else 0.value))
 
 val Boolean.value: Value<Bool> get() = bool(this)
 
+fun variable(initial: Boolean) = animatedVariable(initial.value)
+fun animatedVariable(initial: Boolean, fn: (Value<Bool>) -> Value<Action>) = animatedVariable(initial.value, fn)
+
 infix fun Value<Bool>.and(bool: Value<Bool>) = integer and bool.integer
 
 infix fun Value<Bool>.or(bool: Value<Bool>) = integer or bool.integer

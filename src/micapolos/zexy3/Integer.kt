@@ -10,7 +10,8 @@ internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
 
-fun variable(i: Int) = variable(i.value)
+fun variable(initial: Int) = animatedVariable(initial.value)
+fun animatedVariable(initial: Int, fn: (Value<Integer>) -> Value<Action>) = animatedVariable(initial.value, fn)
 
 internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
