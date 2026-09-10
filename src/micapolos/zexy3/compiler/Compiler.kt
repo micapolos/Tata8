@@ -15,8 +15,9 @@ class Compiler(
 ) {
   val tataImages = mutableMapOf<String, Image>()
   val tataFonts = mutableMapOf<String, Font>()
-  val animatedVariables = mutableListOf<Animated<*>>()
+  val animatedValues = mutableListOf<Animated<*>?>()
 
-  fun <T: Value<T>> animatedVariable(variable: Variable<T>): Animated<*> = animatedVariables[variable.index]
+  fun <T: Value<T>> animatedValueOrNull(variable: Variable<T>): Animated<*>? =
+    animatedValues[variable.index]
 }
 

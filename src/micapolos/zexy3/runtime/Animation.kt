@@ -9,6 +9,10 @@ interface Animation {
 
 val noAnimation: Animation = object : Animation {}
 
+val instantAnimation: Animation = object : Animation {
+  override fun step(seconds: Double): Double = seconds
+}
+
 val DoubleEvaluator.pause
   get() =
     object : Animation {

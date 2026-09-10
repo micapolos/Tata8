@@ -8,6 +8,9 @@ class Action internal constructor(model: Any) : Value<Action>(model)
 fun <T : Value<T>> Variable<T>.set(value: Value<T>): Value<Action> =
   Action(ModelVoid.Set(erasedModelVariable, value.model))
 
+fun <T : Value<T>> Variable<T>.capture(value: Value<T>): Value<Action> =
+  Action(ModelVoid.Capture(erasedModelVariable, value.model))
+
 val Value<Action>.activity: Value<Activity> get() = Activity(model)
 
 val Value<Action>.everyFrame: Value<Activity> get() =

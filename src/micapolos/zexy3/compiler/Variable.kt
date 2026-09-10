@@ -5,21 +5,51 @@ import micapolos.zexy3.indexed.Value
 import micapolos.zexy3.indexed.Variable
 import micapolos.zexy3.runtime.*
 
+fun <T: Value<T>> Compiler.animatedVariable(variable: Variable<T>) =
+  Animated(variableEvaluator(variable), variableAnimation(variable))
+
 fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<*> = run {
-  val index = variable.typedIndex
+  val typedIndex = variable.typedIndex
+  val index = variable.index
+  val animatedValues = this.animatedValues
   when (variable.indexType) {
     IndexType.INTEGER -> {
       val array = this.intArray
-      IntEvaluator { array[index] }
+      IntEvaluator {
+        animatedValues[index].let { animatedValue ->
+          if (animatedValue == null) {
+            array[typedIndex]
+          } else {
+            (animatedValue.evaluator as IntEvaluator).eval()
+          }
+        }
+      }
     }
+
     IndexType.NUMBER -> {
       val array = this.doubleArray
-      DoubleEvaluator { array[index] }
+      DoubleEvaluator {
+        animatedValues[index].let { animatedValue ->
+          if (animatedValue == null) {
+            array[typedIndex]
+          } else {
+            (animatedValue.evaluator as DoubleEvaluator).eval()
+          }
+        }
+      }
     }
 
     IndexType.OTHER -> {
       val array = this.objectArray
-      ObjectEvaluator { array[index] }
+      ObjectEvaluator {
+        animatedValues[index].let { animatedValue ->
+          if (animatedValue == null) {
+            array[typedIndex]
+          } else {
+            (animatedValue.evaluator as ObjectEvaluator).eval()
+          }
+        }
+      }
     }
   }
 }
@@ -28,18 +58,26 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
 fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation =
   object : Animation {
     override fun start() {
-      animatedVariable(variable).animation.start()
+      val animatedValue = animatedValueOrNull(variable)
+      if (animatedValue != null) {
+        animatedValue.animation.start()
+      }
     }
 
     override fun step(seconds: Double): Double {
-      return animatedVariable(variable).animation.step(seconds)
+      val animatedValue = animatedValueOrNull(variable)
+      if (animatedValue != null) {
+        return animatedValue.animation.step(seconds)
+      } else {
+        return 0.0
+      }
     }
   }
 
 fun main() {
   val compiler = Compiler(Compiler::class, intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf())
   val animated = compiler.animated(Variable(IndexType.NUMBER, 2, 0))
-  compiler.animatedVariables.add(animated)
+  compiler.animatedValues.add(animated)
   val value = (animated.evaluator as DoubleEvaluator).eval()
   println(value)
 }
