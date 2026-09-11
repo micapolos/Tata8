@@ -3,7 +3,7 @@ package micapolos.zexy3
 import micapolos.zexy3.model.Integer as ModelInteger
 import micapolos.zexy3.model.Value as ModelValue
 
-class Integer internal constructor(model: Any): Value<Integer>(model)
+class Integer internal constructor(model: Any) : Value<Integer>(model)
 
 internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<ModelInteger>
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger
@@ -55,16 +55,16 @@ infix fun Value<Integer>.xor(i: Int) = times(i.value)
 infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.XOR, integer)
 
 @JvmName("IntegerSelect")
-fun <T: Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
+fun <T : Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
   when (values.first().modelOrChildren) {
     is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
     else -> Value(children.map { selectFrom(it.children) })
   }
 
-fun <T: Value<T>> Value<Integer>.selectFrom(value: Value<T>, vararg values: Value<T>): Value<T> =
+fun <T : Value<T>> Value<Integer>.selectFrom(value: Value<T>, vararg values: Value<T>): Value<T> =
   selectFrom(listOf(value, *values))
 
-operator fun <T: Value<T>> List<T>.get(index: Value<Integer>): Value<T> =
+operator fun <T : Value<T>> List<T>.get(index: Value<Integer>): Value<T> =
   index.selectFrom(this)
 
 fun Value<Bool>.selectTrueFalse(trueCase: Int, falseCase: Int): Value<Integer> =
@@ -90,4 +90,10 @@ fun Value<Integer>.add(i: Value<Integer>) = capture(this + i)
 fun Value<Integer>.subtract(i: Int) = capture(this - 1)
 fun Value<Integer>.multiply(i: Int) = capture(this * 1)
 
-val Value<Integer>.changed: Event get() = TODO()
+val Value<Integer>.change: Event
+  get() =
+    Event(variable(0).let { variable ->
+      !isEqualTo(variable).also {
+        variable.capture(this).everyFrame
+      }
+    })
