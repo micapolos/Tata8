@@ -26,9 +26,11 @@ fun sequence(actions: List<Value<Action>>): Value<Action> =
 fun sequence(action: Value<Action>, vararg actions: Value<Action>): Value<Action> =
   sequence(listOf(action, *actions))
 
+@JvmName("thenAction")
 fun Value<Action>.then(action: Value<Action>, vararg actions: Value<Action>): Value<Action> =
   sequence(this, action, *actions)
 
+@JvmName("thenActivity")
 fun Value<Action>.then(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
   sequence(this.activity, activity, *activities)
 
