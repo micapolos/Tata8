@@ -69,7 +69,11 @@ fun animatedSprite(
       animatedImage.evaluator as ObjectEvaluator<Image>,
       animatedImageX.evaluator as IntEvaluator,
       animatedImageY.evaluator as IntEvaluator),
-    parallel(animatedImage.animation, animatedX.animation, animatedY.animation)
+    parallel(
+      animatedX.animation, animatedY.animation,
+      animatedWidth.animation, animatedHeight.animation,
+      animatedImage.animation,
+      animatedImageX.animation, animatedImageY.animation)
   )
 
 fun labelEvaluator(textEvaluator: ObjectEvaluator<String>, xEvaluator: IntEvaluator, yEvaluator: IntEvaluator) =
