@@ -3,8 +3,7 @@ package micapolos.zexy3.examples
 import micapolos.zexy3.*
 
 fun main() {
-  val step = (frame.count / 10 % 10)
-  val text = step.selectFrom(
+  val list = listOf(
     "0---------",
     "-0--------",
     "--0-------",
@@ -16,5 +15,6 @@ fun main() {
     "--------0-",
     "---------0"
   )
-  text.show()
+
+  list[frame.count / 10 % 10].show()
 }

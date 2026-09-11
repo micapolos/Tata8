@@ -10,8 +10,8 @@ internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
 
-fun variable(initial: Int) = animatedVariable(initial.value)
-fun animatedVariable(initial: Int, fn: (Value<Integer>) -> Value<Action>) = animatedVariable(initial.value, fn)
+fun variable(initial: Int) = variable(initial.value)
+fun variable(initial: Int, fn: (Value<Integer>) -> Value<Activity>) = variable(initial.value, fn)
 
 internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
@@ -49,6 +49,9 @@ fun <T: Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
 
 fun <T: Value<T>> Value<Integer>.selectFrom(value: Value<T>, vararg values: Value<T>): Value<T> =
   selectFrom(listOf(value, *values))
+
+operator fun <T: Value<T>> List<T>.get(index: Value<Integer>): Value<T> =
+  index.selectFrom(this)
 
 fun Value<Bool>.selectTrueFalse(trueCase: Int, falseCase: Int): Value<Integer> =
   selectTrueFalse(trueCase.value, falseCase.value)

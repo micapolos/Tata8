@@ -44,27 +44,25 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       val typedIndex = variable.typedIndex
       val index = variable.index
       Animated(
+        ObjectEvaluator { Unit },
         when (variable.indexType) {
-          IndexType.INTEGER -> {
-            ObjectEvaluator {
-              animatedValues[index] = animatedValue
-            }
+          IndexType.INTEGER -> actionAnimation {
+            animatedValues[index] = animatedValue
           }
 
           IndexType.NUMBER -> {
-            ObjectEvaluator {
+            actionAnimation {
               animatedValues[index] = animatedValue
             }
           }
 
           IndexType.OBJECT -> {
-            ObjectEvaluator {
+            actionAnimation {
               objectArray[typedIndex] = null  // avoids retention
               animatedValues[index] = animatedValue
             }
           }
-        },
-        instantAnimation)
+        })
     }
 
     is Void.Parallel -> Animated(voidEvaluator(indexed), voidAnimation(indexed))

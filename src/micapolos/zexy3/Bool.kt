@@ -8,10 +8,10 @@ val Boolean.value: Value<Bool> get() = Bool(if (this) 1.value else 0.value)
 
 val Value<Bool>.integer get() = children[0] as Integer
 
-fun variable(initial: Boolean) = animatedVariable(initial.value)
+fun variable(initial: Boolean) = variable(initial.value)
 
-fun animatedVariable(initial: Boolean, fn: (Value<Bool>) -> Value<Action>) =
-  animatedVariable(initial.value, fn)
+fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>) =
+  variable(initial.value, fn)
 
 infix fun Value<Bool>.and(bool: Value<Bool>) = Bool(integer and bool.integer)
 
