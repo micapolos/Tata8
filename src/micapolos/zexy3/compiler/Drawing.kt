@@ -8,40 +8,71 @@ import micapolos.zexy3.runtime.*
 import micapolos.zexy3.runtime.Drawing as RuntimeDrawing
 
 fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
-  Animated(drawingEvaluator(drawing), drawingAnimation(drawing))
+  when (drawing) {
+    Drawing.Empty ->
+      Animated(
+        ObjectEvaluator { RuntimeDrawing {} },
+        noAnimation
+      )
+
+    is Drawing.Label ->
+      animatedLabel(
+        animated(drawing.text) as Animated<String>,
+        animated(drawing.x) as Animated<Int>,
+        animated(drawing.y) as Animated<Int>)
+    is Drawing.Rect -> TODO()
+    is Drawing.Sprite -> TODO()
+    is Drawing.Stack ->
+      animatedStack(drawing.drawings.map { animated(it) as Animated<RuntimeDrawing> }.toTypedArray())
+    is Drawing.WithColor -> TODO()
+    is Drawing.WithComposite -> TODO()
+    is Drawing.WithFont -> TODO()
+  }
 
 fun Compiler.drawingAnimation(drawing: Drawing): Animation =
   when (drawing) {
     Drawing.Empty ->
       noAnimation
+
     is Drawing.Rect ->
       parallel(
         animation(drawing.x),
         animation(drawing.y),
         animation(drawing.width),
-        animation(drawing.height))
+        animation(drawing.height)
+      )
+
     is Drawing.Sprite ->
       parallel(
         animation(drawing.image),
         animation(drawing.x),
-        animation(drawing.y))
+        animation(drawing.y)
+      )
+
     is Drawing.Label ->
       parallel(
         animation(drawing.text),
         animation(drawing.x),
-        animation(drawing.y))
+        animation(drawing.y)
+      )
+
     is Drawing.Stack ->
       parallel(drawing.drawings.map { animation(it) })
+
     is Drawing.WithComposite ->
       animation(drawing.drawing)
+
     is Drawing.WithColor ->
       parallel(
         animation(drawing.drawing),
-        animation(drawing.color))
+        animation(drawing.color)
+      )
+
     is Drawing.WithFont ->
       parallel(
         animation(drawing.drawing),
-        animation(drawing.font))
+        animation(drawing.font)
+      )
   }
 
 fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> =
@@ -138,7 +169,8 @@ fun main() {
   val drawing = Drawing.Sprite(
     Image.Resource("quote.png"),
     Integer.Constant(10),
-    Integer.Constant(10))
+    Integer.Constant(10)
+  )
   Compiler(Sandbox::class)
     .drawingEvaluator(drawing)
     .eval()

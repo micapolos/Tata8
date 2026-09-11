@@ -17,7 +17,12 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Drawing -> animatedDrawing(value)
     is Void -> animatedVoid(value)
 
-    is Value.Logged -> Animated(evaluator(value.value).logged(value.label), animation(value.value))
+    is Value.Logged -> {
+      val animatedValue = animated(value.value)
+      Animated(
+        animatedValue.evaluator.logged(value.label),
+        animatedValue.animation)
+    }
     is Value.RunWhile -> TODO()//evaluator(value.value)
     is Value.Select -> {
       val animatedInteger = animated(value.index)
@@ -42,11 +47,14 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Value.Sequence -> TODO()
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)
-    is Value.Stateful ->
+    is Value.Stateful -> {
+      val animatedState = animated(value.state)
+      val animatedValue = animated(value.value)
       Animated(
-        statefulEvaluator(evaluator(value.state), evaluator(value.value)),
-        parallel(listOf(animation(value.state), animation(value.value)))
+        statefulEvaluator(animatedState.evaluator, animatedValue.evaluator),
+        parallel(listOf(animatedState.animation, animatedState.animation))
       )
+    }
 
     is Value.Race -> TODO()
     is Value.Frame -> {
