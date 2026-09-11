@@ -3,18 +3,22 @@ package micapolos.tata8;
 import micapolos.awt.CrtGridScanlineOp;
 import micapolos.awt.CrtPhosphorMatrixOp;
 import micapolos.awt.CrtSimpleScanlineOp;
+import micapolos.awt.GamePixelMatrixOp;
 
 import java.awt.image.BufferedImageOp;
 
 public enum Shader {
-  CRT_SCANLINE(new CrtSimpleScanlineOp()),
-  CRT_GRID(new CrtGridScanlineOp()),
-  CRT_PHOSPHOR(new CrtPhosphorMatrixOp());
+  CRT_SCANLINE(new CrtSimpleScanlineOp(), 3),
+  CRT_GRID(new CrtGridScanlineOp(), 3),
+  CRT_PHOSPHOR(new CrtPhosphorMatrixOp(), 3),
+  CRT_HI_FI(new GamePixelMatrixOp(), 6);
 
   final BufferedImageOp op;
+  final int pixelSize;
 
-  Shader(BufferedImageOp op) {
+  Shader(BufferedImageOp op, int pixelSize) {
     this.op = op;
+    this.pixelSize = pixelSize;
   }
 
   public static Shader nextOf(Shader shaderOrNull) {

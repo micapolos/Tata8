@@ -26,7 +26,8 @@ public final class Game {
 
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
-  static final Canvas shaderCanvas = new Canvas(WIDTH * 3, HEIGHT * 3);
+  static Canvas currentShaderCanvas = null;
+  static int currentPixelSize = 1;
   static int loadedImagePixelCount;
   static final ArrayList<String> logStrings = new ArrayList<>();
 
@@ -130,13 +131,14 @@ public final class Game {
         DuskFilter.applyDuskFilter(compositeCanvas.image, dusk);
         logStrings.clear();
         Graphics2D g2d = (Graphics2D) g;
+        int pixelSize = screen.shader != null ? screen.shader.pixelSize : 1;
         BufferedImageOp imageOp = screen.imageOp();
 
         int containerWidth = getWidth();
         int containerHeight = getHeight();
 
-        int imageWidth = compositeCanvas.image.getWidth() * (imageOp == null ? 1 : 3);
-        int imageHeight = compositeCanvas.image.getHeight() * (imageOp == null ? 1 : 3);
+        int imageWidth = compositeCanvas.image.getWidth() * (imageOp == null ? 1 : pixelSize);
+        int imageHeight = compositeCanvas.image.getHeight() * (imageOp == null ? 1 : pixelSize);
 
         double scale = java.lang.Math.min((double) containerWidth / imageWidth, (double) containerHeight / imageHeight);
 
@@ -149,11 +151,15 @@ public final class Game {
         if (imageOp == null) {
           g2d.drawImage(compositeCanvas.image, x, y, scaledWidth, scaledHeight, null);
         } else {
-          shaderCanvas.clear();
-          shaderCanvas.graphics.drawImage(compositeCanvas.image, imageOp, 0, 0);
-          x = (getWidth() - imageWidth) / 2;
-          y = (getHeight() - imageHeight) / 2;
-          g2d.drawImage(shaderCanvas.image, x, y, imageWidth, imageHeight, null);
+          if (currentShaderCanvas == null || pixelSize != currentPixelSize) {
+            currentShaderCanvas = new Canvas(Game.WIDTH * pixelSize, Game.HEIGHT * pixelSize);
+            currentPixelSize = pixelSize;
+          }
+          currentShaderCanvas.clear();
+          currentShaderCanvas.graphics.drawImage(compositeCanvas.image, imageOp, 0, 0);
+          x = (getWidth() - imageWidth * 3 / pixelSize) / 2;
+          y = (getHeight() - imageHeight * 3 / pixelSize) / 2;
+          g2d.drawImage(currentShaderCanvas.image, x, y, imageWidth * 3 / pixelSize, imageHeight * 3 / pixelSize, null);
         }
       }
     };
