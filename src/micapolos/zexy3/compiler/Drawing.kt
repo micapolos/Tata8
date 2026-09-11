@@ -41,7 +41,10 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
       animatedWithColor(
         animated(drawing.drawing) as Animated<RuntimeDrawing>,
         animated(drawing.color) as Animated<TataColor>)
-    is Drawing.WithComposite -> TODO()
+    is Drawing.WithComposite ->
+      animatedWithComposite(
+        animated(drawing.drawing) as Animated<RuntimeDrawing>,
+        drawing.composite.tata8)
     is Drawing.WithFont ->
       animatedWithFont(
         animated(drawing.drawing) as Animated<RuntimeDrawing>,

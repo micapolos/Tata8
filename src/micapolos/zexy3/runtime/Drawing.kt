@@ -1,9 +1,6 @@
 package micapolos.zexy3.runtime
 
-import micapolos.tata8.Canvas
-import micapolos.tata8.Color
-import micapolos.tata8.Font
-import micapolos.tata8.Image
+import micapolos.tata8.*
 
 fun interface Drawing {
   fun drawOn(canvas: Canvas)
@@ -134,5 +131,24 @@ fun animatedWithFont(animatedDrawing: Animated<Drawing>, animatedFont: Animated<
       animatedDrawing.animation,
       animatedFont.animation
     )
+  )
+
+fun withCompositeEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, composite: Composite) =
+  ObjectEvaluator {
+    Drawing { canvas ->
+      val previousComposite = canvas.composite
+      canvas.composite = composite
+      drawingEvaluator.eval().drawOn(canvas)
+      canvas.composite = previousComposite
+    }
+  }
+
+fun animatedWithComposite(animatedDrawing: Animated<Drawing>, composite: Composite) =
+  Animated(
+    withCompositeEvaluator(
+      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
+      composite
+    ),
+    animatedDrawing.animation
   )
 
