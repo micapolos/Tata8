@@ -2,6 +2,7 @@ package micapolos.zexy3.runtime
 
 import micapolos.tata8.Game
 import micapolos.tata8.Shader
+import micapolos.zexy3.label
 import micapolos.tata8.Color as TataColor
 
 class Animated<out T>(val evaluator: Evaluator<T>, val animation: Animation)
@@ -31,6 +32,8 @@ fun Animated<Drawing>.show() {
 fun <T> Animated<T>.logged(label: String?): Animated<T> =
   Animated(evaluator, animation)
 
+fun <T> animatedRunWhileNotZero(evaluator: Evaluator<T>, condition: IntEvaluator, animation: Animation) =
+  Animated(evaluator, animation.runWhileNotZero(condition))
 
 fun main() {
   Animated(

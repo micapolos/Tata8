@@ -23,7 +23,14 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
         animatedValue.evaluator.logged(value.label),
         animatedValue.animation)
     }
-    is Value.RunWhile -> TODO()//evaluator(value.value)
+    is Value.RunWhile -> {
+      val animatedCondition = animated(value.condition)
+      val animatedValue = animated(value.condition)
+      Animated(
+        animatedValue.evaluator,
+        parallel(animatedCondition.animation, animatedValue.animation)
+        .runWhileNotZero(animatedCondition.evaluator as IntEvaluator))
+    }
     is Value.Select -> {
       val animatedInteger = animated(value.index)
       val animatedOptions = value.options.map { animated(it) }

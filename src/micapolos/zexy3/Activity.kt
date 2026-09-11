@@ -4,6 +4,8 @@ import micapolos.zexy3.model.Void as ModelVoid
 
 class Activity internal constructor(model: Any) : Value<Activity>(model)
 
+val noActivity = noAction.activity
+
 fun pause(seconds: Double) = pause(seconds.value)
 
 fun pause(seconds: Value<Number>): Value<Activity> =
@@ -18,5 +20,12 @@ fun sequence(activities: List<Value<Activity>>): Value<Activity> =
 fun sequence(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
   sequence(listOf(activity, *activities))
 
+fun Value<Activity>.then(action: Value<Action>): Value<Activity> =
+  sequence(this, action.activity)
+
 fun Value<Activity>.then(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
   sequence(this, activity, *activities)
+
+fun Value<Activity>.show() {
+  noDrawing.also { this }.show()
+}

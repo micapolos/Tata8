@@ -66,7 +66,14 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
         })
     }
 
-    is Void.Parallel -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
+    is Void.Parallel -> {
+      val animatedValues = indexed.values.map { animated(it) }
+      Animated(
+        parallelEvaluator(animatedValues.map { it.evaluator }),
+        parallel(animatedValues.map { it.animation })
+      )
+    }
+
     is Void.Race -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
   }
 
@@ -76,7 +83,7 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
     is Void.Pause -> doubleEvaluator(indexed.seconds).pause
     is Void.Set<*> -> animatedVoid(indexed).animation
     is Void.Capture<*> -> TODO()
-    is Void.Parallel -> parallel(indexed.values.map { animation(it) })
+    is Void.Parallel -> TODO()
     is Void.Race -> race(indexed.values.map { animation(it) })
   }
 
@@ -86,6 +93,6 @@ fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
     is Void.Pause -> ObjectEvaluator { Unit }
     is Void.Set<*> -> animatedVoid(indexed).evaluator
     is Void.Capture<*> -> TODO()
-    is Void.Parallel -> parallelEvaluator(indexed.values.map { evaluator(it) })
+    is Void.Parallel -> TODO()
     is Void.Race -> parallelEvaluator(indexed.values.map { evaluator(it) })
   }
