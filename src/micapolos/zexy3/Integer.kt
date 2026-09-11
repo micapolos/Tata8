@@ -34,13 +34,25 @@ infix fun Value<Integer>.or(integer: Value<Integer>) = apply(ModelInteger.Op2.OR
 infix fun Value<Integer>.xor(i: Int) = times(i.value)
 infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.XOR, integer)
 
+@JvmName("IntegerSelect")
 fun <T: Value<T>> Value<Integer>.select(values: List<Value<T>>): Value<T> =
-  when (values.first()) {
+  when (values.first().modelOrChildren) {
     is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
-    else -> Value(children.map { this@select.select(it.children) })
+    else -> Value(children.map { select(it.children) })
   }
 
-fun <T: Value<T>> Value<Integer>.select(vararg values: Value<T>): Value<T> =
-  select(values.toList())
+fun <T: Value<T>> Value<Integer>.select(value: Value<T>, vararg values: Value<T>): Value<T> =
+  select(listOf(value, *values))
+
+fun Value<Bool>.select(trueCase: Int, falseCase: Int): Value<Integer> =
+  select(trueCase.value, falseCase.value)
+
+@JvmName("IntegerSelectInt")
+fun Value<Integer>.select(cases: List<Int>): Value<Integer> =
+  select(cases.map { it.value })
+
+@JvmName("IntegerSelectInt")
+fun Value<Integer>.select(firstCast: Int, vararg otherCases: Int): Value<Integer> =
+  select(listOf(firstCast, *otherCases.toTypedArray()))
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))

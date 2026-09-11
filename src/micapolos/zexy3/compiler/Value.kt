@@ -19,7 +19,26 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
 
     is Value.Logged -> Animated(evaluator(value.value).logged(value.label), animation(value.value))
     is Value.RunWhile -> TODO()//evaluator(value.value)
-    is Value.Select -> TODO()
+    is Value.Select -> {
+      val animatedInteger = animated(value.index)
+      val animatedOptions = value.options.map { animated(it) }
+      val animatedEvaluators = animatedOptions.map { it.evaluator }
+      val animation = SelectAnimation(
+        animatedInteger.evaluator as IntEvaluator,
+        animatedOptions.map { it.animation }.toTypedArray())
+      val evaluator = when (animatedOptions.first().evaluator) {
+        is IntEvaluator -> IntEvaluator {
+          (animatedEvaluators[animation.selectedIndex] as IntEvaluator).eval()
+        }
+        is DoubleEvaluator -> DoubleEvaluator {
+          (animatedEvaluators[animation.selectedIndex] as DoubleEvaluator).eval()
+        }
+        is ObjectEvaluator<*> -> ObjectEvaluator {
+          (animatedEvaluators[animation.selectedIndex] as ObjectEvaluator).eval()
+        }
+      }
+      Animated(evaluator, animation)
+    }
     is Value.Sequence -> TODO()
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)

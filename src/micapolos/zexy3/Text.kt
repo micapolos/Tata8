@@ -12,3 +12,13 @@ fun animatedVariable(initial: String, fn: (Value<Text>) -> Value<Action>) = anim
 
 val String.value: Value<Text> get() =
   Text(ModelText.Constant(this))
+
+fun Value<Bool>.select(trueCase: String, falseCase: String): Value<Text> =
+  select(trueCase.value, falseCase.value)
+
+fun Value<Integer>.select(cases: List<String>): Value<Text> =
+  select(cases.map { it.value })
+
+fun Value<Integer>.select(firstCast: String, vararg otherCases: String): Value<Text> =
+  select(listOf(firstCast, *otherCases))
+
