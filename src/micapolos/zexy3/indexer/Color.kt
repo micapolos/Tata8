@@ -8,8 +8,8 @@ fun Indexer.indexedColor(modelColor: ModelColor): Color =
     is ModelColor.Rgba ->
       Color.Rgba(
         indexed(modelColor.red),
-        indexed(modelColor.red),
-        indexed(modelColor.red),
-        indexed(modelColor.red)
+        indexed(modelColor.green),
+        indexed(modelColor.blue),
+        indexed(modelColor.alpha)
       )
   }
