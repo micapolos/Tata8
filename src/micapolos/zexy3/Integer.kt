@@ -3,7 +3,7 @@ package micapolos.zexy3
 import micapolos.zexy3.model.Integer as ModelInteger
 import micapolos.zexy3.model.Value as ModelValue
 
-class Integer internal constructor(model: ModelInteger): Value<Integer>(model)
+class Integer internal constructor(model: Any): Value<Integer>(model)
 
 internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<ModelInteger>
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger

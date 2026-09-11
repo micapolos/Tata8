@@ -34,11 +34,11 @@ fun Value<Label>.withPosition(x: Value<Integer>, y: Value<Integer>): Value<Label
   )
 
 @JvmName("withPosition")
-fun Value<Label>.with(positionValue: Value<Position>): Value<Label> =
+fun Value<Label>.with(position: Value<Position>): Value<Label> =
   Label(
     ModelDrawing.Label(
       modelLabel.text,
-      positionValue.position.x.cast,
-      positionValue.position.y.cast
+      position.position.x.cast,
+      position.position.y.cast
     )
   )

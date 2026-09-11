@@ -54,7 +54,7 @@ fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing>
       val widthEvaluator = intEvaluator(drawing.width)
       val heightEvaluator = intEvaluator(drawing.height)
       RuntimeDrawing { canvas ->
-        canvas.drawRect(xEvaluator.eval(), yEvaluator.eval(), widthEvaluator.eval(), heightEvaluator.eval())
+        canvas.fillRect(xEvaluator.eval(), yEvaluator.eval(), widthEvaluator.eval(), heightEvaluator.eval())
       }
     }
 
@@ -94,7 +94,18 @@ fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing>
       }
     }
 
-    is Drawing.WithColor -> TODO()
+    is Drawing.WithColor -> {
+      val drawingEvaluator = drawingEvaluator(drawing.drawing as Drawing)
+      val colorEvaluator = colorEvaluator(drawing.color as Color)
+      ObjectEvaluator {
+        RuntimeDrawing { canvas ->
+          val previousColor = canvas.color
+          canvas.color = colorEvaluator.eval()
+          drawingEvaluator.eval().drawOn(canvas)
+          canvas.color = previousColor
+        }
+      }
+    }
 
     is Drawing.WithFont -> {
       val drawingEvaluator = drawingEvaluator(drawing.drawing as Drawing)

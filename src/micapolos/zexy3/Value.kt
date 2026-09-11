@@ -3,7 +3,7 @@ package micapolos.zexy3
 import micapolos.zexy3.model.Value as ModelValue
 import micapolos.zexy3.model.Void as ModelVoid
 
-open class Value<T : Value<T>> internal constructor(internal val modelOrChildren: Any?)
+open class Value<out T : Value<T>> internal constructor(internal val modelOrChildren: Any?)
 
 internal val Value<*>.model get() = modelOrChildren as ModelValue<ModelVoid>
 internal val Value<*>.children get() = modelOrChildren as List<Value<*>>

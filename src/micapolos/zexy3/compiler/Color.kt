@@ -28,7 +28,13 @@ fun Compiler.colorEvaluator(color: Color): ObjectEvaluator<TataColor> =
         if (color != null && red == previousRed && green == previousGreen && blue == previousBlue && alpha == previousAlpha) {
           color
         } else {
-          TataColor.rgba(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat()).also { previousColor = it }
+          TataColor.rgba(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat()).also {
+            previousRed = red
+            previousGreen = green
+            previousBlue = blue
+            previousAlpha = alpha
+            previousColor = it
+          }
         }
       }
     }
