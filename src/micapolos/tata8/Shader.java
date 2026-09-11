@@ -8,8 +8,9 @@ public enum Shader {
   CRT_SCANLINE(new CrtSimpleScanlineOp(), 3),
   CRT_GRID(new CrtGridScanlineOp(), 3),
   CRT_PHOSPHOR(new CrtPhosphorMatrixOp(), 3),
-  CRT_BLOCK(new GamePixelMatrixOp(), 6),
-  CRT_LIGHT_POINT(new LightPointMatrixOp(), 6);
+  PIXEL_BLOCKS(new GamePixelMatrixOp(), 6),
+  LIGHT_POINT(new LightPointMatrixOp(), 6),
+  LIGHT_LINES(new LightLinesMatrixOp(), 6);
 
   final BufferedImageOp op;
   final int pixelSize;
