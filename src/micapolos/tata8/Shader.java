@@ -1,9 +1,6 @@
 package micapolos.tata8;
 
-import micapolos.awt.CrtGridScanlineOp;
-import micapolos.awt.CrtPhosphorMatrixOp;
-import micapolos.awt.CrtSimpleScanlineOp;
-import micapolos.awt.GamePixelMatrixOp;
+import micapolos.awt.*;
 
 import java.awt.image.BufferedImageOp;
 
@@ -11,7 +8,8 @@ public enum Shader {
   CRT_SCANLINE(new CrtSimpleScanlineOp(), 3),
   CRT_GRID(new CrtGridScanlineOp(), 3),
   CRT_PHOSPHOR(new CrtPhosphorMatrixOp(), 3),
-  CRT_HI_FI(new GamePixelMatrixOp(), 6);
+  CRT_BLOCK(new GamePixelMatrixOp(), 6),
+  CRT_LIGHT_POINT(new LightPointMatrixOp(), 6);
 
   final BufferedImageOp op;
   final int pixelSize;
