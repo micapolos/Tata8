@@ -15,3 +15,6 @@ val mouse =
     ),
     Bool(Integer(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_DOWN))),
   )
+
+val Value<Mouse>.pressed: Event get() = TODO()
+val Value<Mouse>.released: Event get() = TODO()

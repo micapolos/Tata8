@@ -25,3 +25,4 @@ fun Value<Integer>.selectTrueFalse(cases: List<Double>): Value<Number> =
 fun Value<Integer>.selectTrueFalse(firstCast: Double, vararg otherCases: Double): Value<Number> =
   selectTrueFalse(listOf(firstCast, *otherCases.toTypedArray()))
 
+val Value<Number>.changed: Event get() = TODO()

@@ -21,3 +21,6 @@ val Value<Key>.isPressed get() = children[0] as Value<Bool>
 fun key(isPressed: Value<Bool>): Value<Key> = Key(isPressed)
 
 val key = Key.Companion
+
+val Value<Key>.pressed: Event get() = TODO()
+val Value<Key>.released: Event get() = TODO()

@@ -26,3 +26,4 @@ class IfTrue<T : Value<T>>(val condition: Value<Bool>, val trueCase: Value<T>)
 fun <T: Value<T>> Value<Bool>.ifTrue(trueCase: Value<T>) = IfTrue(this, trueCase)
 fun <T: Value<T>> IfTrue<T>.orElse(falseCase: Value<T>) = condition.selectTrueFalse(trueCase, falseCase)
 
+val Value<Bool>.changed: Event get() = TODO()

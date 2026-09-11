@@ -72,3 +72,5 @@ fun Value<Integer>.set(i: Int) = set(i.value)
 fun Value<Integer>.add(i: Int) = capture(this + 1)
 fun Value<Integer>.subtract(i: Int) = capture(this - 1)
 fun Value<Integer>.multiply(i: Int) = capture(this * 1)
+
+val Value<Integer>.changed: Event get() = TODO()
