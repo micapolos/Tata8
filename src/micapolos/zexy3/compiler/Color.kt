@@ -1,7 +1,10 @@
 package micapolos.zexy3.compiler
 
 import micapolos.zexy3.indexed.Color
-import micapolos.zexy3.runtime.*
+import micapolos.zexy3.runtime.Animated
+import micapolos.zexy3.runtime.DoubleEvaluator
+import micapolos.zexy3.runtime.ObjectEvaluator
+import micapolos.zexy3.runtime.parallel
 import micapolos.tata8.Color as TataColor
 
 fun Compiler.animatedColor(color: Color): Animated<TataColor> =
@@ -41,6 +44,12 @@ fun Compiler.animatedColor(color: Color): Animated<TataColor> =
             }
           }
         },
-        parallel(animatedRed.animation, animatedGreen.animation, animatedBlue.animation, animatedAlpha.animation))
+        parallel(
+          animatedRed.animation,
+          animatedGreen.animation,
+          animatedBlue.animation,
+          animatedAlpha.animation
+        )
+      )
     }
   }

@@ -18,9 +18,9 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       )
 
     is Integer.FromNumber -> {
-      val d = animated(integer.number)
-      val evaluator = d.evaluator as DoubleEvaluator
-      Animated(IntEvaluator { evaluator.eval().toInt() }, infiniteAnimation)
+      val animatedDouble = animated(integer.number)
+      val doubleEvaluator = animatedDouble.evaluator as DoubleEvaluator
+      Animated(IntEvaluator { doubleEvaluator.eval().toInt() }, animatedDouble.animation)
     }
 
     is Integer.Apply0 ->
@@ -31,15 +31,15 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
           Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
           Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
-        }, infiniteAnimation)
+        }, instantAnimation)
 
     is Integer.Apply1 -> {
-      val i = animated(integer.integer)
-      val evaluator = i.evaluator as IntEvaluator
+      val animatedInt = animated(integer.integer)
+      val intEvaluator = animatedInt.evaluator as IntEvaluator
       Animated(
         when (integer.op) {
-          Integer.Op1.NEG -> IntEvaluator { -evaluator.eval() }
-        }, i.animation)
+          Integer.Op1.NEG -> IntEvaluator { -intEvaluator.eval() }
+        }, animatedInt.animation)
     }
 
     is Integer.Apply2 -> {
@@ -116,13 +116,13 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
     }
 
     is Integer.TextHeight -> {
-      val text = animated(integer.text)
-      val font = animated(integer.font)
-      val textEvaluator = text.evaluator as ObjectEvaluator<String>
-      val fontEvaluator = font.evaluator as ObjectEvaluator<TataFont>
+      val animatedText = animated(integer.text)
+      val animatedFont = animated(integer.font)
+      val textEvaluator = animatedText.evaluator as ObjectEvaluator<String>
+      val fontEvaluator = animatedFont.evaluator as ObjectEvaluator<TataFont>
       Animated(
         IntEvaluator { fontEvaluator.eval().height(textEvaluator.eval()) },
-        parallel(text.animation, font.animation)
+        parallel(animatedText.animation, animatedFont.animation)
       )
     }
   }
