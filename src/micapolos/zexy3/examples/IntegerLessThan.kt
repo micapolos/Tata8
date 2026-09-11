@@ -1,4 +1,4 @@
-package micapolos.zexy3.compiler
+package micapolos.zexy3.examples
 
 import micapolos.zexy3.isLessThan
 import micapolos.zexy3.mouse
