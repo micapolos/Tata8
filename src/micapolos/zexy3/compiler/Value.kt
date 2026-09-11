@@ -31,8 +31,12 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val animatedValue = animated(value.condition)
       Animated(
         animatedValue.evaluator,
-        parallel(animatedCondition.animation, animatedValue.animation)
-          .runWhileNotZero(animatedCondition.evaluator as IntEvaluator)
+        race(
+          listOf(
+            animatedCondition.animation,
+            animatedValue.animation.runWhileNotZero(animatedCondition.evaluator as IntEvaluator)
+          )
+        )
       )
     }
 
@@ -69,9 +73,11 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
           is IntEvaluator -> IntEvaluator {
             (evaluators[min(animation.index, evaluators.size - 1)] as IntEvaluator).eval()
           }
+
           is DoubleEvaluator -> DoubleEvaluator {
             (evaluators[min(animation.index, evaluators.size - 1)] as DoubleEvaluator).eval()
           }
+
           is ObjectEvaluator<*> -> ObjectEvaluator {
             (evaluators[min(animation.index, evaluators.size - 1)] as ObjectEvaluator).eval()
           }
@@ -118,7 +124,7 @@ fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
     is Value.Sequence -> TODO()
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)
-    is Value.Stateful -> animated(value).evaluator
+    is Value.Stateful -> TODO()
     is Value.Race -> TODO()
     is Value.Frame -> animated(value).evaluator
   }
@@ -160,7 +166,7 @@ fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
       animation(value.value)
         .stretch(doubleEvaluator(value.factor))
 
-    is Value.Stateful -> animated(value).animation
+    is Value.Stateful -> TODO()
     is Value.Race -> TODO()
     is Value.Frame -> animated(value).animation
   }

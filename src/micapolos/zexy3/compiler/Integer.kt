@@ -14,13 +14,13 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
     is Integer.Constant ->
       Animated(
         IntEvaluator { integer.i },
-        noAnimation
+        instantAnimation
       )
 
     is Integer.FromNumber -> {
       val d = animated(integer.number)
       val evaluator = d.evaluator as DoubleEvaluator
-      Animated(IntEvaluator { evaluator.eval().toInt() }, noAnimation)
+      Animated(IntEvaluator { evaluator.eval().toInt() }, infiniteAnimation)
     }
 
     is Integer.Apply0 ->
@@ -31,7 +31,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
           Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
           Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
-        }, noAnimation)
+        }, infiniteAnimation)
 
     is Integer.Apply1 -> {
       val i = animated(integer.integer)
@@ -100,7 +100,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       val key = integer.key.tata
       Animated(
         IntEvaluator { key.isPressed.toInt() },
-        noAnimation
+        infiniteAnimation
       )
     }
 
@@ -127,8 +127,6 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
     }
   }
 
-fun Compiler.integerAnimation(integer: Integer): Animation =
-  animatedInteger(integer).animation
+fun Compiler.integerAnimation(integer: Integer): Animation = TODO()
 
-fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =
-  animatedInteger(integer).evaluator as IntEvaluator
+fun Compiler.integerEvaluator(integer: Integer): IntEvaluator = TODO()

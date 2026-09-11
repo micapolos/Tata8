@@ -7,7 +7,7 @@ interface Animation {
   fun step(seconds: Double) = 0.0
 }
 
-val noAnimation: Animation = object : Animation {}
+val infiniteAnimation: Animation = object : Animation {}
 
 val instantAnimation: Animation = object : Animation {
   override fun step(seconds: Double): Double = seconds

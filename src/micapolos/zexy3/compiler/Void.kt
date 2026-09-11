@@ -18,20 +18,23 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       Animated(
         ObjectEvaluator { Unit },
         when (valueEvaluator) {
-          is IntEvaluator -> actionAnimation {
-            intArray[typedIndex] = valueEvaluator.eval()
-            animatedValues[index] = null
-          }
+          is IntEvaluator ->
+            actionAnimation {
+              intArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
+            }
 
-          is DoubleEvaluator -> actionAnimation {
-            doubleArray[typedIndex] = valueEvaluator.eval()
-            animatedValues[index] = null
-          }
+          is DoubleEvaluator ->
+            actionAnimation {
+              doubleArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
+            }
 
-          is ObjectEvaluator<*> -> actionAnimation {
-            objectArray[typedIndex] = valueEvaluator.eval()
-            animatedValues[index] = null
-          }
+          is ObjectEvaluator<*> ->
+            actionAnimation {
+              objectArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
+            }
         }
       )
     }
@@ -44,9 +47,10 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       Animated(
         ObjectEvaluator { Unit },
         when (variable.indexType) {
-          IndexType.INTEGER -> actionAnimation {
-            animatedValues[index] = animatedValue
-          }
+          IndexType.INTEGER ->
+            actionAnimation {
+              animatedValues[index] = animatedValue
+            }
 
           IndexType.NUMBER -> {
             actionAnimation {
@@ -74,22 +78,6 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
     is Void.Race -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
   }
 
-fun Compiler.voidAnimation(indexed: Void): Animation =
-  when (indexed) {
-    is Void.Empty -> TODO()
-    is Void.Pause -> doubleEvaluator(indexed.seconds).pause
-    is Void.Set<*> -> animatedVoid(indexed).animation
-    is Void.Capture<*> -> TODO()
-    is Void.Parallel -> TODO()
-    is Void.Race -> race(indexed.values.map { animation(it) })
-  }
+fun Compiler.voidAnimation(indexed: Void): Animation = TODO()
 
-fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
-  when (indexed) {
-    is Void.Empty -> TODO()
-    is Void.Pause -> ObjectEvaluator { Unit }
-    is Void.Set<*> -> animatedVoid(indexed).evaluator
-    is Void.Capture<*> -> TODO()
-    is Void.Parallel -> TODO()
-    is Void.Race -> parallelEvaluator(indexed.values.map { evaluator(it) })
-  }
+fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> = TODO()

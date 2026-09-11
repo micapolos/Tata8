@@ -3,11 +3,7 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.Integer
 import micapolos.zexy3.indexed.Number
-import micapolos.zexy3.runtime.Animated
-import micapolos.zexy3.runtime.Animation
-import micapolos.zexy3.runtime.DoubleEvaluator
-import micapolos.zexy3.runtime.noAnimation
-import micapolos.zexy3.runtime.then
+import micapolos.zexy3.runtime.*
 import kotlin.math.*
 
 fun Compiler.animatedNumber(number: Number): Animated<Double> =
@@ -15,10 +11,10 @@ fun Compiler.animatedNumber(number: Number): Animated<Double> =
 
 fun Compiler.numberAnimation(number: Number): Animation =
   when (number) {
-    is Number.Apply0 -> noAnimation
+    is Number.Constant -> instantAnimation
+    is Number.Apply0 -> instantAnimation
     is Number.Apply1 -> animation(number.number)
     is Number.Apply2 -> animation(number.lhs) then animation(number.rhs)
-    is Number.Constant -> noAnimation
     is Number.FromInteger -> animation(number.integer)
   }
 

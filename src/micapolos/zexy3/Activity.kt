@@ -5,7 +5,9 @@ import micapolos.zexy3.model.Void as ModelVoid
 
 class Activity internal constructor(model: Any) : Value<Activity>(model)
 
-val noActivity = noAction.activity
+val instantActivity = noAction.activity
+
+fun pause(seconds: Int) = pause(seconds.toDouble())
 
 fun pause(seconds: Double) = pause(seconds.value)
 

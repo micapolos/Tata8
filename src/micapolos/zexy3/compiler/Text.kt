@@ -4,17 +4,13 @@ import micapolos.zexy3.indexed.Text
 import micapolos.zexy3.runtime.Animated
 import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.ObjectEvaluator
-import micapolos.zexy3.runtime.noAnimation
+import micapolos.zexy3.runtime.instantAnimation
 
 fun Compiler.animatedText(text: Text): Animated<String> =
-  Animated(textEvaluator(text), textAnimation(text))
-
-fun Compiler.textAnimation(text: Text): Animation =
   when (text) {
-    is Text.Constant -> noAnimation
+    is Text.Constant -> Animated(ObjectEvaluator { text.string }, instantAnimation)
   }
 
-fun Compiler.textEvaluator(text: Text): ObjectEvaluator<String> =
-  when (text) {
-    is Text.Constant -> ObjectEvaluator { text.string }
-  }
+fun Compiler.textAnimation(text: Text): Animation = TODO()
+
+fun Compiler.textEvaluator(text: Text): ObjectEvaluator<String> = TODO()
