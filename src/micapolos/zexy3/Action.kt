@@ -23,3 +23,7 @@ fun sequence(actions: List<Value<Action>>): Value<Action> =
 
 fun sequence(action: Value<Action>, vararg actions: Value<Action>): Value<Action> =
   sequence(listOf(action, *actions))
+
+infix fun Value<Action>.then(action: Value<Action>): Value<Action> =
+  sequence(this, action)
+
