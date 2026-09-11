@@ -19,6 +19,8 @@ internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>
 internal fun Value<Integer>.test(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
 
+operator fun Value<Integer>.unaryMinus() = 0.value - this
+
 operator fun Value<Integer>.plus(i: Int) = plus(i.value)
 operator fun Value<Integer>.plus(integer: Value<Integer>) = apply(ModelInteger.Op2.ADD, integer)
 
