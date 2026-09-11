@@ -67,6 +67,7 @@ fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Int
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
 fun Value<Integer>.set(i: Int) = set(i.value)
+fun Value<Integer>.capture(i: Int) = capture(i.value)
 fun Value<Integer>.add(i: Int) = capture(this + 1)
 fun Value<Integer>.subtract(i: Int) = capture(this - 1)
 fun Value<Integer>.multiply(i: Int) = capture(this * 1)

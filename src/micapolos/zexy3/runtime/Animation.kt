@@ -13,6 +13,15 @@ val instantAnimation: Animation = object : Animation {
   override fun step(seconds: Double): Double = seconds
 }
 
+fun actionAnimation(startFn: () -> Unit) =
+  object: Animation {
+    override fun start() {
+      startFn()
+    }
+
+    override fun step(seconds: Double): Double = seconds
+  }
+
 val DoubleEvaluator.pause
   get() =
     object : Animation {

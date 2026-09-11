@@ -3,5 +3,5 @@ package micapolos.zexy3.examples
 import micapolos.zexy3.*
 
 fun main() {
-  variable(10).show()
+  variable(0).apply { add(1).everyFrame }.show()
 }
