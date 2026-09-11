@@ -23,7 +23,7 @@ sealed class Number : Value<Number> {
     MUL,
   }
 
-  enum class Pred2 {
+  enum class NumberPred2 {
     EQ,
     LT,
   }
@@ -36,7 +36,7 @@ sealed class Number : Value<Number> {
 
   class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
 
-  class Test2(val pred: Pred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
+  class Test2(val pred: NumberPred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
 
   class FromInteger(val i: Value<Integer>) : Number()
 }

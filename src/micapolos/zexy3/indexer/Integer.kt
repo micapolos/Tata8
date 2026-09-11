@@ -40,11 +40,18 @@ val ModelOp2.indexed
       ModelOp2.XOR -> Op2.XOR
     }
 
-val ModelNumber.Pred2.indexed
+val ModelNumber.NumberPred2.indexed
   get() =
     when (this) {
-      ModelNumber.Pred2.EQ -> Number.Pred2.EQ
-      ModelNumber.Pred2.LT -> Number.Pred2.LT
+      ModelNumber.NumberPred2.EQ -> Number.NumberPred2.EQ
+      ModelNumber.NumberPred2.LT -> Number.NumberPred2.LT
+    }
+
+val ModelInteger.Pred2.indexed
+  get() =
+    when (this) {
+      ModelInteger.Pred2.EQ -> Pred2.EQ
+      ModelInteger.Pred2.LT -> Pred2.LT
     }
 
 fun Indexer.indexedInteger(model: ModelInteger): Integer =
@@ -59,5 +66,6 @@ fun Indexer.indexedInteger(model: ModelInteger): Integer =
     is ModelInteger.KeyDown -> KeyDown(model.key.indexed)
     is ModelInteger.TextWidth -> TextWidth(indexed(model.text), indexed(model.font))
     is ModelInteger.TextHeight -> TextHeight(indexed(model.text), indexed(model.font))
+    is ModelInteger.Test2 -> Test2(model.pred.indexed, indexed(model.lhs), indexed(model.rhs))
     is ModelNumber.Test2 -> Number.Test2(model.pred.indexed, indexed(model.lhs), indexed(model.rhs))
   }

@@ -62,6 +62,18 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
         }, parallel(animatedLhs.animation, animatedRhs.animation))
     }
 
+    is Integer.Test2 -> {
+      val animatedLhs = animated(integer.lhs)
+      val animatedRhs = animated(integer.rhs)
+      val lhsEvaluator = animatedLhs.evaluator as IntEvaluator
+      val rhsEvaluator = animatedRhs.evaluator as IntEvaluator
+      Animated(
+        when (integer.pred) {
+          Integer.Pred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
+          Integer.Pred2.LT -> IntEvaluator { (lhsEvaluator.eval() < rhsEvaluator.eval()).toInt() }
+        }, parallel(animatedLhs.animation, animatedRhs.animation))
+    }
+
     is Number.Test2 -> {
       val animatedLhs = animated(integer.lhs)
       val animatedRhs = animated(integer.rhs)
@@ -69,8 +81,8 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       val rhsEvaluator = animatedRhs.evaluator as DoubleEvaluator
       Animated(
         when (integer.pred) {
-          Number.Pred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
-          Number.Pred2.LT -> IntEvaluator { (lhsEvaluator.eval() < rhsEvaluator.eval()).toInt() }
+          Number.NumberPred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
+          Number.NumberPred2.LT -> IntEvaluator { (lhsEvaluator.eval() < rhsEvaluator.eval()).toInt() }
         }, parallel(animatedLhs.animation, animatedRhs.animation))
     }
 
