@@ -1,7 +1,5 @@
 package micapolos.zexy3
 
-import micapolos.zexy3.model.Variable
-import micapolos.zexy3.model.Void
 import micapolos.zexy3.model.Integer as ModelInteger
 import micapolos.zexy3.model.Value as ModelValue
 
@@ -43,14 +41,14 @@ infix fun Value<Integer>.xor(i: Int) = times(i.value)
 infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.XOR, integer)
 
 @JvmName("IntegerSelect")
-fun <T: Value<T>> Value<Integer>.selectTrueFalse(values: List<Value<T>>): Value<T> =
+fun <T: Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
   when (values.first().modelOrChildren) {
     is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
-    else -> Value(children.map { selectTrueFalse(it.children) })
+    else -> Value(children.map { selectFrom(it.children) })
   }
 
-fun <T: Value<T>> Value<Integer>.selectTrueFalse(value: Value<T>, vararg values: Value<T>): Value<T> =
-  selectTrueFalse(listOf(value, *values))
+fun <T: Value<T>> Value<Integer>.selectFrom(value: Value<T>, vararg values: Value<T>): Value<T> =
+  selectFrom(listOf(value, *values))
 
 fun Value<Bool>.selectTrueFalse(trueCase: Int, falseCase: Int): Value<Integer> =
   selectTrueFalse(trueCase.value, falseCase.value)
@@ -59,12 +57,12 @@ fun Value<Bool>.ifTrue(trueCase: Int) = ifTrue(trueCase.value)
 fun IfTrue<Integer>.orElse(falseCase: Int) = orElse(falseCase.value)
 
 @JvmName("IntegerSelectInt")
-fun Value<Integer>.selectTrueFalse(cases: List<Int>): Value<Integer> =
-  selectTrueFalse(cases.map { it.value })
+fun Value<Integer>.selectFrom(cases: List<Int>): Value<Integer> =
+  selectFrom(cases.map { it.value })
 
 @JvmName("IntegerSelectInt")
-fun Value<Integer>.selectTrueFalse(firstCast: Int, vararg otherCases: Int): Value<Integer> =
-  selectTrueFalse(listOf(firstCast, *otherCases.toTypedArray()))
+fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Integer> =
+  selectFrom(listOf(firstCast, *otherCases.toTypedArray()))
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
