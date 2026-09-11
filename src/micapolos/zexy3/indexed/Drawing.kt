@@ -11,9 +11,13 @@ sealed class Drawing : Value<Drawing> {
   ) : Drawing()
 
   class Sprite(
-    val image: Value<Image>,
     val x: Value<Integer>,
     val y: Value<Integer>,
+    val width: Value<Integer>,
+    val height: Value<Integer>,
+    val image: Value<Image>,
+    val imageX: Value<Integer>,
+    val imageY: Value<Integer>,
   ) : Drawing()
 
   class Label(

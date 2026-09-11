@@ -101,6 +101,20 @@ public final class Canvas {
     }
   }
 
+  public void draw(Image image, int x, int y, int width, int height, int imageX, int imageY) {
+    BufferedImage awtImage = image.bufferedImage;
+    if (awtImage != null) {
+      graphics.setComposite(composite.awt);
+      graphics.drawImage(
+        awtImage,
+        x, y,
+        x + width, y + height,
+        imageX, imageY,
+        imageX + width, imageY + height,
+        null);
+    }
+  }
+
   public void draw(Sprite sprite) {
     draw(sprite, 0, 0);
   }

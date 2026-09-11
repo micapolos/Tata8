@@ -40,20 +40,35 @@ fun animatedRect(
   )
 
 
-fun spriteEvaluator(imageEvaluator: ObjectEvaluator<Image>, xEvaluator: IntEvaluator, yEvaluator: IntEvaluator) =
+fun spriteEvaluator(
+  xEvaluator: IntEvaluator, yEvaluator: IntEvaluator,
+  widthEvaluator: IntEvaluator, heightEvaluator: IntEvaluator,
+  imageEvaluator: ObjectEvaluator<Image>,
+  imageXEvaluator: IntEvaluator, imageYEvaluator: IntEvaluator,) =
   ObjectEvaluator {
     Drawing { canvas ->
-      canvas.draw(imageEvaluator.eval(), xEvaluator.eval(), yEvaluator.eval())
+      canvas.draw(
+        imageEvaluator.eval(),
+        xEvaluator.eval(), yEvaluator.eval(),
+        widthEvaluator.eval(), heightEvaluator.eval(),
+        imageXEvaluator.eval(), imageYEvaluator.eval())
     }
   }
 
-fun animatedSprite(animatedImage: Animated<Image>, animatedX: Animated<Int>, animatedY: Animated<Int>) =
+fun animatedSprite(
+  animatedX: Animated<Int>, animatedY: Animated<Int>,
+  animatedWidth: Animated<Int>, animatedHeight: Animated<Int>,
+  animatedImage: Animated<Image>,
+  animatedImageX: Animated<Int>, animatedImageY: Animated<Int>) =
   Animated(
     spriteEvaluator(
-      animatedImage.evaluator as ObjectEvaluator<Image>,
       animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator
-    ),
+      animatedY.evaluator as IntEvaluator,
+      animatedWidth.evaluator as IntEvaluator,
+      animatedHeight.evaluator as IntEvaluator,
+      animatedImage.evaluator as ObjectEvaluator<Image>,
+      animatedImageX.evaluator as IntEvaluator,
+      animatedImageY.evaluator as IntEvaluator),
     parallel(animatedImage.animation, animatedX.animation, animatedY.animation)
   )
 

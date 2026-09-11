@@ -14,9 +14,7 @@ fun Compiler.animatedImage(image: Image): Animated<TataImage?> =
 fun Compiler.imageAnimation(image: Image): Animation =
   when (image) {
     Image.Empty -> noAnimation
-    is Image.Render -> noAnimation
     is Image.Resource -> noAnimation
-    is Image.Slice -> noAnimation
   }
 
 fun Compiler.imageEvaluator(image: Image): ObjectEvaluator<TataImage?> =
@@ -26,11 +24,8 @@ fun Compiler.imageEvaluator(image: Image): ObjectEvaluator<TataImage?> =
     }
     is Image.Resource -> {
       val image = tataImages.computeIfAbsent(image.fileName) {
-        IO.println("Loading ${image.fileName}...")
         Game.loadImage(baseClass.java, image.fileName)
       }
       ObjectEvaluator { image }
     }
-    is Image.Render -> TODO()
-    is Image.Slice -> TODO()
   }
