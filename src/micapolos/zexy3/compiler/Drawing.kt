@@ -5,6 +5,10 @@ import micapolos.tata8.Game
 import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Drawing
 import micapolos.zexy3.runtime.*
+import java.awt.image.BufferedImage
+import micapolos.tata8.Color as TataColor
+import micapolos.tata8.Font as TataFont
+import micapolos.tata8.Image as TataImage
 import micapolos.zexy3.runtime.Drawing as RuntimeDrawing
 
 fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
@@ -20,13 +24,28 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
         animated(drawing.text) as Animated<String>,
         animated(drawing.x) as Animated<Int>,
         animated(drawing.y) as Animated<Int>)
-    is Drawing.Rect -> TODO()
-    is Drawing.Sprite -> TODO()
+    is Drawing.Rect ->
+      animatedRect(
+        animated(drawing.x) as Animated<Int>,
+        animated(drawing.y) as Animated<Int>,
+        animated(drawing.width) as Animated<Int>,
+        animated(drawing.height) as Animated<Int>)
+    is Drawing.Sprite ->
+      animatedSprite(
+        animated(drawing.image) as Animated<TataImage>,
+        animated(drawing.x) as Animated<Int>,
+        animated(drawing.y) as Animated<Int>)
     is Drawing.Stack ->
       animatedStack(drawing.drawings.map { animated(it) as Animated<RuntimeDrawing> }.toTypedArray())
-    is Drawing.WithColor -> TODO()
+    is Drawing.WithColor ->
+      animatedWithColor(
+        animated(drawing.drawing) as Animated<RuntimeDrawing>,
+        animated(drawing.color) as Animated<TataColor>)
     is Drawing.WithComposite -> TODO()
-    is Drawing.WithFont -> TODO()
+    is Drawing.WithFont ->
+      animatedWithFont(
+        animated(drawing.drawing) as Animated<RuntimeDrawing>,
+        animated(drawing.font) as Animated<TataFont>)
   }
 
 fun Compiler.drawingAnimation(drawing: Drawing): Animation =
