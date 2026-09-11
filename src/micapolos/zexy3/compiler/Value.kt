@@ -52,7 +52,7 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val animatedValue = animated(value.value)
       Animated(
         statefulEvaluator(animatedState.evaluator, animatedValue.evaluator),
-        parallel(listOf(animatedState.animation, animatedState.animation))
+        parallel(listOf(animatedState.animation, animatedValue.animation))
       )
     }
 
