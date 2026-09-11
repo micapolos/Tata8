@@ -4,6 +4,7 @@ import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Drawing
 import micapolos.zexy3.indexed.Number
 import micapolos.zexy3.runtime.*
+import kotlin.math.min
 
 fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
   when (value) {
@@ -21,37 +22,64 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val animatedValue = animated(value.value)
       Animated(
         animatedValue.evaluator.logged(value.label),
-        animatedValue.animation)
+        animatedValue.animation
+      )
     }
+
     is Value.RunWhile -> {
       val animatedCondition = animated(value.condition)
       val animatedValue = animated(value.condition)
       Animated(
         animatedValue.evaluator,
         parallel(animatedCondition.animation, animatedValue.animation)
-        .runWhileNotZero(animatedCondition.evaluator as IntEvaluator))
+          .runWhileNotZero(animatedCondition.evaluator as IntEvaluator)
+      )
     }
+
     is Value.Select -> {
       val animatedInteger = animated(value.index)
       val animatedOptions = value.options.map { animated(it) }
       val animatedEvaluators = animatedOptions.map { it.evaluator }
       val animation = SelectAnimation(
         animatedInteger.evaluator as IntEvaluator,
-        animatedOptions.map { it.animation }.toTypedArray())
+        animatedOptions.map { it.animation }.toTypedArray()
+      )
       val evaluator = when (animatedOptions.first().evaluator) {
         is IntEvaluator -> IntEvaluator {
           (animatedEvaluators[animation.selectedIndex] as IntEvaluator).eval()
         }
+
         is DoubleEvaluator -> DoubleEvaluator {
           (animatedEvaluators[animation.selectedIndex] as DoubleEvaluator).eval()
         }
+
         is ObjectEvaluator<*> -> ObjectEvaluator {
           (animatedEvaluators[animation.selectedIndex] as ObjectEvaluator).eval()
         }
       }
       Animated(evaluator, animation)
     }
-    is Value.Sequence -> Animated(evaluator(value), animation(value))
+
+    is Value.Sequence -> {
+      val animatedValues = value.values.map { animated(it) }
+      val animation = SequenceAnimation(animatedValues.map { it.animation })
+      val evaluators = animatedValues.map { it.evaluator }
+      Animated(
+        when (evaluators.first()) {
+          is IntEvaluator -> IntEvaluator {
+            (evaluators[min(animation.index, evaluators.size - 1)] as IntEvaluator).eval()
+          }
+          is DoubleEvaluator -> DoubleEvaluator {
+            (evaluators[min(animation.index, evaluators.size - 1)] as DoubleEvaluator).eval()
+          }
+          is ObjectEvaluator<*> -> ObjectEvaluator {
+            (evaluators[min(animation.index, evaluators.size - 1)] as ObjectEvaluator).eval()
+          }
+        },
+        animation
+      )
+    }
+
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)
     is Value.Stateful -> {
@@ -122,8 +150,7 @@ fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
         .runWhileNotZero(intEvaluator(value.condition))
 
     is Value.Select -> TODO()
-    is Value.Sequence ->
-      SequenceAnimation(value.values.map { animation(it) })
+    is Value.Sequence -> TODO()
 
     is Value.StartWhen ->
       animation(value.value)

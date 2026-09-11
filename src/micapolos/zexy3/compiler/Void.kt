@@ -17,25 +17,22 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       val index = variable.index
       Animated(
         ObjectEvaluator { Unit },
-        parallel(
-          animatedValue.animation,
-          when (valueEvaluator) {
-            is IntEvaluator -> actionAnimation {
-              intArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
-            }
-
-            is DoubleEvaluator -> actionAnimation {
-              doubleArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
-            }
-
-            is ObjectEvaluator<*> -> actionAnimation {
-              objectArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
-            }
+        when (valueEvaluator) {
+          is IntEvaluator -> actionAnimation {
+            intArray[typedIndex] = valueEvaluator.eval()
+            animatedValues[index] = null
           }
-        )
+
+          is DoubleEvaluator -> actionAnimation {
+            doubleArray[typedIndex] = valueEvaluator.eval()
+            animatedValues[index] = null
+          }
+
+          is ObjectEvaluator<*> -> actionAnimation {
+            objectArray[typedIndex] = valueEvaluator.eval()
+            animatedValues[index] = null
+          }
+        }
       )
     }
 

@@ -13,10 +13,10 @@ val instantAnimation: Animation = object : Animation {
   override fun step(seconds: Double): Double = seconds
 }
 
-fun actionAnimation(startFn: () -> Unit) =
+fun actionAnimation(execute: () -> Unit) =
   object: Animation {
     override fun start() {
-      startFn()
+      execute()
     }
 
     override fun step(seconds: Double): Double = seconds
