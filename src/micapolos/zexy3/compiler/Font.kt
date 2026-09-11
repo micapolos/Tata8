@@ -3,7 +3,6 @@ package micapolos.zexy3.compiler
 import micapolos.tata8.Game
 import micapolos.zexy3.indexed.Font
 import micapolos.zexy3.runtime.Animated
-import micapolos.zexy3.runtime.Animation
 import micapolos.zexy3.runtime.ObjectEvaluator
 import micapolos.zexy3.runtime.instantAnimation
 import micapolos.tata8.Font as TataFont
@@ -17,7 +16,3 @@ fun Compiler.animatedFont(font: Font): Animated<TataFont> =
       Animated(ObjectEvaluator { tataFont }, instantAnimation)
     }
   }
-
-fun Compiler.fontAnimation(font: Font): Animation = TODO()
-
-fun Compiler.fontEvaluator(font: Font): ObjectEvaluator<TataFont> = TODO()

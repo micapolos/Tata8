@@ -44,6 +44,3 @@ fun Compiler.animatedColor(color: Color): Animated<TataColor> =
         parallel(animatedRed.animation, animatedGreen.animation, animatedBlue.animation, animatedAlpha.animation))
     }
   }
-
-fun Compiler.colorEvaluator(color: Color): ObjectEvaluator<TataColor> = TODO()
-fun Compiler.colorAnimation(color: Color): Animation = TODO()

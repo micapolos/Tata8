@@ -2,8 +2,9 @@ package micapolos.zexy3.compiler
 
 import micapolos.Sandbox
 import micapolos.tata8.Game
-import micapolos.zexy3.indexed.*
 import micapolos.zexy3.indexed.Drawing
+import micapolos.zexy3.indexed.Image
+import micapolos.zexy3.indexed.Integer
 import micapolos.zexy3.runtime.*
 import micapolos.tata8.Color as TataColor
 import micapolos.tata8.Font as TataFont
@@ -22,14 +23,16 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
       animatedLabel(
         animated(drawing.text) as Animated<String>,
         animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>)
+        animated(drawing.y) as Animated<Int>
+      )
 
     is Drawing.Rect ->
       animatedRect(
         animated(drawing.x) as Animated<Int>,
         animated(drawing.y) as Animated<Int>,
         animated(drawing.width) as Animated<Int>,
-        animated(drawing.height) as Animated<Int>)
+        animated(drawing.height) as Animated<Int>
+      )
 
     is Drawing.Sprite ->
       animatedSprite(
@@ -48,22 +51,21 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
     is Drawing.WithColor ->
       animatedWithColor(
         animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        animated(drawing.color) as Animated<TataColor>)
+        animated(drawing.color) as Animated<TataColor>
+      )
 
     is Drawing.WithComposite ->
       animatedWithComposite(
         animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        drawing.composite.tata8)
+        drawing.composite.tata8
+      )
 
     is Drawing.WithFont ->
       animatedWithFont(
         animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        animated(drawing.font) as Animated<TataFont>)
+        animated(drawing.font) as Animated<TataFont>
+      )
   }
-
-fun Compiler.drawingAnimation(drawing: Drawing): Animation = TODO()
-
-fun Compiler.drawingEvaluator(drawing: Drawing): ObjectEvaluator<RuntimeDrawing> = TODO()
 
 fun main() {
   val drawing = Drawing.Sprite(
@@ -76,7 +78,8 @@ fun main() {
     Integer.Constant(0),
   )
   Compiler(Sandbox::class)
-    .drawingEvaluator(drawing)
+    .animated(drawing)
+    .evaluator.let { it as ObjectEvaluator<RuntimeDrawing> }
     .eval()
     .drawOn(Game.background.canvas)
   Game.start()

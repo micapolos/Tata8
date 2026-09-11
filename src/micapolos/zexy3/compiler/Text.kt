@@ -10,7 +10,3 @@ fun Compiler.animatedText(text: Text): Animated<String> =
   when (text) {
     is Text.Constant -> Animated(ObjectEvaluator { text.string }, instantAnimation)
   }
-
-fun Compiler.textAnimation(text: Text): Animation = TODO()
-
-fun Compiler.textEvaluator(text: Text): ObjectEvaluator<String> = TODO()

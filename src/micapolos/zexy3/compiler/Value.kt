@@ -93,7 +93,7 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
         animatedValue.evaluator,
         parallel(
           animatedCondition.animation,
-          animation(value.value).startWhenNotZero(animatedCondition.evaluator as IntEvaluator)
+          animatedValue.animation.startWhenNotZero(animatedCondition.evaluator as IntEvaluator)
         )
       )
     }
@@ -127,6 +127,3 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       Animated(evaluator, frameAnimation(animation))
     }
   }
-
-fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> = TODO()
-fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation = TODO()

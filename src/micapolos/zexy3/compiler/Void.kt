@@ -1,14 +1,23 @@
 package micapolos.zexy3.compiler
 
 import micapolos.zexy3.indexed.IndexType
-import micapolos.zexy3.indexed.Value
 import micapolos.zexy3.indexed.Void
 import micapolos.zexy3.runtime.*
 
 fun Compiler.animatedVoid(indexed: Void): Animated<*> =
   when (indexed) {
-    is Void.Empty -> Animated(ObjectEvaluator { Unit }, instantAnimation)
-    is Void.Pause -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
+    is Void.Empty ->
+      Animated(ObjectEvaluator { Unit }, instantAnimation)
+
+    is Void.Pause -> {
+      val animatedSeconds = animated(indexed.seconds)
+      val secondsEvaluator = animatedSeconds.evaluator as DoubleEvaluator
+      Animated(
+        ObjectEvaluator { Unit },
+        pauseAnimation { secondsEvaluator.eval() }
+      )
+    }
+
     is Void.Capture<*> -> {
       val animatedValue = animated(indexed.value)
       val valueEvaluator = animatedValue.evaluator
@@ -75,9 +84,13 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       )
     }
 
-    is Void.Race -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
+    is Void.Race -> {
+      val animatedValues = indexed.values.map { animated(it) }
+      // TODO: Update model to split first from others.
+      val firstEvaluator = animatedValues.first().evaluator
+      Animated(
+        firstEvaluator,
+        race(animatedValues.map { it.animation })
+      )
+    }
   }
-
-fun Compiler.voidAnimation(indexed: Void): Animation = TODO()
-
-fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> = TODO()

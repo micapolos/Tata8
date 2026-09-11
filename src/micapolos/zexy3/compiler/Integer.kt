@@ -126,7 +126,3 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       )
     }
   }
-
-fun Compiler.integerAnimation(integer: Integer): Animation = TODO()
-
-fun Compiler.integerEvaluator(integer: Integer): IntEvaluator = TODO()

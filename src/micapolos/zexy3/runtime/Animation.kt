@@ -14,7 +14,7 @@ val instantAnimation: Animation = object : Animation {
 }
 
 fun actionAnimation(execute: () -> Unit) =
-  object: Animation {
+  object : Animation {
     override fun start() {
       execute()
     }
@@ -22,26 +22,25 @@ fun actionAnimation(execute: () -> Unit) =
     override fun step(seconds: Double): Double = seconds
   }
 
-val DoubleEvaluator.pause
-  get() =
-    object : Animation {
-      var remainingSeconds = 0.0
+fun pauseAnimation(seconds: () -> Double) =
+  object : Animation {
+    var remainingSeconds = 0.0
 
-      override fun start() {
-        remainingSeconds = eval()
-      }
+    override fun start() {
+      remainingSeconds = seconds()
+    }
 
-      override fun step(seconds: Double): Double {
-        remainingSeconds -= seconds
-        if (remainingSeconds >= 0.0) {
-          return 0.0
-        } else {
-          val leftoverSeconds = -remainingSeconds
-          remainingSeconds = 0.0
-          return leftoverSeconds
-        }
+    override fun step(seconds: Double): Double {
+      remainingSeconds -= seconds
+      if (remainingSeconds >= 0.0) {
+        return 0.0
+      } else {
+        val leftoverSeconds = -remainingSeconds
+        remainingSeconds = 0.0
+        return leftoverSeconds
       }
     }
+  }
 
 fun Animation.stretch(ratioEvaluator: DoubleEvaluator) =
   object : Animation {

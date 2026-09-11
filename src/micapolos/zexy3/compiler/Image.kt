@@ -21,7 +21,3 @@ fun Compiler.animatedImage(image: Image): Animated<TataImage?> =
       )
     }
   }
-
-fun Compiler.imageAnimation(image: Image): Animation = TODO()
-
-fun Compiler.imageEvaluator(image: Image): ObjectEvaluator<TataImage?> = TODO()
