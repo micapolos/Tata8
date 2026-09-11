@@ -1,5 +1,7 @@
 package micapolos.zexy3
 
+import micapolos.zexy3.model.Variable
+import micapolos.zexy3.model.Void
 import micapolos.zexy3.model.Integer as ModelInteger
 import micapolos.zexy3.model.Value as ModelValue
 
@@ -65,3 +67,8 @@ fun Value<Integer>.selectTrueFalse(firstCast: Int, vararg otherCases: Int): Valu
   selectTrueFalse(listOf(firstCast, *otherCases.toTypedArray()))
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
+
+fun Value<Integer>.set(i: Int) = set(i.value)
+fun Value<Integer>.add(i: Int) = capture(this + 1)
+fun Value<Integer>.subtract(i: Int) = capture(this - 1)
+fun Value<Integer>.multiply(i: Int) = capture(this * 1)
