@@ -20,7 +20,7 @@ infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(integer or bool.integer)
 operator fun Value<Bool>.not() = Bool(integer xor 1)
 
 fun <T: Value<T>> Value<Bool>.selectTrueFalse(trueValue: Value<T>, falseValue: Value<T>): Value<T> =
-  integer.selectFrom(trueValue, falseValue)
+  integer.selectFrom(falseValue, trueValue)
 
 class IfTrue<T : Value<T>>(val condition: Value<Bool>, val trueCase: Value<T>)
 fun <T: Value<T>> Value<Bool>.ifTrue(trueCase: Value<T>) = IfTrue(this, trueCase)
