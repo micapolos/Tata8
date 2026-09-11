@@ -17,3 +17,6 @@ fun sequence(activities: List<Value<Activity>>): Value<Activity> =
 
 fun sequence(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
   sequence(listOf(activity, *activities))
+
+fun Value<Activity>.then(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
+  sequence(this, activity, *activities)
