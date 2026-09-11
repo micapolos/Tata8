@@ -34,7 +34,7 @@ val ModelOp2.indexed
       ModelOp2.DIV -> Op2.DIV
       ModelOp2.REM -> Op2.REM
       ModelOp2.EQ -> Op2.EQ
-      ModelOp2.LT -> Op2.LT
+      ModelOp2.CMP -> Op2.CMP
       ModelOp2.AND -> Op2.AND
       ModelOp2.OR -> Op2.OR
       ModelOp2.XOR -> Op2.XOR
@@ -44,7 +44,7 @@ val ModelNumber.NumberPred2.indexed
   get() =
     when (this) {
       ModelNumber.NumberPred2.EQ -> Number.NumberPred2.EQ
-      ModelNumber.NumberPred2.LT -> Number.NumberPred2.LT
+      ModelNumber.NumberPred2.CMP -> Number.NumberPred2.CMP
     }
 
 fun Indexer.indexedInteger(model: ModelInteger): Integer =

@@ -25,7 +25,7 @@ sealed class Number : Value<Number> {
 
   enum class NumberPred2 {
     EQ,
-    LT,
+    CMP,
   }
 
   class Constant(val d: Double) : Number()

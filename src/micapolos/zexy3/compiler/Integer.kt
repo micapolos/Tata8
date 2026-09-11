@@ -55,7 +55,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op2.DIV -> IntEvaluator { lhsEvaluator.eval() / rhsEvaluator.eval() }
           Integer.Op2.REM -> IntEvaluator { lhsEvaluator.eval() % rhsEvaluator.eval() }
           Integer.Op2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
-          Integer.Op2.LT -> IntEvaluator { (lhsEvaluator.eval() < rhsEvaluator.eval()).toInt() }
+          Integer.Op2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
           Integer.Op2.AND -> IntEvaluator { lhsEvaluator.eval() and rhsEvaluator.eval() }
           Integer.Op2.OR -> IntEvaluator { lhsEvaluator.eval() or rhsEvaluator.eval() }
           Integer.Op2.XOR -> IntEvaluator { lhsEvaluator.eval() xor rhsEvaluator.eval() }
@@ -70,7 +70,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       Animated(
         when (integer.pred) {
           Number.NumberPred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
-          Number.NumberPred2.LT -> IntEvaluator { (lhsEvaluator.eval() < rhsEvaluator.eval()).toInt() }
+          Number.NumberPred2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
         }, parallel(animatedLhs.animation, animatedRhs.animation))
     }
 

@@ -20,7 +20,7 @@ sealed class Integer: Value<Integer> {
     DIV,
     REM,
     EQ,
-    LT,
+    CMP,
     AND,
     OR,
     XOR,

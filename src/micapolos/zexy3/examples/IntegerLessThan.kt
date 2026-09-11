@@ -1,10 +1,7 @@
 package micapolos.zexy3.examples
 
-import micapolos.zexy3.isLessThan
-import micapolos.zexy3.mouse
-import micapolos.zexy3.show
-import micapolos.zexy3.x
+import micapolos.zexy3.*
 
 fun main() {
-  mouse.position.x.isLessThan(100).show()
+  mouse.position.x.compareTo(100).show()
 }
