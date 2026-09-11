@@ -20,18 +20,18 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
           animatedValue.animation,
           when (valueEvaluator) {
             is IntEvaluator -> actionAnimation {
-              animatedValues[index] = null
               intArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
             }
 
             is DoubleEvaluator -> actionAnimation {
-              animatedValues[index] = null
               doubleArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
             }
 
             is ObjectEvaluator<*> -> actionAnimation {
-              animatedValues[index] = null
               objectArray[typedIndex] = valueEvaluator.eval()
+              animatedValues[index] = null
             }
           }
         )
