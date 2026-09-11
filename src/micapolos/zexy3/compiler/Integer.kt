@@ -31,7 +31,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
           Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
           Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
-        }, instantAnimation)
+        }, infiniteAnimation)
 
     is Integer.Apply1 -> {
       val animatedInt = animated(integer.integer)

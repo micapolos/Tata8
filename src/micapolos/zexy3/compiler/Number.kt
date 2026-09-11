@@ -13,11 +13,9 @@ fun Compiler.animatedNumber(number: Number): Animated<Double> =
     }
 
     is Number.Apply0 -> {
-      Animated(
-        when (number.op) {
-          Number.Op0.FRAME_TIME -> DoubleEvaluator { Game.FRAME_SECONDS.toDouble() }
-        },
-        instantAnimation)
+      when (number.op) {
+        Number.Op0.FRAME_TIME -> Animated(DoubleEvaluator { Game.FRAME_SECONDS.toDouble() }, infiniteAnimation)
+      }
     }
 
     is Number.Apply1 -> {

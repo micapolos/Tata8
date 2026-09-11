@@ -69,7 +69,7 @@ fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation 
       if (animatedValue != null) {
         return animatedValue.animation.step(seconds)
       } else {
-        return 0.0
+        return seconds
       }
     }
   }
