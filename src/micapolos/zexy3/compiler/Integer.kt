@@ -57,6 +57,8 @@ fun Compiler.integerEvaluator(integer: Integer): IntEvaluator =
         Integer.Op2.ADD -> IntEvaluator { lhs.eval() + rhs.eval() }
         Integer.Op2.SUB -> IntEvaluator { lhs.eval() - rhs.eval() }
         Integer.Op2.MUL -> IntEvaluator { lhs.eval() * rhs.eval() }
+        Integer.Op2.DIV -> IntEvaluator { lhs.eval() / rhs.eval() }
+        Integer.Op2.REM -> IntEvaluator { lhs.eval() % rhs.eval() }
         Integer.Op2.EQ -> IntEvaluator { (lhs.eval() == rhs.eval()).toInt() }
         Integer.Op2.LT -> IntEvaluator { (lhs.eval() < rhs.eval()).toInt() }
         Integer.Op2.AND -> IntEvaluator { lhs.eval() and rhs.eval() }

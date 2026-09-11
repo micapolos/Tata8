@@ -17,6 +17,8 @@ sealed class Integer : Value<Integer> {
     ADD,
     SUB,
     MUL,
+    DIV,
+    REM,
     EQ,
     LT,
     AND,

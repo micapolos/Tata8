@@ -31,6 +31,8 @@ val ModelOp2.indexed
       ModelOp2.ADD -> Op2.ADD
       ModelOp2.SUB -> Op2.SUB
       ModelOp2.MUL -> Op2.MUL
+      ModelOp2.DIV -> Op2.DIV
+      ModelOp2.REM -> Op2.REM
       ModelOp2.EQ -> Op2.EQ
       ModelOp2.LT -> Op2.LT
       ModelOp2.AND -> Op2.AND

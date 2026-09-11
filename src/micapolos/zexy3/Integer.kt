@@ -25,6 +25,12 @@ operator fun Value<Integer>.minus(integer: Value<Integer>) = apply(ModelInteger.
 operator fun Value<Integer>.times(i: Int) = times(i.value)
 operator fun Value<Integer>.times(integer: Value<Integer>) = apply(ModelInteger.Op2.MUL, integer)
 
+operator fun Value<Integer>.div(i: Int) = div(i.value)
+operator fun Value<Integer>.div(integer: Value<Integer>) = apply(ModelInteger.Op2.DIV, integer)
+
+operator fun Value<Integer>.rem(i: Int) = rem(i.value)
+operator fun Value<Integer>.rem(integer: Value<Integer>) = apply(ModelInteger.Op2.REM, integer)
+
 infix fun Value<Integer>.and(i: Int) = times(i.value)
 infix fun Value<Integer>.and(integer: Value<Integer>) = apply(ModelInteger.Op2.AND, integer)
 
