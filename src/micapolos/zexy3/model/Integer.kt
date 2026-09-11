@@ -26,11 +26,6 @@ sealed class Integer : Value<Integer> {
     XOR,
   }
 
-  enum class Pred2 {
-    EQ,
-    LT,
-  }
-
   class Constant(val i: Int) : Integer()
 
   class Apply0(val op: Op0) : Integer()
@@ -38,8 +33,6 @@ sealed class Integer : Value<Integer> {
   class Apply1(val op: Op1, val integer: Value<Integer>) : Integer()
 
   class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
-
-  class Test2(val pred: Pred2, val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
 
   class KeyDown(val key: Key) : Integer()
 
