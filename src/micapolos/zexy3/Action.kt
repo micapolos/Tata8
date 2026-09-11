@@ -6,6 +6,8 @@ import micapolos.zexy3.model.Void as ModelVoid
 
 class Action internal constructor(model: Any) : Value<Action>(model)
 
+val noAction = pause(0.0)
+
 fun <T : Value<T>> Value<T>.set(value: Value<T>): Value<Action> =
   Action(ModelVoid.Set(model as ModelVariable<ModelVoid>, value.model))
 
