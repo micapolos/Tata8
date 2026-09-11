@@ -7,6 +7,7 @@ import micapolos.zexy3.runtime.*
 
 fun Compiler.animatedVoid(indexed: Void): Animated<*> =
   when (indexed) {
+    is Void.Empty -> Animated(ObjectEvaluator { Unit }, instantAnimation)
     is Void.Pause -> Animated(voidEvaluator(indexed), voidAnimation(indexed))
     is Void.Capture<*> -> {
       val animatedValue = animated(indexed.value)
@@ -71,6 +72,7 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
 
 fun Compiler.voidAnimation(indexed: Void): Animation =
   when (indexed) {
+    is Void.Empty -> TODO()
     is Void.Pause -> doubleEvaluator(indexed.seconds).pause
     is Void.Set<*> -> animatedVoid(indexed).animation
     is Void.Capture<*> -> TODO()
@@ -80,6 +82,7 @@ fun Compiler.voidAnimation(indexed: Void): Animation =
 
 fun <T : Value<T>> Compiler.voidEvaluator(indexed: Void): Evaluator<*> =
   when (indexed) {
+    is Void.Empty -> TODO()
     is Void.Pause -> ObjectEvaluator { Unit }
     is Void.Set<*> -> animatedVoid(indexed).evaluator
     is Void.Capture<*> -> TODO()
