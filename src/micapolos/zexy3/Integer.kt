@@ -37,10 +37,10 @@ operator fun Value<Integer>.rem(i: Int) = rem(i.value)
 operator fun Value<Integer>.rem(integer: Value<Integer>) = apply(ModelInteger.Op2.REM, integer)
 
 fun Value<Integer>.equals(i: Int) = equals(i.value)
-fun Value<Integer>.equals(integer: Value<Integer>) = Bool(apply(ModelInteger.Op2.EQ, integer))
+fun Value<Integer>.equals(integer: Value<Integer>) = Bool(test(ModelInteger.Op2.EQ, integer))
 
 fun Value<Integer>.isLessThan(i: Int) = isLessThan(i.value)
-fun Value<Integer>.isLessThan(integer: Value<Integer>) = Bool(apply(ModelInteger.Op2.LT, integer))
+fun Value<Integer>.isLessThan(integer: Value<Integer>) = Bool(test(ModelInteger.Op2.LT, integer))
 
 infix fun Value<Integer>.and(i: Int) = times(i.value)
 infix fun Value<Integer>.and(integer: Value<Integer>) = apply(ModelInteger.Op2.AND, integer)
