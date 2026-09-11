@@ -91,7 +91,7 @@ public final class Game {
         ? keys.fast.isPressed ? 1f : 0.125f
         : keys.fast.isPressed ? 8f : 1f, 0.1f);
     //micapolos.tata8.Game.dusk = (float) dusk.get();
-    step(speedValue / 60);
+    step(speedValue / FRAMES_PER_SECOND);
   }
 
   public static void show() {

@@ -17,6 +17,8 @@ import java.util.List;
 
 public final class Game {
   static final boolean FULLSCREEN = false;
+  public static final int FRAMES_PER_SECOND = 60;
+  public static final float FRAME_SECONDS = 1f / FRAMES_PER_SECOND;
 
   public static final int WIDTH = 512 - 32;
   public static final int HEIGHT = 256;
@@ -217,7 +219,7 @@ public final class Game {
 
     animation.startInternal();
 
-    Timer timer = new Timer(16, _ -> {
+    Timer timer = new Timer(1000 / FRAMES_PER_SECOND, _ -> {
       frame.setTitle(title);
       float multiplier = keys.slow.isPressed
         ? keys.fast.isPressed ? 1f : 0.25f
@@ -229,8 +231,8 @@ public final class Game {
       if (keys.dusk.pressed()) {
         targetDusk = 1 - targetDusk;
       }
-      animation.advanceInternal(multiplier / 60f);
-      onStep.accept(multiplier / 60f);
+      animation.advanceInternal(multiplier * FRAME_SECONDS);
+      onStep.accept(multiplier * FRAME_SECONDS);
       panel.repaint();
       for (Key key : keys.array) {
         key.update();

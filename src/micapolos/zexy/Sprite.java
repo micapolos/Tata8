@@ -116,7 +116,7 @@ public final class Sprite extends Drawing {
   }
 
   static void main() {
-    Number x = animatedNumber(n -> instant(n.set(160)).then(frame(1/60f, n.add(1)).repeat()));
+    Number x = animatedNumber(n -> instant(n.set(160)).then(frame(micapolos.tata8.Game.FRAME_SECONDS, n.add(1)).repeat()));
 
     newSprite()
       .withImage(image(Game.class, "depressedChicken.png").sliceVertically(8).get(0))

@@ -28,7 +28,7 @@ fun Compiler.numberEvaluator(number: Number): DoubleEvaluator =
 
     is Number.Apply0 ->
       when (number.op) {
-        Number.Op0.FRAME_TIME -> DoubleEvaluator { 1.0 / 60 }
+        Number.Op0.FRAME_TIME -> DoubleEvaluator { Game.FRAME_SECONDS.toDouble() }
       }
 
     is Number.Apply1 -> {

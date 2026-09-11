@@ -378,7 +378,7 @@ public class Number extends ValueComponent {
       micapolos.tata8.Math.elastic(
         (float) d,
         (float) number.get(),
-        (float) (factor.get() * seconds * 60)));
+        (float) (factor.get() * seconds * micapolos.tata8.Game.FRAMES_PER_SECOND)));
   }
 
   public Number smooth() {

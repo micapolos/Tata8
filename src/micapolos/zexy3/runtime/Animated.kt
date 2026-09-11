@@ -10,7 +10,7 @@ fun Animated<Drawing>.show() {
   animation.start()
   evaluator.evalBoxed().drawOn(Game.background.canvas)
   var gameSeconds = 0.0
-  val stepSeconds = 1.0/60.0
+  val stepSeconds = Game.FRAME_SECONDS.toDouble()
   Game.onUpdate = {
     Game.background.canvas.clear()
     val leftOverSeconds = animation.step(stepSeconds)
