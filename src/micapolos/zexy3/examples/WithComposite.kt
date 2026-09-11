@@ -7,7 +7,7 @@ fun main() {
     rect
       .with(position(8, 8))
       .with(size(256, 96))
-      .with(color.red),
+      .with(color(0.5, 0.2, 0.3, 1.0)),
     sprite
       .with(image("/micapolos/depressedChicken.png"))
       .with(position(8, 8)),

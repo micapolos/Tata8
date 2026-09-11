@@ -70,6 +70,7 @@ public final class Canvas {
     // TODO: Pre-allocate these.
     int[] xs = {x1, x2, x3};
     int[] ys = {y1, y2, y3};
+    graphics.setColor(color.awtColor);
     graphics.setComposite(composite.awt);
     graphics.fillPolygon(xs, ys, 3);
   }
