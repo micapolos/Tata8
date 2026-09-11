@@ -218,7 +218,8 @@ class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<An
   var selectedIndex = 0
 
   override fun start() {
-    animations.forEach(Animation::start)
+    selectedIndex = indexEvaluator.eval()
+    animations[selectedIndex].start()
   }
 
   override fun step(seconds: Double): Double {
