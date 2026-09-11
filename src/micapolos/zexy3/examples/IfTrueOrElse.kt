@@ -3,5 +3,5 @@ package micapolos.zexy3.examples
 import micapolos.zexy3.*
 
 fun main() {
-  mouse.isPressed.selectTrueFalse("pressed", "released").show()
+  mouse.isPressed.ifTrue("pressed").orElse("released").show()
 }

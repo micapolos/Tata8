@@ -41,24 +41,27 @@ infix fun Value<Integer>.xor(i: Int) = times(i.value)
 infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.XOR, integer)
 
 @JvmName("IntegerSelect")
-fun <T: Value<T>> Value<Integer>.select(values: List<Value<T>>): Value<T> =
+fun <T: Value<T>> Value<Integer>.selectTrueFalse(values: List<Value<T>>): Value<T> =
   when (values.first().modelOrChildren) {
     is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
-    else -> Value(children.map { select(it.children) })
+    else -> Value(children.map { selectTrueFalse(it.children) })
   }
 
-fun <T: Value<T>> Value<Integer>.select(value: Value<T>, vararg values: Value<T>): Value<T> =
-  select(listOf(value, *values))
+fun <T: Value<T>> Value<Integer>.selectTrueFalse(value: Value<T>, vararg values: Value<T>): Value<T> =
+  selectTrueFalse(listOf(value, *values))
 
-fun Value<Bool>.select(trueCase: Int, falseCase: Int): Value<Integer> =
-  select(trueCase.value, falseCase.value)
+fun Value<Bool>.selectTrueFalse(trueCase: Int, falseCase: Int): Value<Integer> =
+  selectTrueFalse(trueCase.value, falseCase.value)
+
+fun Value<Bool>.ifTrue(trueCase: Int) = ifTrue(trueCase.value)
+fun IfTrue<Integer>.orElse(falseCase: Int) = orElse(falseCase.value)
 
 @JvmName("IntegerSelectInt")
-fun Value<Integer>.select(cases: List<Int>): Value<Integer> =
-  select(cases.map { it.value })
+fun Value<Integer>.selectTrueFalse(cases: List<Int>): Value<Integer> =
+  selectTrueFalse(cases.map { it.value })
 
 @JvmName("IntegerSelectInt")
-fun Value<Integer>.select(firstCast: Int, vararg otherCases: Int): Value<Integer> =
-  select(listOf(firstCast, *otherCases.toTypedArray()))
+fun Value<Integer>.selectTrueFalse(firstCast: Int, vararg otherCases: Int): Value<Integer> =
+  selectTrueFalse(listOf(firstCast, *otherCases.toTypedArray()))
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))

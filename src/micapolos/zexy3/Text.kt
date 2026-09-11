@@ -13,12 +13,15 @@ fun animatedVariable(initial: String, fn: (Value<Text>) -> Value<Action>) = anim
 val String.value: Value<Text> get() =
   Text(ModelText.Constant(this))
 
-fun Value<Bool>.select(trueCase: String, falseCase: String): Value<Text> =
-  select(trueCase.value, falseCase.value)
+fun Value<Bool>.selectTrueFalse(trueCase: String, falseCase: String): Value<Text> =
+  selectTrueFalse(trueCase.value, falseCase.value)
 
-fun Value<Integer>.select(cases: List<String>): Value<Text> =
-  select(cases.map { it.value })
+fun Value<Bool>.ifTrue(trueCase: String) = ifTrue(trueCase.value)
+fun IfTrue<Text>.orElse(falseCase: String) = orElse(falseCase.value)
 
-fun Value<Integer>.select(firstCast: String, vararg otherCases: String): Value<Text> =
-  select(listOf(firstCast, *otherCases))
+fun Value<Integer>.selectTrueFalse(cases: List<String>): Value<Text> =
+  selectTrueFalse(cases.map { it.value })
+
+fun Value<Integer>.selectTrueFalse(firstCast: String, vararg otherCases: String): Value<Text> =
+  selectTrueFalse(listOf(firstCast, *otherCases))
 

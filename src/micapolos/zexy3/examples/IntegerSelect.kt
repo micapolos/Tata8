@@ -4,7 +4,7 @@ import micapolos.zexy3.*
 
 fun main() {
   val step = frame.count / 10 % 10
-  val text = step.select(
+  val text = step.selectTrueFalse(
     "0---------",
     "-0--------",
     "--0-------",

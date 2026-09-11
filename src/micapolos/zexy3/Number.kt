@@ -13,12 +13,15 @@ fun animatedVariable(initial: Double, fn: (Value<Number>) -> Value<Action>) = an
 internal val <T : Value<T>> Value<T>.modelNumber get() = modelOrChildren as ModelValue<ModelNumber>
 internal val Value<Number>.cast get() = this as Number
 
-fun Value<Bool>.select(trueCase: Double, falseCase: Double): Value<Number> =
-  select(trueCase.value, falseCase.value)
+fun Value<Bool>.selectTrueFalse(trueCase: Double, falseCase: Double): Value<Number> =
+  selectTrueFalse(trueCase.value, falseCase.value)
 
-fun Value<Integer>.select(cases: List<Double>): Value<Number> =
-  select(cases.map { it.value })
+fun Value<Bool>.ifTrue(trueCase: Double) = ifTrue(trueCase.value)
+fun IfTrue<Number>.orElse(falseCase: Double) = orElse(falseCase.value)
 
-fun Value<Integer>.select(firstCast: Double, vararg otherCases: Double): Value<Number> =
-  select(listOf(firstCast, *otherCases.toTypedArray()))
+fun Value<Integer>.selectTrueFalse(cases: List<Double>): Value<Number> =
+  selectTrueFalse(cases.map { it.value })
+
+fun Value<Integer>.selectTrueFalse(firstCast: Double, vararg otherCases: Double): Value<Number> =
+  selectTrueFalse(listOf(firstCast, *otherCases.toTypedArray()))
 
