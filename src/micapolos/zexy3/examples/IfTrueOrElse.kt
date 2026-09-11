@@ -4,7 +4,7 @@ import micapolos.zexy3.*
 
 fun main() {
   mouse.isPressed
-    .ifTrue("pressed")
-    .orElse("released")
+    .ifTrue("mouse is pressed")
+    .orElse("mouse is released")
     .show()
 }

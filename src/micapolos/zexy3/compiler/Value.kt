@@ -44,45 +44,45 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val animatedInteger = animated(value.index)
       val animatedOptions = value.options.map { animated(it) }
       val animatedEvaluators = animatedOptions.map { it.evaluator }
-      val animation = SelectAnimation(
+      val selectAnimation = SelectAnimation(
         animatedInteger.evaluator as IntEvaluator,
         animatedOptions.map { it.animation }.toTypedArray()
       )
       val evaluator = when (animatedOptions.first().evaluator) {
         is IntEvaluator -> IntEvaluator {
-          (animatedEvaluators[animation.selectedIndex] as IntEvaluator).eval()
+          (animatedEvaluators[selectAnimation.selectedIndex] as IntEvaluator).eval()
         }
 
         is DoubleEvaluator -> DoubleEvaluator {
-          (animatedEvaluators[animation.selectedIndex] as DoubleEvaluator).eval()
+          (animatedEvaluators[selectAnimation.selectedIndex] as DoubleEvaluator).eval()
         }
 
         is ObjectEvaluator<*> -> ObjectEvaluator {
-          (animatedEvaluators[animation.selectedIndex] as ObjectEvaluator).eval()
+          (animatedEvaluators[selectAnimation.selectedIndex] as ObjectEvaluator).eval()
         }
       }
-      Animated(evaluator, animation)
+      Animated(evaluator, parallel(animatedInteger.animation, selectAnimation))
     }
 
     is Value.Sequence -> {
       val animatedValues = value.values.map { animated(it) }
-      val animation = SequenceAnimation(animatedValues.map { it.animation })
+      val sequenceAnimation = SequenceAnimation(animatedValues.map { it.animation })
       val evaluators = animatedValues.map { it.evaluator }
       Animated(
         when (evaluators.first()) {
           is IntEvaluator -> IntEvaluator {
-            (evaluators[min(animation.index, evaluators.size - 1)] as IntEvaluator).eval()
+            (evaluators[min(sequenceAnimation.index, evaluators.size - 1)] as IntEvaluator).eval()
           }
 
           is DoubleEvaluator -> DoubleEvaluator {
-            (evaluators[min(animation.index, evaluators.size - 1)] as DoubleEvaluator).eval()
+            (evaluators[min(sequenceAnimation.index, evaluators.size - 1)] as DoubleEvaluator).eval()
           }
 
           is ObjectEvaluator<*> -> ObjectEvaluator {
-            (evaluators[min(animation.index, evaluators.size - 1)] as ObjectEvaluator).eval()
+            (evaluators[min(sequenceAnimation.index, evaluators.size - 1)] as ObjectEvaluator).eval()
           }
         },
-        animation
+        sequenceAnimation
       )
     }
 
@@ -120,6 +120,7 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     }
 
     is Value.Race -> TODO()
+
     is Value.Frame -> {
       val animated = animated(value.value)
       val evaluator = animated.evaluator

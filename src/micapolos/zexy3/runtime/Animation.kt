@@ -90,7 +90,8 @@ fun frameAnimation(animation: Animation): Animation =
 
     override fun step(seconds: Double): Double {
       animation.start()
-      return animation.step(seconds)
+      animation.step(seconds)
+      return 0.0
     }
   }
 
