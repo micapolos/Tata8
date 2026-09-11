@@ -71,7 +71,7 @@ fun parallel(animations: List<Animation>): Animation =
 
     override fun step(seconds: Double): Double {
       var remainingSeconds = seconds
-      animations.forEach { remainingSeconds = Math.min(remainingSeconds, it.step(seconds)) }
+      animations.forEach { remainingSeconds = min(remainingSeconds, it.step(seconds)) }
       return remainingSeconds
     }
   }

@@ -109,7 +109,7 @@ fun <T : Value<T>> Compiler.animation(value: Value<T>): Animation =
     is Drawing -> drawingAnimation(value)
     is Void -> voidAnimation(value)
 
-    is Value.Logged -> noAnimation
+    is Value.Logged -> animation(value.value)
     is Value.RunWhile ->
       animation(value.value)
         .runWhileNotZero(intEvaluator(value.condition))
