@@ -150,30 +150,30 @@ class SequenceAnimation(
   }
 }
 
-fun Animation.repeatWhileNotZero(intEvaluator: IntEvaluator): Animation =
+fun Animation.repeatWhile(condition: () -> Boolean): Animation =
   object : Animation {
-    var needsInit = false
     var done = false
 
     override fun start() {
-      needsInit = true
       done = false
+      this@repeatWhile.start()
     }
 
     override fun step(seconds: Double): Double {
+      var needsInit = false
       var remainingSeconds = seconds
       while (true) {
         if (done) {
           return remainingSeconds
         } else if (needsInit) {
-          this@repeatWhileNotZero.start()
+          this@repeatWhile.start()
           needsInit = false
         }
 
-        remainingSeconds = this@repeatWhileNotZero.step(remainingSeconds)
+        remainingSeconds = this@repeatWhile.step(remainingSeconds)
         if (remainingSeconds == 0.0) {
           return 0.0
-        } else if (intEvaluator.eval() != 0) {
+        } else if (condition()) {
           needsInit = true
         } else {
           done = true
@@ -182,14 +182,14 @@ fun Animation.repeatWhileNotZero(intEvaluator: IntEvaluator): Animation =
     }
   }
 
-fun Animation.runWhileNotZero(intEvaluator: IntEvaluator): Animation =
+fun Animation.runWhileNotZero(condition: () -> Boolean): Animation =
   object : Animation {
     override fun start() {
       this@runWhileNotZero.start()
     }
 
     override fun step(seconds: Double): Double =
-      if (intEvaluator.eval() != 0) this@runWhileNotZero.step(seconds) else 0.0
+      if (condition()) this@runWhileNotZero.step(seconds) else seconds
   }
 
 fun Animation.startWhenNotZero(intEvaluator: IntEvaluator) =

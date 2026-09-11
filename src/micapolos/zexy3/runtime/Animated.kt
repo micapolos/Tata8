@@ -32,12 +32,6 @@ fun Animated<Drawing>.show() {
   Game.start()
 }
 
-fun <T> Animated<T>.logged(label: String?): Animated<T> =
-  Animated(evaluator, animation)
-
-fun <T> animatedRunWhileNotZero(evaluator: Evaluator<T>, condition: IntEvaluator, animation: Animation) =
-  Animated(evaluator, animation.runWhileNotZero(condition))
-
 fun main() {
   Animated(
     ObjectEvaluator {

@@ -29,6 +29,7 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
     is ModelValue.Sequence<*> -> Sequence(model.values.map { indexed(it) })
     is ModelValue.Select<*> -> Select(indexed(model.index), model.options.map { indexed(it) })
     is ModelValue.RunWhile<*> -> RunWhile(indexed(model.condition), indexed(model.value))
+    is ModelValue.RepeatWhile<*> -> RepeatWhile(indexed(model.condition), indexed(model.value))
     is ModelValue.StartWhen<*> -> StartWhen(indexed(model.condition), indexed(model.value))
     is ModelValue.Stretch<*> -> Stretch(indexed(model.factor), indexed(model.value))
     is ModelValue.Stateful<*> -> Stateful(indexed(model.state), indexed(model.value))

@@ -28,14 +28,26 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
 
     is Value.RunWhile -> {
       val animatedCondition = animated(value.condition)
-      val animatedValue = animated(value.condition)
+      val animatedValue = animated(value.value)
+      val conditionEvaluator = animatedCondition.evaluator as IntEvaluator
       Animated(
         animatedValue.evaluator,
-        race(
-          listOf(
-            animatedCondition.animation,
-            animatedValue.animation.runWhileNotZero(animatedCondition.evaluator as IntEvaluator)
-          )
+        parallel(
+          animatedCondition.animation,
+          animatedValue.animation.runWhileNotZero { conditionEvaluator.eval() != 0 }
+        )
+      )
+    }
+
+    is Value.RepeatWhile -> {
+      val animatedCondition = animated(value.condition)
+      val animatedValue = animated(value.value)
+      val conditionEvaluator = animatedCondition.evaluator as IntEvaluator
+      Animated(
+        animatedValue.evaluator,
+        parallel(
+          animatedCondition.animation,
+          animatedValue.animation.repeatWhile { conditionEvaluator.eval() != 0 }
         )
       )
     }

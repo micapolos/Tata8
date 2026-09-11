@@ -26,6 +26,7 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Value.Logged<*> -> value.indexType
       is Value.Race<*> -> value.indexType
       is Value.RunWhile<*> -> value.indexType
+      is Value.RepeatWhile<*> -> value.indexType
       is Value.Select<*> -> options.first().indexType
       is Value.Sequence<*> -> values.first().indexType
       is Value.StartWhen<*> -> value.indexType
