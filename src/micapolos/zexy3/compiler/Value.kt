@@ -44,7 +44,7 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       }
       Animated(evaluator, animation)
     }
-    is Value.Sequence -> TODO()
+    is Value.Sequence -> Animated(evaluator(value), animation(value))
     is Value.StartWhen -> TODO()//evaluator(value.value)
     is Value.Stretch -> TODO()//evaluator(value.value)
     is Value.Stateful -> {
