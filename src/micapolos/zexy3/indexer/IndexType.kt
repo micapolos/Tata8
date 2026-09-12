@@ -22,7 +22,8 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Integer -> IndexType.INTEGER
       is Number -> IndexType.NUMBER
       is Text -> IndexType.OBJECT
-      is Value.Frame<*> -> value.indexType
+      is Value.EveryFrame<*> -> value.indexType
+      is Value.NextFrame<*> -> value.indexType
       is Value.Logged<*> -> value.indexType
       is Value.Race<*> -> value.indexType
       is Value.RunWhile<*> -> value.indexType

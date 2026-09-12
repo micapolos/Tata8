@@ -16,10 +16,6 @@ fun <T : Value<T>> Value<T>.capture(value: Value<T>): Value<Action> =
 
 val Value<Action>.activity: Value<Activity> get() = Activity(model)
 
-val Value<*>.everyFrame: Value<Activity>
-  get() =
-    Activity(ModelValue.Frame(model))
-
 fun sequence(actions: List<Value<Action>>): Value<Action> =
   Action(ModelValue.Sequence(actions.map { it.model }))
 

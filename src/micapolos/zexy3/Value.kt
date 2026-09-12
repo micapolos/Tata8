@@ -46,3 +46,12 @@ fun <T : Value<T>> Value<T>.apply(fn: Value<T>.() -> Value<*>): Value<T> = also(
 fun <T : Value<T>> Value<T>.show() {
   noDrawing.also { logged }.show()
 }
+
+val Value<*>.everyFrame: Value<Activity>
+  get() =
+    Activity(ModelValue.EveryFrame(model))
+
+val Value<*>.nextFrame: Value<Activity>
+  get() =
+    Activity(ModelValue.NextFrame(model))
+

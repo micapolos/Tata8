@@ -100,7 +100,7 @@ val Value<Integer>.change: Event
   get() =
     Event(variable(0).let { variable ->
       !isEqualTo(variable).also {
-        variable.capture(this).everyFrame
+        variable.capture(this).nextFrame
       }
     }.model)
 

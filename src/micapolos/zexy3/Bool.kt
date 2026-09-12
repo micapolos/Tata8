@@ -40,8 +40,7 @@ val Value<Bool>.change: Event
   get() =
     Event(variable(false).let { variable ->
       !isEqualTo(variable).also {
-        // We need to capture in the next frame!!!
-        variable.capture(this).everyFrame
+        variable.capture(this).nextFrame
       }
     }.model)
 

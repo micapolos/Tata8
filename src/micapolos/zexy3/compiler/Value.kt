@@ -133,10 +133,17 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
 
     is Value.Race -> TODO()
 
-    is Value.Frame -> {
+    is Value.EveryFrame -> {
       val animated = animated(value.value)
       val evaluator = animated.evaluator
       val animation = animated.animation
-      Animated(evaluator, frameAnimation(animation))
+      Animated(evaluator, everyFrameAnimation(animation))
+    }
+
+    is Value.NextFrame -> {
+      val animated = animated(value.value)
+      val evaluator = animated.evaluator
+      val animation = animated.animation
+      Animated(evaluator, nextFrameAnimation(animation))
     }
   }

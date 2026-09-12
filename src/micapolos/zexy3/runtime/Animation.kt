@@ -84,7 +84,7 @@ fun parallel(animations: List<Animation>): Animation =
     }
   }
 
-fun frameAnimation(animation: Animation): Animation =
+fun everyFrameAnimation(animation: Animation): Animation =
   object : Animation {
     override fun start() {}
 
@@ -92,6 +92,30 @@ fun frameAnimation(animation: Animation): Animation =
       animation.start()
       animation.step(seconds)
       return 0.0
+    }
+  }
+
+fun nextFrameAnimation(animation: Animation): Animation =
+  object : Animation {
+    var shouldStart = false
+    var isRunning = false
+
+    override fun start() {
+      shouldStart = false
+      isRunning = false
+    }
+
+    override fun step(seconds: Double): Double {
+      if (!shouldStart) {
+        shouldStart = true
+        return seconds
+      } else {
+        if (!isRunning) {
+          animation.start()
+          isRunning = true
+        }
+        return animation.step(seconds)
+      }
     }
   }
 
