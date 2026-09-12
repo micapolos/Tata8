@@ -252,8 +252,9 @@ class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<An
   }
 }
 
-class PulseAnimation(var isLow: Boolean = false, val highAnimation: Animation, val lowAnimation: Animation): Animation {
-  var didStart = false
+class PulseAnimation(val highAnimation: Animation, val lowAnimation: Animation): Animation {
+  var isLow: Boolean = false
+  private var didStart = false
 
   override fun start() {
     didStart = true

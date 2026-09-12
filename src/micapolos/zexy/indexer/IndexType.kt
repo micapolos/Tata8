@@ -35,4 +35,5 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Value.Stretch<*> -> value.indexType
       is Variable<*> -> initial.indexType
       is Void -> IndexType.OBJECT
+      is Value.Pulse<*> -> high.indexType
     }

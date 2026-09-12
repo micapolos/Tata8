@@ -57,3 +57,6 @@ val Value<*>.nextFrame: Value<Activity>
 
 fun <T: Value<T>> Value<T>.startOn(event: Value<Event>): Value<T> =
   Value(ModelValue.StartWhen(event.isOccurring.integer.modelInteger, model))
+
+fun <T: Value<T>> Value<T>.pulse(high: Value<T>): Value<T> =
+  Value(ModelValue.Pulse(high.model, model))

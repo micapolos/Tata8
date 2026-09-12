@@ -33,7 +33,7 @@ fun Animated<Drawing>.show() {
 }
 
 fun <T> animatedPulse(animatedHigh: Animated<T>, animatedLow: Animated<T>): Animated<T> = run {
-  val pulseAnimation = PulseAnimation()
+  val pulseAnimation = PulseAnimation(animatedHigh.animation, animatedLow.animation)
   Animated(
     selectEvaluator({ if (pulseAnimation.isLow) 1 else 0 }, animatedHigh.evaluator, animatedLow.evaluator),
     pulseAnimation
