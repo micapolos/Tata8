@@ -146,4 +146,7 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val animation = animated.animation
       Animated(evaluator, nextFrameAnimation(animation))
     }
+
+    is Value.Pulse ->
+      animatedPulse(animated(value.high), animated(value.low))
   }

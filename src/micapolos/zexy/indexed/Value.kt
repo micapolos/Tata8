@@ -22,4 +22,6 @@ sealed interface Value<T : Value<T>> {
   class EveryFrame<T: Value<T>>(val value: Value<T>): Value<T>
 
   class NextFrame<T: Value<T>>(val value: Value<T>): Value<T>
+
+  class Pulse<T: Value<T>>(val high: Value<T>, val low: Value<T>): Value<T>
 }

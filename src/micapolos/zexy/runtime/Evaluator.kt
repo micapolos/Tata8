@@ -82,3 +82,18 @@ fun <T> statefulEvaluator(stateEvaluator: Evaluator<*>, evaluator: Evaluator<T>)
       evaluator.eval()
     }
   }
+
+fun <T> selectEvaluator(indexEvaluator: IntEvaluator, vararg evaluators: Evaluator<T>): Evaluator<T> =
+  when (evaluators.first()) {
+    is IntEvaluator -> IntEvaluator {
+      (evaluators[indexEvaluator.eval()] as IntEvaluator).eval()
+    } as Evaluator<T>
+
+    is DoubleEvaluator -> DoubleEvaluator {
+      (evaluators[indexEvaluator.eval()] as DoubleEvaluator).eval()
+    } as Evaluator<T>
+
+    is ObjectEvaluator<*> -> ObjectEvaluator {
+      (evaluators[indexEvaluator.eval()] as ObjectEvaluator<T>).eval()
+    }
+  }

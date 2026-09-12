@@ -251,3 +251,22 @@ class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<An
     return animations[selectedIndex].step(seconds)
   }
 }
+
+class PulseAnimation(var isLow: Boolean = false, val highAnimation: Animation, val lowAnimation: Animation): Animation {
+  var didStart = false
+
+  override fun start() {
+    didStart = true
+  }
+
+  override fun step(seconds: Double): Double {
+    if (didStart) {
+      isLow = false
+      didStart = false
+      return highAnimation.step(seconds)
+    } else {
+      isLow = true
+      return lowAnimation.step(seconds)
+    }
+  }
+}
