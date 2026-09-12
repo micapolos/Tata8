@@ -1,8 +1,7 @@
 package micapolos.zexy3.examples
 
-import micapolos.zexy3.show
-import micapolos.zexy3.value
+import micapolos.zexy3.*
 
 fun main() {
-  false.value.show()
+  false.value.not().show()
 }

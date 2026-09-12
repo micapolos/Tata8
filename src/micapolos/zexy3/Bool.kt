@@ -19,7 +19,7 @@ infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(integer or bool.integer)
 
 infix fun Value<Bool>.xor(bool: Value<Bool>) = Bool(integer xor bool.integer)
 
-operator fun Value<Bool>.not() = Bool(integer xor 1)
+operator fun Value<Bool>.not() = this xor true.value
 
 fun <T: Value<T>> Value<Bool>.selectTrueFalse(trueValue: Value<T>, falseValue: Value<T>): Value<T> =
   integer.selectFrom(falseValue, trueValue)

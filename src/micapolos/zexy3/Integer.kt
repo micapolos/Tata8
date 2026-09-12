@@ -13,10 +13,16 @@ val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
 fun variable(initial: Int) = variable(initial.value)
 fun variable(initial: Int, fn: (Value<Integer>) -> Value<Activity>) = variable(initial.value, fn)
 
+internal fun Value<Integer>.apply(op1: ModelInteger.Op1): Value<Integer> =
+  Integer(ModelInteger.Apply1(op1, modelInteger))
+
 internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
 
-operator fun Value<Integer>.unaryMinus() = 0.value - this
+val Value<Integer>.isNotZero get() = apply(ModelInteger.Op1.NOT_ZERO)
+val Value<Integer>.bool get() = Bool(isNotZero)
+
+operator fun Value<Integer>.unaryMinus() = apply(ModelInteger.Op1.NEG)
 
 operator fun Value<Integer>.plus(i: Int) = plus(i.value)
 operator fun Value<Integer>.plus(integer: Value<Integer>) = apply(ModelInteger.Op2.ADD, integer)

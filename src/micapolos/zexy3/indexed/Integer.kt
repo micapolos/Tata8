@@ -11,6 +11,7 @@ sealed class Integer: Value<Integer> {
 
   enum class Op1 {
     NEG,
+    NOT_ZERO
   }
 
   enum class Op2 {

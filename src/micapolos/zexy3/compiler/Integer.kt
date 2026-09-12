@@ -39,6 +39,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       Animated(
         when (integer.op) {
           Integer.Op1.NEG -> IntEvaluator { -intEvaluator.eval() }
+          Integer.Op1.NOT_ZERO -> IntEvaluator { (intEvaluator.eval() != 0).toInt() }
         }, animatedInt.animation)
     }
 

@@ -23,6 +23,7 @@ val ModelOp1.indexed
   get() =
     when (this) {
       ModelOp1.NEG -> Op1.NEG
+      ModelOp1.NOT_ZERO -> Op1.NOT_ZERO
     }
 
 val ModelOp2.indexed
