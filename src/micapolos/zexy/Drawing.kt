@@ -16,8 +16,8 @@ fun <T: Drawing<T>> stack(vararg drawings: Value<T>) = stack(drawings.toList())
 fun <T: Drawing<T>> stack(drawings: List<Value<T>>): Value<T> =
   Drawing(ModelDrawing.Stack(drawings.map { it.modelDrawing }))
 
-fun <T: Drawing<T>> stack(count: Int, fn: (Int) -> Value<T>): Value<T> =
-  stack(List(count) { index -> fn(index) })
+fun <T: Drawing<T>> stack(size: Int, indexFn: (Int) -> Value<T>): Value<T> =
+  stack(List(size) { index -> indexFn(index) })
 
 @JvmName("drawingWithFont")
 fun <T: Drawing<T>> Value<T>.with(font: Value<Font>): Value<T> =
