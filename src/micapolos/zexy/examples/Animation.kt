@@ -4,8 +4,12 @@ import micapolos.zexy.*
 
 fun main() {
   val x = variable(100) {
-    it.add(key.right.isPressed.selectTrueFalse(1, 0)).everyFrame
+    val speed = key.z.isPressed.ifTrue(5).orElse(1)
+    val rightOffset = key.right.isPressed.ifTrue(speed).orElse(0)
+    val leftOffset = key.left.isPressed.ifTrue(-speed).orElse(0)
+    it.add(rightOffset + leftOffset).everyFrame
   }
+
   sprite
     .with(image("/micapolos/depressedChicken.png"))
     .with(position(x, 10))
