@@ -17,9 +17,9 @@ internal val Value<*>.safeModel: ModelValue<*> get() =
 fun <T : Value<T>> sequence(vararg values: Value<T>): Value<T> =
   Value(ModelValue.Sequence(values.map { it.model }))
 
-val <T : Value<T>> Value<T>.logged: Value<T> get() = Value(ModelValue.Logged(null, safeModel))
+val <T : Value<T>> Value<T>.logged: Value<T> get() = loggedAs(null)
 
-infix fun <T : Value<T>> Value<T>.loggedAs(label: String): Value<T> =
+infix fun <T : Value<T>> Value<T>.loggedAs(label: String?): Value<T> =
   Value(ModelValue.Logged(label, safeModel))
 
 infix fun <T : Value<T>> Value<T>.then(value: Value<T>): Value<T> =
@@ -43,10 +43,6 @@ fun <T : Value<T>> Value<T>.also(fn: (Value<T>) -> Value<*>): Value<T> =
 
 fun <T : Value<T>> Value<T>.apply(fn: Value<T>.() -> Value<*>): Value<T> = also(fn)
 
-fun <T : Value<T>> Value<T>.show() {
-  noDrawing.also { logged }.show()
-}
-
 val Value<*>.everyFrame: Value<Activity>
   get() =
     Activity(ModelValue.EveryFrame(model))
@@ -60,3 +56,7 @@ fun <T: Value<T>> Value<T>.startOn(event: Value<Event>): Value<T> =
 
 fun <T: Value<T>> Value<T>.pulse(high: Value<T>): Value<T> =
   Value(ModelValue.Pulse(high.model, model))
+
+fun <T : Value<T>> Value<T>.show() {
+  noDrawing.also { logged }.show()
+}
