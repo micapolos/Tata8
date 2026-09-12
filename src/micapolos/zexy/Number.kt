@@ -60,8 +60,8 @@ fun Value<Bool>.selectTrueFalse(trueCase: Double, falseCase: Double): Value<Numb
 fun Value<Bool>.ifTrue(trueCase: Double) = ifTrue(trueCase.value)
 fun IfTrue<Number>.orElse(falseCase: Double) = orElse(falseCase.value)
 
-//fun Value<Integer>.selectFrom(cases: List<Double>): Value<Number> =
-//  selectFrom(cases.map { it.value })
-//
-//fun Value<Integer>.selectFrom(firstCast: Double, vararg otherCases: Double): Value<Number> =
-//  selectFrom(listOf(firstCast, *otherCases.toTypedArray()))
+fun Value<Integer>.selectFrom(cases: List<Double>): Value<Number> =
+  selectFrom(cases.map { it.value })
+
+fun Value<Integer>.selectFrom(firstCase: Double, vararg otherCases: Double): Value<Number> =
+  selectFrom(listOf(firstCase, *otherCases.toTypedArray()))
