@@ -36,13 +36,7 @@ class IfTrue<T : Value<T>>(val condition: Value<Bool>, val trueCase: Value<T>)
 fun <T: Value<T>> Value<Bool>.ifTrue(trueCase: Value<T>) = IfTrue(this, trueCase)
 fun <T: Value<T>> IfTrue<T>.orElse(falseCase: Value<T>) = condition.selectTrueFalse(trueCase, falseCase)
 
-val Value<Bool>.change: Event
-  get() =
-    Event(variable(false).let { variable ->
-      !isEqualTo(variable).also {
-        variable.capture(this).nextFrame
-      }
-    }.model)
+val Value<Bool>.change: Event get() = integer.change
 
 fun Value<Bool>.changeTo(bool: Boolean) = changeTo(bool.value)
 fun Value<Bool>.changeTo(bool: Value<Bool>) = change.and(isEqualTo(bool))

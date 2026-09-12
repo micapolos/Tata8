@@ -97,12 +97,16 @@ fun Value<Integer>.subtract(i: Int) = capture(this - 1)
 fun Value<Integer>.multiply(i: Int) = capture(this * 1)
 
 val Value<Integer>.change: Event
-  get() =
-    Event(variable(0).let { variable ->
-      !isEqualTo(variable).also {
-        variable.capture(this).nextFrame
-      }
-    }.model)
+  get() {
+    val previous = variable(this)
+    val current = variable(this)
+    return previous.isEqualTo(current).not().also {
+      sequence(
+        previous.capture(current),
+        current.capture(this)
+      ).everyFrame
+    }.occurrence
+  }
 
 fun Value<Integer>.changeTo(integer: Int): Value<Event> =
   changeTo(integer.value)
