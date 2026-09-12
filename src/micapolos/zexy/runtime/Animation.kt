@@ -239,16 +239,12 @@ fun Animation.startWhenNotZero(intEvaluator: IntEvaluator) =
   }
 
 class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<Animation>) : Animation {
-  var selectedIndex = 0
-
   override fun start() {
-    selectedIndex = indexEvaluator.eval()
-    animations[selectedIndex].start()
+    animations[indexEvaluator.eval()].start()
   }
 
   override fun step(seconds: Double): Double {
-    selectedIndex = indexEvaluator.eval()
-    return animations[selectedIndex].step(seconds)
+    return animations[indexEvaluator.eval()].step(seconds)
   }
 }
 

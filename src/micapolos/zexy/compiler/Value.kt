@@ -53,27 +53,28 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     }
 
     is Value.Select -> {
-      val animatedInteger = animated(value.index)
+      val animatedIndex = animated(value.index)
+      val indexEvaluator = animatedIndex.evaluator as IntEvaluator
       val animatedOptions = value.options.map { animated(it) }
       val animatedEvaluators = animatedOptions.map { it.evaluator }
       val selectAnimation = SelectAnimation(
-        animatedInteger.evaluator as IntEvaluator,
+        indexEvaluator,
         animatedOptions.map { it.animation }.toTypedArray()
       )
       val evaluator = when (animatedOptions.first().evaluator) {
         is IntEvaluator -> IntEvaluator {
-          (animatedEvaluators[selectAnimation.selectedIndex] as IntEvaluator).eval()
+          (animatedEvaluators[indexEvaluator.eval()] as IntEvaluator).eval()
         }
 
         is DoubleEvaluator -> DoubleEvaluator {
-          (animatedEvaluators[selectAnimation.selectedIndex] as DoubleEvaluator).eval()
+          (animatedEvaluators[indexEvaluator.eval()] as DoubleEvaluator).eval()
         }
 
         is ObjectEvaluator<*> -> ObjectEvaluator {
-          (animatedEvaluators[selectAnimation.selectedIndex] as ObjectEvaluator).eval()
+          (animatedEvaluators[indexEvaluator.eval()] as ObjectEvaluator).eval()
         }
       }
-      Animated(evaluator, parallel(animatedInteger.animation, selectAnimation))
+      Animated(evaluator, parallel(animatedIndex.animation, selectAnimation))
     }
 
     is Value.Sequence -> {
