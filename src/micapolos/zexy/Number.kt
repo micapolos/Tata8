@@ -19,6 +19,9 @@ internal fun Value<Number>.apply(op1: ModelNumber.Op1): Value<Number> =
 internal fun Value<Number>.apply(op2: ModelNumber.Op2, number: Value<Number>): Value<Number> =
   Number(ModelNumber.Apply2(op2, modelNumber, number.modelNumber))
 
+internal fun Value<Number>.apply(op2: ModelNumber.NumberPred2, number: Value<Number>): Value<Integer> =
+  Integer(ModelNumber.Test2(op2, modelNumber, number.modelNumber))
+
 operator fun Value<Number>.unaryMinus() = apply(ModelNumber.Op1.NEG)
 
 operator fun Value<Number>.plus(d: Double) = plus(d.value)
@@ -53,6 +56,18 @@ fun fract(number: Value<Number>) = number.apply(ModelNumber.Op1.FRACT)
 
 fun sqrt(number: Double) = sqrt(number.value)
 fun sqrt(number: Value<Number>) = number.apply(ModelNumber.Op1.SQRT)
+
+fun Value<Number>.isEqualTo(d: Double) = isEqualTo(d.value)
+fun Value<Number>.isEqualTo(number: Value<Number>): Value<Bool> = apply(ModelNumber.NumberPred2.EQ, number).bool
+
+fun Value<Number>.compareTo(d: Double) = compareTo(d.value)
+fun Value<Number>.compareTo(number: Value<Number>): Value<Integer> = apply(ModelNumber.NumberPred2.CMP, number)
+
+fun Value<Number>.isLessThan(d: Double) = isLessThan(d.value)
+fun Value<Number>.isLessThan(number: Value<Number>): Value<Bool> = compareTo(number).isEqualTo(-1)
+
+fun Value<Number>.isGreaterThan(d: Double) = isGreaterThan(d.value)
+fun Value<Number>.isGreaterThan(number: Value<Number>): Value<Bool> = compareTo(number).isEqualTo(1)
 
 fun Value<Bool>.selectTrueFalse(trueCase: Double, falseCase: Double): Value<Number> =
   selectTrueFalse(trueCase.value, falseCase.value)
