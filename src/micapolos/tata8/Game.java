@@ -2,7 +2,7 @@ package micapolos.tata8;
 
 import micapolos.FloatConsumer;
 import micapolos.awt.DuskFilter;
-import micapolos.zexy.Animation;
+import micapolos.zexy.runtime.Animation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +44,6 @@ public final class Game {
   public static Runnable onUpdate = () -> {};
   public static FloatConsumer onStep = seconds -> onUpdate.run();
   public static final Screen screen = new Screen();
-  public static Animation animation = Animation.instant();
   public static double dusk = 0;
   public static double targetDusk = 0;
   public static Font font = Font.mica;
@@ -217,8 +216,6 @@ public final class Game {
       }
     });
 
-    animation.startInternal();
-
     Timer timer = new Timer(1000 / FRAMES_PER_SECOND, _ -> {
       frame.setTitle(title);
       float multiplier = keys.slow.isPressed
@@ -231,7 +228,6 @@ public final class Game {
       if (keys.dusk.pressed()) {
         targetDusk = 1 - targetDusk;
       }
-      animation.advanceInternal(multiplier * FRAME_SECONDS);
       onStep.accept(multiplier * FRAME_SECONDS);
       panel.repaint();
       for (Key key : keys.array) {

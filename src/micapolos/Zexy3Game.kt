@@ -1,6 +1,6 @@
 package micapolos
 
-import micapolos.zexy3.*
+import micapolos.zexy.*
 
 fun main() {
   val x = variable(10)
