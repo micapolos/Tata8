@@ -14,5 +14,4 @@ fun main() {
     .with(image("/micapolos/depressedChicken.png"))
     .with(position(x, 10))
     .show()
-
 }
