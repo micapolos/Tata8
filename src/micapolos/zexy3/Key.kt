@@ -16,11 +16,10 @@ class Key internal constructor(isPressed: Value<Bool>): Value<Key>(listOf(isPres
   }
 }
 
-val Value<Key>.isPressed get() = children[0] as Value<Bool>
-
 fun key(isPressed: Value<Bool>): Value<Key> = Key(isPressed)
 
 val key = Key.Companion
 
-val Value<Key>.pressed: Event get() = TODO()
-val Value<Key>.released: Event get() = TODO()
+val Value<Key>.isPressed get() = children[0] as Value<Bool>
+val Value<Key>.press get() = isPressed.changeTo(true)
+val Value<Key>.release get() = isPressed.changeTo(false)

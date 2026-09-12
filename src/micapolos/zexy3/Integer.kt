@@ -103,3 +103,9 @@ val Value<Integer>.change: Event
         variable.capture(this).everyFrame
       }
     }.model)
+
+fun Value<Integer>.changeTo(integer: Int): Value<Event> =
+  changeTo(integer.value)
+
+fun Value<Integer>.changeTo(integer: Value<Integer>): Value<Event> =
+  change.and(isEqualTo(integer))

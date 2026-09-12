@@ -15,6 +15,9 @@ fun variable(initial: Boolean): Variable<Bool> = variable(initial.value)
 fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>): Value<Bool> =
   variable(initial.value, fn)
 
+fun Value<Bool>.isEqualTo(bool: Boolean) = isEqualTo(bool.value)
+fun Value<Bool>.isEqualTo(bool: Value<Bool>) = integer.isEqualTo(bool.integer)
+
 infix fun Value<Bool>.and(bool: Boolean) = and(bool.value)
 infix fun Value<Bool>.and(bool: Value<Bool>) = integer.and(bool.integer).bool
 
@@ -36,7 +39,11 @@ fun <T: Value<T>> IfTrue<T>.orElse(falseCase: Value<T>) = condition.selectTrueFa
 val Value<Bool>.change: Event
   get() =
     Event(variable(false).let { variable ->
-      xor(variable).also {
+      !isEqualTo(variable).also {
+        // We need to capture in the next frame!!!
         variable.capture(this).everyFrame
       }
-    })
+    }.model)
+
+fun Value<Bool>.changeTo(bool: Boolean) = changeTo(bool.value)
+fun Value<Bool>.changeTo(bool: Value<Bool>) = change.and(isEqualTo(bool))
