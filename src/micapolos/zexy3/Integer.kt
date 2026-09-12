@@ -20,7 +20,7 @@ internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
 
 val Value<Integer>.isNotZero get() = apply(ModelInteger.Op1.NOT_ZERO)
-val Value<Integer>.bool get() = Bool(isNotZero)
+val Value<Integer>.bool get() = Bool(isNotZero.model)
 
 operator fun Value<Integer>.unaryMinus() = apply(ModelInteger.Op1.NEG)
 
@@ -40,7 +40,7 @@ operator fun Value<Integer>.rem(i: Int) = rem(i.value)
 operator fun Value<Integer>.rem(integer: Value<Integer>) = apply(ModelInteger.Op2.REM, integer)
 
 fun Value<Integer>.isEqualTo(i: Int): Value<Bool> = isEqualTo(i.value)
-fun Value<Integer>.isEqualTo(integer: Value<Integer>): Value<Bool> = Bool(apply(ModelInteger.Op2.EQ, integer))
+fun Value<Integer>.isEqualTo(integer: Value<Integer>): Value<Bool> = apply(ModelInteger.Op2.EQ, integer).bool
 
 fun Value<Integer>.compareTo(i: Int) = compareTo(i.value)
 fun Value<Integer>.compareTo(integer: Value<Integer>): Value<Integer> = apply(ModelInteger.Op2.CMP, integer)
@@ -102,4 +102,4 @@ val Value<Integer>.change: Event
       !isEqualTo(variable).also {
         variable.capture(this).everyFrame
       }
-    })
+    }.model)

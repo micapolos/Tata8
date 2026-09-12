@@ -17,15 +17,15 @@ fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>) =
   variable(initial.value, fn)
 
 infix fun Value<Bool>.and(bool: Boolean) = and(bool.value)
-infix fun Value<Bool>.and(bool: Value<Bool>) = Bool(integer.and(bool.integer).model)
+infix fun Value<Bool>.and(bool: Value<Bool>) = integer.and(bool.integer).bool
 
 infix fun Value<Bool>.or(bool: Boolean) = or(bool.value)
-infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(integer.or(bool.integer).model)
+infix fun Value<Bool>.or(bool: Value<Bool>) = integer.or(bool.integer).bool
 
 infix fun Value<Bool>.xor(bool: Boolean) = xor(bool.value)
-infix fun Value<Bool>.xor(bool: Value<Bool>) = Bool(integer.xor(bool.integer).model)
+infix fun Value<Bool>.xor(bool: Value<Bool>) = integer.xor(bool.integer).bool
 
-operator fun Value<Bool>.not() = Bool(integer.xor(1).model)
+operator fun Value<Bool>.not() = integer.xor(1).bool
 
 fun <T: Value<T>> Value<Bool>.selectTrueFalse(trueValue: Value<T>, falseValue: Value<T>): Value<T> =
   integer.selectFrom(falseValue, trueValue)
