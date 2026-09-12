@@ -1,25 +1,20 @@
 package micapolos.zexy3
 
-import micapolos.zexy3.model.Integer.KeyDown as ModelKeyDown
 import micapolos.zexy3.model.Key as ModelKey
 
-class Key internal constructor(isPressed: Value<Bool>): Value<Key>(listOf(isPressed)) {
+class Key(internal val model: ModelKey) {
   companion object {
-    val left = key(ModelKey.LEFT)
-    val right = key(ModelKey.RIGHT)
-    val up = key(ModelKey.UP)
-    val down = key(ModelKey.DOWN)
-    val z = key(ModelKey.Z)
-    val x = key(ModelKey.X)
-
-    internal fun key(model: ModelKey) = key(Bool(Integer(ModelKeyDown(model))))
+    val left = Key(ModelKey.LEFT)
+    val right = Key(ModelKey.RIGHT)
+    val up = Key(ModelKey.UP)
+    val down = Key(ModelKey.DOWN)
+    val z = Key(ModelKey.Z)
+    val x = Key(ModelKey.X)
   }
 }
 
-fun key(isPressed: Value<Bool>): Value<Key> = Key(isPressed)
-
 val key = Key.Companion
 
-val Value<Key>.isPressed get() = children[0] as Value<Bool>
-val Value<Key>.press get() = isPressed.changeTo(true)
-val Value<Key>.release get() = isPressed.changeTo(false)
+val Key.isPressed get() = Bool(micapolos.zexy3.model.Integer.KeyDown(model))
+val Key.press get() = isPressed.changeTo(true)
+val Key.release get() = isPressed.changeTo(false)
