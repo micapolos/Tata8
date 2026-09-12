@@ -55,3 +55,5 @@ val Value<*>.nextFrame: Value<Activity>
   get() =
     Activity(ModelValue.NextFrame(model))
 
+fun <T: Value<T>> Value<T>.startOn(event: Value<Event>): Value<T> =
+  Value(ModelValue.StartWhen(event.isOccurring.integer.modelInteger, model))
