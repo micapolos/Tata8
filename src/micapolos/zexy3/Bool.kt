@@ -1,25 +1,31 @@
 package micapolos.zexy3
 
-class Bool internal constructor(internal val integer: Value<Integer>): Value<Bool>(listOf(integer))
+import micapolos.zexy3.compiler.toInt
+import micapolos.zexy3.model.Integer as ModelInteger
+
+class Bool internal constructor(impl: Any): Value<Bool>(impl)
 
 internal val Value<Bool>.cast: Bool get() = this as Bool
 
-val Boolean.value: Value<Bool> get() = Bool(if (this) 1.value else 0.value)
+val Boolean.value: Value<Bool> get() = Bool(toInt().value.model)
 
-val Value<Bool>.integer get() = children[0] as Integer
+val Value<Bool>.integer get() = Integer(model as ModelInteger)
 
 fun variable(initial: Boolean) = variable(initial.value)
 
 fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>) =
   variable(initial.value, fn)
 
-infix fun Value<Bool>.and(bool: Value<Bool>) = Bool(integer and bool.integer)
+infix fun Value<Bool>.and(bool: Boolean) = and(bool.value)
+infix fun Value<Bool>.and(bool: Value<Bool>) = Bool(integer.and(bool.integer).model)
 
-infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(integer or bool.integer)
+infix fun Value<Bool>.or(bool: Boolean) = or(bool.value)
+infix fun Value<Bool>.or(bool: Value<Bool>) = Bool(integer.or(bool.integer).model)
 
-infix fun Value<Bool>.xor(bool: Value<Bool>) = Bool(integer xor bool.integer)
+infix fun Value<Bool>.xor(bool: Boolean) = xor(bool.value)
+infix fun Value<Bool>.xor(bool: Value<Bool>) = Bool(integer.xor(bool.integer).model)
 
-operator fun Value<Bool>.not() = this xor true.value
+operator fun Value<Bool>.not() = Bool(integer.xor(1).model)
 
 fun <T: Value<T>> Value<Bool>.selectTrueFalse(trueValue: Value<T>, falseValue: Value<T>): Value<T> =
   integer.selectFrom(falseValue, trueValue)

@@ -51,13 +51,13 @@ fun Value<Integer>.isLessThan(integer: Value<Integer>): Value<Bool> = compareTo(
 fun Value<Integer>.isGreaterThan(i: Int) = isGreaterThan(i.value)
 fun Value<Integer>.isGreaterThan(integer: Value<Integer>): Value<Bool> = compareTo(integer).isEqualTo(1)
 
-infix fun Value<Integer>.and(i: Int) = times(i.value)
+infix fun Value<Integer>.and(i: Int) = and(i.value)
 infix fun Value<Integer>.and(integer: Value<Integer>) = apply(ModelInteger.Op2.AND, integer)
 
-infix fun Value<Integer>.or(i: Int) = times(i.value)
+infix fun Value<Integer>.or(i: Int) = or(i.value)
 infix fun Value<Integer>.or(integer: Value<Integer>) = apply(ModelInteger.Op2.OR, integer)
 
-infix fun Value<Integer>.xor(i: Int) = times(i.value)
+infix fun Value<Integer>.xor(i: Int) = xor(i.value)
 infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.XOR, integer)
 
 @JvmName("IntegerSelect")
