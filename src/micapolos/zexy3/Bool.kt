@@ -1,19 +1,18 @@
 package micapolos.zexy3
 
 import micapolos.zexy3.compiler.toInt
-import micapolos.zexy3.model.Integer as ModelInteger
 
 class Bool internal constructor(impl: Any): Value<Bool>(impl)
 
-internal val Value<Bool>.cast: Bool get() = this as Bool
+internal val Value<Bool>.bool: Bool get() = this as Bool
 
 val Boolean.value: Value<Bool> get() = Bool(toInt().value.model)
 
-val Value<Bool>.integer get() = Integer(model as ModelInteger)
+val Value<Bool>.integer get() = Integer(model)
 
-fun variable(initial: Boolean) = variable(initial.value)
+fun variable(initial: Boolean): Variable<Bool> = variable(initial.value)
 
-fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>) =
+fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>): Value<Bool> =
   variable(initial.value, fn)
 
 infix fun Value<Bool>.and(bool: Boolean) = and(bool.value)

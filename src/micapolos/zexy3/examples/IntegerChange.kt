@@ -1,9 +1,7 @@
 package micapolos.zexy3.examples
 
-import micapolos.zexy3.change
-import micapolos.zexy3.frame
-import micapolos.zexy3.show
+import micapolos.zexy3.*
 
 fun main() {
-  frame.count.change.show()
+  frame.count.div(10).change.show()
 }

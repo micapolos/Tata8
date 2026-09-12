@@ -34,7 +34,7 @@ fun <T : Value<T>> Value<T>.raceWith(vararg values: Value<T>): Value<T> =
 fun <T : Value<T>> Value<T>.repeatWhile(b: Boolean): Value<T> = repeatWhile(b.value)
 
 fun <T : Value<T>> Value<T>.repeatWhile(condition: Value<Bool>): Value<T> =
-  Value(ModelValue.RepeatWhile(condition.cast.integer.modelInteger, model))
+  Value(ModelValue.RepeatWhile(condition.bool.integer.modelInteger, model))
 
 fun <T : Value<T>> Value<T>.repeat(): Value<T> = repeatWhile(true)
 
