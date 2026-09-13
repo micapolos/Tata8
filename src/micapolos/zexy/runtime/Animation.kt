@@ -22,6 +22,15 @@ fun actionAnimation(execute: () -> Unit) =
     override fun step(seconds: Double): Double = seconds
   }
 
+fun instantAnimation(action: Action) =
+  object : Animation {
+    override fun start() {
+      action.execute()
+    }
+
+    override fun step(seconds: Double): Double = seconds
+  }
+
 fun pauseAnimation(secondsEvaluator: Evaluator<Double>) =
   pauseAnimation { secondsEvaluator.evalDouble() }
 

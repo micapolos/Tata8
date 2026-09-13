@@ -6,11 +6,9 @@ import micapolos.zexy.runtime.Animation as RuntimeAnimation
 
 fun Compiler.compile(animation: Animation): RuntimeAnimation =
   when (animation) {
-    Animation.Instant -> instantAnimation
     Animation.Empty -> infiniteAnimation
+    is Animation.Instant -> instantAnimation(compile(animation.action))
     is Animation.Pause -> pauseAnimation(doubleEvaluator(animation.seconds))
-    is Animation.Set<*> -> setAnimation(state, animation.variable.typedIndex, animation.variable.index, evaluator(animation.value))
-    is Animation.Capture<*> -> captureAnimation(state, animation.variable.typedIndex, animation.variable.index, evaluator(animation.value))
     is Animation.Parallel -> parallel(animation.animations.map { compile(it) })
     is Animation.Sequence -> SequenceAnimation(animation.animations.map { compile(it) })
     is Animation.Race -> race(animation.animations.map { compile(it) })
