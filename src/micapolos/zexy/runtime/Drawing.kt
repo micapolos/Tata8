@@ -6,6 +6,29 @@ fun interface Drawing {
   fun drawOn(canvas: Canvas)
 }
 
+fun pointEvaluator(
+  xEvaluator: IntEvaluator,
+  yEvaluator: IntEvaluator,
+) =
+  ObjectEvaluator {
+    Drawing { canvas ->
+      canvas.drawPoint(xEvaluator.eval(), yEvaluator.eval())
+    }
+  }
+
+
+fun lineEvaluator(
+  x1Evaluator: IntEvaluator,
+  y1Evaluator: IntEvaluator,
+  x2Evaluator: IntEvaluator,
+  y2Evaluator: IntEvaluator,
+) =
+  ObjectEvaluator {
+    Drawing { canvas ->
+      canvas.drawLine(x1Evaluator.eval(), y1Evaluator.eval(), x2Evaluator.eval(), y2Evaluator.eval())
+    }
+  }
+
 fun rectEvaluator(
   xEvaluator: IntEvaluator,
   yEvaluator: IntEvaluator,
@@ -17,6 +40,42 @@ fun rectEvaluator(
       canvas.fillRect(xEvaluator.eval(), yEvaluator.eval(), widthEvaluator.eval(), heightEvaluator.eval())
     }
   }
+
+fun animatedPoint(
+  animatedX: Animated<Int>,
+  animatedY: Animated<Int>,
+) =
+  Animated(
+    pointEvaluator(
+      animatedX.evaluator as IntEvaluator,
+      animatedY.evaluator as IntEvaluator,
+    ),
+    parallel(
+      animatedX.animation,
+      animatedY.animation,
+    )
+  )
+
+fun animatedLine(
+  animatedX1: Animated<Int>,
+  animatedY1: Animated<Int>,
+  animatedX2: Animated<Int>,
+  animatedY2: Animated<Int>,
+) =
+  Animated(
+    lineEvaluator(
+      animatedX1.evaluator as IntEvaluator,
+      animatedY1.evaluator as IntEvaluator,
+      animatedX2.evaluator as IntEvaluator,
+      animatedY2.evaluator as IntEvaluator,
+    ),
+    parallel(
+      animatedX1.animation,
+      animatedY1.animation,
+      animatedX2.animation,
+      animatedY2.animation
+    )
+  )
 
 fun animatedRect(
   animatedX: Animated<Int>,
@@ -38,7 +97,6 @@ fun animatedRect(
       animatedHeight.animation
     )
   )
-
 
 fun spriteEvaluator(
   xEvaluator: IntEvaluator, yEvaluator: IntEvaluator,

@@ -25,6 +25,20 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
         animated(drawing.y) as Animated<Int>
       )
 
+    is Drawing.Point ->
+      animatedPoint(
+        animated(drawing.x) as Animated<Int>,
+        animated(drawing.y) as Animated<Int>,
+        )
+
+    is Drawing.Line ->
+      animatedLine(
+        animated(drawing.x1) as Animated<Int>,
+        animated(drawing.y1) as Animated<Int>,
+        animated(drawing.x2) as Animated<Int>,
+        animated(drawing.y2) as Animated<Int>
+      )
+
     is Drawing.Rect ->
       animatedRect(
         animated(drawing.x) as Animated<Int>,

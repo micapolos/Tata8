@@ -3,6 +3,18 @@ package micapolos.zexy.model
 sealed class Drawing : Value<Drawing> {
   object Empty : Drawing()
 
+  class Point(
+    val x: Value<Integer>,
+    val y: Value<Integer>,
+  ) : Drawing()
+
+  class Line(
+    val x1: Value<Integer>,
+    val y1: Value<Integer>,
+    val x2: Value<Integer>,
+    val y2: Value<Integer>,
+  ) : Drawing()
+
   class Rect(
     val x: Value<Integer>,
     val y: Value<Integer>,

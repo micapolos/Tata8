@@ -26,10 +26,6 @@ public final class Canvas {
     this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
   }
 
-  public void set(Composite composite) {
-    graphics.setComposite(composite.awt);
-  }
-
   public void clear() {
     graphics.clearRect(0, 0, image.getWidth(), image.getHeight());
   }
@@ -40,6 +36,16 @@ public final class Canvas {
 
   public void drawPoint(int x, int y, Color color) {
     fillRect(x, y, 1, 1, color);
+  }
+
+  public void drawLine(int x1, int y1, int x2, int y2) {
+    drawLine(x1, y1, x2, y2, color);
+  }
+
+  public void drawLine(int x1, int y1, int x2, int y2, Color color) {
+    graphics.setColor(color.awtColor);
+    graphics.setComposite(composite.awt);
+    graphics.drawLine(x1, y1, x2, y2);
   }
 
   public void drawRect(int x, int y, int w, int h) {
