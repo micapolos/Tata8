@@ -12,6 +12,7 @@ public final class Canvas {
   public Color color = Color.WHITE;
   public Font font = Font.mica;
   public Composite composite = Composite.NORMAL;
+  public IntFrame clipFrame = null;
   public boolean textHasShadow;
 
   Canvas(BufferedImage image) {
@@ -26,7 +27,24 @@ public final class Canvas {
     this(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
   }
 
+  void updateColor() {
+    graphics.setColor(color.awtColor);
+  }
+
+  void updateComposite() {
+    graphics.setComposite(composite.awt);
+  }
+
+  void updateClip() {
+    if (clipFrame == null) {
+      graphics.setClip(null);
+    } else {
+      graphics.setClip(clipFrame.position.x, clipFrame.position.y, clipFrame.size.width, clipFrame.size.height);
+    }
+  }
+
   public void clear() {
+    updateClip();
     graphics.clearRect(0, 0, image.getWidth(), image.getHeight());
   }
 
@@ -35,6 +53,8 @@ public final class Canvas {
   }
 
   public void drawPoint(int x, int y, Color color) {
+    updateClip();
+    updateComposite();
     fillRect(x, y, 1, 1, color);
   }
 
@@ -43,8 +63,9 @@ public final class Canvas {
   }
 
   public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-    graphics.setColor(color.awtColor);
-    graphics.setComposite(composite.awt);
+    updateColor();
+    updateClip();
+    updateComposite();
     graphics.drawLine(x1, y1, x2, y2);
   }
 
@@ -54,7 +75,8 @@ public final class Canvas {
 
   public void drawRect(int x, int y, int w, int h, Color color) {
     graphics.setColor(color.awtColor);
-    graphics.setComposite(composite.awt);
+    updateClip();
+    updateComposite();
     graphics.drawRect(x, y, w, h);
   }
 
@@ -64,7 +86,8 @@ public final class Canvas {
 
   public void fillRect(int x, int y, int w, int h, Color color) {
     graphics.setColor(color.awtColor);
-    graphics.setComposite(composite.awt);
+    updateClip();
+    updateComposite();
     graphics.fillRect(x, y, w, h);
   }
 
@@ -77,7 +100,8 @@ public final class Canvas {
     int[] xs = {x1, x2, x3};
     int[] ys = {y1, y2, y3};
     graphics.setColor(color.awtColor);
-    graphics.setComposite(composite.awt);
+    updateClip();
+    updateComposite();
     graphics.fillPolygon(xs, ys, 3);
   }
 
@@ -102,7 +126,8 @@ public final class Canvas {
         imageTransform.translate(0, image.bufferedImage.getHeight());
         imageTransform.scale(1, -1);
       }
-      graphics.setComposite(composite.awt);
+      updateClip();
+      updateComposite();
       graphics.drawImage(awtImage, imageTransform, null);
     }
   }
@@ -110,7 +135,8 @@ public final class Canvas {
   public void draw(Image image, int x, int y, int width, int height, int imageX, int imageY) {
     BufferedImage awtImage = image.bufferedImage;
     if (awtImage != null) {
-      graphics.setComposite(composite.awt);
+      updateClip();
+      updateComposite();
       graphics.drawImage(
         awtImage,
         x, y,
@@ -152,6 +178,7 @@ public final class Canvas {
     imageTransform.scale(flipX ? -1 : 1, flipY ? -1 : 1);
     imageTransform.scale(scaleX, scaleY);
     imageTransform.translate(-anchorX, -anchorY);
+    updateClip();
     graphics.setComposite(composite.awt);
     graphics.drawImage(image.bufferedImage, imageTransform, null);
   }
@@ -171,7 +198,8 @@ public final class Canvas {
   public void draw(String text, int x, int y, Color color, Font font, boolean shadow) {
     int rgb = color.awtColor.getRGB();
     int blackRgb = Color.BLACK.awtColor.getRGB();
-    graphics.setComposite(composite.awt);
+    updateClip();
+    updateComposite();
     if (font != null) {
       if (shadow) {
         font.drawOn(image, text, x, y - 1, blackRgb);

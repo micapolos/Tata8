@@ -6,6 +6,20 @@ fun interface Drawing {
   fun drawOn(canvas: Canvas)
 }
 
+fun clipEvaluator(
+  drawingEvaluator: ObjectEvaluator<Drawing>,
+  xEvaluator: IntEvaluator,
+  yEvaluator: IntEvaluator,
+  widthEvaluator: IntEvaluator,
+  heightEvaluator: IntEvaluator,
+) =
+  ObjectEvaluator {
+    Drawing { canvas ->
+      // TODO: set and restore clip
+      drawingEvaluator.eval().drawOn(canvas)
+    }
+  }
+
 fun pointEvaluator(
   xEvaluator: IntEvaluator,
   yEvaluator: IntEvaluator,
@@ -40,6 +54,29 @@ fun rectEvaluator(
       canvas.fillRect(xEvaluator.eval(), yEvaluator.eval(), widthEvaluator.eval(), heightEvaluator.eval())
     }
   }
+
+fun animatedClip(
+  animatedDrawing: Animated<Drawing>,
+  animatedX: Animated<Int>,
+  animatedY: Animated<Int>,
+  animatedWidth: Animated<Int>,
+  animatedHeight: Animated<Int>,
+) =
+  Animated(
+    clipEvaluator(
+      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
+      animatedX.evaluator as IntEvaluator,
+      animatedY.evaluator as IntEvaluator,
+      animatedWidth.evaluator as IntEvaluator,
+      animatedHeight.evaluator as IntEvaluator,
+    ),
+    parallel(
+      animatedX.animation,
+      animatedY.animation,
+      animatedWidth.animation,
+      animatedHeight.animation
+    )
+  )
 
 fun animatedPoint(
   animatedX: Animated<Int>,

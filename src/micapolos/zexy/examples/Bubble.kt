@@ -32,7 +32,6 @@ fun bubble(
       .with(color.withRed(0.1).withGreen(0.0).withBlue(0.15).withAlpha(0.78))
   )
 
-
 fun main() {
   val font = font("/micapolos/tata8/mica-font.png")
 

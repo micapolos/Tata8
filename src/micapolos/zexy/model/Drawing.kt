@@ -45,4 +45,12 @@ sealed class Drawing : Value<Drawing> {
   class WithComposite(val drawing: Value<Drawing>, val composite: Composite) : Drawing()
 
   class Stack(val drawings: List<Value<Drawing>>) : Drawing()
+
+  class WithClip(
+    val drawing: Value<Drawing>,
+    val x: Value<Integer>,
+    val y: Value<Integer>,
+    val width: Value<Integer>,
+    val height: Value<Integer>,
+  ) : Drawing()
 }

@@ -16,4 +16,5 @@ fun Indexer.indexedDrawing(model: ModelDrawing): Drawing =
     is ModelDrawing.WithColor -> Drawing.WithColor(indexed(model.drawing), indexed(model.color))
     is ModelDrawing.WithFont -> Drawing.WithFont(indexed(model.drawing), indexed(model.font))
     is ModelDrawing.Stack -> Drawing.Stack(model.drawings.map { indexed(it) })
+    is ModelDrawing.WithClip -> Drawing.WithClip(indexed(model.drawing), indexed(model.x), indexed(model.y), indexed(model.width), indexed(model.height))
   }

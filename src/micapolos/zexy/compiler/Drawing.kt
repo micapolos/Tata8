@@ -18,6 +18,15 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
         instantAnimation
       )
 
+    is Drawing.WithClip ->
+      animatedClip(
+        animated(drawing.drawing) as Animated<RuntimeDrawing>,
+        animated(drawing.x) as Animated<Int>,
+        animated(drawing.y) as Animated<Int>,
+        animated(drawing.width) as Animated<Int>,
+        animated(drawing.height) as Animated<Int>
+      )
+
     is Drawing.Label ->
       animatedLabel(
         animated(drawing.text) as Animated<String>,
