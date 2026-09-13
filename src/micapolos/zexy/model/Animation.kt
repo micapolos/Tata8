@@ -1,11 +1,9 @@
 package micapolos.zexy.model
 
 sealed class Animation {
-  object Instant : Animation()
-  object Infinite : Animation()
+  object Empty : Animation()
+  class Instant(val action: Action) : Animation()
   class Pause(val seconds: Value<Number>): Animation()
-  class Capture<T: Value<T>>(val variable: Variable<T>, val value: Value<T>): Animation()
-  class Set<T: Value<T>>(val variable: Variable<T>, val value: Value<T>): Animation()
   class Parallel(val animations: List<Animation>): Animation()
   class Race(val animations: List<Animation>): Animation()
   class Sequence(val animations: List<Animation>): Animation()

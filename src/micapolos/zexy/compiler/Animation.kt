@@ -7,7 +7,7 @@ import micapolos.zexy.runtime.Animation as RuntimeAnimation
 fun Compiler.compile(animation: Animation): RuntimeAnimation =
   when (animation) {
     Animation.Instant -> instantAnimation
-    Animation.Infinite -> infiniteAnimation
+    Animation.Empty -> infiniteAnimation
     is Animation.Pause -> pauseAnimation(doubleEvaluator(animation.seconds))
     is Animation.Set<*> -> setAnimation(state, animation.variable.typedIndex, animation.variable.index, evaluator(animation.value))
     is Animation.Capture<*> -> captureAnimation(state, animation.variable.typedIndex, animation.variable.index, evaluator(animation.value))
