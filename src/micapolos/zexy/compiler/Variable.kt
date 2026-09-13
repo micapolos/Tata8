@@ -75,9 +75,9 @@ fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation 
   }
 
 fun main() {
-  val compiler = Compiler(Compiler::class, intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf())
+  val compiler = Compiler(Compiler::class, intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf(), arrayOf(null))
   val animated = compiler.animated(Variable(IndexType.NUMBER, 2, 0))
-  compiler.animatedValues.add(animated)
+  compiler.animatedValues[0] = animated
   val value = (animated.evaluator as DoubleEvaluator).eval()
   println(value)
 }

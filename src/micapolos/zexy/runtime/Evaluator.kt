@@ -97,3 +97,25 @@ fun <T> selectEvaluator(indexEvaluator: IntEvaluator, vararg evaluators: Evaluat
       (evaluators[indexEvaluator.eval()] as ObjectEvaluator<T>).eval()
     }
   }
+
+fun <T> captureAnimation(state: State, evaluator: Evaluator<T>, typedIndex: Int, index: Int): Animation = run {
+  when (evaluator) {
+    is IntEvaluator ->
+      actionAnimation {
+        state.intArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+
+    is DoubleEvaluator ->
+      actionAnimation {
+        state.doubleArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+
+    is ObjectEvaluator<T> ->
+      actionAnimation {
+        state.objectArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+  }
+}

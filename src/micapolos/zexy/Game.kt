@@ -29,9 +29,10 @@ fun Game.show() {
     resourcesKClass,
     IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
     DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
-    Array(indexer.initialValuesOf(IndexType.OBJECT).size) { null })
-  indexer.initialValues.forEach {
-    compiler.animatedValues.add(compiler.animated(it))
+    arrayOfNulls(indexer.initialValuesOf(IndexType.OBJECT).size),
+    arrayOfNulls(indexer.initialValues.size))
+  indexer.initialValues.forEachIndexed { index, value ->
+    compiler.animatedValues[index] = compiler.animated(value)
   }
   val runtimeGame = compiler.compile(indexed)
   runtimeGame.show()
