@@ -3,6 +3,7 @@ package micapolos.tata8;
 public final class Foreground {
   public final Canvas canvas;
   public final TileMap tileMap;
+  public boolean isEnabled = true;
 
   Foreground(Canvas canvas, TileMap tileMap) {
     this.canvas = canvas;

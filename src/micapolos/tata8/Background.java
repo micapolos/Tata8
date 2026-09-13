@@ -4,6 +4,7 @@ public final class Background {
   public Color color = Color.TRANSPARENT;
   public final Canvas canvas;
   public final TileMap tileMap;
+  public boolean isEnabled = true;
 
   Background(Canvas canvas, TileMap tileMap) {
     this.canvas = canvas;

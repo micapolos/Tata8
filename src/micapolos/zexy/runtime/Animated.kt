@@ -11,6 +11,9 @@ fun Animated<Drawing>.show() {
   evaluator.evalBoxed().drawOn(Game.background.canvas)
   val stepSeconds = Game.FRAME_SECONDS.toDouble()
   var gameSeconds = 0.0
+  Game.background.tileMap.isEnabled = false;
+  Game.foreground.isEnabled = false;
+  Game.spritesAreEnabled = false;
   Game.onUpdate = {
     if (Game.keys.reset.pressed()) {
       animation.start()

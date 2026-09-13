@@ -25,6 +25,8 @@ public final class Game {
   public static final int MAX_IMAGES_PIXEL_COUNT = 128 * 1024 * 1024;
   static final int SCALE = 3;
 
+  public static boolean spritesAreEnabled = true;
+  public static boolean loggingIsEnabled = true;
   static final List<Sprite> sprites = new ArrayList<>();
   static final Canvas compositeCanvas = new Canvas(WIDTH, HEIGHT);
   static Canvas currentShaderCanvas = null;
@@ -113,15 +115,21 @@ public final class Game {
         super.paintComponent(g);
         compositeCanvas.graphics.setBackground(background.color.awtColor);
         compositeCanvas.clear();
-        compositeCanvas.graphics.drawImage(background.canvas.image, null, null);
-        background.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
-        sprites.sort(Comparator.naturalOrder());
-        for (Sprite sprite : sprites) {
-          compositeCanvas.draw(sprite, -camera.position.x, -camera.position.y);
+        if (background.isEnabled) {
+          compositeCanvas.graphics.drawImage(background.canvas.image, null, null);
+          background.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
         }
-        foreground.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
-        compositeCanvas.graphics.drawImage(foreground.canvas.image, null, null);
-        {
+        if (spritesAreEnabled) {
+          sprites.sort(Comparator.naturalOrder());
+          for (Sprite sprite : sprites) {
+            compositeCanvas.draw(sprite, -camera.position.x, -camera.position.y);
+          }
+        }
+        if (foreground.isEnabled) {
+          foreground.tileMap.drawOn(compositeCanvas, -camera.position.x, -camera.position.y);
+          compositeCanvas.graphics.drawImage(foreground.canvas.image, null, null);
+        }
+        if (loggingIsEnabled) {
           int textY = 1;
           for (String string : logStrings) {
             compositeCanvas.draw(string, 1, textY, Color.YELLOW, font, true);

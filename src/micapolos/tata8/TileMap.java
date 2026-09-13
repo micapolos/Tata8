@@ -4,6 +4,7 @@ public final class TileMap {
   final Cell[][] cells;
   public final FinalSize size;
   public final FinalSize tileSize;
+  public boolean isEnabled = true;
 
   TileMap(FinalSize size, FinalSize tileSize, Cell[][] cells) {
     this.size = size;
@@ -72,6 +73,7 @@ public final class TileMap {
   }
 
   void drawOn(Canvas canvas, float x, float y) {
+    if (!isEnabled) return;
     x = Math.round(x);
     y = Math.round(y);
     int startRow = (int) Math.floor(-y / tileSize.height);
