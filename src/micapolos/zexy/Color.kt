@@ -23,7 +23,7 @@ val Value<Color>.transparent get() = color(0.0, 0.0, 0.0, 0.0)
 val Value<Color>.white get() = color(1.0, 1.0, 1.0, 1.0)
 val Value<Color>.red get() = color(1.0, 0.0, 0.0, 1.0)
 val Value<Color>.green get() = color(0.0, 1.0, 0.0, 1.0)
-val Value<Color>.blue get() = color(1.0, 1.0, 1.0, 1.0)
+val Value<Color>.blue get() = color(0.0, 0.0, 1.0, 1.0)
 val Value<Color>.yellow get() = color(1.0, 1.0, 0.0, 1.0)
 val Value<Color>.black get() = color(0.0, 0.0, 0.0, 1.0)
 
