@@ -14,7 +14,7 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       val secondsEvaluator = animatedSeconds.evaluator as DoubleEvaluator
       Animated(
         ObjectEvaluator { Unit },
-        pauseAnimation { secondsEvaluator.eval() }
+        parallel(animatedSeconds.animation, pauseAnimation { secondsEvaluator.eval() })
       )
     }
 
@@ -26,25 +26,28 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       val index = variable.index
       Animated(
         ObjectEvaluator { Unit },
-        when (valueEvaluator) {
-          is IntEvaluator ->
-            actionAnimation {
-              state.intArray[typedIndex] = valueEvaluator.eval()
-              state.animatedArray[index] = null
-            }
+        parallel(
+          animatedValue.animation,
+          when (valueEvaluator) {
+            is IntEvaluator ->
+              actionAnimation {
+                state.intArray[typedIndex] = valueEvaluator.eval()
+                state.animatedArray[index] = null
+              }
 
-          is DoubleEvaluator ->
-            actionAnimation {
-              state.doubleArray[typedIndex] = valueEvaluator.eval()
-              state.animatedArray[index] = null
-            }
+            is DoubleEvaluator ->
+              actionAnimation {
+                state.doubleArray[typedIndex] = valueEvaluator.eval()
+                state.animatedArray[index] = null
+              }
 
-          is ObjectEvaluator<*> ->
-            actionAnimation {
-              state.objectArray[typedIndex] = valueEvaluator.eval()
-              state.animatedArray[index] = null
-            }
-        }
+            is ObjectEvaluator<*> ->
+              actionAnimation {
+                state.objectArray[typedIndex] = valueEvaluator.eval()
+                state.animatedArray[index] = null
+              }
+          }
+        )
       )
     }
 
@@ -55,25 +58,27 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       val index = variable.index
       Animated(
         ObjectEvaluator { Unit },
-        when (variable.indexType) {
-          IndexType.INTEGER ->
-            actionAnimation {
-              state.animatedArray[index] = animatedValue
+        parallel(
+          animatedValue.animation,
+          when (variable.indexType) {
+            IndexType.INTEGER ->
+              actionAnimation {
+                state.animatedArray[index] = animatedValue
+              }
+
+            IndexType.NUMBER -> {
+              actionAnimation {
+                state.animatedArray[index] = animatedValue
+              }
             }
 
-          IndexType.NUMBER -> {
-            actionAnimation {
-              state.animatedArray[index] = animatedValue
+            IndexType.OBJECT -> {
+              actionAnimation {
+                state.objectArray[typedIndex] = null  // avoids retention
+                state.animatedArray[index] = animatedValue
+              }
             }
-          }
-
-          IndexType.OBJECT -> {
-            actionAnimation {
-              state.objectArray[typedIndex] = null  // avoids retention
-              state.animatedArray[index] = animatedValue
-            }
-          }
-        })
+          }))
     }
 
     is Void.Parallel -> {

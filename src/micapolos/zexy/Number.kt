@@ -80,3 +80,6 @@ fun Value<Integer>.selectFrom(cases: List<Double>): Value<Number> =
 
 fun Value<Integer>.selectFrom(firstCase: Double, vararg otherCases: Double): Value<Number> =
   selectFrom(listOf(firstCase, *otherCases.toTypedArray()))
+
+val Value<Integer>.number: Value<Number> get() =
+  Number(ModelNumber.FromInteger(modelInteger))
