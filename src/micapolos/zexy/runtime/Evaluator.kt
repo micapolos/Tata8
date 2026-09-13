@@ -7,6 +7,10 @@ sealed interface Evaluator<out T> {
 
   fun evalBoxed(): T
 
+  fun evalInt(): Int = error("Not int")
+  fun evalDouble(): Double = error("Not double")
+  fun evalObject(): T = evalBoxed()
+
   fun logged(label: String?) =
     when (this) {
       is IntEvaluator -> loggedInt(label)
@@ -24,6 +28,8 @@ fun interface IntEvaluator : Evaluator<Int> {
 
   override fun evalBoxed() = eval()
 
+  override fun evalInt() = eval()
+
   fun loggedInt(label: String?): IntEvaluator =
     IntEvaluator {
       eval().also { Game.log(label, it) }
@@ -38,6 +44,8 @@ fun interface DoubleEvaluator : Evaluator<Double> {
   }
 
   override fun evalBoxed() = eval()
+
+  override fun evalDouble() = eval()
 
   fun loggedDouble(label: String?): DoubleEvaluator =
     DoubleEvaluator {

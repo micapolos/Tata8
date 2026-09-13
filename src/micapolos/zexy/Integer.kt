@@ -113,3 +113,9 @@ fun Value<Integer>.changeTo(integer: Int): Value<Event> =
 
 fun Value<Integer>.changeTo(integer: Value<Integer>): Value<Event> =
   change.and(isEqualTo(integer))
+
+fun Value<Integer>.min(integer: Int) = max(integer.value)
+fun Value<Integer>.min(integer: Value<Integer>) = isLessThan(integer).ifTrue(integer).orElse(this)
+
+fun Value<Integer>.max(integer: Int) = max(integer.value)
+fun Value<Integer>.max(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)

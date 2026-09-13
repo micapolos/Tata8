@@ -28,3 +28,18 @@ fun Value<Integer>.selectFrom(cases: List<String>): Value<Text> =
 fun Value<Integer>.selectFrom(firstCast: String, vararg otherCases: String): Value<Text> =
   selectFrom(listOf(firstCast, *otherCases))
 
+fun join(texts: List<Value<Text>>) =
+  Text(ModelText.Join(texts.map { it.modelText }))
+
+fun join(text: Value<Text>, vararg texts: Value<Text>) =
+ join(listOf(text, *texts))
+
+fun String.slice(start: Int, length: Value<Integer>) = value.slice(start, length)
+fun String.slice(start: Value<Integer>, length: Int) = value.slice(start, length)
+fun String.slice(start: Value<Integer>, length: Value<Integer>) = value.slice(start, length)
+
+fun Value<Text>.slice(start: Int, length: Int) = slice(start.value, length.value)
+fun Value<Text>.slice(start: Int, length: Value<Integer>) = slice(start.value, length)
+fun Value<Text>.slice(start: Value<Integer>, length: Int) = slice(start, length.value)
+fun Value<Text>.slice(start: Value<Integer>, length: Value<Integer>) =
+  Text(ModelText.Slice(modelText, start.modelInteger, length.modelInteger))
