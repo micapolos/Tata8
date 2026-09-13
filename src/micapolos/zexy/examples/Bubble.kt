@@ -2,7 +2,7 @@ package micapolos.zexy.examples
 
 import micapolos.zexy.*
 
-fun stroke(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
+fun border(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
   stack(
     line.withStart(position(x + 1, y)).withEnd(position(x + width - 2, y)),
     line.withStart(position(x + 1, y + height - 1)).withEnd(position(x + width - 2, y + height - 1)),
@@ -28,13 +28,13 @@ fun main() {
   val margin = 3.value
   val width = textWidth + margin * 2 + 4
   val height = textHeight + margin * 2 + 4
-  
+
   stack(
     sprite
       .with(image("/micapolos/depressedChicken.png"))
       .with(position(10, 15)),
-    stroke(x, y, width, height).with(color.black.withAlpha(0.85)),
-    stroke(x+1, y+1, width-2, height-2).with(color.yellow),
+    border(x, y, width, height).with(color.black.withAlpha(0.85)),
+    border(x+1, y+1, width-2, height-2).with(color.yellow),
     rect
       .with(position(x + 2, y + 2))
       .with(size(width - 4, height - 4))
