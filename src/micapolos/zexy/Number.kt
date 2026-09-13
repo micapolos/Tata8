@@ -5,7 +5,10 @@ import micapolos.zexy.model.Value as ModelValue
 
 class Number internal constructor(model: ModelNumber) : Value<Number>(model)
 
+// TODO: Clean these up
 val Double.value get() = Number(ModelNumber.Constant(this))
+
+val Double.number get() = value
 
 fun variable(initial: Double) = variable(initial.value)
 fun variable(initial: Double, fn: (Value<Number>) -> Value<Activity>) = variable(initial.value, fn)

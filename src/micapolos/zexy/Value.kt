@@ -57,6 +57,12 @@ fun <T: Value<T>> Value<T>.startOn(event: Value<Event>): Value<T> =
 fun <T: Value<T>> Value<T>.pulse(high: Value<T>): Value<T> =
   Value(ModelValue.Pulse(high.model, model))
 
+fun <T: Value<T>> Value<T>.stretch(factor: Double): Value<T> =
+  stretch(factor.number)
+
+fun <T: Value<T>> Value<T>.stretch(factor: Value<Number>): Value<T> =
+  Value(ModelValue.Stretch(model, factor.modelNumber))
+
 fun <T : Value<T>> Value<T>.show() {
   noDrawing.also { logged }.show()
 }

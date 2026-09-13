@@ -9,6 +9,7 @@ internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<M
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
+val Value<Integer>.integer: Integer get() = this as Integer
 
 fun variable(initial: Int) = variable(initial.value)
 fun variable(initial: Int, fn: (Value<Integer>) -> Value<Activity>) = variable(initial.value, fn)
@@ -19,8 +20,8 @@ internal fun Value<Integer>.apply(op1: ModelInteger.Op1): Value<Integer> =
 internal fun Value<Integer>.apply(op2: ModelInteger.Op2, integer: Value<Integer>): Value<Integer> =
   Integer(ModelInteger.Apply2(op2, modelInteger, integer.modelInteger))
 
-val Value<Integer>.isNotZero get() = apply(ModelInteger.Op1.NOT_ZERO)
-val Value<Integer>.bool get() = Bool(isNotZero.model)
+val Value<Integer>.isNotZero get() = Bool(apply(ModelInteger.Op1.NOT_ZERO).model)
+val Value<Integer>.bool get() = isNotZero
 
 operator fun Value<Integer>.unaryMinus() = apply(ModelInteger.Op1.NEG)
 
