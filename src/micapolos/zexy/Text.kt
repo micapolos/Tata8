@@ -11,8 +11,8 @@ internal val Value<Text>.modelText get() = model as ModelValue<ModelText>
 fun variable(initial: String) = variable(initial.value)
 fun variable(initial: String, fn: (Value<Text>) -> Value<Activity>) = variable(initial.value, fn)
 
-val String.value: Value<Text> get() =
-  Text(ModelText.Constant(this))
+val String.value: Value<Text> get() = text
+val String.text: Text get() = Text(ModelText.Constant(this))
 
 fun Value<Bool>.selectFrom(trueCase: String, falseCase: String): Value<Text> =
   selectTrueFalse(trueCase.value, falseCase.value)
@@ -35,7 +35,12 @@ fun join(texts: List<Value<Text>>) =
 fun join(text: Value<Text>, vararg texts: Value<Text>) =
  join(listOf(text, *texts))
 
+operator fun Value<Text>.plus(text: Value<Text>) = join(this, text)
+
 val Value<Text>.length get() = Integer(ModelInteger.TextLength(modelText))
+
+fun texts(string: String, vararg strings: String): List<Value<Text>> =
+  listOf(string, *strings).map { it.value }
 
 fun String.slice(start: Int, length: Value<Integer>) = value.slice(start, length)
 fun String.slice(start: Value<Integer>, length: Int) = value.slice(start, length)

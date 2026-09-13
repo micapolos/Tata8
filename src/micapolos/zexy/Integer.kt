@@ -70,7 +70,7 @@ fun <T : Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
 fun <T : Value<T>> Value<Integer>.selectFrom(value: Value<T>, vararg values: Value<T>): Value<T> =
   selectFrom(listOf(value, *values))
 
-operator fun <T : Value<T>> List<T>.get(index: Value<Integer>): Value<T> =
+operator fun <T : Value<T>> List<Value<T>>.get(index: Value<Integer>): Value<T> =
   index.selectFrom(this)
 
 fun Value<Bool>.selectTrueFalse(trueCase: Int, falseCase: Int): Value<Integer> =
