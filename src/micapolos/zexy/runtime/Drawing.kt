@@ -44,14 +44,16 @@ fun spriteEvaluator(
   xEvaluator: IntEvaluator, yEvaluator: IntEvaluator,
   widthEvaluator: IntEvaluator, heightEvaluator: IntEvaluator,
   imageEvaluator: ObjectEvaluator<Image>,
-  imageXEvaluator: IntEvaluator, imageYEvaluator: IntEvaluator,) =
+  imageXEvaluator: IntEvaluator, imageYEvaluator: IntEvaluator,
+) =
   ObjectEvaluator {
     Drawing { canvas ->
       canvas.draw(
         imageEvaluator.eval(),
         xEvaluator.eval(), yEvaluator.eval(),
         widthEvaluator.eval(), heightEvaluator.eval(),
-        imageXEvaluator.eval(), imageYEvaluator.eval())
+        imageXEvaluator.eval(), imageYEvaluator.eval()
+      )
     }
   }
 
@@ -59,7 +61,8 @@ fun animatedSprite(
   animatedX: Animated<Int>, animatedY: Animated<Int>,
   animatedWidth: Animated<Int>, animatedHeight: Animated<Int>,
   animatedImage: Animated<Image>,
-  animatedImageX: Animated<Int>, animatedImageY: Animated<Int>) =
+  animatedImageX: Animated<Int>, animatedImageY: Animated<Int>
+) =
   Animated(
     spriteEvaluator(
       animatedX.evaluator as IntEvaluator,
@@ -68,12 +71,14 @@ fun animatedSprite(
       animatedHeight.evaluator as IntEvaluator,
       animatedImage.evaluator as ObjectEvaluator<Image>,
       animatedImageX.evaluator as IntEvaluator,
-      animatedImageY.evaluator as IntEvaluator),
+      animatedImageY.evaluator as IntEvaluator
+    ),
     parallel(
       animatedX.animation, animatedY.animation,
       animatedWidth.animation, animatedHeight.animation,
       animatedImage.animation,
-      animatedImageX.animation, animatedImageY.animation)
+      animatedImageX.animation, animatedImageY.animation
+    )
   )
 
 fun labelEvaluator(textEvaluator: ObjectEvaluator<String>, xEvaluator: IntEvaluator, yEvaluator: IntEvaluator) =

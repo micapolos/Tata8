@@ -2,6 +2,7 @@ package micapolos;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class Leo {
@@ -10,11 +11,13 @@ public final class Leo {
   }
 
   public static String leo(String label, List<?> bodies) {
+    bodies = bodies.stream().filter(Objects::nonNull).toList();
     return label +
       switch (bodies.size()) {
         case 0 -> "";
         case 1 -> bodies.stream().map(Object::toString).collect(Collectors.joining("\n", ": ", ""));
-        default -> bodies.stream().map(Object::toString).collect(Collectors.joining("\n", "\n", "")).replace("\n", "\n  ");
+        default ->
+          bodies.stream().map(Object::toString).collect(Collectors.joining("\n", "\n", "")).replace("\n", "\n  ");
       };
   }
 

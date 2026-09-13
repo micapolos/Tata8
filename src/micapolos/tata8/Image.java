@@ -1,5 +1,7 @@
 package micapolos.tata8;
 
+import micapolos.awt.image.BufferedImages;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -104,7 +106,10 @@ public final class Image {
 
   @Override
   public String toString() {
-    return nameOrNull != null ? leo("image", leo("name", nameOrNull), size) : leo("image", size);
+    return leo("image",
+      nameOrNull != null ? leo("name", nameOrNull) : null,
+      size,
+      leo("type", BufferedImages.getTypeName(bufferedImage.getType())));
   }
 
   static void main() {
