@@ -16,6 +16,7 @@ fun main() {
     2.value.isEqualTo(2.value).loggedAs("2 == 2"),
     2.value.isEqualTo(3.value).loggedAs("2 == 3"),
     frame.count.loggedAs("frame count"),
+    frame.count.unaryMinus().loggedAs("minus frame count"),
     frame.count.div(10).loggedAs("frame count / 10"),
     frame.count.div(10).rem(10).loggedAs("frame count / 10 % 10"),
     frame.count.rem(100).isLessThan(50).loggedAs("frame count % 100 < 50 == 0"),
