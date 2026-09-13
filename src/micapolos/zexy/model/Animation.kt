@@ -10,6 +10,6 @@ sealed class Animation {
   class Race(val animations: List<Animation>): Animation()
   class Sequence(val animations: List<Animation>): Animation()
   class RepeatWhile(val animation: Animation, val condition: Value<Integer>): Animation()
-  class ConditionalStart(val index: Value<Integer>, val animations: List<Animation>): Animation()
-  class ConditionalStep(val index: Value<Integer>, val animations: List<Animation>): Animation()
+  class SelectStart(val index: Value<Integer>, val animations: List<Animation>): Animation()
+  class SelectStep(val index: Value<Integer>, val animations: List<Animation>): Animation()
 }
