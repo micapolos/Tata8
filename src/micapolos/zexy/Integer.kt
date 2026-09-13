@@ -119,3 +119,14 @@ fun Value<Integer>.min(integer: Value<Integer>) = isLessThan(integer).ifTrue(int
 
 fun Value<Integer>.max(integer: Int) = max(integer.value)
 fun Value<Integer>.max(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)
+
+val Value<Integer>.elastic: Value<Integer> get() = run {
+  val previous = variable(this)
+  val current = variable(this)
+  val elastic = previous + (current - previous).div(2)
+  elastic.also {
+    sequence(
+      previous.capture(current),
+      current.capture(this)
+    ).everyFrame }
+}
