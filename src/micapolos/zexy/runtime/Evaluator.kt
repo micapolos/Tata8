@@ -76,18 +76,15 @@ fun parallelEvaluator(evaluators: List<Evaluator<*>>): Evaluator<Unit> =
 fun <T> statefulEvaluator(stateEvaluator: Evaluator<*>, evaluator: Evaluator<T>): Evaluator<T> =
   when (evaluator) {
     is DoubleEvaluator -> DoubleEvaluator {
-      stateEvaluator.evalUnit()
-      evaluator.eval()
+      evaluator.eval().also { stateEvaluator.evalUnit() }
     } as Evaluator<T>
 
     is IntEvaluator -> IntEvaluator {
-      stateEvaluator.evalUnit()
-      evaluator.eval()
+      evaluator.eval().also { stateEvaluator.evalUnit() }
     } as Evaluator<T>
 
     is ObjectEvaluator<T> -> ObjectEvaluator {
-      stateEvaluator.evalUnit()
-      evaluator.eval()
+      evaluator.eval().also { stateEvaluator.evalUnit() }
     }
   }
 
