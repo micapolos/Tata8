@@ -2,7 +2,12 @@ package micapolos.zexy.examples
 
 import micapolos.zexy.*
 
-fun border(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
+fun border(
+  x: Value<Integer>,
+  y: Value<Integer>,
+  width: Value<Integer>,
+  height: Value<Integer>,
+) =
   stack(
     line.withStart(position(x + 1, y)).withEnd(position(x + width - 2, y)),
     line.withStart(position(x + 1, y + height - 1)).withEnd(position(x + width - 2, y + height - 1)),
@@ -10,7 +15,12 @@ fun border(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: 
     line.withStart(position(x + width - 1, y + 1)).withEnd(position(x + width - 1, y + height - 2))
   )
 
-fun bubble(x: Value<Integer>, y: Value<Integer>, width: Value<Integer>, height: Value<Integer>) =
+fun bubble(
+  x: Value<Integer>,
+  y: Value<Integer>,
+  width: Value<Integer>,
+  height: Value<Integer>,
+) =
   stack(
     border(x, y, width, height)
       .with(color.black.withAlpha(0.85)),
