@@ -1,5 +1,7 @@
 package micapolos.tata8;
 
+import static micapolos.Leo.*;
+
 public final class Size {
   public int width;
   public int height;
@@ -49,6 +51,6 @@ public final class Size {
 
   @Override
   public String toString() {
-    return String.format("size(%d,%d)", width, height);
+    return leo("size", leo("width", width), leo("height", height));
   }
 }

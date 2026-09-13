@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static micapolos.Leo.*;
+import static micapolos.Leo.leo;
 
 public final class Image {
   public static final Image micaFont = Image.load(Font.class, "mica-font.png");
@@ -93,7 +93,9 @@ public final class Image {
 
   static Image load(Class<?> baseClass, String fileName) {
     BufferedImage bufferedImage = loadBufferedImage(baseClass, fileName);
-    return new Image(bufferedImage, fileName);
+    Image image = new Image(bufferedImage, fileName);
+    IO.println(leo("loaded", image));
+    return image;
   }
 
   static BufferedImage loadBufferedImage(Class<?> baseClass, String fileName) {
@@ -107,9 +109,14 @@ public final class Image {
   @Override
   public String toString() {
     return leo("image",
-      nameOrNull != null ? leo("name", nameOrNull) : null,
+      nameOrNull != null ? leo("name", leo(nameOrNull)) : null,
       size,
-      leo("type", BufferedImages.getTypeName(bufferedImage.getType())));
+      leo("type", BufferedImages.getTypeName(bufferedImage.getType())),
+      leo("byte count", leo(getByteCount())));
+  }
+
+  public int getByteCount() {
+    return bufferedImage.getWidth() * bufferedImage.getHeight() * (bufferedImage.getColorModel().getPixelSize() / 8);
   }
 
   static void main() {
