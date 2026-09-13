@@ -58,6 +58,7 @@ fun Indexer.indexedInteger(model: ModelInteger): Integer =
     is ModelInteger.ImageWidth -> ImageWidth(indexed(model.image))
     is ModelInteger.ImageHeight -> ImageHeight(indexed(model.image))
     is ModelInteger.KeyDown -> KeyDown(model.key.indexed)
+    is ModelInteger.TextLength -> TextLength(indexed(model.text))
     is ModelInteger.TextWidth -> TextWidth(indexed(model.text), indexed(model.font))
     is ModelInteger.TextHeight -> TextHeight(indexed(model.text), indexed(model.font))
     is ModelNumber.Test2 -> Number.Test2(model.pred.indexed, indexed(model.lhs), indexed(model.rhs))

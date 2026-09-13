@@ -41,6 +41,8 @@ sealed class Integer : Value<Integer> {
 
   class ImageHeight(val image: Value<Image>) : Integer()
 
+  class TextLength(val text: Value<Text>) : Integer()
+
   class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
 
   class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()

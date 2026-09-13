@@ -1,5 +1,8 @@
 package micapolos.zexy.runtime
 
+fun textLengthEvaluator(textEvaluator: Evaluator<String>): Evaluator<Int> =
+  IntEvaluator { textEvaluator.evalObject().length }
+
 fun textSliceEvaluator(
   textEvaluator: Evaluator<String>,
   startEvaluator: Evaluator<Int>,
@@ -14,6 +17,12 @@ fun textJoinEvaluator(textEvaluators: Array<Evaluator<String>>): ObjectEvaluator
   ObjectEvaluator {
     textEvaluators.joinToString(separator = "") { it.evalObject() }
   }
+
+fun animatedTextLength(animatedText: Animated<String>) =
+  Animated(
+    textLengthEvaluator(animatedText.evaluator),
+    animatedText.animation
+  )
 
 fun animatedTextSlice(
   animatedText: Animated<String>,

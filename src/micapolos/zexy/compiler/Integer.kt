@@ -1,7 +1,7 @@
 package micapolos.zexy.compiler
 
 import micapolos.tata8.Game
-import micapolos.zexy.indexed.*
+import micapolos.zexy.indexed.Integer
 import micapolos.zexy.indexed.Number
 import micapolos.zexy.runtime.*
 import micapolos.tata8.Font as TataFont
@@ -104,6 +104,9 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
         infiniteAnimation
       )
     }
+
+    is Integer.TextLength ->
+      animatedTextLength(animated(integer.text) as Animated<String>)
 
     is Integer.TextWidth -> {
       val text = animated(integer.text)

@@ -3,9 +3,9 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  val string = "This is a very long string, which will slowly reveal itself."
+  val text = "This is a very long text, which will slowly reveal itself.".value
 
-  string
-    .slice(0, frame.count.div(5).max(string.length))
+  text
+    .slice(0, frame.count.div(5).max(text.length))
     .show()
 }

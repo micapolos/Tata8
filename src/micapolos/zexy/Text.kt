@@ -1,5 +1,6 @@
 package micapolos.zexy
 
+import micapolos.zexy.model.Integer as ModelInteger
 import micapolos.zexy.model.Text as ModelText
 import micapolos.zexy.model.Value as ModelValue
 
@@ -33,6 +34,8 @@ fun join(texts: List<Value<Text>>) =
 
 fun join(text: Value<Text>, vararg texts: Value<Text>) =
  join(listOf(text, *texts))
+
+val Value<Text>.length get() = Integer(ModelInteger.TextLength(modelText))
 
 fun String.slice(start: Int, length: Value<Integer>) = value.slice(start, length)
 fun String.slice(start: Value<Integer>, length: Int) = value.slice(start, length)
