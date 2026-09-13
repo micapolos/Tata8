@@ -14,6 +14,13 @@ fun main() {
     rect
       .with(position(10, 80))
       .with(size(100, 20))
-      .with(color.green)
+      .with(color.green),
+    point
+      .with(position(10, 120))
+      .with(color.yellow),
+    line
+      .withStart(position(10, 130))
+      .withEnd(position(100, 150))
+      .with(color.yellow)
   ).show()
 }
