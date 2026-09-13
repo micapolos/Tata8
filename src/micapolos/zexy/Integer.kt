@@ -9,7 +9,6 @@ internal val Value<Integer>.modelInteger get() = modelOrChildren as ModelValue<M
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
-val Value<Integer>.integer: Integer get() = this as Integer
 
 fun variable(initial: Int) = variable(initial.value)
 fun variable(initial: Int, fn: (Value<Integer>) -> Value<Activity>) = variable(initial.value, fn)
