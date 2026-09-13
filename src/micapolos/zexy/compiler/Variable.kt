@@ -11,10 +11,10 @@ fun <T: Value<T>> Compiler.animatedVariable(variable: Variable<T>) =
 fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<*> = run {
   val typedIndex = variable.typedIndex
   val index = variable.index
-  val animatedValues = this.animatedValues
+  val animatedValues = state.animatedArray
   when (variable.indexType) {
     IndexType.INTEGER -> {
-      val array = this.intArray
+      val array = state.intArray
       IntEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
@@ -27,7 +27,7 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
     }
 
     IndexType.NUMBER -> {
-      val array = this.doubleArray
+      val array = state.doubleArray
       DoubleEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
@@ -40,7 +40,7 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
     }
 
     IndexType.OBJECT -> {
-      val array = this.objectArray
+      val array = state.objectArray
       ObjectEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
@@ -75,9 +75,9 @@ fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation 
   }
 
 fun main() {
-  val compiler = Compiler(Compiler::class, intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf(), arrayOf(null))
+  val compiler = Compiler(Compiler::class, State(intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf(), arrayOf(null)))
   val animated = compiler.animated(Variable(IndexType.NUMBER, 2, 0))
-  compiler.animatedValues[0] = animated
+  compiler.state.animatedArray[0] = animated
   val value = (animated.evaluator as DoubleEvaluator).eval()
   println(value)
 }

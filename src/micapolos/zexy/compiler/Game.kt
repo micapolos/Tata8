@@ -9,15 +9,16 @@ import micapolos.zexy.runtime.Game as RuntimeGame
 fun Compiler.compile(game: Game): RuntimeGame {
   val animatedDrawing = animated(game.drawing) as Animated<Drawing>
   val drawingAnimation = animatedDrawing.animation
-  val initialAnimatedValues = animatedValues.toList()
+  val initialAnimatedValues = state.animatedArray.clone()
+  val animatedArray = state.animatedArray
   return RuntimeGame(
     game.title,
     Animated(
       animatedDrawing.evaluator,
       object : Animation {
         override fun start() {
-          for (i in animatedValues.indices) {
-            animatedValues[i] = initialAnimatedValues[i]
+          for (i in animatedArray.indices) {
+            animatedArray[i] = initialAnimatedValues[i]
           }
           drawingAnimation.start()
         }

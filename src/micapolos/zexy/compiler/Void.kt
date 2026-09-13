@@ -29,20 +29,20 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
         when (valueEvaluator) {
           is IntEvaluator ->
             actionAnimation {
-              intArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
+              state.intArray[typedIndex] = valueEvaluator.eval()
+              state.animatedArray[index] = null
             }
 
           is DoubleEvaluator ->
             actionAnimation {
-              doubleArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
+              state.doubleArray[typedIndex] = valueEvaluator.eval()
+              state.animatedArray[index] = null
             }
 
           is ObjectEvaluator<*> ->
             actionAnimation {
-              objectArray[typedIndex] = valueEvaluator.eval()
-              animatedValues[index] = null
+              state.objectArray[typedIndex] = valueEvaluator.eval()
+              state.animatedArray[index] = null
             }
         }
       )
@@ -58,19 +58,19 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
         when (variable.indexType) {
           IndexType.INTEGER ->
             actionAnimation {
-              animatedValues[index] = animatedValue
+              state.animatedArray[index] = animatedValue
             }
 
           IndexType.NUMBER -> {
             actionAnimation {
-              animatedValues[index] = animatedValue
+              state.animatedArray[index] = animatedValue
             }
           }
 
           IndexType.OBJECT -> {
             actionAnimation {
-              objectArray[typedIndex] = null  // avoids retention
-              animatedValues[index] = animatedValue
+              state.objectArray[typedIndex] = null  // avoids retention
+              state.animatedArray[index] = animatedValue
             }
           }
         })

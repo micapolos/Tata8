@@ -6,6 +6,7 @@ import micapolos.zexy.compiler.compile
 import micapolos.zexy.indexed.IndexType
 import micapolos.zexy.indexer.Indexer
 import micapolos.zexy.indexer.indexed
+import micapolos.zexy.runtime.State
 import micapolos.zexy.runtime.show
 import kotlin.reflect.KClass
 import micapolos.zexy.model.Game as ModelGame
@@ -27,12 +28,13 @@ fun Game.show() {
   val indexed = indexer.indexed(model)
   val compiler = Compiler(
     resourcesKClass,
-    IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
-    DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
-    arrayOfNulls(indexer.initialValuesOf(IndexType.OBJECT).size),
-    arrayOfNulls(indexer.initialValues.size))
+    State(
+      IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
+      DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
+      arrayOfNulls(indexer.initialValuesOf(IndexType.OBJECT).size),
+      arrayOfNulls(indexer.initialValues.size)))
   indexer.initialValues.forEachIndexed { index, value ->
-    compiler.animatedValues[index] = compiler.animated(value)
+    compiler.state.animatedArray[index] = compiler.animated(value)
   }
   val runtimeGame = compiler.compile(indexed)
   runtimeGame.show()
