@@ -22,6 +22,9 @@ fun actionAnimation(execute: () -> Unit) =
     override fun step(seconds: Double): Double = seconds
   }
 
+fun pauseAnimation(secondsEvaluator: Evaluator<Double>) =
+  pauseAnimation { secondsEvaluator.evalDouble() }
+
 fun pauseAnimation(seconds: () -> Double) =
   object : Animation {
     var remainingSeconds = 0.0
@@ -175,6 +178,9 @@ class SequenceAnimation(
   }
 }
 
+fun Animation.repeatWhile(conditionEvaluator: Evaluator<Int>): Animation =
+  repeatWhile { conditionEvaluator.evalInt() != 0 }
+
 fun Animation.repeatWhile(condition: () -> Boolean): Animation =
   object : Animation {
     var done = false
@@ -249,7 +255,7 @@ class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<An
   }
 }
 
-class PulseAnimation(val highAnimation: Animation, val lowAnimation: Animation): Animation {
+class PulseAnimation(val highAnimation: Animation, val lowAnimation: Animation) : Animation {
   var isLow: Boolean = false
   private var didStart = false
 
@@ -268,3 +274,80 @@ class PulseAnimation(val highAnimation: Animation, val lowAnimation: Animation):
     }
   }
 }
+
+fun selectStartAnimation(indexEvaluator: IntEvaluator, animations: List<Animation>) =
+  object : Animation {
+    var currentIndex = -1
+
+    override fun start() {
+      currentIndex = indexEvaluator.eval()
+    }
+
+    override fun step(seconds: Double): Double {
+      val index = indexEvaluator.eval()
+
+      if (index != currentIndex) {
+        currentIndex = index
+        animations[index].start()
+      }
+
+      return if (index == -1) {
+        seconds
+      } else {
+        animations[index].step(seconds)
+      }
+    }
+  }
+
+fun selectStepAnimation(indexEvaluator: IntEvaluator, animations: List<Animation>) =
+  object : Animation {
+    override fun start() {
+      animations.forEach(Animation::start)
+    }
+
+    override fun step(seconds: Double): Double {
+      return animations[indexEvaluator.eval()].step(seconds)
+    }
+  }
+
+fun <T> captureAnimation(state: State, typedIndex: Int, index: Int,  evaluator: Evaluator<T>) =
+  when (evaluator) {
+    is IntEvaluator ->
+      actionAnimation {
+        state.intArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+
+    is DoubleEvaluator ->
+      actionAnimation {
+        state.doubleArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+
+    is ObjectEvaluator<*> ->
+      actionAnimation {
+        state.objectArray[typedIndex] = evaluator.eval()
+        state.animatedArray[index] = null
+      }
+  }
+
+fun <T> setAnimation(state: State, typedIndex: Int, index: Int,  evaluator: Evaluator<T>): Animation =
+  when (evaluator) {
+    is IntEvaluator ->
+      actionAnimation {
+        state.evaluatorArray[index] = evaluator
+      }
+
+    is DoubleEvaluator -> {
+      actionAnimation {
+        state.evaluatorArray[index] = evaluator
+      }
+    }
+
+    is ObjectEvaluator<T> -> {
+      actionAnimation {
+        state.objectArray[typedIndex] = null  // avoids retention
+        state.evaluatorArray[index] = evaluator
+      }
+    }
+  }
