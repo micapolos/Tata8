@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.util;
 
 public final class DoubleUtils {
   public static double negated(double a) {

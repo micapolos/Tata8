@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.util;
 
 public final class IntegerUtils {
   public static int negated(int a) {

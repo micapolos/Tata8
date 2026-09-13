@@ -1,6 +1,6 @@
 package micapolos.zexy.indexer
 
-import micapolos.lookup
+import micapolos.util.lookup
 import micapolos.zexy.indexed.IndexType
 import micapolos.zexy.indexed.Value
 import micapolos.zexy.indexed.Variable

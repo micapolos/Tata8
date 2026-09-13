@@ -1,4 +1,4 @@
-package micapolos
+package micapolos.util
 
 inline fun <T: Any> T?.orIfNull(fn: () -> T): T = this ?: fn()
 

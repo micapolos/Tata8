@@ -1,6 +1,6 @@
 package micapolos.zexy.indexer
 
-import micapolos.orIfNull
+import micapolos.util.orIfNull
 import micapolos.zexy.indexed.Value
 import micapolos.zexy.indexed.Variable
 import micapolos.zexy.model.Variable as ModelVariable

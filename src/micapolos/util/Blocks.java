@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.util;
 
 import java.util.function.Function;
 

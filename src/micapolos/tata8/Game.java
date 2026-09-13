@@ -1,8 +1,7 @@
 package micapolos.tata8;
 
-import micapolos.FloatConsumer;
+import micapolos.util.FloatConsumer;
 import micapolos.awt.DuskFilter;
-import micapolos.zexy.runtime.Animation;
 
 import javax.swing.*;
 import java.awt.*;

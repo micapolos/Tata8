@@ -1,4 +1,4 @@
-package micapolos;
+package micapolos.util;
 
 public class Camel {
   public static String camelToSpaced(String input) {
