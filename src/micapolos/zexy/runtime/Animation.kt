@@ -86,7 +86,8 @@ fun parallel(animations: List<Animation>): Animation =
 
 fun everyFrameAnimation(animation: Animation): Animation =
   object : Animation {
-    override fun start() {}
+    override fun start() {
+    }
 
     override fun step(seconds: Double): Double {
       animation.start()
