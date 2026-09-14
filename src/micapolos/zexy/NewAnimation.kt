@@ -1,10 +1,23 @@
 package micapolos.zexy
 
 import micapolos.zexy.examples.Zexy
-import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Action as ModelAction
+import micapolos.zexy.model.Animation as ModelAnimation
 
-class Animation internal constructor(internal val model: ModelAnimation) {
+class Animation internal constructor(
+  internal val model: ModelAnimation,
+  internal val parentOrNull: Animation? = null,
+  internal var hasChild: Boolean = false,
+) {
+  init {
+    if (parentOrNull != null) {
+      if (parentOrNull.hasChild) {
+        error("Animation already has a child")
+      } else {
+        parentOrNull.hasChild = true
+      }
+    }
+  }
   @Zexy
   class Builder internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()

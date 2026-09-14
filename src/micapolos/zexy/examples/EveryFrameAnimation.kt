@@ -4,7 +4,7 @@ import micapolos.zexy.*
 
 fun main() {
   variable(100)
-    .animated {
+    .animate {
       everyFrame {
         it set2 it + 1
       }

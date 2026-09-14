@@ -4,7 +4,7 @@ import micapolos.zexy.*
 
 fun main() {
   variable(0)
-    .animated { counter ->
+    .animate { counter ->
       this pause 1
       counter add2 10
       this pause 1

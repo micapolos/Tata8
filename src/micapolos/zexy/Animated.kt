@@ -7,6 +7,6 @@ fun <T: Value<T>> Animated<T>.show () {
 }
 
 @JvmName("showDrawing")
-fun <T: Drawing<T>> Animated<T>.show () {
+fun <T: Drawing<T>> Animated<T>.show() {
   game.with(value).with(animation).show()
 }
