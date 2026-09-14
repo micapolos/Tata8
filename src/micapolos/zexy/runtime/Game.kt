@@ -5,6 +5,7 @@ import micapolos.tata8.Game as TataGame
 class Game(
   val title: String,
   val animatedDrawing: Animated<Drawing>,
+  val animation: Animation,
 )
 
 fun Game.show() {

@@ -6,6 +6,8 @@ import micapolos.zexy.compiler.compile
 import micapolos.zexy.indexed.IndexType
 import micapolos.zexy.indexer.Indexer
 import micapolos.zexy.indexer.indexed
+import micapolos.zexy.model.Action
+import micapolos.zexy.model.Animation
 import micapolos.zexy.runtime.State
 import micapolos.zexy.runtime.show
 import kotlin.reflect.KClass
@@ -16,7 +18,7 @@ data class Game internal constructor(
   internal val model: ModelGame,
 )
 
-val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing))
+val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing, Animation.Instant(Action.Empty)))
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
 

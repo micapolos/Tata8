@@ -26,6 +26,8 @@ fun Compiler.compile(game: Game): RuntimeGame {
         override fun step(seconds: Double): Double {
           return drawingAnimation.step(seconds)
         }
-      })
+      },
+    ),
+    compile(game.animation)
   )
 }
