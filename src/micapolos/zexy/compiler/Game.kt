@@ -11,6 +11,8 @@ fun Compiler.compile(game: Game): RuntimeGame {
   val drawingAnimation = animatedDrawing.animation
   val initialAnimatedValues = state.animatedArray.clone()
   val animatedArray = state.animatedArray
+  val initialEvaluators = state.evaluatorArray.clone()
+  val evaluatorArray = state.evaluatorArray
   return RuntimeGame(
     game.title,
     Animated(
@@ -19,6 +21,7 @@ fun Compiler.compile(game: Game): RuntimeGame {
         override fun start() {
           for (i in animatedArray.indices) {
             animatedArray[i] = initialAnimatedValues[i]
+            evaluatorArray[i] = initialEvaluators[i]
           }
           drawingAnimation.start()
         }

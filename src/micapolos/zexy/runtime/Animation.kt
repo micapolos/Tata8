@@ -160,26 +160,21 @@ class SequenceAnimation(
   var needsInit = true
 
   override fun start() {
-    println("Animation sequence start (animations: ${animations.size})")
     index = 0
     needsInit = true
   }
 
   override fun step(seconds: Double): Double {
-    println("Animation sequence step: $seconds, $index")
     var remainingSeconds = seconds
     while (true) {
       if (index == animations.size) {
-        println("Animation sequence finished?")
         return remainingSeconds
       } else {
         val animation = animations[index]
         if (needsInit) {
-          println("Animation start $index")
           animation.start()
           needsInit = false
         }
-        println("Animation step $index")
         remainingSeconds = animation.step(remainingSeconds)
         if (remainingSeconds == 0.0) {
           return 0.0
@@ -361,6 +356,7 @@ fun <T> setAnimation(state: State, typedIndex: Int, index: Int,  evaluator: Eval
     is ObjectEvaluator<T> -> {
       actionAnimation {
         state.objectArray[typedIndex] = null  // avoids retention
+        state.animatedArray[index] = null
         state.evaluatorArray[index] = evaluator
       }
     }

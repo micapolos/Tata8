@@ -12,11 +12,13 @@ fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluato
   when (evaluator) {
     is IntEvaluator ->
       Action {
+        state.animatedArray[index] = null
         state.evaluatorArray[index] = evaluator
       }
 
     is DoubleEvaluator -> {
       Action {
+        state.animatedArray[index] = null
         state.evaluatorArray[index] = evaluator
       }
     }
@@ -24,6 +26,7 @@ fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluato
     is ObjectEvaluator<T> -> {
       Action {
         state.objectArray[typedIndex] = null  // avoids retention
+        state.animatedArray[index] = null
         state.evaluatorArray[index] = evaluator
       }
     }
@@ -35,18 +38,21 @@ fun <T> captureAction(state: State, typedIndex: Int, index: Int, evaluator: Eval
       Action {
         state.intArray[typedIndex] = evaluator.eval()
         state.animatedArray[index] = null
+        state.evaluatorArray[index] = null
       }
 
     is DoubleEvaluator ->
       Action {
         state.doubleArray[typedIndex] = evaluator.eval()
         state.animatedArray[index] = null
+        state.evaluatorArray[index] = null
       }
 
     is ObjectEvaluator<*> ->
       Action {
         state.objectArray[typedIndex] = evaluator.eval()
         state.animatedArray[index] = null
+        state.evaluatorArray[index] = null
       }
   }
 

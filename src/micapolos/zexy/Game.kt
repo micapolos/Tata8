@@ -41,6 +41,7 @@ fun Game.show() {
       IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
       DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
       arrayOfNulls(indexer.initialValuesOf(IndexType.OBJECT).size),
+      arrayOfNulls(indexer.initialValues.size),
       arrayOfNulls(indexer.initialValues.size)))
   indexer.initialValues.forEachIndexed { index, value ->
     compiler.state.animatedArray[index] = compiler.animated(value)

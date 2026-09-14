@@ -94,7 +94,6 @@ public final class Image {
   static Image load(Class<?> baseClass, String fileName) {
     BufferedImage bufferedImage = loadBufferedImage(baseClass, fileName);
     Image image = new Image(bufferedImage, fileName);
-    IO.println(leo("loaded", image));
     return image;
   }
 

@@ -74,9 +74,17 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       add(ModelAnimation.SelectStart(modelInteger, Builder().apply { fn() }.buildAnimationModels()))
     }
 
+    infix fun <T : Value<T>> Value<T>.set(i: Boolean) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.set(i: Int) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.set(i: Double) = set(i.value)
+
     infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
       with(actionBuilder) { set(value) }
     }
+
+    infix fun <T : Value<T>> Value<T>.capture(i: Boolean) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.capture(i: Int) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.capture(i: Double) = set(i.value)
 
     infix fun <T : Value<T>> Value<T>.capture(value: Value<T>) {
       with(actionBuilder) { capture(value) }

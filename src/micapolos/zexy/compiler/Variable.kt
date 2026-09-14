@@ -12,13 +12,16 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
   val typedIndex = variable.typedIndex
   val index = variable.index
   val animatedValues = state.animatedArray
+  val evaluatorArray = state.evaluatorArray
   when (variable.indexType) {
     IndexType.INTEGER -> {
       val array = state.intArray
       IntEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
-            array[typedIndex]
+            evaluatorArray[index].let { evaluator ->
+              evaluator?.evalInt() ?: array[typedIndex]
+            }
           } else {
             (animatedValue.evaluator as IntEvaluator).eval()
           }
@@ -31,7 +34,9 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
       DoubleEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
-            array[typedIndex]
+            evaluatorArray[index].let { evaluator ->
+              evaluator?.evalDouble() ?: array[typedIndex]
+            }
           } else {
             (animatedValue.evaluator as DoubleEvaluator).eval()
           }
@@ -44,7 +49,9 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
       ObjectEvaluator {
         animatedValues[index].let { animatedValue ->
           if (animatedValue == null) {
-            array[typedIndex]
+            evaluatorArray[index].let { evaluator ->
+              evaluator?.evalObject() ?: array[typedIndex]
+            }
           } else {
             (animatedValue.evaluator as ObjectEvaluator).eval()
           }

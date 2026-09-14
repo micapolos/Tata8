@@ -14,9 +14,17 @@ class Action2 internal constructor(internal val model: ModelAction) {
 
     internal fun buildModelActions() = modelActions.toList()
 
+    infix fun <T : Value<T>> Value<T>.set(i: Boolean) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.set(i: Int) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.set(i: Double) = set(i.value)
+
     infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
       add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
     }
+
+    infix fun <T : Value<T>> Value<T>.capture(i: Boolean) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.capture(i: Int) = set(i.value)
+    infix fun <T : Value<T>> Value<T>.capture(i: Double) = set(i.value)
 
     infix fun <T : Value<T>> Value<T>.capture(value: Value<T>) {
       add(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model))
