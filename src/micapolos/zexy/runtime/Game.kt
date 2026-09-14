@@ -2,6 +2,7 @@ package micapolos.zexy.runtime
 
 import micapolos.tata8.Color
 import micapolos.tata8.Shader
+import kotlin.math.min
 import micapolos.tata8.Game as TataGame
 
 class Game(
@@ -14,6 +15,7 @@ fun Game.show() {
   TataGame.title = title
   val animation = animatedDrawing.animation
   animation.start()
+  this.animation.start()
   val evaluator = animatedDrawing.evaluator
   evaluator.evalBoxed().drawOn(TataGame.background.canvas)
   val stepSeconds = TataGame.FRAME_SECONDS.toDouble()
@@ -24,10 +26,14 @@ fun Game.show() {
   TataGame.onUpdate = {
     if (TataGame.keys.reset.pressed()) {
       animation.start()
+      this.animation.start()
       gameSeconds = 0.0
     }
     TataGame.background.canvas.clear()
-    val leftOverSeconds = animation.step(stepSeconds)
+    val leftOverSeconds = min(
+      animation.step(stepSeconds),
+      animation.step(stepSeconds)
+    )
     val isFinished = leftOverSeconds != 0.0
     evaluator.evalBoxed().drawOn(TataGame.background.canvas)
     gameSeconds += stepSeconds
