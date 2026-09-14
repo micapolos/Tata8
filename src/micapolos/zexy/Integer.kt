@@ -132,6 +132,11 @@ val Value<Integer>.elastic: Value<Integer> get() = run {
 }
 
 context(_: Action2.Builder)
+infix fun Value<Integer>.set2(i: Int) {
+  set2(i.value)
+}
+
+context(_: Action2.Builder)
 infix fun Value<Integer>.bind2(i: Int) {
   bind2(i.value)
 }
@@ -144,6 +149,11 @@ infix fun Value<Integer>.add2(i: Int) {
 context(_: Action2.Builder)
 infix fun Value<Integer>.add2(value: Value<Integer>) {
   set2(this + value)
+}
+
+context(_: Animation.Builder)
+infix fun Value<Integer>.set2(i: Int) {
+  set2(i.value)
 }
 
 context(_: Animation.Builder)

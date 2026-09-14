@@ -14,7 +14,7 @@ fun variable(initial: String, fn: (Value<Text>) -> Value<Activity>) = variable(i
 val String.value: Value<Text> get() = text
 val String.text: Text get() = Text(ModelText.Constant(this))
 
-fun Value<Bool>.selectFrom(trueCase: String, falseCase: String): Value<Text> =
+fun Value<Bool>.selectTrueFalse(trueCase: String, falseCase: String): Value<Text> =
   selectTrueFalse(trueCase.value, falseCase.value)
 
 operator fun List<String>.get(index: Value<Integer>): Value<Text> =
