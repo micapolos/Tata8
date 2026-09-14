@@ -18,14 +18,5 @@ fun main() {
       x set 20.value
       x set 30.value
     }
-
-    sprite
-      .with(image("foo"))
-      .draw()
-
-    rect
-      .with(position(10, 10))
-      .with(size(30, 30))
-      .draw()
   }
 }

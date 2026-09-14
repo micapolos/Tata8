@@ -11,5 +11,4 @@ fun Compiler.compile(indexed: IndexedAction): Action =
     is IndexedAction.Set<*> -> setAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
     is IndexedAction.Select -> selectAction(intEvaluator(indexed.index), indexed.actions.map { compile(it) })
     is IndexedAction.Sequence -> sequenceAction(indexed.actions.map { compile(it) })
-    is IndexedAction.Draw -> drawAction(objectEvaluator(indexed.drawing), Game.background.canvas)
   }

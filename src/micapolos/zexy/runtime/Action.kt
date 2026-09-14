@@ -59,8 +59,3 @@ fun selectAction(indexEvaluator: IntEvaluator, actions: List<Action>): Action =
   Action {
     actions.forEach(Action::execute)
   }
-
-fun drawAction(drawingEvaluator: Evaluator<Drawing>, canvas: Canvas): Action =
-  Action {
-    drawingEvaluator.evalObject().drawOn(canvas)
-  }

@@ -5,33 +5,40 @@ import micapolos.zexy.model.Variable as ModelVariable
 import micapolos.zexy.model.Void as ModelVoid
 
 class Action2 internal constructor(internal val model: ModelAction) {
-  class Builder internal constructor(internal val actions: MutableList<Action2> = mutableListOf()) {
-    infix fun <T: Value<T>> Value<T>.set(value: Value<T>) {
-      actions.add(Action2(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model)))
+  class Builder internal constructor() {
+    internal val modelActions: MutableList<ModelAction> = mutableListOf()
+
+    internal fun add(modelAction: ModelAction) {
+      modelActions.add(modelAction)
     }
 
-    infix fun <T: Value<T>> Value<T>.capture(value: Value<T>) {
-      actions.add(Action2(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model)))
+    infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
+      add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
     }
 
-    fun <T: Drawing<T>> Value<T>.draw() {
-      actions.add(Action2(ModelAction.Draw(modelDrawing)))
+    infix fun <T : Value<T>> Value<T>.capture(value: Value<T>) {
+      add(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model))
     }
 
     fun sequence(fn: Builder.() -> Unit) {
-      actions.add(Action2(ModelAction.Sequence(Builder().apply { fn() }.actions.map { it.model })))
+      add(ModelAction.Sequence(Builder().apply { fn() }.modelActions))
     }
 
     infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
-      actions.add(Action2(ModelAction.Select(modelInteger, Builder().apply { fn() }.actions.map { it.model })))
+      add(ModelAction.Select(modelInteger, Builder().apply { fn() }.modelActions))
     }
 
-    infix fun <T: Drawing<T>> Value<Integer>.draw(drawing: Value<T>) {
-      actions.add(Action2(ModelAction.Draw(drawing.modelDrawing)))
-    }
+    internal fun buildModelOrNull() =
+      if (modelActions.isEmpty()) {
+        null
+      } else {
+        ModelAction.Sequence(modelActions).also { modelActions.clear() }
+      }
 
-    internal fun build(): Action2 = Action2(ModelAction.Sequence(actions.map { it.model }))
+    internal fun buildModel() = buildModelOrNull() ?: ModelAction.Empty
+    internal fun buildOrNull() = buildModelOrNull()?.let { Action2(it)}
+    internal fun build() = Action2(buildModel())
   }
 }
 
-fun action(fn: Action2.Builder.() -> Unit): Action2 = Action2.Builder().apply { fn() }.build()
+fun action(fn: Action2.Builder.() -> Unit) = Action2.Builder().apply { fn() }.build()
