@@ -12,47 +12,36 @@ fun <T> bindAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluat
   when (evaluator) {
     is IntEvaluator ->
       Action {
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = evaluator
+        state.bind(index, evaluator)
       }
 
     is DoubleEvaluator -> {
       Action {
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = evaluator
+        state.bind(index, evaluator)
       }
     }
 
     is ObjectEvaluator<T> -> {
       Action {
-        state.objectArray[typedIndex] = null  // avoids retention
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = evaluator
+        state.bind(typedIndex, index, evaluator)
       }
     }
   }
 
 fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluator<T>): Action =
   when (evaluator) {
-    is IntEvaluator ->
-      Action {
-        state.intArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = null
-      }
+    is IntEvaluator -> Action {
+      state.setInt(typedIndex, index, evaluator.eval())
+    }
 
     is DoubleEvaluator ->
       Action {
-        state.doubleArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = null
+        state.setDouble(typedIndex, index, evaluator.eval())
       }
 
     is ObjectEvaluator<*> ->
       Action {
-        state.objectArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
-        state.evaluatorArray[index] = null
+        state.setObject(typedIndex, index, evaluator.eval())
       }
   }
 

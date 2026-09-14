@@ -11,51 +11,22 @@ fun <T: Value<T>> Compiler.animatedVariable(variable: Variable<T>) =
 fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<*> = run {
   val typedIndex = variable.typedIndex
   val index = variable.index
-  val animatedValues = state.animatedArray
-  val evaluatorArray = state.evaluatorArray
   when (variable.indexType) {
     IndexType.INTEGER -> {
-      val array = state.intArray
       IntEvaluator {
-        animatedValues[index].let { animatedValue ->
-          if (animatedValue == null) {
-            evaluatorArray[index].let { evaluator ->
-              evaluator?.evalInt() ?: array[typedIndex]
-            }
-          } else {
-            (animatedValue.evaluator as IntEvaluator).eval()
-          }
-        }
+        state.getInt(typedIndex, index)
       }
     }
 
     IndexType.NUMBER -> {
-      val array = state.doubleArray
       DoubleEvaluator {
-        animatedValues[index].let { animatedValue ->
-          if (animatedValue == null) {
-            evaluatorArray[index].let { evaluator ->
-              evaluator?.evalDouble() ?: array[typedIndex]
-            }
-          } else {
-            (animatedValue.evaluator as DoubleEvaluator).eval()
-          }
-        }
+        state.getDouble(typedIndex, index)
       }
     }
 
     IndexType.OBJECT -> {
-      val array = state.objectArray
       ObjectEvaluator {
-        animatedValues[index].let { animatedValue ->
-          if (animatedValue == null) {
-            evaluatorArray[index].let { evaluator ->
-              evaluator?.evalObject() ?: array[typedIndex]
-            }
-          } else {
-            (animatedValue.evaluator as ObjectEvaluator).eval()
-          }
-        }
+        state.getObject(typedIndex, index)
       }
     }
   }
