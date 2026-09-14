@@ -6,15 +6,15 @@ import micapolos.zexy.model.Void as ModelVoid
 
 class Action2 internal constructor(internal val model: ModelAction) {
   class Builder internal constructor(internal val actions: MutableList<Action2> = mutableListOf()) {
-    fun <T: Value<T>> Value<T>.set(value: Value<T>) {
+    infix fun <T: Value<T>> Value<T>.set(value: Value<T>) {
       actions.add(Action2(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model)))
     }
 
-    fun <T: Value<T>> Value<T>.capture(value: Value<T>) {
+    infix fun <T: Value<T>> Value<T>.capture(value: Value<T>) {
       actions.add(Action2(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model)))
     }
 
-    fun <T: Drawing<T>> draw(drawing: Value<T>) {
+    infix fun <T: Drawing<T>> draw(drawing: Value<T>) {
       actions.add(Action2(ModelAction.Draw(drawing.modelDrawing)))
     }
 
@@ -22,7 +22,7 @@ class Action2 internal constructor(internal val model: ModelAction) {
       actions.add(Action2(ModelAction.Sequence(Builder().apply { fn() }.actions.map { it.model })))
     }
 
-    fun Value<Integer>.select(fn: Builder.() -> Unit) {
+    infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
       actions.add(Action2(ModelAction.Select(modelInteger, Builder().apply { fn() }.actions.map { it.model })))
     }
 

@@ -8,11 +8,11 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       animations.add(Animation(ModelAnimation.Instant(action(fn).model)))
     }
 
-    fun pause(seconds: Double) {
-      pause(seconds.value)
+    infix fun pause(seconds: Double) {
+      micapolos.zexy.pause(seconds.value)
     }
 
-    fun pause(seconds: Value<Number>) {
+    infix fun pause(seconds: Value<Number>) {
       animations.add(Animation(ModelAnimation.Pause(seconds.modelNumber)))
     }
 
@@ -28,7 +28,7 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       animations.add(Animation(ModelAnimation.Sequence(Builder().apply { fn() }.animations.map { it.model })))
     }
 
-    fun Value<Integer>.selectStep(fn: Builder.() -> Unit) {
+    infix fun Value<Integer>.selectStep(fn: Builder.() -> Unit) {
       animations.add(
         Animation(
           ModelAnimation.SelectStep(
@@ -38,7 +38,7 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       )
     }
 
-    fun Value<Integer>.selectStart(fn: Builder.() -> Unit) {
+    infix fun Value<Integer>.selectStart(fn: Builder.() -> Unit) {
       animations.add(
         Animation(
           ModelAnimation.SelectStart(
