@@ -28,15 +28,15 @@ sealed class Number : Value<Number> {
     CMP,
   }
 
-  class Constant(val d: Double) : Number()
+  data class Constant(val d: Double) : Number()
 
-  class Apply0(val op: Op0) : Number()
+  data class Apply0(val op: Op0) : Number()
 
-  class Apply1(val op: Op1, val n: Value<Number>) : Number()
+  data class Apply1(val op: Op1, val n: Value<Number>) : Number()
 
-  class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
+  data class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
 
-  class Test2(val pred: NumberPred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
+  data class Test2(val pred: NumberPred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
 
-  class FromInteger(val i: Value<Integer>) : Number()
+  data class FromInteger(val i: Value<Integer>) : Number()
 }

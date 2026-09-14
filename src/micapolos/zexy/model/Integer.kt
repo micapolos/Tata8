@@ -27,25 +27,25 @@ sealed class Integer : Value<Integer> {
     XOR,
   }
 
-  class Constant(val i: Int) : Integer()
+  data class Constant(val i: Int) : Integer()
 
-  class Apply0(val op: Op0) : Integer()
+  data class Apply0(val op: Op0) : Integer()
 
-  class Apply1(val op: Op1, val integer: Value<Integer>) : Integer()
+  data class Apply1(val op: Op1, val integer: Value<Integer>) : Integer()
 
-  class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
+  data class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>) : Integer()
 
-  class KeyDown(val key: Key) : Integer()
+  data class KeyDown(val key: Key) : Integer()
 
-  class ImageWidth(val image: Value<Image>) : Integer()
+  data class ImageWidth(val image: Value<Image>) : Integer()
 
-  class ImageHeight(val image: Value<Image>) : Integer()
+  data class ImageHeight(val image: Value<Image>) : Integer()
 
-  class TextLength(val text: Value<Text>) : Integer()
+  data class TextLength(val text: Value<Text>) : Integer()
 
-  class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
+  data class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
 
-  class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()
+  data class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()
 
-  class FromNumber(val number: Value<Number>) : Integer()
+  data class FromNumber(val number: Value<Number>) : Integer()
 }

@@ -1,15 +1,15 @@
 package micapolos.zexy.model
 
 sealed class Void: Value<Void> {
-  object Empty: Void()
+  data object Empty: Void()
 
-  class Pause(val seconds: Value<Number>): Void()
+  data class Pause(val seconds: Value<Number>): Void()
 
-  class Set<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
+  data class Set<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
 
-  class Capture<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
+  data class Capture<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Void()
 
-  class Parallel(val values: List<Value<Void>>): Void()
+  data class Parallel(val values: List<Value<Void>>): Void()
 
-  class Race(val values: List<Value<Void>>): Void()
+  data class Race(val values: List<Value<Void>>): Void()
 }

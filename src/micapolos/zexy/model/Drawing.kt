@@ -1,28 +1,28 @@
 package micapolos.zexy.model
 
 sealed class Drawing : Value<Drawing> {
-  object Empty : Drawing()
+  data object Empty : Drawing()
 
-  class Point(
+  data class Point(
     val x: Value<Integer>,
     val y: Value<Integer>,
   ) : Drawing()
 
-  class Line(
+  data class Line(
     val x1: Value<Integer>,
     val y1: Value<Integer>,
     val x2: Value<Integer>,
     val y2: Value<Integer>,
   ) : Drawing()
 
-  class Rect(
+  data class Rect(
     val x: Value<Integer>,
     val y: Value<Integer>,
     val width: Value<Integer>,
     val height: Value<Integer>,
   ) : Drawing()
 
-  class Sprite(
+  data class Sprite(
     val x: Value<Integer>,
     val y: Value<Integer>,
     val width: Value<Integer>,
@@ -32,21 +32,21 @@ sealed class Drawing : Value<Drawing> {
     val imageY: Value<Integer>,
   ) : Drawing()
 
-  class Label(
+  data class Label(
     val text: Value<Text>,
     val x: Value<Integer>,
     val y: Value<Integer>,
   ) : Drawing()
 
-  class WithColor(val drawing: Value<Drawing>, val color: Value<Color>) : Drawing()
+  data class WithColor(val drawing: Value<Drawing>, val color: Value<Color>) : Drawing()
 
-  class WithFont(val drawing: Value<Drawing>, val font: Value<Font>) : Drawing()
+  data class WithFont(val drawing: Value<Drawing>, val font: Value<Font>) : Drawing()
 
-  class WithComposite(val drawing: Value<Drawing>, val composite: Composite) : Drawing()
+  data class WithComposite(val drawing: Value<Drawing>, val composite: Composite) : Drawing()
 
-  class Stack(val drawings: List<Value<Drawing>>) : Drawing()
+  data class Stack(val drawings: List<Value<Drawing>>) : Drawing()
 
-  class WithClip(
+  data class WithClip(
     val drawing: Value<Drawing>,
     val x: Value<Integer>,
     val y: Value<Integer>,

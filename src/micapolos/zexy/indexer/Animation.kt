@@ -5,7 +5,7 @@ import micapolos.zexy.model.Animation as ModelAnimation
 
 fun Indexer.indexed(model: ModelAnimation): Animation =
   when (model) {
-    ModelAnimation.Empty -> Animation.Empty
+    ModelAnimation.Infinite -> Animation.Empty
     is ModelAnimation.Instant -> Animation.Instant(indexed(model.action))
     is ModelAnimation.Pause -> Animation.Pause(indexed(model.seconds))
     is ModelAnimation.Parallel -> Animation.Parallel(model.animations.map { indexed(it) })

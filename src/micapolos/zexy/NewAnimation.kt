@@ -1,6 +1,7 @@
 package micapolos.zexy
 
 import micapolos.zexy.model.Animation as ModelAnimation
+import micapolos.zexy.model.Action as ModelAction
 
 class Animation internal constructor(internal val model: ModelAnimation) {
   class Builder internal constructor() {
@@ -9,18 +10,19 @@ class Animation internal constructor(internal val model: ModelAnimation) {
 
     internal fun build(): Animation = run {
       flushActions()
-      val animation = when {
-        animationModels.isEmpty() -> ModelAnimation.Empty
+      val animationModels = buildAnimationModels()
+      val animationModel = when {
+        animationModels.isEmpty() -> ModelAnimation.Instant(ModelAction.Empty)
         animationModels.singleOrNull() != null -> animationModels.single()
-        else -> ModelAnimation.Sequence(animationModels)
+        else -> ModelAnimation.Sequence(animationModels.toList())
       }
-      animationModels.clear()
-      Animation(animation)
+      this.animationModels.clear()
+      Animation(animationModel)
     }
 
     internal fun buildAnimationModels() = run {
       flushActions()
-      animationModels
+      animationModels.toList()
     }
 
     internal fun flushActions() {
@@ -34,15 +36,15 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       animationModels.add(animationModel)
     }
 
-    fun pause(seconds: Int) {
+    infix fun pause(seconds: Int) {
       pause(seconds.toDouble())
     }
 
-    fun pause(seconds: Double) {
+    infix fun pause(seconds: Double) {
       pause(seconds.value)
     }
 
-    fun pause(seconds: Value<Number>) {
+    infix fun pause(seconds: Value<Number>) {
       add(ModelAnimation.Pause(seconds.modelNumber))
     }
 
@@ -86,7 +88,8 @@ class Animation internal constructor(internal val model: ModelAnimation) {
   }
 }
 
-fun animation(fn: Animation.Builder.() -> Unit): Animation = Animation.Builder().apply { fn() }.build()
+fun animation(fn: Animation.Builder.() -> Unit): Animation =
+  Animation.Builder().apply { fn() }.build()
 
 fun Animation.show() {
   game.with(this).show()

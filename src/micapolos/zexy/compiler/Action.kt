@@ -1,6 +1,5 @@
 package micapolos.zexy.compiler
 
-import micapolos.tata8.Game
 import micapolos.zexy.runtime.*
 import micapolos.zexy.indexed.Action as IndexedAction
 

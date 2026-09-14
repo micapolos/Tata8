@@ -1,7 +1,7 @@
 package micapolos.zexy.model
 
 sealed class Image : Value<Image> {
-  object Empty : Image()
+  data object Empty : Image()
 
-  class Resource(val fileName: String): Image()
+  data class Resource(val fileName: String): Image()
 }

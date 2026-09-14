@@ -12,6 +12,8 @@ class Action2 internal constructor(internal val model: ModelAction) {
       modelActions.add(modelAction)
     }
 
+    internal fun buildModelActions() = modelActions.toList()
+
     infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
       add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
     }
@@ -21,19 +23,19 @@ class Action2 internal constructor(internal val model: ModelAction) {
     }
 
     fun sequence(fn: Builder.() -> Unit) {
-      add(ModelAction.Sequence(Builder().apply { fn() }.modelActions))
+      add(ModelAction.Sequence(Builder().apply { fn() }.buildModelActions()))
     }
 
     infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
-      add(ModelAction.Select(modelInteger, Builder().apply { fn() }.modelActions))
+      add(ModelAction.Select(modelInteger, Builder().apply { fn() }.buildModelActions()))
     }
 
     internal fun buildModelOrNull() =
       if (modelActions.isEmpty()) {
         null
       } else {
-        ModelAction.Sequence(modelActions).also { modelActions.clear() }
-      }
+        ModelAction.Sequence(buildModelActions())
+      }.also { modelActions.clear() }
 
     internal fun buildModel() = buildModelOrNull() ?: ModelAction.Empty
     internal fun buildOrNull() = buildModelOrNull()?.let { Action2(it)}

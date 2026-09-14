@@ -18,7 +18,9 @@ data class Game internal constructor(
   internal val model: ModelGame,
 )
 
-val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing, ModelAnimation.Instant(Action.Empty)))
+val game = Game(
+  Game::class,
+  ModelGame("Game", 480, 256, noDrawing.modelDrawing, ModelAnimation.Instant(Action.Empty)))
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
 
@@ -48,9 +50,9 @@ fun Game.show() {
 }
 
 fun main() {
-  val x = variable(10)
   game
     .withTitle("Sandbox")
     .with(sprite.with(image("/micapolos/quote.png")))
+    .with(animation { pause(1) })
     .show()
 }

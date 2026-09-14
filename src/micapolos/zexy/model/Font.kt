@@ -1,7 +1,7 @@
 package micapolos.zexy.model
 
 sealed class Font : Value<Font> {
-  class Resource(
+  data class Resource(
     val fileName: String,
     val spaceWidth: Int,
     val charSpacing: Int,
