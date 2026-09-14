@@ -19,35 +19,29 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
     }
 
     is Void.Set<*> -> {
-      val animatedValue = animated(indexed.value)
-      val valueEvaluator = animatedValue.evaluator
+      val animated = animated(indexed.value)
+      val evaluator = animated.evaluator
       val variable = indexed.variable
       val typedIndex = variable.typedIndex
       val index = variable.index
       Animated(
         ObjectEvaluator { Unit },
         parallel(
-          animatedValue.animation,
-          when (valueEvaluator) {
+          animated.animation,
+          when (evaluator) {
             is IntEvaluator ->
               actionAnimation {
-                state.intArray[typedIndex] = valueEvaluator.eval()
-                state.animatedArray[index] = null
-                state.evaluatorArray[index] = null
+                state.setInt(typedIndex, index, evaluator.eval())
               }
 
             is DoubleEvaluator ->
               actionAnimation {
-                state.doubleArray[typedIndex] = valueEvaluator.eval()
-                state.animatedArray[index] = null
-                state.evaluatorArray[index] = null
+                state.setDouble(typedIndex, index, evaluator.eval())
               }
 
             is ObjectEvaluator<*> ->
               actionAnimation {
-                state.objectArray[typedIndex] = valueEvaluator.eval()
-                state.animatedArray[index] = null
-                state.evaluatorArray[index] = null
+                state.setObject(typedIndex, index, evaluator.eval())
               }
           }
         )
@@ -66,20 +60,18 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
           when (variable.indexType) {
             IndexType.INTEGER ->
               actionAnimation {
-                state.animatedArray[index] = animatedValue
+                state.bindInt(index, animatedValue)
               }
 
             IndexType.NUMBER -> {
               actionAnimation {
-                state.animatedArray[index] = animatedValue
+                state.bindDouble(index, animatedValue)
               }
             }
 
             IndexType.OBJECT -> {
               actionAnimation {
-                state.objectArray[typedIndex] = null  // avoids retention
-                state.animatedArray[index] = animatedValue
-                state.evaluatorArray[index] = null
+                state.bindObject(typedIndex, index, animatedValue)
               }
             }
           }))

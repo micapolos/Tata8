@@ -26,17 +26,17 @@ fun <T> State.setObject(typedIndex: Int, index: Int, value: T) {
   objectArray[typedIndex] = value
 }
 
-fun State.bindInt(index: Int, animated: Animated<Int>) {
+fun State.bindInt(index: Int, animated: Animated<*>) {
   animatedArray[index] = animated
   evaluatorArray[index] = null
 }
 
-fun State.bindDouble(index: Int, animated: Animated<Double>) {
+fun State.bindDouble(index: Int, animated: Animated<*>) {
   animatedArray[index] = animated
   evaluatorArray[index] = null
 }
 
-fun <T> State.bindObject(typedIndex: Int, index: Int, animated: Animated<T>) {
+fun State.bindObject(typedIndex: Int, index: Int, animated: Animated<*>) {
   animatedArray[index] = animated
   evaluatorArray[index] = null
   objectArray[typedIndex] = null
