@@ -18,7 +18,7 @@ class Action2 internal constructor(internal val model: ModelAction) {
     fun sequence(fn: Builder.() -> Unit): Action2 =
       Action2(ModelAction.Sequence(Builder().apply { fn() }.actions.map { it.model }))
 
-    fun select(index: Value<Integer>, fn: Action2.Builder.() -> Unit) =
+    fun select(index: Value<Integer>, fn: Builder.() -> Unit) =
       Action2(ModelAction.Select(index.modelInteger, Builder().apply { fn() }.actions.map { it.model }))
   }
 }
