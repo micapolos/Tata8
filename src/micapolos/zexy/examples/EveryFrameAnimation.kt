@@ -4,9 +4,9 @@ import micapolos.zexy.*
 
 fun main() {
   variable(100)
-    .animated { counter ->
+    .animated {
       everyFrame {
-        counter capture counter + 1
+        it capture it + 1
       }
     }
     .show()
