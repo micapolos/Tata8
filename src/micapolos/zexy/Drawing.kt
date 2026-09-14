@@ -34,3 +34,9 @@ fun <T: Drawing<T>> Value<T>.with(composite: Composite): Value<T> =
 fun <T: Drawing<T>> Value<T>.show() {
   game.with(this).show()
 }
+
+context(animationBuilder: Animation.Builder)
+fun <T : Drawing<T>> Value<T>.show2() {
+  with(animationBuilder.build()).show()
+}
+

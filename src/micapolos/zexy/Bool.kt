@@ -9,7 +9,7 @@ internal val Value<Bool>.bool: Bool get() = this as Bool
 
 val Boolean.value: Value<Bool> get() = Bool(toInt().value.model)
 
-val Value<Bool>.integer get() = Integer(model)
+val Value<Bool>.integer: Value<Integer> get() = Integer(model)
 
 fun variable(initial: Boolean): Variable<Bool> = variable(initial.value)
 

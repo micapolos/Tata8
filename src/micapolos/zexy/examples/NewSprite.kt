@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  animation {
+  sequence {
     once {
       sprite
         .with(image("/micapolos/depressedChicken.png"))

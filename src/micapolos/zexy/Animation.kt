@@ -51,6 +51,8 @@ class Animation internal constructor(
       animationModels.add(animationModel)
     }
 
+    val doNothing get() = sequence {  }
+
     infix fun pause(seconds: Int) {
       pause(seconds.toDouble())
     }
@@ -91,6 +93,13 @@ class Animation internal constructor(
       add(ModelAnimation.SelectStart(modelInteger, Builder().apply { fn() }.buildAnimationModels()))
     }
 
+    fun startOn(event: Value<Event>, fn: Builder.() -> Unit) {
+      event.isOccurring.integer.selectStart {
+        doNothing
+        sequence(fn)
+      }
+    }
+
     infix fun Value<Integer>.selectAction(fn: Action2.Builder.() -> Unit) {
       with(actionBuilder) { select(fn) }
     }
@@ -107,7 +116,12 @@ infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
   with(animationBuilder.actionBuilder) { set2(value) }
 }
 
-fun animation(fn: Animation.Builder.() -> Unit): Animation =
+context(animationBuilder: Animation.Builder)
+fun <T : Value<T>> Value<T>.show2() {
+  with(animationBuilder.build()).show()
+}
+
+fun sequence(fn: Animation.Builder.() -> Unit): Animation =
   Animation.Builder().apply { fn() }.build()
 
 fun Animation.show() {

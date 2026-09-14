@@ -154,8 +154,8 @@ fun race(animations: List<Animation>): Animation =
 
     override fun step(seconds: Double): Double {
       if (!isFinished) {
-        var remainingSeconds = seconds
-        animations.forEach { remainingSeconds = Math.min(remainingSeconds, it.step(seconds)) }
+        var remainingSeconds = 0.0
+        animations.forEach { remainingSeconds = Math.max(remainingSeconds, it.step(seconds)) }
         isFinished = remainingSeconds != 0.0
         return remainingSeconds
       } else {

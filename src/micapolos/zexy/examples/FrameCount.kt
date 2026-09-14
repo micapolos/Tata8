@@ -3,5 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  frame.count.show()
+  sequence {
+    frame.count2.show2()
+  }
 }
