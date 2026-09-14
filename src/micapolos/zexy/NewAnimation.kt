@@ -9,7 +9,7 @@ class Animation internal constructor(internal val model: ModelAnimation) {
     }
 
     infix fun pause(seconds: Double) {
-      micapolos.zexy.pause(seconds.value)
+      pause(seconds.value)
     }
 
     infix fun pause(seconds: Value<Number>) {
@@ -52,5 +52,8 @@ class Animation internal constructor(internal val model: ModelAnimation) {
   }
 }
 
-
 fun animation(fn: Animation.Builder.() -> Unit): Animation = Animation.Builder().apply { fn() }.build()
+
+fun Animation.show() {
+  game.with(this).show()
+}
