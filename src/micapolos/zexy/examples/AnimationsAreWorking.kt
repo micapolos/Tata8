@@ -9,6 +9,10 @@ fun main() {
   val seconds = frameCount2.div(60)
 
   seconds
-    .animated { everyFrame { frameCount capture frameCount + 1 } }
+    .animated {
+      everyFrame {
+        frameCount capture2 frameCount + 1
+      }
+    }
     .show()
 }

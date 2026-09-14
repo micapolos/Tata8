@@ -1,9 +1,11 @@
 package micapolos.zexy
 
+import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Action as ModelAction
 
 class Animation internal constructor(internal val model: ModelAnimation) {
+  @Zexy
   class Builder internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
     internal val actionBuilder: Action2.Builder = Action2.Builder()
@@ -76,26 +78,20 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       add(ModelAnimation.SelectStart(modelInteger, Builder().apply { fn() }.buildAnimationModels()))
     }
 
-    infix fun <T : Value<T>> Value<T>.set(i: Boolean) = set(i.value)
-    infix fun <T : Value<T>> Value<T>.set(i: Int) = set(i.value)
-    infix fun <T : Value<T>> Value<T>.set(i: Double) = set(i.value)
-
-    infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
-      with(actionBuilder) { set(value) }
-    }
-
-    infix fun <T : Value<T>> Value<T>.capture(i: Boolean) = set(i.value)
-    infix fun <T : Value<T>> Value<T>.capture(i: Int) = set(i.value)
-    infix fun <T : Value<T>> Value<T>.capture(i: Double) = set(i.value)
-
-    infix fun <T : Value<T>> Value<T>.capture(value: Value<T>) {
-      with(actionBuilder) { capture(value) }
-    }
-
     infix fun Value<Integer>.selectAction(fn: Action2.Builder.() -> Unit) {
       with(actionBuilder) { select(fn) }
     }
   }
+}
+
+context(animationBuilder: Animation.Builder)
+infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
+  with(animationBuilder.actionBuilder) { set(value) }
+}
+
+context(animationBuilder: Animation.Builder)
+infix fun <T : Value<T>> Value<T>.capture2(value: Value<T>) {
+  with(animationBuilder.actionBuilder) { capture(value) }
 }
 
 fun animation(fn: Animation.Builder.() -> Unit): Animation =

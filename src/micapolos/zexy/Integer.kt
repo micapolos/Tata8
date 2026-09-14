@@ -130,3 +130,34 @@ val Value<Integer>.elastic: Value<Integer> get() = run {
       current.capture(this)
     ).everyFrame }
 }
+
+context(_: Action2.Builder)
+infix fun Value<Integer>.set2(i: Int) {
+  set2(i.value)
+}
+
+context(_: Action2.Builder)
+infix fun Value<Integer>.add2(i: Int) {
+  add2(i.value)
+}
+
+context(_: Action2.Builder)
+infix fun Value<Integer>.add2(value: Value<Integer>) {
+  capture2(this + value)
+}
+
+context(_: Animation.Builder)
+infix fun Value<Integer>.set2(i: Int) {
+  set2(i.value)
+}
+
+context(_: Animation.Builder)
+infix fun Value<Integer>.add2(i: Int) {
+  add2(i.value)
+}
+
+context(_: Animation.Builder)
+infix fun Value<Integer>.add2(value: Value<Integer>) {
+  capture2(this + value)
+}
+
