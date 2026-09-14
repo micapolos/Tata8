@@ -14,8 +14,8 @@ class Action2 internal constructor(internal val model: ModelAction) {
       actions.add(Action2(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model)))
     }
 
-    infix fun <T: Drawing<T>> draw(drawing: Value<T>) {
-      actions.add(Action2(ModelAction.Draw(drawing.modelDrawing)))
+    fun <T: Drawing<T>> Value<T>.draw() {
+      actions.add(Action2(ModelAction.Draw(modelDrawing)))
     }
 
     fun sequence(fn: Builder.() -> Unit) {
@@ -24,6 +24,10 @@ class Action2 internal constructor(internal val model: ModelAction) {
 
     infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
       actions.add(Action2(ModelAction.Select(modelInteger, Builder().apply { fn() }.actions.map { it.model })))
+    }
+
+    infix fun <T: Drawing<T>> Value<Integer>.draw(drawing: Value<T>) {
+      actions.add(Action2(ModelAction.Draw(drawing.modelDrawing)))
     }
 
     internal fun build(): Action2 = Action2(ModelAction.Sequence(actions.map { it.model }))

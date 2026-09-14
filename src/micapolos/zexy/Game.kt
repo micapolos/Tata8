@@ -19,7 +19,9 @@ data class Game internal constructor(
 val game = Game(Game::class, ModelGame("Game", 480, 256, noDrawing.modelDrawing))
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
+
 fun Game.withTitle(title: String): Game = copy(model = model.copy(title = title))
+
 fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
   copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
