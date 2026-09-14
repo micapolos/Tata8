@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  sequence {
+  animation {
     val x = variable(100)
 
     val speed = key.z.isPressed.ifTrue(5).orElse(1)

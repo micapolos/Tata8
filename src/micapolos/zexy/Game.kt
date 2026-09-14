@@ -54,6 +54,6 @@ fun main() {
   game
     .withTitle("Sandbox")
     .with(sprite.with(image("/micapolos/quote.png")))
-    .with(sequence { pause(1) })
+    .with(animation { pause(1) })
     .show()
 }

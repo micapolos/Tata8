@@ -171,3 +171,17 @@ infix fun Value<Integer>.add2(value: Value<Integer>) {
   set2(this + value)
 }
 
+context(animationBuilder: Animation.Builder)
+val Value<Integer>.change2: Value<Bool>
+  get() {
+    val previous = variable(this)
+    val current = variable(this)
+
+    animationBuilder.everyFrame {
+      previous set2 current
+      current set2 this@change2
+    }
+
+    return previous.loggedAs("previous").isEqualTo(current.loggedAs("current"))
+  }
+

@@ -64,7 +64,7 @@ fun <T: Value<T>> Value<T>.stretch(factor: Value<Number>): Value<T> =
   Value(ModelValue.Stretch(model, factor.modelNumber))
 
 fun <T: Value<T>> Value<T>.animate(fn: Animation.Builder.(Value<T>) -> Unit) =
-  Animated(this, sequence { fn(this@animate) })
+  Animated(this, animation { fn(this@animate) })
 
 fun <T: Value<T>> Value<T>.with(animation: Animation): Animated<T> =
   Animated(this, animation)

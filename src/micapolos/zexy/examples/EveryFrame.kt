@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  sequence {
+  animation {
     val counter = variable(100)
     everyFrame { counter add2 1 }
     counter.show2()

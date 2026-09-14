@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  sequence {
+  animation {
     val x = variable(0)
     pause(10.0)
 

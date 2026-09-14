@@ -121,7 +121,7 @@ fun <T : Value<T>> Value<T>.show2() {
   with(animationBuilder.build()).show()
 }
 
-fun sequence(fn: Animation.Builder.() -> Unit): Animation =
+fun animation(fn: Animation.Builder.() -> Unit): Animation =
   Animation.Builder().apply { fn() }.build()
 
 fun Animation.show() {
