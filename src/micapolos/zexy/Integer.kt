@@ -178,9 +178,9 @@ val Value<Integer>.change2: Value<Bool>
     val current = variable(this)
 
     animationBuilder.everyFrame {
-      logAs("setting previous to", current)
+      current.logAs("setting previous to")
       previous set2 current
-      logAs("setting current to", this@change2)
+      this@change2.logAs("setting current to")
       current set2 this@change2
     }
 

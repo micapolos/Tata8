@@ -38,13 +38,13 @@ class Action2 internal constructor(internal val model: ModelAction) {
 }
 
 context(actionBuilder: Action2.Builder)
-fun log(value: Value<*>) {
-  actionBuilder.add(ModelAction.Log(null, value.model))
+val Value<*>.log: Unit get() {
+  actionBuilder.add(ModelAction.Log(null, model))
 }
 
 context(actionBuilder: Action2.Builder)
-fun logAs(label: String?, value: Value<*>) {
-  actionBuilder.add(ModelAction.Log(label, value.model))
+infix fun Value<*>.logAs(label: String?) {
+  actionBuilder.add(ModelAction.Log(label, model))
 }
 
 context(actionBuilder: Action2.Builder)
