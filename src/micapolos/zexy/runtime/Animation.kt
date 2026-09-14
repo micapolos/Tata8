@@ -108,6 +108,17 @@ fun everyFrameAnimation(animation: Animation): Animation =
     }
   }
 
+fun everyFrameAnimation(action: Action): Animation =
+  object : Animation {
+    override fun start() {
+    }
+
+    override fun step(seconds: Double): Double {
+      action.execute()
+      return 0.0
+    }
+  }
+
 fun nextFrameAnimation(animation: Animation): Animation =
   object : Animation {
     var shouldStart = false

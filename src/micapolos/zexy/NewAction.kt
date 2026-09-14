@@ -51,4 +51,5 @@ class Action2 internal constructor(internal val model: ModelAction) {
   }
 }
 
+fun actionModel(fn: Action2.Builder.() -> Unit) = Action2.Builder().apply { fn() }.buildModel()
 fun action(fn: Action2.Builder.() -> Unit) = Action2.Builder().apply { fn() }.build()

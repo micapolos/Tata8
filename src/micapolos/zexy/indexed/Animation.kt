@@ -2,7 +2,8 @@ package micapolos.zexy.indexed
 
 sealed class Animation {
   object Empty : Animation()
-  class Instant(val action: Action) : Animation()
+  class Once(val action: Action) : Animation()
+  class EveryFrame(val action: Action): Animation()
   class Pause(val seconds: Value<Number>): Animation()
   class Parallel(val animations: List<Animation>): Animation()
   class Race(val animations: List<Animation>): Animation()

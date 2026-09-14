@@ -7,7 +7,8 @@ import micapolos.zexy.runtime.Animation as RuntimeAnimation
 fun Compiler.compile(animation: Animation): RuntimeAnimation =
   when (animation) {
     Animation.Empty -> infiniteAnimation
-    is Animation.Instant -> instantAnimation(compile(animation.action))
+    is Animation.Once -> instantAnimation(compile(animation.action))
+    is Animation.EveryFrame -> everyFrameAnimation(compile(animation.action))
     is Animation.Pause -> pauseAnimation(doubleEvaluator(animation.seconds))
     is Animation.Parallel -> parallel(animation.animations.map { compile(it) })
     is Animation.Sequence -> SequenceAnimation(animation.animations.map { compile(it) })

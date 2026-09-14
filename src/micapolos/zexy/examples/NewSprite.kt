@@ -4,7 +4,7 @@ import micapolos.zexy.*
 
 fun main() {
   animation {
-    instant {
+    once {
       sprite
         .with(image("/micapolos/depressedChicken.png"))
         .with(position(100, 100))

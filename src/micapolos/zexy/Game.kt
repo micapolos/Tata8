@@ -20,7 +20,7 @@ data class Game internal constructor(
 
 val game = Game(
   Game::class,
-  ModelGame("Game", 480, 256, noDrawing.modelDrawing, ModelAnimation.Instant(Action.Empty)))
+  ModelGame("Game", 480, 256, noDrawing.modelDrawing, ModelAnimation.Once(Action.Empty)))
 
 fun Game.withResources(kClass: KClass<*>): Game = copy(resourcesKClass = kClass)
 

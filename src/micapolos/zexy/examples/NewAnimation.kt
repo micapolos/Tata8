@@ -6,7 +6,7 @@ fun main() {
   animation {
     val x = variable(0)
     pause(10.0)
-    instant {
+    once {
       x set 10.value
       x capture x + 1
     }

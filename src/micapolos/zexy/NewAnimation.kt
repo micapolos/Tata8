@@ -12,7 +12,7 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       flushActions()
       val animationModels = buildAnimationModels()
       val animationModel = when {
-        animationModels.isEmpty() -> ModelAnimation.Instant(ModelAction.Empty)
+        animationModels.isEmpty() -> ModelAnimation.Once(ModelAction.Empty)
         animationModels.singleOrNull() != null -> animationModels.single()
         else -> ModelAnimation.Sequence(animationModels.toList())
       }
@@ -27,7 +27,7 @@ class Animation internal constructor(internal val model: ModelAnimation) {
 
     internal fun flushActions() {
       actionBuilder.buildModelOrNull()?.let { modelAction ->
-        animationModels.add(ModelAnimation.Instant(modelAction))
+        animationModels.add(ModelAnimation.Once(modelAction))
       }
     }
 
@@ -48,10 +48,12 @@ class Animation internal constructor(internal val model: ModelAnimation) {
       add(ModelAnimation.Pause(seconds.modelNumber))
     }
 
-    fun instant(fn: Builder.() -> Unit) {
-      actionBuilder.buildModelOrNull()?.let { modelAction ->
-        add(ModelAnimation.Instant(modelAction))
-      }
+    fun once(fn: Action2.Builder.() -> Unit) {
+      add(ModelAnimation.Once(actionModel(fn)))
+    }
+
+    fun everyFrame(fn: Action2.Builder.() -> Unit) {
+      add(ModelAnimation.EveryFrame(actionModel(fn)))
     }
 
     fun parallel(fn: Builder.() -> Unit) {
