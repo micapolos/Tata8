@@ -18,7 +18,7 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       )
     }
 
-    is Void.Capture<*> -> {
+    is Void.Set<*> -> {
       val animatedValue = animated(indexed.value)
       val valueEvaluator = animatedValue.evaluator
       val variable = indexed.variable
@@ -54,7 +54,7 @@ fun Compiler.animatedVoid(indexed: Void): Animated<*> =
       )
     }
 
-    is Void.Set<*> -> {
+    is Void.Bind<*> -> {
       val animatedValue = animated(indexed.value)
       val variable = indexed.variable
       val typedIndex = variable.typedIndex

@@ -8,11 +8,11 @@ class Action internal constructor(model: Any) : Value<Action>(model)
 
 val noAction = Action(ModelVoid.Empty)
 
+fun <T : Value<T>> Value<T>.bind(value: Value<T>): Value<Action> =
+  Action(ModelVoid.Bind(model as ModelVariable<ModelVoid>, value.model))
+
 fun <T : Value<T>> Value<T>.set(value: Value<T>): Value<Action> =
   Action(ModelVoid.Set(model as ModelVariable<ModelVoid>, value.model))
-
-fun <T : Value<T>> Value<T>.capture(value: Value<T>): Value<Action> =
-  Action(ModelVoid.Capture(model as ModelVariable<ModelVoid>, value.model))
 
 val Value<Action>.activity: Value<Activity> get() = Activity(model)
 

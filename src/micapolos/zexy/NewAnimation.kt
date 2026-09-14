@@ -85,13 +85,13 @@ class Animation internal constructor(internal val model: ModelAnimation) {
 }
 
 context(animationBuilder: Animation.Builder)
-infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
-  with(animationBuilder.actionBuilder) { set(value) }
+infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
+  with(animationBuilder.actionBuilder) { bind2(value) }
 }
 
 context(animationBuilder: Animation.Builder)
-infix fun <T : Value<T>> Value<T>.capture2(value: Value<T>) {
-  with(animationBuilder.actionBuilder) { capture(value) }
+infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
+  with(animationBuilder.actionBuilder) { set2(value) }
 }
 
 fun animation(fn: Animation.Builder.() -> Unit): Animation =

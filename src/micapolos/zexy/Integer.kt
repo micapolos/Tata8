@@ -89,12 +89,12 @@ fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Int
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
+fun Value<Integer>.bind(i: Int) = bind(i.value)
 fun Value<Integer>.set(i: Int) = set(i.value)
-fun Value<Integer>.capture(i: Int) = capture(i.value)
 fun Value<Integer>.add(i: Int) = add(i.value)
-fun Value<Integer>.add(i: Value<Integer>) = capture(this + i)
-fun Value<Integer>.subtract(i: Int) = capture(this - 1)
-fun Value<Integer>.multiply(i: Int) = capture(this * 1)
+fun Value<Integer>.add(i: Value<Integer>) = set(this + i)
+fun Value<Integer>.subtract(i: Int) = set(this - 1)
+fun Value<Integer>.multiply(i: Int) = set(this * 1)
 
 val Value<Integer>.change: Event
   get() {
@@ -102,8 +102,8 @@ val Value<Integer>.change: Event
     val current = variable(this)
     return previous.isEqualTo(current).not().also {
       sequence(
-        previous.capture(current),
-        current.capture(this)
+        previous.set(current),
+        current.set(this)
       ).everyFrame
     }.occurrence
   }
@@ -126,14 +126,14 @@ val Value<Integer>.elastic: Value<Integer> get() = run {
   val elastic = previous + (current - previous).div(2)
   elastic.also {
     sequence(
-      previous.capture(current),
-      current.capture(this)
+      previous.set(current),
+      current.set(this)
     ).everyFrame }
 }
 
 context(_: Action2.Builder)
-infix fun Value<Integer>.set2(i: Int) {
-  set2(i.value)
+infix fun Value<Integer>.bind2(i: Int) {
+  bind2(i.value)
 }
 
 context(_: Action2.Builder)
@@ -143,12 +143,12 @@ infix fun Value<Integer>.add2(i: Int) {
 
 context(_: Action2.Builder)
 infix fun Value<Integer>.add2(value: Value<Integer>) {
-  capture2(this + value)
+  set2(this + value)
 }
 
 context(_: Animation.Builder)
-infix fun Value<Integer>.set2(i: Int) {
-  set2(i.value)
+infix fun Value<Integer>.bind2(i: Int) {
+  bind2(i.value)
 }
 
 context(_: Animation.Builder)
@@ -158,6 +158,6 @@ infix fun Value<Integer>.add2(i: Int) {
 
 context(_: Animation.Builder)
 infix fun Value<Integer>.add2(value: Value<Integer>) {
-  capture2(this + value)
+  set2(this + value)
 }
 

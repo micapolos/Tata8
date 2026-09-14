@@ -66,6 +66,9 @@ fun <T: Value<T>> Value<T>.stretch(factor: Value<Number>): Value<T> =
 fun <T: Value<T>> Value<T>.animated(fn: Animation.Builder.(Value<T>) -> Unit) =
   Animated(this, animation { fn(this@animated) })
 
+fun <T: Value<T>> Value<T>.with(animation: Animation): Animated<T> =
+  Animated(this, animation)
+
 fun <T : Value<T>> Value<T>.show() {
   noDrawing.also { logged }.show()
 }

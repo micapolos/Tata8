@@ -8,8 +8,8 @@ fun main() {
     pause(10.0)
 
     once {
-      x set2 10.value
-      x capture2 x + 1
+      x bind2 10.value
+      x set2 x + 1
     }
 
     parallel {

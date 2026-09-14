@@ -1,14 +1,12 @@
 package micapolos.zexy.runtime
 
-import micapolos.tata8.Canvas
-
 fun interface Action {
   fun execute()
 }
 
 val emptyAction = Action {}
 
-fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluator<T>): Action =
+fun <T> bindAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluator<T>): Action =
   when (evaluator) {
     is IntEvaluator ->
       Action {
@@ -32,7 +30,7 @@ fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluato
     }
   }
 
-fun <T> captureAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluator<T>): Action =
+fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluator<T>): Action =
   when (evaluator) {
     is IntEvaluator ->
       Action {

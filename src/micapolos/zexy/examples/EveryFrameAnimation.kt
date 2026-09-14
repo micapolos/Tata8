@@ -6,7 +6,7 @@ fun main() {
   variable(100)
     .animated {
       everyFrame {
-        it capture2 it + 1
+        it set2 it + 1
       }
     }
     .show()

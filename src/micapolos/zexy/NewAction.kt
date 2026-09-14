@@ -38,13 +38,13 @@ class Action2 internal constructor(internal val model: ModelAction) {
 }
 
 context(actionBuilder: Action2.Builder)
-infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
-  actionBuilder.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
+infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
+  actionBuilder.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
 }
 
 context(actionBuilder: Action2.Builder)
-infix fun <T : Value<T>> Value<T>.capture2(value: Value<T>) {
-  actionBuilder.add(ModelAction.Capture(model as ModelVariable<ModelVoid>, value.model))
+infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
+  actionBuilder.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
 }
 
 fun actionModel(fn: Action2.Builder.() -> Unit) = Action2.Builder().apply { fn() }.buildModel()
