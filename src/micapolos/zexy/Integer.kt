@@ -178,10 +178,12 @@ val Value<Integer>.change2: Value<Bool>
     val current = variable(this)
 
     animationBuilder.everyFrame {
+      logAs("setting previous to", current)
       previous set2 current
+      logAs("setting current to", this@change2)
       current set2 this@change2
     }
 
-    return previous.loggedAs("previous").isEqualTo(current.loggedAs("current"))
+    return previous.isEqualTo(current)
   }
 

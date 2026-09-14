@@ -1,5 +1,7 @@
 package micapolos.zexy.runtime
 
+import micapolos.tata8.Game
+
 fun interface Action {
   fun execute()
 }
@@ -63,3 +65,9 @@ fun selectAction(indexEvaluator: IntEvaluator, actions: List<Action>): Action =
   Action {
     actions.forEach(Action::execute)
   }
+
+fun <T> logAction(label: String?, evaluator: Evaluator<T>): Action =
+  Action {
+    Game.log(label, evaluator.evalBoxed())
+  }
+

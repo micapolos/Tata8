@@ -38,6 +38,16 @@ class Action2 internal constructor(internal val model: ModelAction) {
 }
 
 context(actionBuilder: Action2.Builder)
+fun log(value: Value<*>) {
+  actionBuilder.add(ModelAction.Log(null, value.model))
+}
+
+context(actionBuilder: Action2.Builder)
+fun logAs(label: String?, value: Value<*>) {
+  actionBuilder.add(ModelAction.Log(label, value.model))
+}
+
+context(actionBuilder: Action2.Builder)
 infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
   actionBuilder.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
 }

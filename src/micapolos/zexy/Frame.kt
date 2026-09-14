@@ -12,7 +12,11 @@ val frame = Frame
 context(animationBuilder: Animation.Builder)
 val Frame.count2: Value<Integer> get() {
   val counter = variable(0)
-  animationBuilder.everyFrame { counter add2 1 }
+  animationBuilder.everyFrame {
+    logAs("incrementing counter", counter)
+    counter add2 1
+    logAs("counter incremented", counter)
+  }
   return counter
 }
 

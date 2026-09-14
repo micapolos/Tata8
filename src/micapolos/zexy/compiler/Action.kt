@@ -10,4 +10,5 @@ fun Compiler.compile(indexed: IndexedAction): Action =
     is IndexedAction.Bind<*> -> bindAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
     is IndexedAction.Select -> selectAction(intEvaluator(indexed.index), indexed.actions.map { compile(it) })
     is IndexedAction.Sequence -> sequenceAction(indexed.actions.map { compile(it) })
+    is IndexedAction.Log -> logAction(indexed.label, evaluator(indexed.value))
   }
