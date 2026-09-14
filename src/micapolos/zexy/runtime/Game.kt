@@ -13,9 +13,7 @@ class Game(
 
 fun Game.show() {
   TataGame.title = title
-  val animation = animatedDrawing.animation
-  animation.start()
-  this.animation.start()
+  val animation = parallel(animatedDrawing.animation, this.animation)
   val evaluator = animatedDrawing.evaluator
   evaluator.evalBoxed().drawOn(TataGame.background.canvas)
   val stepSeconds = TataGame.FRAME_SECONDS.toDouble()
@@ -26,14 +24,10 @@ fun Game.show() {
   TataGame.onUpdate = {
     if (TataGame.keys.reset.pressed()) {
       animation.start()
-      this.animation.start()
       gameSeconds = 0.0
     }
     TataGame.background.canvas.clear()
-    val leftOverSeconds = min(
-      animation.step(stepSeconds),
-      animation.step(stepSeconds)
-    )
+    val leftOverSeconds = animation.step(stepSeconds)
     val isFinished = leftOverSeconds != 0.0
     evaluator.evalBoxed().drawOn(TataGame.background.canvas)
     gameSeconds += stepSeconds
