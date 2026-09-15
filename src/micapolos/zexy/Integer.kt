@@ -62,7 +62,7 @@ infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.X
 @JvmName("IntegerSelect")
 fun <T : Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
   when (values.first().modelOrChildren) {
-    is ModelValue<*> -> Value(ModelValue.Select(cast, values.map { it.model }))
+    is ModelValue<*> -> Value(ModelValue.Select(model as ModelValue<ModelInteger>, values.map { it.model }))
     else -> Value(children.map { selectFrom(it.children) })
   }
 
