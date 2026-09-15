@@ -42,3 +42,13 @@ fun Value<Bool>.loggedAs(label: String?): Value<Bool> =
 fun Value<Bool>.show() {
   noDrawing.also { logged }.show()
 }
+
+context(block: Animation.Block)
+fun startWhen(condition: Value<Bool>, fn: Animation.Block.() -> Unit) {
+  with(block) {
+    condition.integer.selectStart {
+      sequence {}
+      sequence { fn() }
+    }
+  }
+}

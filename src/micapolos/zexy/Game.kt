@@ -36,7 +36,6 @@ fun Game.with(animation: Value<Animation>): Game =
 fun Game.show() {
   val indexer = Indexer()
   val indexed = indexer.indexed(model)
-  println("indexer initial values: ${indexer.initialValues.size}")
   val compiler = Compiler(
     resourcesKClass,
     State(

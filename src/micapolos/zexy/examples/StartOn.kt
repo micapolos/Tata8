@@ -3,19 +3,14 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-//  animation {
-//    val counter = variable(0)
-//
-//    parallel {
-//      everyFrame {
-//        counter add2 1
-//      }
-//
-//      startOn(mouse.press) {
-//        counter set2 0
-//      }
-//    }
-//
-//    counter.show2()
-//  }
+  val x = variable(0)
+  sprite
+    .with(image("/micapolos/quote.png"))
+    .with(position(x, 100))
+    .withAnimation {
+      startWhen(mouse.isPressed) {
+        everyStep { x add 1 }
+      }
+    }
+    .show()
 }
