@@ -1,6 +1,8 @@
 package micapolos.zexy.compiler
 
 import micapolos.zexy.indexed.*
+import micapolos.zexy.indexed.Action
+import micapolos.zexy.indexed.Animation
 import micapolos.zexy.indexed.Drawing
 import micapolos.zexy.indexed.Number
 import micapolos.zexy.runtime.*
@@ -16,6 +18,8 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Font -> animatedFont(value)
     is Drawing -> animatedDrawing(value)
     is Void -> animatedVoid(value)
+    is Action -> Animated(evaluator(value), instantAnimation)
+    is Animation -> Animated(evaluator(value), instantAnimation)
 
     is Value.Logged -> {
       val animatedValue = animated(value.value)

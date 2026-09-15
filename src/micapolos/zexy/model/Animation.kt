@@ -1,6 +1,6 @@
 package micapolos.zexy.model
 
-sealed class Animation {
+sealed class Animation: Value<Animation> {
   data object Infinite : Animation()
   data class Once(val action: Action) : Animation()
   data class EveryStep(val action: Action): Animation()

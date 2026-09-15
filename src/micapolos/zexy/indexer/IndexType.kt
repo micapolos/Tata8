@@ -1,16 +1,8 @@
 package micapolos.zexy.indexer
 
 import micapolos.zexy.indexed.IndexType
-import micapolos.zexy.model.Color
-import micapolos.zexy.model.Drawing
-import micapolos.zexy.model.Font
-import micapolos.zexy.model.Image
-import micapolos.zexy.model.Integer
+import micapolos.zexy.model.*
 import micapolos.zexy.model.Number
-import micapolos.zexy.model.Text
-import micapolos.zexy.model.Value
-import micapolos.zexy.model.Variable
-import micapolos.zexy.model.Void
 
 val <T : Value<T>> Value<T>.indexType: IndexType
   get() =
@@ -26,4 +18,6 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Value.Select<*> -> options.first().indexType
       is Variable<*> -> initial.indexType
       is Void -> IndexType.OBJECT
+      is Action -> IndexType.OBJECT
+      is Animation -> IndexType.OBJECT
     }

@@ -1,6 +1,6 @@
 package micapolos.zexy.indexed
 
-sealed class Animation {
+sealed class Animation: Value<Animation> {
   object Empty : Animation()
   class Once(val action: Action) : Animation()
   class EveryStep(val action: Action): Animation()

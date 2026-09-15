@@ -45,14 +45,16 @@ fun <T> setAction(state: State, typedIndex: Int, index: Int, evaluator: Evaluato
       }
   }
 
-fun sequenceAction(actions: List<Action>): Action =
+fun sequenceAction(actions: List<Evaluator<Action>>): Action =
   Action {
-    actions.forEach(Action::execute)
+    actions.forEach {
+      it.evalObject().execute()
+    }
   }
 
-fun selectAction(indexEvaluator: IntEvaluator, actions: List<Action>): Action =
+fun selectAction(indexEvaluator: IntEvaluator, actions: List<Evaluator<Action>>): Action =
   Action {
-    actions.forEach(Action::execute)
+    actions[indexEvaluator.eval()].evalObject().execute()
   }
 
 fun <T> logAction(label: String?, evaluator: Evaluator<T>): Action =

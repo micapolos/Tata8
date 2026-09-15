@@ -9,7 +9,7 @@ import micapolos.zexy.runtime.Game as RuntimeGame
 
 fun Compiler.compile(game: Game): RuntimeGame {
   val animatedDrawing = animated(game.drawing) as Animated<Drawing>
-  val animation = compile(game.animation)
+  val animation = runtime(game.animation)
   val drawingAnimation = animatedDrawing.animation
   val initialEvaluators = state.evaluatorArray.clone()
   val evaluatorArray = state.evaluatorArray

@@ -295,7 +295,7 @@ class PulseAnimation(val highAnimation: Animation, val lowAnimation: Animation) 
   }
 }
 
-fun selectStartAnimation(indexEvaluator: IntEvaluator, animations: List<Animation>) =
+fun selectStartAnimation(indexEvaluator: IntEvaluator, animations: List<Evaluator<Animation>>) =
   object : Animation {
     var currentIndex = -1
 
@@ -308,25 +308,27 @@ fun selectStartAnimation(indexEvaluator: IntEvaluator, animations: List<Animatio
 
       if (index != currentIndex) {
         currentIndex = index
-        animations[index].start()
+        animations[index].evalObject().start()
       }
 
       return if (index == -1) {
         seconds
       } else {
-        animations[index].step(seconds)
+        animations[index].evalObject().step(seconds)
       }
     }
   }
 
-fun selectStepAnimation(indexEvaluator: IntEvaluator, animations: List<Animation>) =
+fun selectStepAnimation(indexEvaluator: IntEvaluator, animations: List<Evaluator<Animation>>) =
   object : Animation {
     override fun start() {
-      animations.forEach(Animation::start)
+      animations.forEach {
+        it.evalObject().start()
+      }
     }
 
     override fun step(seconds: Double): Double {
-      return animations[indexEvaluator.eval()].step(seconds)
+      return animations[indexEvaluator.eval()].evalObject().step(seconds)
     }
   }
 

@@ -9,4 +9,4 @@ fun Indexer.indexed(game: ModelGame): Game =
     game.width,
     game.height,
     indexed(game.drawing),
-    indexed(game.animation))
+    indexedAnimation(game.animation))
