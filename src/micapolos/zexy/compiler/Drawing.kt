@@ -5,87 +5,81 @@ import micapolos.zexy.indexed.Drawing
 import micapolos.zexy.indexed.Image
 import micapolos.zexy.indexed.Integer
 import micapolos.zexy.runtime.*
-import micapolos.tata8.Color as TataColor
-import micapolos.tata8.Font as TataFont
-import micapolos.tata8.Image as TataImage
 import micapolos.zexy.runtime.Drawing as RuntimeDrawing
 
-fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
+fun Compiler.drawingEvaluator(drawing: Drawing): Evaluator<RuntimeDrawing> =
   when (drawing) {
     Drawing.Empty ->
-      Animated(
-        ObjectEvaluator { RuntimeDrawing {} },
-        ObjectEvaluator { instantAnimation }
-      )
+      ObjectEvaluator { RuntimeDrawing {} }
 
     is Drawing.WithClip ->
-      animatedClip(
-        animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>,
-        animated(drawing.width) as Animated<Int>,
-        animated(drawing.height) as Animated<Int>
+      clipEvaluator(
+        objectEvaluator(drawing),
+        intEvaluator(drawing.x),
+        intEvaluator(drawing.y),
+        intEvaluator(drawing.width),
+        intEvaluator(drawing.height)
       )
 
     is Drawing.Label ->
-      animatedLabel(
-        animated(drawing.text) as Animated<String>,
-        animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>
+      labelEvaluator(
+        objectEvaluator(drawing.text),
+        intEvaluator(drawing.x),
+        intEvaluator(drawing.y)
       )
 
     is Drawing.Point ->
-      animatedPoint(
-        animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>,
-        )
+      pointEvaluator(
+        intEvaluator(drawing.x),
+        intEvaluator(drawing.y),
+      )
 
     is Drawing.Line ->
-      animatedLine(
-        animated(drawing.x1) as Animated<Int>,
-        animated(drawing.y1) as Animated<Int>,
-        animated(drawing.x2) as Animated<Int>,
-        animated(drawing.y2) as Animated<Int>
+      lineEvaluator(
+        intEvaluator(drawing.x1),
+        intEvaluator(drawing.y1),
+        intEvaluator(drawing.x2),
+        intEvaluator(drawing.y2),
       )
 
     is Drawing.Rect ->
-      animatedRect(
-        animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>,
-        animated(drawing.width) as Animated<Int>,
-        animated(drawing.height) as Animated<Int>
+      rectEvaluator(
+        intEvaluator(drawing.x),
+        intEvaluator(drawing.y),
+        intEvaluator(drawing.width),
+        intEvaluator(drawing.height),
       )
 
     is Drawing.Sprite ->
-      animatedSprite(
-        animated(drawing.x) as Animated<Int>,
-        animated(drawing.y) as Animated<Int>,
-        animated(drawing.width) as Animated<Int>,
-        animated(drawing.height) as Animated<Int>,
-        animated(drawing.image) as Animated<TataImage>,
-        animated(drawing.imageX) as Animated<Int>,
-        animated(drawing.imageY) as Animated<Int>,
+      spriteEvaluator(
+        intEvaluator(drawing.x),
+        intEvaluator(drawing.y),
+        intEvaluator(drawing.width),
+        intEvaluator(drawing.height),
+        objectEvaluator(drawing.image),
+        intEvaluator(drawing.imageX),
+        intEvaluator(drawing.imageY),
       )
 
     is Drawing.Stack ->
-      animatedStack(drawing.drawings.map { animated(it) as Animated<RuntimeDrawing> }.toTypedArray())
+      stackEvaluator(drawing.drawings.map { objectEvaluator<RuntimeDrawing>(it) }.toTypedArray())
 
     is Drawing.WithColor ->
-      animatedWithColor(
-        animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        animated(drawing.color) as Animated<TataColor>
+      withColorEvaluator(
+        objectEvaluator(drawing.drawing),
+        objectEvaluator(drawing.color)
       )
 
     is Drawing.WithComposite ->
-      animatedWithComposite(
-        animated(drawing.drawing) as Animated<RuntimeDrawing>,
+      withCompositeEvaluator(
+        objectEvaluator(drawing.drawing),
         drawing.composite.tata8
       )
 
     is Drawing.WithFont ->
-      animatedWithFont(
-        animated(drawing.drawing) as Animated<RuntimeDrawing>,
-        animated(drawing.font) as Animated<TataFont>
+      withFontEvaluator(
+        objectEvaluator(drawing.drawing),
+        objectEvaluator(drawing.font)
       )
   }
 

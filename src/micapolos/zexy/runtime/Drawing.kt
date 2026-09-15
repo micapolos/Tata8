@@ -7,16 +7,16 @@ fun interface Drawing {
 }
 
 fun clipEvaluator(
-  drawingEvaluator: ObjectEvaluator<Drawing>,
-  xEvaluator: IntEvaluator,
-  yEvaluator: IntEvaluator,
-  widthEvaluator: IntEvaluator,
-  heightEvaluator: IntEvaluator,
+  drawingEvaluator: Evaluator<Drawing>,
+  xEvaluator: Evaluator<Int>,
+  yEvaluator: Evaluator<Int>,
+  widthEvaluator: Evaluator<Int>,
+  heightEvaluator: Evaluator<Int>,
 ) =
   ObjectEvaluator {
     Drawing { canvas ->
       // TODO: set and restore clip
-      drawingEvaluator.eval().drawOn(canvas)
+      drawingEvaluator.evalObject().drawOn(canvas)
     }
   }
 

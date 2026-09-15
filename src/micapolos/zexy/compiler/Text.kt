@@ -1,20 +1,17 @@
 package micapolos.zexy.compiler
 
 import micapolos.zexy.indexed.Text
-import micapolos.zexy.runtime.Animated
+import micapolos.zexy.runtime.Evaluator
 import micapolos.zexy.runtime.ObjectEvaluator
-import micapolos.zexy.runtime.animatedTextJoin
-import micapolos.zexy.runtime.animatedTextSlice
-import micapolos.zexy.runtime.instantAnimation
+import micapolos.zexy.runtime.textJoinEvaluator
+import micapolos.zexy.runtime.textSliceEvaluator
 
-fun Compiler.animatedText(text: Text): Animated<String> =
+fun Compiler.textEvaluator(text: Text): Evaluator<String> =
   when (text) {
-    is Text.Constant -> Animated(ObjectEvaluator { text.string }, ObjectEvaluator { instantAnimation })
+    is Text.Constant ->
+      ObjectEvaluator { text.string }
     is Text.Slice ->
-      animatedTextSlice(
-        animated(text.text) as Animated<String>,
-        animated(text.start) as Animated<Int>,
-        animated(text.length) as Animated<Int>)
+      textSliceEvaluator(objectEvaluator(text.text), intEvaluator(text.start), intEvaluator(text.length))
     is Text.Join ->
-      animatedTextJoin(text.texts.map { animated(it) as Animated<String> })
+      textJoinEvaluator(text.texts.map { evaluator(it) as Evaluator<String> }.toTypedArray())
   }

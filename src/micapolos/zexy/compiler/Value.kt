@@ -9,14 +9,14 @@ import micapolos.zexy.runtime.*
 
 fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
   when (value) {
-    is Variable -> animatedVariable(value)
+    is Variable -> Animated(variableEvaluator(value), ObjectEvaluator { instantAnimation })
     is Integer -> animatedInteger(value)
     is Number -> animatedNumber(value)
-    is Text -> animatedText(value)
-    is Color -> animatedColor(value)
-    is Image -> animatedImage(value)
-    is Font -> animatedFont(value)
-    is Drawing -> animatedDrawing(value)
+    is Text -> Animated(textEvaluator(value), ObjectEvaluator { instantAnimation })
+    is Color -> Animated(colorEvaluator(value), ObjectEvaluator { instantAnimation })
+    is Image -> Animated(imageEvaluator(value), ObjectEvaluator { instantAnimation })
+    is Font -> Animated(fontEvaluator(value), ObjectEvaluator { instantAnimation })
+    is Drawing -> Animated(drawingEvaluator(value), ObjectEvaluator { instantAnimation })
     is Action -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
     is Animation -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
 

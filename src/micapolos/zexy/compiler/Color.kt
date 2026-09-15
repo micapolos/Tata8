@@ -8,9 +8,9 @@ import micapolos.zexy.runtime.instantAnimation
 import micapolos.tata8.Color as TataColor
 
 fun Compiler.animatedColor(color: Color): Animated<TataColor> =
-  Animated(evaluator(color), ObjectEvaluator { instantAnimation })
+  Animated(colorEvaluator(color), ObjectEvaluator { instantAnimation })
 
-fun Compiler.evaluator(color: Color): Evaluator<TataColor> =
+fun Compiler.colorEvaluator(color: Color): Evaluator<TataColor> =
   when (color) {
     is Color.Rgba -> {
       var previousRed = 0.0
