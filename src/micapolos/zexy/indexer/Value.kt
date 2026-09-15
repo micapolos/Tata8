@@ -1,7 +1,8 @@
 package micapolos.zexy.indexer
 
 import micapolos.zexy.indexed.Value
-import micapolos.zexy.indexed.Value.*
+import micapolos.zexy.indexed.Value.Logged
+import micapolos.zexy.indexed.Value.Select
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Color as ModelColor
@@ -13,11 +14,9 @@ import micapolos.zexy.model.Number as ModelNumber
 import micapolos.zexy.model.Text as ModelText
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
-import micapolos.zexy.model.Void as ModelVoid
 
 fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
   when (model) {
-    is ModelVoid -> indexedVoid(model)
     is ModelVariable<*> -> indexedVariable(model)
     is ModelColor -> indexedColor(model)
     is ModelFont -> indexedFont(model)

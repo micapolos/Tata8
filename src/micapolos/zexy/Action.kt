@@ -3,7 +3,6 @@ package micapolos.zexy
 import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Variable as ModelVariable
-import micapolos.zexy.model.Void as ModelVoid
 
 class Action internal constructor(internal val model: ModelAction): Value<Action>(model) {
   @Zexy
@@ -49,12 +48,12 @@ infix fun Value<*>.logAs(label: String?) {
 
 context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {
-  actionBlock.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
+  actionBlock.add(ModelAction.Bind(model as ModelVariable<ModelAction>, value.model))
 }
 
 context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
-  actionBlock.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
+  actionBlock.add(ModelAction.Set(model as ModelVariable<ModelAction>, value.model))
 }
 
 fun actionModel(fn: Action.Block.() -> Unit) = Action.Block().apply { fn() }.buildModel()

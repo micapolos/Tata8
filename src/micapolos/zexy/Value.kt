@@ -1,11 +1,11 @@
 package micapolos.zexy
 
 import micapolos.zexy.model.Value as ModelValue
-import micapolos.zexy.model.Void as ModelVoid
+import micapolos.zexy.model.Action as ModelAction
 
 open class Value<out T : Value<T>> internal constructor(internal val modelOrChildren: Any?)
 
-internal val Value<*>.model get() = modelOrChildren as ModelValue<ModelVoid>
+internal val Value<*>.model get() = modelOrChildren as ModelValue<ModelAction>
 internal val Value<*>.children get() = modelOrChildren as List<Value<*>>
 internal fun <T> Value<*>.children() = modelOrChildren as List<T>
 internal val Value<*>.safeModel: ModelValue<*> get() =

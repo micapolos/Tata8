@@ -17,7 +17,6 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Image -> animatedImage(value)
     is Font -> animatedFont(value)
     is Drawing -> animatedDrawing(value)
-    is Void -> animatedVoid(value)
     is Action -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
     is Animation -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
 

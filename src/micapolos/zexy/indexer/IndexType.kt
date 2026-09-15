@@ -17,7 +17,6 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Value.Logged<*> -> value.indexType
       is Value.Select<*> -> options.first().indexType
       is Variable<*> -> initial.indexType
-      is Void -> IndexType.OBJECT
       is Action -> IndexType.OBJECT
       is Animation -> IndexType.OBJECT
     }
