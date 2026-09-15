@@ -2,10 +2,7 @@ package micapolos.zexy
 
 import micapolos.zexy.model.Number as ModelNumber
 
-object Frame {
-  val step get() = Number(ModelNumber.Apply0(ModelNumber.Op0.FRAME_TIME))
-  val count get() = variable(0) { it.bind(0).then(it.add(1).everyFrame) }
-}
+object Frame
 
 val frame = Frame
 
@@ -20,6 +17,6 @@ val Frame.count2: Value<Integer> get() {
   return counter
 }
 
-context(animationBuilder: Animation.Builder)
+context(_: Animation.Builder)
 val Frame.step2: Value<Number> get() =
   Number(ModelNumber.Apply0(ModelNumber.Op0.FRAME_TIME))

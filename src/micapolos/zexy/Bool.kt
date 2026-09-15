@@ -13,9 +13,6 @@ val Value<Bool>.integer: Value<Integer> get() = Integer(model)
 
 fun variable(initial: Boolean): Variable<Bool> = variable(initial.value)
 
-fun variable(initial: Boolean, fn: (Value<Bool>) -> Value<Activity>): Value<Bool> =
-  variable(initial.value, fn)
-
 fun Value<Bool>.isEqualTo(bool: Boolean) = isEqualTo(bool.value)
 fun Value<Bool>.isEqualTo(bool: Value<Bool>) = integer.isEqualTo(bool.integer)
 
@@ -37,15 +34,10 @@ class IfTrue<T : Value<T>>(val condition: Value<Bool>, val trueCase: Value<T>)
 fun <T: Value<T>> Value<Bool>.ifTrue(trueCase: Value<T>) = IfTrue(this, trueCase)
 fun <T: Value<T>> IfTrue<T>.orElse(falseCase: Value<T>) = condition.selectTrueFalse(trueCase, falseCase)
 
-val Value<Bool>.change: Event get() = integer.change
+val Value<Bool>.logged: Value<Bool> get() = loggedAs(null)
 
-fun Value<Bool>.changeTo(bool: Boolean) = changeTo(bool.value)
-fun Value<Bool>.changeTo(bool: Value<Bool>) = change.and(isEqualTo(bool))
-
-//val Value<Bool>.logged: Value<Bool> get() = loggedAs(null)
-//
-//fun Value<Bool>.loggedAs(label: String?): Value<Bool> =
-//  also { it.ifTrue("true".value).orElse("false".value).loggedAs(label) }
+fun Value<Bool>.loggedAs(label: String?): Value<Bool> =
+  also { it.ifTrue("true".value).orElse("false".value).loggedAs(label) }
 
 fun Value<Bool>.show() {
   noDrawing.also { logged }.show()

@@ -11,7 +11,6 @@ val Double.value get() = Number(ModelNumber.Constant(this))
 val Double.number get() = value
 
 fun variable(initial: Double) = variable(initial.value)
-fun variable(initial: Double, fn: (Value<Number>) -> Value<Activity>) = variable(initial.value, fn)
 
 internal val <T : Value<T>> Value<T>.modelNumber get() = modelOrChildren as ModelValue<ModelNumber>
 internal val Value<Number>.cast get() = this as Number

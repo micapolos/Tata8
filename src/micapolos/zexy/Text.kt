@@ -9,7 +9,6 @@ class Text internal constructor(model: Any): Value<Text>(model)
 internal val Value<Text>.modelText get() = model as ModelValue<ModelText>
 
 fun variable(initial: String) = variable(initial.value)
-fun variable(initial: String, fn: (Value<Text>) -> Value<Activity>) = variable(initial.value, fn)
 
 val String.value: Value<Text> get() = text
 val String.text: Text get() = Text(ModelText.Constant(this))

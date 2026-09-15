@@ -21,7 +21,7 @@ class Animation internal constructor(
   @Zexy
   class Builder internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
-    internal val actionBuilder: Action2.Builder = Action2.Builder()
+    internal val actionBuilder: Action.Builder = Action.Builder()
 
     internal fun build(): Animation = run {
       flushActions()
@@ -65,11 +65,11 @@ class Animation internal constructor(
       add(ModelAnimation.Pause(seconds.modelNumber))
     }
 
-    fun once(fn: Action2.Builder.() -> Unit) {
+    fun once(fn: Action.Builder.() -> Unit) {
       add(ModelAnimation.Once(actionModel(fn)))
     }
 
-    fun everyFrame(fn: Action2.Builder.() -> Unit) {
+    fun everyFrame(fn: Action.Builder.() -> Unit) {
       add(ModelAnimation.EveryFrame(actionModel(fn)))
     }
 
@@ -100,7 +100,7 @@ class Animation internal constructor(
       }
     }
 
-    infix fun Value<Integer>.selectAction(fn: Action2.Builder.() -> Unit) {
+    infix fun Value<Integer>.selectAction(fn: Action.Builder.() -> Unit) {
       with(actionBuilder) { select(fn) }
     }
   }

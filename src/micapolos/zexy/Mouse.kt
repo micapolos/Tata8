@@ -9,10 +9,6 @@ object Mouse {
   )
 
   val isPressed = Bool(ModelInteger.Apply0(ModelInteger.Op0.MOUSE_DOWN))
-
-  val press get() = isPressed.changeTo(true)
-
-  val release get() = isPressed.changeTo(false)
 }
 
 val mouse = Mouse

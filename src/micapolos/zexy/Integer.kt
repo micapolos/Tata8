@@ -11,7 +11,6 @@ internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
 
 fun variable(initial: Int) = variable(initial.value)
-fun variable(initial: Int, fn: (Value<Integer>) -> Value<Activity>) = variable(initial.value, fn)
 
 internal fun Value<Integer>.apply(op1: ModelInteger.Op1): Value<Integer> =
   Integer(ModelInteger.Apply1(op1, modelInteger))
@@ -89,64 +88,28 @@ fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Int
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
-fun Value<Integer>.bind(i: Int) = bind(i.value)
-fun Value<Integer>.set(i: Int) = set(i.value)
-fun Value<Integer>.add(i: Int) = add(i.value)
-fun Value<Integer>.add(i: Value<Integer>) = set(this + i)
-fun Value<Integer>.subtract(i: Int) = set(this - 1)
-fun Value<Integer>.multiply(i: Int) = set(this * 1)
-
-val Value<Integer>.change: Event
-  get() {
-    val previous = variable(this)
-    val current = variable(this)
-    return previous.isEqualTo(current).not().also {
-      sequence(
-        previous.set(current),
-        current.set(this)
-      ).everyFrame
-    }.occurrence
-  }
-
-fun Value<Integer>.changeTo(integer: Int): Value<Event> =
-  changeTo(integer.value)
-
-fun Value<Integer>.changeTo(integer: Value<Integer>): Value<Event> =
-  change.and(isEqualTo(integer))
-
 fun Value<Integer>.min(integer: Int) = max(integer.value)
 fun Value<Integer>.min(integer: Value<Integer>) = isLessThan(integer).ifTrue(integer).orElse(this)
 
 fun Value<Integer>.max(integer: Int) = max(integer.value)
 fun Value<Integer>.max(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)
 
-val Value<Integer>.elastic: Value<Integer> get() = run {
-  val previous = variable(this)
-  val current = variable(this)
-  val elastic = previous + (current - previous).div(2)
-  elastic.also {
-    sequence(
-      previous.set(current),
-      current.set(this)
-    ).everyFrame }
-}
-
-context(_: Action2.Builder)
+context(_: Action.Builder)
 infix fun Value<Integer>.set2(i: Int) {
   set2(i.value)
 }
 
-context(_: Action2.Builder)
+context(_: Action.Builder)
 infix fun Value<Integer>.bind2(i: Int) {
   bind2(i.value)
 }
 
-context(_: Action2.Builder)
+context(_: Action.Builder)
 infix fun Value<Integer>.add2(i: Int) {
   add2(i.value)
 }
 
-context(_: Action2.Builder)
+context(_: Action.Builder)
 infix fun Value<Integer>.add2(value: Value<Integer>) {
   set2(this + value)
 }

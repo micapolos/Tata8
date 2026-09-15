@@ -1,32 +1,61 @@
 package micapolos.zexy
 
-import micapolos.zexy.model.Value as ModelValue
+import micapolos.zexy.examples.Zexy
+import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Variable as ModelVariable
 import micapolos.zexy.model.Void as ModelVoid
 
-class Action internal constructor(model: Any) : Value<Action>(model)
+class Action internal constructor(internal val model: ModelAction) {
+  @Zexy
+  class Builder internal constructor() {
+    internal val modelActions: MutableList<ModelAction> = mutableListOf()
 
-val noAction = Action(ModelVoid.Empty)
+    internal fun add(modelAction: ModelAction) {
+      modelActions.add(modelAction)
+    }
 
-fun <T : Value<T>> Value<T>.bind(value: Value<T>): Value<Action> =
-  Action(ModelVoid.Bind(model as ModelVariable<ModelVoid>, value.model))
+    internal fun buildModelActions() = modelActions.toList()
 
-fun <T : Value<T>> Value<T>.set(value: Value<T>): Value<Action> =
-  Action(ModelVoid.Set(model as ModelVariable<ModelVoid>, value.model))
+    fun sequence(fn: Builder.() -> Unit) {
+      add(ModelAction.Sequence(Builder().apply { fn() }.buildModelActions()))
+    }
 
-val Value<Action>.activity: Value<Activity> get() = Activity(model)
+    infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
+      add(ModelAction.Select(modelInteger, Builder().apply { fn() }.buildModelActions()))
+    }
 
-fun sequence(actions: List<Value<Action>>): Value<Action> =
-  Action(ModelValue.Sequence(actions.map { it.model }))
+    internal fun buildModelOrNull() =
+      if (modelActions.isEmpty()) {
+        null
+      } else {
+        ModelAction.Sequence(buildModelActions())
+      }.also { modelActions.clear() }
 
-fun sequence(action: Value<Action>, vararg actions: Value<Action>): Value<Action> =
-  sequence(listOf(action, *actions))
+    internal fun buildModel() = buildModelOrNull() ?: ModelAction.Empty
+    internal fun buildOrNull() = buildModelOrNull()?.let { Action(it)}
+    internal fun build() = Action(buildModel())
+  }
+}
 
-@JvmName("thenAction")
-fun Value<Action>.then(action: Value<Action>, vararg actions: Value<Action>): Value<Action> =
-  sequence(this, action, *actions)
+context(actionBuilder: Action.Builder)
+val Value<*>.log: Unit get() {
+  actionBuilder.add(ModelAction.Log(null, model))
+}
 
-@JvmName("thenActivity")
-fun Value<Action>.then(activity: Value<Activity>, vararg activities: Value<Activity>): Value<Activity> =
-  sequence(this.activity, activity, *activities)
+context(actionBuilder: Action.Builder)
+infix fun Value<*>.logAs(label: String?) {
+  actionBuilder.add(ModelAction.Log(label, model))
+}
 
+context(actionBuilder: Action.Builder)
+infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
+  actionBuilder.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
+}
+
+context(actionBuilder: Action.Builder)
+infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
+  actionBuilder.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
+}
+
+fun actionModel(fn: Action.Builder.() -> Unit) = Action.Builder().apply { fn() }.buildModel()
+fun action(fn: Action.Builder.() -> Unit) = Action.Builder().apply { fn() }.build()

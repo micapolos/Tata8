@@ -16,5 +16,3 @@ class Key(internal val model: ModelKey) {
 val key = Key.Companion
 
 val Key.isPressed get() = Bool(micapolos.zexy.model.Integer.KeyDown(model))
-val Key.press get() = isPressed.changeTo(true)
-val Key.release get() = isPressed.changeTo(false)
