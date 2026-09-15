@@ -6,7 +6,7 @@ import micapolos.zexy.indexed.Variable
 import micapolos.zexy.runtime.*
 
 fun <T: Value<T>> Compiler.animatedVariable(variable: Variable<T>) =
-  Animated(variableEvaluator(variable), variableAnimation(variable))
+  Animated(variableEvaluator(variable), ObjectEvaluator { instantAnimation })
 
 fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<*> = run {
   val typedIndex = variable.typedIndex

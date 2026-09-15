@@ -13,7 +13,7 @@ fun Compiler.runtime(animation: Animation): RuntimeAnimation =
     is Animation.Once -> instantAnimation(runtime(animation.action))
     is Animation.EveryStep -> everyStepAnimation(runtime(animation.action))
     is Animation.Pause -> pauseAnimation(doubleEvaluator(animation.seconds))
-    is Animation.Parallel -> parallel(animation.animations.map { runtime(it) })
+    is Animation.Parallel -> parallel(animation.animations.map { evaluator(it) })
     is Animation.Sequence -> SequenceAnimation(animation.animations.map { runtime(it) })
     is Animation.Race -> race(animation.animations.map { runtime(it) })
     is Animation.RepeatWhile -> runtime(animation.animation).repeatWhile(intEvaluator(animation.condition))

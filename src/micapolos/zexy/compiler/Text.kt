@@ -9,7 +9,7 @@ import micapolos.zexy.runtime.instantAnimation
 
 fun Compiler.animatedText(text: Text): Animated<String> =
   when (text) {
-    is Text.Constant -> Animated(ObjectEvaluator { text.string }, instantAnimation)
+    is Text.Constant -> Animated(ObjectEvaluator { text.string }, ObjectEvaluator { instantAnimation })
     is Text.Slice ->
       animatedTextSlice(
         animated(text.text) as Animated<String>,

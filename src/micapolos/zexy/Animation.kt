@@ -8,7 +8,7 @@ class Animation internal constructor(
   internal val model: ModelAnimation,
   internal val parentOrNull: Animation? = null,
   internal var hasChild: Boolean = false,
-) {
+): Value<Animation>(model) {
   init {
     if (parentOrNull != null) {
       if (parentOrNull.hasChild) {

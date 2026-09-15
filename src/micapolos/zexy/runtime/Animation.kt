@@ -80,18 +80,20 @@ infix fun Animation.then(rhs: Animation) =
 
   }
 
-fun parallel(vararg animations: Animation): Animation =
+fun parallel(vararg animations: Evaluator<Animation>): Animation =
   parallel(animations.toList())
 
-fun parallel(animations: List<Animation>): Animation =
+fun parallel(animations: List<Evaluator<Animation>>): Animation =
   object : Animation {
     override fun start() {
-      animations.forEach(Animation::start)
+      animations.forEach {
+        it.evalObject().start()
+      }
     }
 
     override fun step(seconds: Double): Double {
       var remainingSeconds = seconds
-      animations.forEach { remainingSeconds = min(remainingSeconds, it.step(seconds)) }
+      animations.forEach { remainingSeconds = min(remainingSeconds, it.evalObject().step(seconds)) }
       return remainingSeconds
     }
   }
@@ -265,13 +267,13 @@ fun Animation.startWhenNotZero(intEvaluator: IntEvaluator) =
     }
   }
 
-class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<Animation>) : Animation {
+class SelectAnimation(val indexEvaluator: IntEvaluator, val animations: Array<Evaluator<Animation>>) : Animation {
   override fun start() {
-    animations[indexEvaluator.eval()].start()
+    animations[indexEvaluator.eval()].evalObject().start()
   }
 
   override fun step(seconds: Double): Double {
-    return animations[indexEvaluator.eval()].step(seconds)
+    return animations[indexEvaluator.eval()].evalObject().step(seconds)
   }
 }
 

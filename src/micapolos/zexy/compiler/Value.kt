@@ -18,8 +18,8 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Font -> animatedFont(value)
     is Drawing -> animatedDrawing(value)
     is Void -> animatedVoid(value)
-    is Action -> Animated(evaluator(value), instantAnimation)
-    is Animation -> Animated(evaluator(value), instantAnimation)
+    is Action -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
+    is Animation -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
 
     is Value.Logged -> {
       val animatedValue = animated(value.value)
@@ -34,10 +34,6 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
       val indexEvaluator = animatedIndex.evaluator as IntEvaluator
       val animatedOptions = value.options.map { animated(it) }
       val animatedEvaluators = animatedOptions.map { it.evaluator }
-      val selectAnimation = SelectAnimation(
-        indexEvaluator,
-        animatedOptions.map { it.animation }.toTypedArray()
-      )
       val evaluator = when (animatedOptions.first().evaluator) {
         is IntEvaluator -> IntEvaluator {
           (animatedEvaluators[indexEvaluator.eval()] as IntEvaluator).eval()
@@ -51,6 +47,6 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
           (animatedEvaluators[indexEvaluator.eval()] as ObjectEvaluator).eval()
         }
       }
-      Animated(evaluator, parallel(animatedIndex.animation, selectAnimation))
+      Animated(evaluator, ObjectEvaluator { instantAnimation })
     }
   }

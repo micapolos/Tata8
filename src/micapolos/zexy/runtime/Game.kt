@@ -7,14 +7,14 @@ import micapolos.tata8.Game as TataGame
 class Game(
   val title: String = "Zexy game",
   val drawingEvaluator: Evaluator<Drawing> = ObjectEvaluator { Drawing { } },
-  val animation: Animation = instantAnimation,
+  val animationEvaluator: Evaluator<Animation> = ObjectEvaluator { instantAnimation },
 )
 
 fun Game.show() {
   TataGame.title = title
-  val animation = this.animation
+  val animation = this.animationEvaluator
   val evaluator = drawingEvaluator
-  animation.start()
+  animation.evalObject().start()
   evaluator.evalBoxed().drawOn(TataGame.background.canvas)
   val stepSeconds = TataGame.FRAME_SECONDS.toDouble()
   var gameSeconds = 0.0
@@ -23,11 +23,11 @@ fun Game.show() {
   TataGame.spritesAreEnabled = false;
   TataGame.onUpdate = {
     if (TataGame.keys.reset.pressed()) {
-      animation.start()
+      animation.evalObject().start()
       gameSeconds = 0.0
     }
     TataGame.background.canvas.clear()
-    val leftOverSeconds = animation.step(stepSeconds)
+    val leftOverSeconds = animation.evalObject().step(stepSeconds)
     val isFinished = leftOverSeconds != 0.0
     evaluator.evalBoxed().drawOn(TataGame.background.canvas)
     gameSeconds += stepSeconds
@@ -43,5 +43,5 @@ fun Game.show() {
 }
 
 fun main() {
-  Game(animation = pauseAnimation(DoubleEvaluator { 1.0 })).show()
+  Game(animationEvaluator = pauseAnimation(DoubleEvaluator { 1.0 }).let { ObjectEvaluator { it } }).show()
 }

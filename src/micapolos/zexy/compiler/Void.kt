@@ -8,5 +8,5 @@ import micapolos.zexy.runtime.instantAnimation
 fun Compiler.animatedVoid(indexed: Void): Animated<*> =
   when (indexed) {
     is Void.Empty ->
-      Animated(ObjectEvaluator { Unit }, instantAnimation)
+      Animated(ObjectEvaluator { Unit }, ObjectEvaluator { instantAnimation })
   }

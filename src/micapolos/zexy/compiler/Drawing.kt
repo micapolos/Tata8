@@ -15,7 +15,7 @@ fun Compiler.animatedDrawing(drawing: Drawing): Animated<RuntimeDrawing> =
     Drawing.Empty ->
       Animated(
         ObjectEvaluator { RuntimeDrawing {} },
-        instantAnimation
+        ObjectEvaluator { instantAnimation }
       )
 
     is Drawing.WithClip ->

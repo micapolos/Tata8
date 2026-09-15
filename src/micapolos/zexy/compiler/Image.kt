@@ -9,12 +9,12 @@ import micapolos.tata8.Image as TataImage
 
 fun Compiler.animatedImage(image: Image): Animated<TataImage?> =
   when (image) {
-    Image.Empty -> Animated(ObjectEvaluator { null }, instantAnimation)
+    Image.Empty -> Animated(ObjectEvaluator { null }, ObjectEvaluator { instantAnimation })
 
     is Image.Resource -> {
       val image = tataImages.computeIfAbsent(image.fileName) {
         Game.loadImage(baseClass.java, image.fileName)
       }
-      Animated(ObjectEvaluator { image }, instantAnimation)
+      Animated(ObjectEvaluator { image }, ObjectEvaluator { instantAnimation })
     }
   }

@@ -14,7 +14,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
     is Integer.Constant ->
       Animated(
         IntEvaluator { integer.i },
-        instantAnimation
+        ObjectEvaluator { instantAnimation }
       )
 
     is Integer.FromNumber -> {
@@ -31,7 +31,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
           Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
           Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
-        }, infiniteAnimation)
+        }, ObjectEvaluator { instantAnimation })
 
     is Integer.Apply1 -> {
       val animatedInt = animated(integer.integer)
@@ -60,7 +60,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
           Integer.Op2.AND -> IntEvaluator { lhsEvaluator.eval() and rhsEvaluator.eval() }
           Integer.Op2.OR -> IntEvaluator { lhsEvaluator.eval() or rhsEvaluator.eval() }
           Integer.Op2.XOR -> IntEvaluator { lhsEvaluator.eval() xor rhsEvaluator.eval() }
-        }, parallel(animatedLhs.animation, animatedRhs.animation))
+        }, ObjectEvaluator { instantAnimation })
     }
 
     is Number.Test2 -> {
@@ -72,7 +72,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
         when (integer.pred) {
           Number.NumberPred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
           Number.NumberPred2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
-        }, parallel(animatedLhs.animation, animatedRhs.animation))
+        }, ObjectEvaluator { instantAnimation })
     }
 
     is Integer.ImageHeight -> {
@@ -101,7 +101,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       val key = integer.key.tata
       Animated(
         IntEvaluator { key.isPressed.toInt() },
-        infiniteAnimation
+        ObjectEvaluator { instantAnimation }
       )
     }
 
@@ -115,7 +115,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       val fontEvaluator = font.evaluator as ObjectEvaluator<TataFont>
       Animated(
         IntEvaluator { fontEvaluator.eval().width(textEvaluator.eval()) },
-        parallel(text.animation, font.animation)
+        ObjectEvaluator { instantAnimation }
       )
     }
 
@@ -126,7 +126,7 @@ fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
       val fontEvaluator = animatedFont.evaluator as ObjectEvaluator<TataFont>
       Animated(
         IntEvaluator { fontEvaluator.eval().height(textEvaluator.eval()) },
-        parallel(animatedText.animation, animatedFont.animation)
+        ObjectEvaluator { instantAnimation }
       )
     }
   }

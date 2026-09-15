@@ -22,7 +22,7 @@ infix fun <T : Value<T>> Value<T>.loggedAs(label: String?): Value<T> =
 fun <T: Value<T>> Value<T>.animated(fn: Animation.Block.() -> Unit): Animated<T> =
   with(animation(fn))
 
-fun <T: Value<T>> Value<T>.with(animation: Animation): Animated<T> =
+fun <T: Value<T>> Value<T>.with(animation: Value<Animation>): Animated<T> =
   Animated(this, animation)
 
 fun <T: Value<T>> Value<T>.withAnimation(fn: Animation.Block.(Value<T>) -> Unit): Animated<T> =

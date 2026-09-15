@@ -1,17 +1,9 @@
 package micapolos.zexy.runtime
 
-class Animated<out T>(val evaluator: Evaluator<T>, val animation: Animation)
+class Animated<out T>(val evaluator: Evaluator<T>, val animation: Evaluator<Animation>)
 
 fun Animated<Drawing>.show() {
-  Game(drawingEvaluator = evaluator, animation = animation).show()
-}
-
-fun <T> animatedPulse(animatedHigh: Animated<T>, animatedLow: Animated<T>): Animated<T> = run {
-  val pulseAnimation = PulseAnimation(animatedHigh.animation, animatedLow.animation)
-  Animated(
-    selectEvaluator({ if (pulseAnimation.isLow) 1 else 0 }, animatedHigh.evaluator, animatedLow.evaluator),
-    pulseAnimation
-  )
+  Game(drawingEvaluator = evaluator, animationEvaluator = animation).show()
 }
 
 fun main() {
@@ -21,6 +13,6 @@ fun main() {
         canvas.drawRect(10, 10, 20, 20)
       }
     },
-    infiniteAnimation
+    ObjectEvaluator { infiniteAnimation }
   ).show()
 }

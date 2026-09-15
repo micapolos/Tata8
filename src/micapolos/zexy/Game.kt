@@ -10,6 +10,7 @@ import micapolos.zexy.model.Action
 import micapolos.zexy.runtime.State
 import micapolos.zexy.runtime.show
 import kotlin.reflect.KClass
+import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Game as ModelGame
 
@@ -29,8 +30,8 @@ fun Game.withTitle(title: String): Game = copy(model = model.copy(title = title)
 fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
   copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
-fun Game.with(animation: Animation): Game =
-  copy(model = model.copy(animation = animation.model))
+fun Game.with(animation: Value<Animation>): Game =
+  copy(model = model.copy(animation = animation.model as ModelValue<ModelAnimation>))
 
 fun Game.show() {
   val indexer = Indexer()

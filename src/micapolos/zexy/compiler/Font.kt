@@ -13,6 +13,7 @@ fun Compiler.animatedFont(font: Font): Animated<TataFont> =
       val tataFont = tataFonts.computeIfAbsent(font.fileName) {
         Game.loadFont(baseClass.java, font.fileName, font.spaceWidth, font.charSpacing, font.lineSpacing)
       }
-      Animated(ObjectEvaluator { tataFont }, instantAnimation)
+      Animated(ObjectEvaluator { tataFont },
+        ObjectEvaluator { instantAnimation })
     }
   }

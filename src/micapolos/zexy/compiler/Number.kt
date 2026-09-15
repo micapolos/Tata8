@@ -9,12 +9,12 @@ fun Compiler.animatedNumber(number: Number): Animated<Double> =
   when (number) {
     is Number.Constant -> {
       val d = number.d
-      Animated(DoubleEvaluator { d }, instantAnimation)
+      Animated(DoubleEvaluator { d }, ObjectEvaluator { instantAnimation })
     }
 
     is Number.Apply0 -> {
       when (number.op) {
-        Number.Op0.FRAME_TIME -> Animated(DoubleEvaluator { Game.FRAME_SECONDS.toDouble() }, infiniteAnimation)
+        Number.Op0.FRAME_TIME -> Animated(DoubleEvaluator { Game.FRAME_SECONDS.toDouble() }, ObjectEvaluator { instantAnimation })
       }
     }
 
@@ -48,7 +48,7 @@ fun Compiler.animatedNumber(number: Number): Animated<Double> =
           Number.Op2.SUB -> DoubleEvaluator { lhs.eval() - rhs.eval() }
           Number.Op2.MUL -> DoubleEvaluator { lhs.eval() * rhs.eval() }
         },
-        parallel(animatedLhs.animation, animatedRhs.animation)
+        ObjectEvaluator { instantAnimation }
       )
     }
 

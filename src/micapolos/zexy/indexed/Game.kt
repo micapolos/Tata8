@@ -5,5 +5,5 @@ class Game(
   val width: Int,
   val height: Int,
   val drawing: Value<Drawing>,
-  val animation: Animation,
+  val animation: Value<Animation>,
 )

@@ -4,6 +4,7 @@ import micapolos.zexy.indexed.Color
 import micapolos.zexy.runtime.Animated
 import micapolos.zexy.runtime.DoubleEvaluator
 import micapolos.zexy.runtime.ObjectEvaluator
+import micapolos.zexy.runtime.instantAnimation
 import micapolos.zexy.runtime.parallel
 import micapolos.tata8.Color as TataColor
 
@@ -44,12 +45,7 @@ fun Compiler.animatedColor(color: Color): Animated<TataColor> =
             }
           }
         },
-        parallel(
-          animatedRed.animation,
-          animatedGreen.animation,
-          animatedBlue.animation,
-          animatedAlpha.animation
-        )
+        ObjectEvaluator { instantAnimation }
       )
     }
   }

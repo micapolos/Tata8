@@ -31,11 +31,11 @@ fun animatedTextSlice(
 ) =
   Animated(
     textSliceEvaluator(animatedText.evaluator, animatedStart.evaluator, animatedEnd.evaluator),
-    parallel(animatedText.animation, animatedStart.animation, animatedEnd.animation)
+    ObjectEvaluator { instantAnimation }
   )
 
 fun animatedTextJoin(animatedTexts: List<Animated<String>>) =
   Animated(
     textJoinEvaluator(animatedTexts.map { it.evaluator }.toTypedArray()),
-    parallel(animatedTexts.map { it.animation })
+    ObjectEvaluator { instantAnimation }
   )

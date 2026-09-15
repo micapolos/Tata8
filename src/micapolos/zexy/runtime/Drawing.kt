@@ -70,12 +70,7 @@ fun animatedClip(
       animatedWidth.evaluator as IntEvaluator,
       animatedHeight.evaluator as IntEvaluator,
     ),
-    parallel(
-      animatedX.animation,
-      animatedY.animation,
-      animatedWidth.animation,
-      animatedHeight.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun animatedPoint(
@@ -87,10 +82,7 @@ fun animatedPoint(
       animatedX.evaluator as IntEvaluator,
       animatedY.evaluator as IntEvaluator,
     ),
-    parallel(
-      animatedX.animation,
-      animatedY.animation,
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun animatedLine(
@@ -106,12 +98,7 @@ fun animatedLine(
       animatedX2.evaluator as IntEvaluator,
       animatedY2.evaluator as IntEvaluator,
     ),
-    parallel(
-      animatedX1.animation,
-      animatedY1.animation,
-      animatedX2.animation,
-      animatedY2.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun animatedRect(
@@ -127,12 +114,7 @@ fun animatedRect(
       animatedWidth.evaluator as IntEvaluator,
       animatedHeight.evaluator as IntEvaluator,
     ),
-    parallel(
-      animatedX.animation,
-      animatedY.animation,
-      animatedWidth.animation,
-      animatedHeight.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun spriteEvaluator(
@@ -168,12 +150,7 @@ fun animatedSprite(
       animatedImageX.evaluator as IntEvaluator,
       animatedImageY.evaluator as IntEvaluator
     ),
-    parallel(
-      animatedX.animation, animatedY.animation,
-      animatedWidth.animation, animatedHeight.animation,
-      animatedImage.animation,
-      animatedImageX.animation, animatedImageY.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun labelEvaluator(textEvaluator: ObjectEvaluator<String>, xEvaluator: IntEvaluator, yEvaluator: IntEvaluator) =
@@ -190,7 +167,7 @@ fun animatedLabel(animatedText: Animated<String>, animatedX: Animated<Int>, anim
       animatedX.evaluator as IntEvaluator,
       animatedY.evaluator as IntEvaluator
     ),
-    parallel(animatedText.animation, animatedX.animation, animatedY.animation)
+    ObjectEvaluator { instantAnimation }
   )
 
 fun stackEvaluator(drawingEvaluators: Array<ObjectEvaluator<Drawing>>) =
@@ -205,8 +182,7 @@ fun stackEvaluator(drawingEvaluators: Array<ObjectEvaluator<Drawing>>) =
 fun animatedStack(animatedDrawings: Array<Animated<Drawing>>): Animated<Drawing> =
   Animated(
     stackEvaluator(animatedDrawings.map { it.evaluator as ObjectEvaluator<Drawing> }.toTypedArray()),
-    parallel(animatedDrawings.map { it.animation })
-  )
+    ObjectEvaluator { instantAnimation })
 
 fun withColorEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, colorEvaluator: ObjectEvaluator<Color>) =
   ObjectEvaluator {
@@ -224,10 +200,7 @@ fun animatedWithColor(animatedDrawing: Animated<Drawing>, animatedColor: Animate
       animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
       animatedColor.evaluator as ObjectEvaluator<Color>
     ),
-    parallel(
-      animatedDrawing.animation,
-      animatedColor.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun withFontEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, fontEvaluator: ObjectEvaluator<Font>) =
@@ -246,10 +219,7 @@ fun animatedWithFont(animatedDrawing: Animated<Drawing>, animatedFont: Animated<
       animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
       animatedFont.evaluator as ObjectEvaluator<Font>
     ),
-    parallel(
-      animatedDrawing.animation,
-      animatedFont.animation
-    )
+    ObjectEvaluator { instantAnimation }
   )
 
 fun withCompositeEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, composite: Composite) =
