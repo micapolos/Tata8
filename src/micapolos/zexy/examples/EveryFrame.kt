@@ -5,7 +5,7 @@ import micapolos.zexy.*
 fun main() {
   animation {
     val counter = variable(100)
-    everyFrame { counter add 1 }
+    everyStep { counter add 1 }
     counter.showAnimated()
   }
 }

@@ -140,7 +140,7 @@ val Value<Integer>.change: Value<Bool>
     val previous = variable(this)
     val current = variable(this)
 
-    animationBlock.everyFrame {
+    animationBlock.everyStep {
       current.logAs("setting previous to")
       previous set current
       this@change.logAs("setting current to")

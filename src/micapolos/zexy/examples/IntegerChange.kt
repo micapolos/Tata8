@@ -8,7 +8,7 @@ fun main() {
     val number = counter / 10
     val previous = variable(0)
     val current = variable(0)
-    everyFrame {
+    everyStep {
       counter.logAs("incrementing counter")
       counter add 1
       counter.logAs("incremented counter")

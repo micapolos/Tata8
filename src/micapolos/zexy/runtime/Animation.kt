@@ -96,7 +96,7 @@ fun parallel(animations: List<Animation>): Animation =
     }
   }
 
-fun everyFrameAnimation(animation: Animation): Animation =
+fun everyStepAnimation(animation: Animation): Animation =
   object : Animation {
     override fun start() {
     }
@@ -108,7 +108,7 @@ fun everyFrameAnimation(animation: Animation): Animation =
     }
   }
 
-fun everyFrameAnimation(action: Action): Animation =
+fun everyStepAnimation(action: Action): Animation =
   object : Animation {
     override fun start() {
     }

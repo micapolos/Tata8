@@ -25,19 +25,18 @@ class Animation internal constructor(
 
     internal fun build(): Animation = run {
       flushActions()
-      val animationModels = buildAnimationModels()
-      val animationModel = when {
-        animationModels.isEmpty() -> ModelAnimation.Once(ModelAction.Empty)
-        animationModels.singleOrNull() != null -> animationModels.single()
-        else -> ModelAnimation.Sequence(animationModels.toList())
+      val builtAnimationModels = buildAnimationModels()
+      val builtAnimationModel = when {
+        builtAnimationModels.isEmpty() -> ModelAnimation.Once(ModelAction.Empty)
+        builtAnimationModels.singleOrNull() != null -> builtAnimationModels.single()
+        else -> ModelAnimation.Parallel(builtAnimationModels)
       }
-      this.animationModels.clear()
-      Animation(animationModel)
+      Animation(builtAnimationModel)
     }
 
     internal fun buildAnimationModels() = run {
       flushActions()
-      animationModels.toList()
+      animationModels.toList().also { animationModels.clear() }
     }
 
     internal fun flushActions() {
@@ -69,8 +68,8 @@ class Animation internal constructor(
       add(ModelAnimation.Once(actionModel(fn)))
     }
 
-    fun everyFrame(fn: Action.Block.() -> Unit) {
-      add(ModelAnimation.EveryFrame(actionModel(fn)))
+    fun everyStep(fn: Action.Block.() -> Unit) {
+      add(ModelAnimation.EveryStep(actionModel(fn)))
     }
 
     fun parallel(fn: Block.() -> Unit) {
@@ -122,7 +121,7 @@ fun <T : Value<T>> Value<T>.showAnimated() {
 }
 
 fun animation(fn: Animation.Block.() -> Unit): Animation =
-  Animation.Block().apply { fn() }.build()
+  Animation.Block().apply(fn).build()
 
 fun show(fn: Animation.Block.() -> Unit) {
   game.with(animation(fn)).show()

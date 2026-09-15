@@ -10,7 +10,7 @@ fun main() {
   val leftOffset = key.left.isPressed.ifTrue(-speed).orElse(0)
 
   val animation = animation {
-    everyFrame {
+    everyStep {
       x add rightOffset + leftOffset
     }
   }

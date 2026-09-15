@@ -4,7 +4,7 @@ import micapolos.zexy.*
 
 fun main() {
   show {
-    everyFrame {
+    everyStep {
       mouse.position.x logAs "x"
       mouse.position.y logAs "y"
       mouse.isPressed logAs "is pressed"
