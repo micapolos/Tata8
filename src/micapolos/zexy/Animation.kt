@@ -124,6 +124,6 @@ fun <T : Value<T>> Value<T>.showAnimated() {
 fun animation(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply { fn() }.build()
 
-fun Animation.show() {
-  game.with(this).show()
+fun show(fn: Animation.Block.() -> Unit) {
+  game.with(animation(fn)).show()
 }

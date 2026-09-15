@@ -3,21 +3,21 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  animation {
-    val x = variable(100)
+  val x = variable(100)
 
-    val speed = key.z.isPressed.ifTrue(5).orElse(1)
-    val rightOffset = key.right.isPressed.ifTrue(speed).orElse(0)
-    val leftOffset = key.left.isPressed.ifTrue(-speed).orElse(0)
+  val speed = key.z.isPressed.ifTrue(5).orElse(1)
+  val rightOffset = key.right.isPressed.ifTrue(speed).orElse(0)
+  val leftOffset = key.left.isPressed.ifTrue(-speed).orElse(0)
 
-    val sprite = sprite
-      .with(image("/micapolos/depressedChicken.png"))
-      .with(position(x, 10))
-
+  val animation = animation {
     everyFrame {
       x add rightOffset + leftOffset
     }
-
-    sprite.showAnimated()
   }
+
+  sprite
+    .with(image("/micapolos/depressedChicken.png"))
+    .with(position(x, 10))
+    .with(animation)
+    .show()
 }
