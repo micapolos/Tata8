@@ -3,9 +3,9 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  animation {
-    val counter = variable(0)
+  val counter = variable(0)
 
+  val animation = animation {
     this pause 1
     counter add 10
     this pause 1
@@ -13,7 +13,7 @@ fun main() {
     this pause 1
     counter add 30
     this pause 1
-
-    counter.showAnimated()
   }
+
+  counter.with(animation).show()
 }
