@@ -6,18 +6,7 @@ import micapolos.zexy.model.Animation as ModelAnimation
 
 class Animation internal constructor(
   internal val model: ModelAnimation,
-  internal val parentOrNull: Animation? = null,
-  internal var hasChild: Boolean = false,
 ): Value<Animation>(model) {
-  init {
-    if (parentOrNull != null) {
-      if (parentOrNull.hasChild) {
-        error("Animation already has a child")
-      } else {
-        parentOrNull.hasChild = true
-      }
-    }
-  }
   @Zexy
   class Block internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
@@ -97,6 +86,10 @@ class Animation internal constructor(
     }
   }
 }
+
+val infiniteAnimation = Animation(ModelAnimation.Infinite)
+
+val Value<Action>.instant get() = Animation(ModelAnimation.Once(modelAction as ModelAction))
 
 context(animationBlock: Animation.Block)
 infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {

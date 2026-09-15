@@ -2,6 +2,7 @@ package micapolos.zexy
 
 import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Action as ModelAction
+import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
 
 class Action internal constructor(internal val model: ModelAction): Value<Action>(model) {
@@ -35,6 +36,8 @@ class Action internal constructor(internal val model: ModelAction): Value<Action
     internal fun build() = Action(buildModel())
   }
 }
+
+internal val Value<Action>.modelAction get() = model as ModelValue<ModelAction>
 
 context(actionBlock: Action.Block)
 val Value<*>.log: Unit get() {
