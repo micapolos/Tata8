@@ -19,8 +19,8 @@ val <T : Value<T>> Value<T>.logged: Value<T> get() = loggedAs(null)
 infix fun <T : Value<T>> Value<T>.loggedAs(label: String?): Value<T> =
   Value(ModelValue.Logged(label, safeModel))
 
-fun <T: Value<T>> Value<T>.animated(fn: Animation.Block.() -> Unit): Animated<T> =
-  with(animation(fn))
+fun <T: Value<T>> Value<T>.animated(fn: Animation.Block.(Value<T>) -> Unit): Animated<T> =
+  with(animation { fn(this@animated) })
 
 fun <T: Value<T>> Value<T>.with(animation: Value<Animation>): Animated<T> =
   Animated(this, animation)

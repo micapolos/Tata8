@@ -3,6 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
+import micapolos.zexy.model.Value as ModelValue
 
 class Animation internal constructor(
   internal val model: ModelAnimation,
@@ -126,8 +127,20 @@ fun <T : Value<T>> Value<T>.showAnimated() {
 fun animation(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
 
+fun <T: Value<T>> animated(fn: Animation.Block.() -> T): Animated<T> =run {
+  val block = Animation.Block()
+  val value = block.fn()
+  Animated(value, block.build())
+}
+
 fun sequence(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
+
+fun sequence(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
+  Animation(ModelAnimation.Sequence(listOf(animation, *animations).map { it.model as ModelAnimation }))
+
+fun parallel(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
+  Animation(ModelAnimation.Parallel(listOf(animation, *animations).map { it.model as ModelAnimation }))
 
 fun show(fn: Animation.Block.() -> Unit) {
   game.with(animation(fn)).show()
