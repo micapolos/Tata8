@@ -6,26 +6,26 @@ fun main() {
   val direction = variable(4)
   val isTalking = key.z.isPressed
   val isMoving = key.x.isPressed
-  val step = variable(0)
+  val frameIndex = variable(0)
 
   val directionBaseIndex = direction.selectFrom(0, 7, 12, 17, 22, 27, 32, 37)
-  val directionSteps = direction.selectFrom(6, 4, 4, 4, 4, 4, 4, 4)
+  val directionFrameCount = direction.selectFrom(6, 4, 4, 4, 4, 4, 4, 4)
 
   val spriteIndex = isTalking
-    .ifTrue(step)
+    .ifTrue(frameIndex)
     .orElse(
       4.value + directionBaseIndex +
           isMoving
-            .ifTrue(step + 1)
+            .ifTrue(frameIndex + 1)
             .orElse(0)
     )
 
-  val spriteSteps =
+  val spriteFrameCount =
     isTalking
       .ifTrue(4)
       .orElse(
         isMoving
-          .ifTrue(directionSteps)
+          .ifTrue(directionFrameCount)
           .orElse(1)
       )
 
@@ -37,7 +37,7 @@ fun main() {
     .withImage(position(spriteIndex * girlSize.width, 0))
     .withAnimation {
       repeat {
-        step set (step + 1) % spriteSteps
+        frameIndex set (frameIndex + 1) % spriteFrameCount
         this pause 0.15
         key.right.isPressed.integer.selectStart {
           doNothing
