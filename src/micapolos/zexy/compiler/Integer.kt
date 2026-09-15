@@ -3,130 +3,99 @@ package micapolos.zexy.compiler
 import micapolos.tata8.Game
 import micapolos.zexy.indexed.Integer
 import micapolos.zexy.indexed.Number
-import micapolos.zexy.runtime.*
+import micapolos.zexy.runtime.Evaluator
+import micapolos.zexy.runtime.IntEvaluator
+import micapolos.zexy.runtime.textLengthEvaluator
 import micapolos.tata8.Font as TataFont
 import micapolos.tata8.Image as TataImage
 
 fun Boolean.toInt() = if (this) 1 else 0
 
-fun Compiler.animatedInteger(integer: Integer): Animated<Int> =
+fun Compiler.integerEvaluator(integer: Integer): Evaluator<Int> =
   when (integer) {
-    is Integer.Constant ->
-      Animated(
-        IntEvaluator { integer.i },
-        ObjectEvaluator { instantAnimation }
-      )
+    is Integer.Constant -> IntEvaluator { integer.i }
 
     is Integer.FromNumber -> {
-      val animatedDouble = animated(integer.number)
-      val doubleEvaluator = animatedDouble.evaluator as DoubleEvaluator
-      Animated(IntEvaluator { doubleEvaluator.eval().toInt() }, animatedDouble.animation)
+      val doubleEvaluator = evaluator(integer.number)
+      IntEvaluator { doubleEvaluator.evalDouble().toInt() }
     }
 
     is Integer.Apply0 ->
-      Animated(
-        when (integer.op) {
-          Integer.Op0.SCREEN_WIDTH -> IntEvaluator { Game.WIDTH }
-          Integer.Op0.SCREEN_HEIGHT -> IntEvaluator { Game.HEIGHT }
-          Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
-          Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
-          Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
-        }, ObjectEvaluator { instantAnimation })
+      when (integer.op) {
+        Integer.Op0.SCREEN_WIDTH -> IntEvaluator { Game.WIDTH }
+        Integer.Op0.SCREEN_HEIGHT -> IntEvaluator { Game.HEIGHT }
+        Integer.Op0.MOUSE_DOWN -> IntEvaluator { Game.mouse.button.isPressed.toInt() }
+        Integer.Op0.MOUSE_X -> IntEvaluator { Game.mouse.position.x }
+        Integer.Op0.MOUSE_Y -> IntEvaluator { Game.mouse.position.y }
+      }
 
     is Integer.Apply1 -> {
-      val animatedInt = animated(integer.integer)
-      val intEvaluator = animatedInt.evaluator as IntEvaluator
-      Animated(
-        when (integer.op) {
-          Integer.Op1.NEG -> IntEvaluator { -intEvaluator.eval() }
-          Integer.Op1.NOT_ZERO -> IntEvaluator { (intEvaluator.eval() != 0).toInt() }
-        }, animatedInt.animation)
+      val intEvaluator = intEvaluator(integer.integer)
+      when (integer.op) {
+        Integer.Op1.NEG -> IntEvaluator { -intEvaluator.eval() }
+        Integer.Op1.NOT_ZERO -> IntEvaluator { (intEvaluator.eval() != 0).toInt() }
+      }
     }
 
     is Integer.Apply2 -> {
-      val animatedLhs = animated(integer.lhs)
-      val animatedRhs = animated(integer.rhs)
-      val lhsEvaluator = animatedLhs.evaluator as IntEvaluator
-      val rhsEvaluator = animatedRhs.evaluator as IntEvaluator
-      Animated(
-        when (integer.op) {
-          Integer.Op2.ADD -> IntEvaluator { lhsEvaluator.eval() + rhsEvaluator.eval() }
-          Integer.Op2.SUB -> IntEvaluator { lhsEvaluator.eval() - rhsEvaluator.eval() }
-          Integer.Op2.MUL -> IntEvaluator { lhsEvaluator.eval() * rhsEvaluator.eval() }
-          Integer.Op2.DIV -> IntEvaluator { lhsEvaluator.eval() / rhsEvaluator.eval() }
-          Integer.Op2.REM -> IntEvaluator { lhsEvaluator.eval() % rhsEvaluator.eval() }
-          Integer.Op2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
-          Integer.Op2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
-          Integer.Op2.AND -> IntEvaluator { lhsEvaluator.eval() and rhsEvaluator.eval() }
-          Integer.Op2.OR -> IntEvaluator { lhsEvaluator.eval() or rhsEvaluator.eval() }
-          Integer.Op2.XOR -> IntEvaluator { lhsEvaluator.eval() xor rhsEvaluator.eval() }
-        }, ObjectEvaluator { instantAnimation })
+      val lhsEvaluator = intEvaluator(integer.lhs)
+      val rhsEvaluator = intEvaluator(integer.rhs)
+      when (integer.op) {
+        Integer.Op2.ADD -> IntEvaluator { lhsEvaluator.eval() + rhsEvaluator.eval() }
+        Integer.Op2.SUB -> IntEvaluator { lhsEvaluator.eval() - rhsEvaluator.eval() }
+        Integer.Op2.MUL -> IntEvaluator { lhsEvaluator.eval() * rhsEvaluator.eval() }
+        Integer.Op2.DIV -> IntEvaluator { lhsEvaluator.eval() / rhsEvaluator.eval() }
+        Integer.Op2.REM -> IntEvaluator { lhsEvaluator.eval() % rhsEvaluator.eval() }
+        Integer.Op2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
+        Integer.Op2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
+        Integer.Op2.AND -> IntEvaluator { lhsEvaluator.eval() and rhsEvaluator.eval() }
+        Integer.Op2.OR -> IntEvaluator { lhsEvaluator.eval() or rhsEvaluator.eval() }
+        Integer.Op2.XOR -> IntEvaluator { lhsEvaluator.eval() xor rhsEvaluator.eval() }
+      }
     }
 
     is Number.Test2 -> {
-      val animatedLhs = animated(integer.lhs)
-      val animatedRhs = animated(integer.rhs)
-      val lhsEvaluator = animatedLhs.evaluator as DoubleEvaluator
-      val rhsEvaluator = animatedRhs.evaluator as DoubleEvaluator
-      Animated(
-        when (integer.pred) {
-          Number.NumberPred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
-          Number.NumberPred2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
-        }, ObjectEvaluator { instantAnimation })
+      val lhsEvaluator = doubleEvaluator(integer.lhs)
+      val rhsEvaluator = doubleEvaluator(integer.rhs)
+      when (integer.pred) {
+        Number.NumberPred2.EQ -> IntEvaluator { (lhsEvaluator.eval() == rhsEvaluator.eval()).toInt() }
+        Number.NumberPred2.CMP -> IntEvaluator { lhsEvaluator.eval().compareTo(rhsEvaluator.eval()) }
+      }
     }
 
     is Integer.ImageHeight -> {
-      val animatedImage = animated(integer.image)
-      val imageEvaluator = animatedImage.evaluator as ObjectEvaluator<TataImage?>
-      Animated(
-        IntEvaluator {
-          val image = imageEvaluator.eval()
-          if (image == null) 0 else image.size.height
-        }, animatedImage.animation
-      )
+      val imageEvaluator = objectEvaluator<TataImage?>(integer.image)
+      IntEvaluator {
+        val image = imageEvaluator.eval()
+        if (image == null) 0 else image.size.height
+      }
     }
 
     is Integer.ImageWidth -> {
-      val animatedImage = animated(integer.image)
-      val imageEvaluator = animatedImage.evaluator as ObjectEvaluator<TataImage?>
-      Animated(
-        IntEvaluator {
-          val image = imageEvaluator.eval()
-          if (image == null) 0 else image.size.width
-        }, animatedImage.animation
-      )
+      val imageEvaluator = objectEvaluator<TataImage?>(integer.image)
+      IntEvaluator {
+        val image = imageEvaluator.eval()
+        if (image == null) 0 else image.size.width
+      }
     }
 
     is Integer.KeyDown -> {
       val key = integer.key.tata
-      Animated(
-        IntEvaluator { key.isPressed.toInt() },
-        ObjectEvaluator { instantAnimation }
-      )
+      IntEvaluator { key.isPressed.toInt() }
     }
 
     is Integer.TextLength ->
-      animatedTextLength(animated(integer.text) as Animated<String>)
+      textLengthEvaluator(objectEvaluator(integer.text))
 
     is Integer.TextWidth -> {
-      val text = animated(integer.text)
-      val font = animated(integer.font)
-      val textEvaluator = text.evaluator as ObjectEvaluator<String>
-      val fontEvaluator = font.evaluator as ObjectEvaluator<TataFont>
-      Animated(
-        IntEvaluator { fontEvaluator.eval().width(textEvaluator.eval()) },
-        ObjectEvaluator { instantAnimation }
-      )
+      val textEvaluator = objectEvaluator<String>(integer.text)
+      val fontEvaluator = objectEvaluator<TataFont>(integer.font)
+      IntEvaluator { fontEvaluator.eval().width(textEvaluator.eval()) }
     }
 
     is Integer.TextHeight -> {
-      val animatedText = animated(integer.text)
-      val animatedFont = animated(integer.font)
-      val textEvaluator = animatedText.evaluator as ObjectEvaluator<String>
-      val fontEvaluator = animatedFont.evaluator as ObjectEvaluator<TataFont>
-      Animated(
-        IntEvaluator { fontEvaluator.eval().height(textEvaluator.eval()) },
-        ObjectEvaluator { instantAnimation }
-      )
+      val textEvaluator = objectEvaluator<String>(integer.text)
+      val fontEvaluator = objectEvaluator<TataFont>(integer.font)
+      IntEvaluator { fontEvaluator.eval().height(textEvaluator.eval()) }
     }
   }
