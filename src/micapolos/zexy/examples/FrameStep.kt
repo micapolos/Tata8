@@ -4,6 +4,6 @@ import micapolos.zexy.*
 
 fun main() {
   animation {
-    frame.step2.show()
+    frame.step.show()
   }
 }

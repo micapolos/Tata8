@@ -107,13 +107,13 @@ class Animation internal constructor(
 }
 
 context(animationBlock: Animation.Block)
-infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
-  with(animationBlock.actionBlock) { bind2(value) }
+infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {
+  with(animationBlock.actionBlock) { bind(value) }
 }
 
 context(animationBlock: Animation.Block)
-infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
-  with(animationBlock.actionBlock) { set2(value) }
+infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
+  with(animationBlock.actionBlock) { set(value) }
 }
 
 context(animationBlock: Animation.Block)

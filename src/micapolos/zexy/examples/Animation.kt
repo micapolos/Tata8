@@ -15,7 +15,7 @@ fun main() {
       .with(position(x, 10))
 
     everyFrame {
-      x add2 rightOffset + leftOffset
+      x add rightOffset + leftOffset
     }
 
     sprite.show2()

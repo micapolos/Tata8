@@ -10,14 +10,14 @@ fun main() {
     val current = variable(0)
     everyFrame {
       counter.logAs("incrementing counter")
-      counter add2 1
+      counter add 1
       counter.logAs("incremented counter")
       number.logAs("new number")
       previous.logAs("setting previous")
-      previous set2 current
+      previous set current
       previous.logAs("set previous")
       current.logAs("setting current")
-      current set2 number
+      current set number
       current.logAs("set current")
     }
     counter.show2()

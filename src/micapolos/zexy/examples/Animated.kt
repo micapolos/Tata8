@@ -7,11 +7,11 @@ fun main() {
     val counter = variable(0)
 
     this pause 1
-    counter add2 10
+    counter add 10
     this pause 1
-    counter add2 20
+    counter add 20
     this pause 1
-    counter add2 30
+    counter add 30
     this pause 1
 
     counter.show2()

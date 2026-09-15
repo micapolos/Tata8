@@ -95,56 +95,56 @@ fun Value<Integer>.max(integer: Int) = max(integer.value)
 fun Value<Integer>.max(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)
 
 context(_: Action.Block)
-infix fun Value<Integer>.set2(i: Int) {
-  set2(i.value)
+infix fun Value<Integer>.set(i: Int) {
+  set(i.value)
 }
 
 context(_: Action.Block)
-infix fun Value<Integer>.bind2(i: Int) {
-  bind2(i.value)
+infix fun Value<Integer>.bind(i: Int) {
+  bind(i.value)
 }
 
 context(_: Action.Block)
-infix fun Value<Integer>.add2(i: Int) {
-  add2(i.value)
+infix fun Value<Integer>.add(i: Int) {
+  add(i.value)
 }
 
 context(_: Action.Block)
-infix fun Value<Integer>.add2(value: Value<Integer>) {
-  set2(this + value)
+infix fun Value<Integer>.add(value: Value<Integer>) {
+  set(this + value)
 }
 
 context(_: Animation.Block)
-infix fun Value<Integer>.set2(i: Int) {
-  set2(i.value)
+infix fun Value<Integer>.set(i: Int) {
+  set(i.value)
 }
 
 context(_: Animation.Block)
-infix fun Value<Integer>.bind2(i: Int) {
-  bind2(i.value)
+infix fun Value<Integer>.bind(i: Int) {
+  bind(i.value)
 }
 
 context(_: Animation.Block)
-infix fun Value<Integer>.add2(i: Int) {
-  add2(i.value)
+infix fun Value<Integer>.add(i: Int) {
+  add(i.value)
 }
 
 context(_: Animation.Block)
-infix fun Value<Integer>.add2(value: Value<Integer>) {
-  set2(this + value)
+infix fun Value<Integer>.add(value: Value<Integer>) {
+  set(this + value)
 }
 
 context(animationBlock: Animation.Block)
-val Value<Integer>.change2: Value<Bool>
+val Value<Integer>.change: Value<Bool>
   get() {
     val previous = variable(this)
     val current = variable(this)
 
     animationBlock.everyFrame {
       current.logAs("setting previous to")
-      previous set2 current
-      this@change2.logAs("setting current to")
-      current set2 this@change2
+      previous set current
+      this@change.logAs("setting current to")
+      current set this@change
     }
 
     return previous.isEqualTo(current)

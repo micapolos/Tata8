@@ -48,12 +48,12 @@ infix fun Value<*>.logAs(label: String?) {
 }
 
 context(actionBlock: Action.Block)
-infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
+infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {
   actionBlock.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
 }
 
 context(actionBlock: Action.Block)
-infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
+infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
   actionBlock.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
 }
 

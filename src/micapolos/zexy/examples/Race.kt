@@ -7,7 +7,7 @@ fun main() {
     val counter = variable(0)
 
     race {
-      everyFrame { counter add2 1 }
+      everyFrame { counter add 1 }
       this pause 3
     }
 

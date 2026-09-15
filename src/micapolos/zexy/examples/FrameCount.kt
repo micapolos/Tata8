@@ -4,6 +4,6 @@ import micapolos.zexy.*
 
 fun main() {
   animation {
-    frame.count2.show2()
+    frame.count.show2()
   }
 }
