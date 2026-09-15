@@ -34,28 +34,12 @@ fun <T : Value<T>> Compiler.variableEvaluator(variable: Variable<T>): Evaluator<
 
 // TODO: Read into animation list by index.
 fun <T : Value<T>> Compiler.variableAnimation(variable: Variable<T>): Animation =
-  object : Animation {
-    override fun start() {
-      val animatedValue = animatedValueOrNull(variable)
-      if (animatedValue != null) {
-        animatedValue.animation.start()
-      }
-    }
-
-    override fun step(seconds: Double): Double {
-      val animatedValue = animatedValueOrNull(variable)
-      if (animatedValue != null) {
-        return animatedValue.animation.step(seconds)
-      } else {
-        return seconds
-      }
-    }
-  }
+  object : Animation {}
 
 fun main() {
   val compiler = Compiler(Compiler::class, State(intArrayOf(), doubleArrayOf(1.0, 10.0, 100.0), arrayOf(), arrayOf(null)))
-  val animated = compiler.animated(Variable(IndexType.NUMBER, 2, 0))
-  compiler.state.animatedArray[0] = animated
-  val value = (animated.evaluator as DoubleEvaluator).eval()
+  val evaluator = compiler.evaluator(Variable(IndexType.NUMBER, 2, 0))
+  compiler.state.evaluatorArray[0] = evaluator
+  val value = (evaluator as DoubleEvaluator).eval()
   println(value)
 }

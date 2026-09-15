@@ -3,6 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.compiler.Compiler
 import micapolos.zexy.compiler.animated
 import micapolos.zexy.compiler.compile
+import micapolos.zexy.compiler.evaluator
 import micapolos.zexy.indexed.IndexType
 import micapolos.zexy.indexer.Indexer
 import micapolos.zexy.indexer.indexed
@@ -41,10 +42,9 @@ fun Game.show() {
       IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
       DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
       arrayOfNulls(indexer.initialValuesOf(IndexType.OBJECT).size),
-      arrayOfNulls(indexer.initialValues.size),
       arrayOfNulls(indexer.initialValues.size)))
   indexer.initialValues.forEachIndexed { index, value ->
-    compiler.state.animatedArray[index] = compiler.animated(value)
+    compiler.state.evaluatorArray[index] = compiler.evaluator(value)
   }
   val runtimeGame = compiler.compile(indexed)
   runtimeGame.show()

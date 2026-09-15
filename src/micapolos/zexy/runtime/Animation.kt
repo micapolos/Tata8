@@ -335,19 +335,16 @@ fun <T> captureAnimation(state: State, typedIndex: Int, index: Int,  evaluator: 
     is IntEvaluator ->
       actionAnimation {
         state.intArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
       }
 
     is DoubleEvaluator ->
       actionAnimation {
         state.doubleArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
       }
 
     is ObjectEvaluator<*> ->
       actionAnimation {
         state.objectArray[typedIndex] = evaluator.eval()
-        state.animatedArray[index] = null
       }
   }
 
@@ -367,7 +364,6 @@ fun <T> setAnimation(state: State, typedIndex: Int, index: Int,  evaluator: Eval
     is ObjectEvaluator<T> -> {
       actionAnimation {
         state.objectArray[typedIndex] = null  // avoids retention
-        state.animatedArray[index] = null
         state.evaluatorArray[index] = evaluator
       }
     }

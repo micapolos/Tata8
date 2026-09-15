@@ -4,7 +4,6 @@ import micapolos.zexy.indexed.*
 import micapolos.zexy.indexed.Drawing
 import micapolos.zexy.indexed.Number
 import micapolos.zexy.runtime.*
-import kotlin.math.min
 
 fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
   when (value) {
