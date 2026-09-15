@@ -2,53 +2,42 @@ package micapolos.zexy.examples
 
 import micapolos.zexy.*
 
-fun directionIndex(direction: Value<Integer>): Value<Integer> =
-  direction.selectFrom(0, 7, 12, 17, 22, 27, 32, 37)
+fun main() {
+  val direction = variable(4)
+  val isTalking = key.z.isPressed
+  val isMoving = key.x.isPressed
+  val step = variable(0)
 
-fun directionSteps(direction: Value<Integer>): Value<Integer> =
-  direction.selectFrom(6, 4, 4, 4, 4, 4, 4, 4)
+  val directionBaseIndex = direction.selectFrom(0, 7, 12, 17, 22, 27, 32, 37)
+  val directionSteps = direction.selectFrom(6, 4, 4, 4, 4, 4, 4, 4)
 
-fun index(
-  isTalking: Value<Bool>,
-  isMoving: Value<Bool>,
-  direction: Value<Integer>,
-  step: Value<Integer>
-): Value<Integer> =
-  isTalking
+  val spriteIndex = isTalking
     .ifTrue(step)
     .orElse(
-      4.value + directionIndex(direction) +
+      4.value + directionBaseIndex +
           isMoving
             .ifTrue(step + 1)
             .orElse(0)
     )
 
-fun steps(isTalking: Value<Bool>, isMoving: Value<Bool>, direction: Value<Integer>): Value<Integer> =
-  isTalking
-    .ifTrue(4)
-    .orElse(
-      isMoving
-        .ifTrue(directionSteps(direction))
-        .orElse(1)
-    )
-
-fun main() {
-  val direction = variable(0)
-  val isTalking = key.z.isPressed
-  val isMoving = key.x.isPressed
-  val step = variable(0)
-
-  val imageIndex = index(isTalking, isMoving, direction, step)
+  val spriteSteps =
+    isTalking
+      .ifTrue(4)
+      .orElse(
+        isMoving
+          .ifTrue(directionSteps)
+          .orElse(1)
+      )
 
   val girlSize = size(64, 64)
   sprite
     .with(image("/micapolos/socksgirl-sheet.png"))
     .with(position((screen.size.width - 64) / 2, 160))
     .with(girlSize)
-    .withImage(position(imageIndex * girlSize.width, 0))
+    .withImage(position(spriteIndex * girlSize.width, 0))
     .withAnimation {
       repeat {
-        step set (step + 1) % steps(isTalking, isMoving, direction)
+        step set (step + 1) % spriteSteps
         this pause 0.15
         key.right.isPressed.integer.selectStart {
           doNothing
