@@ -9,16 +9,10 @@ fun main() {
     val previous = variable(0)
     val current = variable(0)
     everyStep {
-      counter.logAs("incrementing counter")
       counter add 1
-      counter.logAs("incremented counter")
-      number.logAs("new number")
-      previous.logAs("setting previous")
       previous set current
-      previous.logAs("set previous")
-      current.logAs("setting current")
       current set number
-      current.logAs("set current")
+      current.isEqualTo(previous).not() logAs "changed"
     }
     current.showAnimated()
   }
