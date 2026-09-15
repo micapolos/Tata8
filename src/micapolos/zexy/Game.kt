@@ -1,7 +1,6 @@
 package micapolos.zexy
 
 import micapolos.zexy.compiler.Compiler
-import micapolos.zexy.compiler.animated
 import micapolos.zexy.compiler.compile
 import micapolos.zexy.compiler.evaluator
 import micapolos.zexy.indexed.IndexType
@@ -36,6 +35,7 @@ fun Game.with(animation: Animation): Game =
 fun Game.show() {
   val indexer = Indexer()
   val indexed = indexer.indexed(model)
+  println("indexer initial values: ${indexer.initialValues.size}")
   val compiler = Compiler(
     resourcesKClass,
     State(
