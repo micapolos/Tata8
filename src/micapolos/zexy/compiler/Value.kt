@@ -20,17 +20,10 @@ fun <T : Value<T>> Compiler.animated(value: Value<T>): Animated<*> =
     is Action -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
     is Animation -> Animated(evaluator(value), ObjectEvaluator { instantAnimation })
 
-    is Value.Logged -> {
-      val animatedValue = animated(value.value)
-      Animated(
-        animatedValue.evaluator.logged(value.label),
-        animatedValue.animation
-      )
-    }
+    is Value.Logged -> Animated(evaluator(value).logged(value.label), ObjectEvaluator { instantAnimation })
 
     is Value.Select -> {
-      val animatedIndex = animated(value.index)
-      val indexEvaluator = animatedIndex.evaluator as IntEvaluator
+      val indexEvaluator = intEvaluator(value.index)
       val animatedOptions = value.options.map { animated(it) }
       val animatedEvaluators = animatedOptions.map { it.evaluator }
       val evaluator = when (animatedOptions.first().evaluator) {
