@@ -19,9 +19,9 @@ class Animation internal constructor(
     }
   }
   @Zexy
-  class Builder internal constructor() {
+  class Block internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
-    internal val actionBuilder: Action.Builder = Action.Builder()
+    internal val actionBlock: Action.Block = Action.Block()
 
     internal fun build(): Animation = run {
       flushActions()
@@ -41,7 +41,7 @@ class Animation internal constructor(
     }
 
     internal fun flushActions() {
-      actionBuilder.buildModelOrNull()?.let { modelAction ->
+      actionBlock.buildModelOrNull()?.let { modelAction ->
         animationModels.add(ModelAnimation.Once(modelAction))
       }
     }
@@ -65,64 +65,64 @@ class Animation internal constructor(
       add(ModelAnimation.Pause(seconds.modelNumber))
     }
 
-    fun once(fn: Action.Builder.() -> Unit) {
+    fun once(fn: Action.Block.() -> Unit) {
       add(ModelAnimation.Once(actionModel(fn)))
     }
 
-    fun everyFrame(fn: Action.Builder.() -> Unit) {
+    fun everyFrame(fn: Action.Block.() -> Unit) {
       add(ModelAnimation.EveryFrame(actionModel(fn)))
     }
 
-    fun parallel(fn: Builder.() -> Unit) {
-      add(ModelAnimation.Parallel(Builder().apply { fn() }.buildAnimationModels()))
+    fun parallel(fn: Block.() -> Unit) {
+      add(ModelAnimation.Parallel(Block().apply { fn() }.buildAnimationModels()))
     }
 
-    fun race(fn: Builder.() -> Unit) {
-      add(ModelAnimation.Race(Builder().apply { fn() }.buildAnimationModels()))
+    fun race(fn: Block.() -> Unit) {
+      add(ModelAnimation.Race(Block().apply { fn() }.buildAnimationModels()))
     }
 
-    fun sequence(fn: Builder.() -> Unit) {
-      add(ModelAnimation.Sequence(Builder().apply { fn() }.buildAnimationModels()))
+    fun sequence(fn: Block.() -> Unit) {
+      add(ModelAnimation.Sequence(Block().apply { fn() }.buildAnimationModels()))
     }
 
-    infix fun Value<Integer>.selectStep(fn: Builder.() -> Unit) {
-      add(ModelAnimation.SelectStep(modelInteger, Builder().apply { fn() }.buildAnimationModels()))
+    infix fun Value<Integer>.selectStep(fn: Block.() -> Unit) {
+      add(ModelAnimation.SelectStep(modelInteger, Block().apply { fn() }.buildAnimationModels()))
     }
 
-    infix fun Value<Integer>.selectStart(fn: Builder.() -> Unit) {
-      add(ModelAnimation.SelectStart(modelInteger, Builder().apply { fn() }.buildAnimationModels()))
+    infix fun Value<Integer>.selectStart(fn: Block.() -> Unit) {
+      add(ModelAnimation.SelectStart(modelInteger, Block().apply { fn() }.buildAnimationModels()))
     }
 
-    fun startOn(event: Value<Event>, fn: Builder.() -> Unit) {
+    fun startOn(event: Value<Event>, fn: Block.() -> Unit) {
       event.isOccurring.integer.selectStart {
         doNothing
         sequence(fn)
       }
     }
 
-    infix fun Value<Integer>.selectAction(fn: Action.Builder.() -> Unit) {
-      with(actionBuilder) { select(fn) }
+    infix fun Value<Integer>.selectAction(fn: Action.Block.() -> Unit) {
+      with(actionBlock) { select(fn) }
     }
   }
 }
 
-context(animationBuilder: Animation.Builder)
+context(animationBlock: Animation.Block)
 infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
-  with(animationBuilder.actionBuilder) { bind2(value) }
+  with(animationBlock.actionBlock) { bind2(value) }
 }
 
-context(animationBuilder: Animation.Builder)
+context(animationBlock: Animation.Block)
 infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
-  with(animationBuilder.actionBuilder) { set2(value) }
+  with(animationBlock.actionBlock) { set2(value) }
 }
 
-context(animationBuilder: Animation.Builder)
+context(animationBlock: Animation.Block)
 fun <T : Value<T>> Value<T>.show2() {
-  with(animationBuilder.build()).show()
+  with(animationBlock.build()).show()
 }
 
-fun animation(fn: Animation.Builder.() -> Unit): Animation =
-  Animation.Builder().apply { fn() }.build()
+fun animation(fn: Animation.Block.() -> Unit): Animation =
+  Animation.Block().apply { fn() }.build()
 
 fun Animation.show() {
   game.with(this).show()

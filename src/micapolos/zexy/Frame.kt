@@ -6,10 +6,10 @@ object Frame
 
 val frame = Frame
 
-context(animationBuilder: Animation.Builder)
+context(animationBlock: Animation.Block)
 val Frame.count2: Value<Integer> get() {
   val counter = variable(0)
-  animationBuilder.everyFrame {
+  animationBlock.everyFrame {
     counter.logAs("incrementing counter")
     counter add2 1
     counter.logAs("incremented counter")
@@ -17,6 +17,6 @@ val Frame.count2: Value<Integer> get() {
   return counter
 }
 
-context(_: Animation.Builder)
+context(_: Animation.Block)
 val Frame.step2: Value<Number> get() =
   Number(ModelNumber.Apply0(ModelNumber.Op0.FRAME_TIME))

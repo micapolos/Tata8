@@ -35,8 +35,8 @@ fun <T: Drawing<T>> Value<T>.show() {
   game.with(this).show()
 }
 
-context(animationBuilder: Animation.Builder)
+context(animationBlock: Animation.Block)
 fun <T : Drawing<T>> Value<T>.show2() {
-  with(animationBuilder.build()).show()
+  with(animationBlock.build()).show()
 }
 

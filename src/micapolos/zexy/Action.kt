@@ -7,7 +7,7 @@ import micapolos.zexy.model.Void as ModelVoid
 
 class Action internal constructor(internal val model: ModelAction) {
   @Zexy
-  class Builder internal constructor() {
+  class Block internal constructor() {
     internal val modelActions: MutableList<ModelAction> = mutableListOf()
 
     internal fun add(modelAction: ModelAction) {
@@ -16,12 +16,12 @@ class Action internal constructor(internal val model: ModelAction) {
 
     internal fun buildModelActions() = modelActions.toList()
 
-    fun sequence(fn: Builder.() -> Unit) {
-      add(ModelAction.Sequence(Builder().apply { fn() }.buildModelActions()))
+    fun sequence(fn: Block.() -> Unit) {
+      add(ModelAction.Sequence(Block().apply { fn() }.buildModelActions()))
     }
 
-    infix fun Value<Integer>.select(fn: Builder.() -> Unit) {
-      add(ModelAction.Select(modelInteger, Builder().apply { fn() }.buildModelActions()))
+    infix fun Value<Integer>.select(fn: Block.() -> Unit) {
+      add(ModelAction.Select(modelInteger, Block().apply { fn() }.buildModelActions()))
     }
 
     internal fun buildModelOrNull() =
@@ -37,25 +37,25 @@ class Action internal constructor(internal val model: ModelAction) {
   }
 }
 
-context(actionBuilder: Action.Builder)
+context(actionBlock: Action.Block)
 val Value<*>.log: Unit get() {
-  actionBuilder.add(ModelAction.Log(null, model))
+  actionBlock.add(ModelAction.Log(null, model))
 }
 
-context(actionBuilder: Action.Builder)
+context(actionBlock: Action.Block)
 infix fun Value<*>.logAs(label: String?) {
-  actionBuilder.add(ModelAction.Log(label, model))
+  actionBlock.add(ModelAction.Log(label, model))
 }
 
-context(actionBuilder: Action.Builder)
+context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.bind2(value: Value<T>) {
-  actionBuilder.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
+  actionBlock.add(ModelAction.Bind(model as ModelVariable<ModelVoid>, value.model))
 }
 
-context(actionBuilder: Action.Builder)
+context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.set2(value: Value<T>) {
-  actionBuilder.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
+  actionBlock.add(ModelAction.Set(model as ModelVariable<ModelVoid>, value.model))
 }
 
-fun actionModel(fn: Action.Builder.() -> Unit) = Action.Builder().apply { fn() }.buildModel()
-fun action(fn: Action.Builder.() -> Unit) = Action.Builder().apply { fn() }.build()
+fun actionModel(fn: Action.Block.() -> Unit) = Action.Block().apply { fn() }.buildModel()
+fun action(fn: Action.Block.() -> Unit) = Action.Block().apply { fn() }.build()
