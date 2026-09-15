@@ -94,8 +94,7 @@ fun main() {
     Integer.Constant(0),
   )
   Compiler(Drawing::class)
-    .animated(drawing)
-    .evaluator.let { it as ObjectEvaluator<RuntimeDrawing> }
+    .objectEvaluator<RuntimeDrawing>(drawing)
     .eval()
     .drawOn(Game.background.canvas)
   Game.start()
