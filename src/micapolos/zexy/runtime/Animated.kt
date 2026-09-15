@@ -3,7 +3,7 @@ package micapolos.zexy.runtime
 class Animated<out T>(val evaluator: Evaluator<T>, val animation: Animation)
 
 fun Animated<Drawing>.show() {
-  Game(animatedDrawing = this).show()
+  Game(drawingEvaluator = evaluator, animation = animation).show()
 }
 
 fun <T> animatedPulse(animatedHigh: Animated<T>, animatedLow: Animated<T>): Animated<T> = run {

@@ -4,6 +4,7 @@ import micapolos.zexy.indexed.Game
 import micapolos.zexy.runtime.Animated
 import micapolos.zexy.runtime.Animation
 import micapolos.zexy.runtime.Drawing
+import micapolos.zexy.runtime.parallel
 import micapolos.zexy.runtime.Game as RuntimeGame
 
 fun Compiler.compile(game: Game): RuntimeGame {
@@ -13,8 +14,9 @@ fun Compiler.compile(game: Game): RuntimeGame {
   val evaluatorArray = state.evaluatorArray
   return RuntimeGame(
     game.title,
-    Animated(
-      animatedDrawing.evaluator,
+    animatedDrawing.evaluator,
+    parallel(
+      compile(game.animation),
       object : Animation {
         override fun start() {
           for (i in initialEvaluators.indices) {
@@ -26,8 +28,6 @@ fun Compiler.compile(game: Game): RuntimeGame {
         override fun step(seconds: Double): Double {
           return drawingAnimation.step(seconds)
         }
-      },
-    ),
-    compile(game.animation)
+      })
   )
 }

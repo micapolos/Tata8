@@ -6,14 +6,14 @@ import micapolos.tata8.Game as TataGame
 
 class Game(
   val title: String = "Zexy game",
-  val animatedDrawing: Animated<Drawing> = Animated(ObjectEvaluator { Drawing { } }, instantAnimation),
+  val drawingEvaluator: Evaluator<Drawing> = ObjectEvaluator { Drawing { } },
   val animation: Animation = instantAnimation,
 )
 
 fun Game.show() {
   TataGame.title = title
-  val animation = parallel(animatedDrawing.animation, this.animation)
-  val evaluator = animatedDrawing.evaluator
+  val animation = this.animation
+  val evaluator = drawingEvaluator
   animation.start()
   evaluator.evalBoxed().drawOn(TataGame.background.canvas)
   val stepSeconds = TataGame.FRAME_SECONDS.toDouble()
