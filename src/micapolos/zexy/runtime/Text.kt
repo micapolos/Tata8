@@ -17,25 +17,3 @@ fun textJoinEvaluator(textEvaluators: Array<Evaluator<String>>): ObjectEvaluator
   ObjectEvaluator {
     textEvaluators.joinToString(separator = "") { it.evalObject() }
   }
-
-fun animatedTextLength(animatedText: Animated<String>) =
-  Animated(
-    textLengthEvaluator(animatedText.evaluator),
-    animatedText.animation
-  )
-
-fun animatedTextSlice(
-  animatedText: Animated<String>,
-  animatedStart: Animated<Int>,
-  animatedEnd: Animated<Int>,
-) =
-  Animated(
-    textSliceEvaluator(animatedText.evaluator, animatedStart.evaluator, animatedEnd.evaluator),
-    ObjectEvaluator { instantAnimation }
-  )
-
-fun animatedTextJoin(animatedTexts: List<Animated<String>>) =
-  Animated(
-    textJoinEvaluator(animatedTexts.map { it.evaluator }.toTypedArray()),
-    ObjectEvaluator { instantAnimation }
-  )

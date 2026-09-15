@@ -55,68 +55,6 @@ fun rectEvaluator(
     }
   }
 
-fun animatedClip(
-  animatedDrawing: Animated<Drawing>,
-  animatedX: Animated<Int>,
-  animatedY: Animated<Int>,
-  animatedWidth: Animated<Int>,
-  animatedHeight: Animated<Int>,
-) =
-  Animated(
-    clipEvaluator(
-      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
-      animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator,
-      animatedWidth.evaluator as IntEvaluator,
-      animatedHeight.evaluator as IntEvaluator,
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
-fun animatedPoint(
-  animatedX: Animated<Int>,
-  animatedY: Animated<Int>,
-) =
-  Animated(
-    pointEvaluator(
-      animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator,
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
-fun animatedLine(
-  animatedX1: Animated<Int>,
-  animatedY1: Animated<Int>,
-  animatedX2: Animated<Int>,
-  animatedY2: Animated<Int>,
-) =
-  Animated(
-    lineEvaluator(
-      animatedX1.evaluator as IntEvaluator,
-      animatedY1.evaluator as IntEvaluator,
-      animatedX2.evaluator as IntEvaluator,
-      animatedY2.evaluator as IntEvaluator,
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
-fun animatedRect(
-  animatedX: Animated<Int>,
-  animatedY: Animated<Int>,
-  animatedWidth: Animated<Int>,
-  animatedHeight: Animated<Int>,
-) =
-  Animated(
-    rectEvaluator(
-      animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator,
-      animatedWidth.evaluator as IntEvaluator,
-      animatedHeight.evaluator as IntEvaluator,
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
 fun spriteEvaluator(
   xEvaluator: IntEvaluator, yEvaluator: IntEvaluator,
   widthEvaluator: IntEvaluator, heightEvaluator: IntEvaluator,
@@ -134,41 +72,12 @@ fun spriteEvaluator(
     }
   }
 
-fun animatedSprite(
-  animatedX: Animated<Int>, animatedY: Animated<Int>,
-  animatedWidth: Animated<Int>, animatedHeight: Animated<Int>,
-  animatedImage: Animated<Image>,
-  animatedImageX: Animated<Int>, animatedImageY: Animated<Int>
-) =
-  Animated(
-    spriteEvaluator(
-      animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator,
-      animatedWidth.evaluator as IntEvaluator,
-      animatedHeight.evaluator as IntEvaluator,
-      animatedImage.evaluator as ObjectEvaluator<Image>,
-      animatedImageX.evaluator as IntEvaluator,
-      animatedImageY.evaluator as IntEvaluator
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
 fun labelEvaluator(textEvaluator: ObjectEvaluator<String>, xEvaluator: IntEvaluator, yEvaluator: IntEvaluator) =
   ObjectEvaluator {
     Drawing { canvas ->
       canvas.draw(textEvaluator.eval(), xEvaluator.eval(), yEvaluator.eval())
     }
   }
-
-fun animatedLabel(animatedText: Animated<String>, animatedX: Animated<Int>, animatedY: Animated<Int>) =
-  Animated(
-    labelEvaluator(
-      animatedText.evaluator as ObjectEvaluator<String>,
-      animatedX.evaluator as IntEvaluator,
-      animatedY.evaluator as IntEvaluator
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
 
 fun stackEvaluator(drawingEvaluators: Array<ObjectEvaluator<Drawing>>) =
   ObjectEvaluator {
@@ -178,11 +87,6 @@ fun stackEvaluator(drawingEvaluators: Array<ObjectEvaluator<Drawing>>) =
       }
     }
   }
-
-fun animatedStack(animatedDrawings: Array<Animated<Drawing>>): Animated<Drawing> =
-  Animated(
-    stackEvaluator(animatedDrawings.map { it.evaluator as ObjectEvaluator<Drawing> }.toTypedArray()),
-    ObjectEvaluator { instantAnimation })
 
 fun withColorEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, colorEvaluator: ObjectEvaluator<Color>) =
   ObjectEvaluator {
@@ -194,15 +98,6 @@ fun withColorEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, colorEvaluato
     }
   }
 
-fun animatedWithColor(animatedDrawing: Animated<Drawing>, animatedColor: Animated<Color>) =
-  Animated(
-    withColorEvaluator(
-      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
-      animatedColor.evaluator as ObjectEvaluator<Color>
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
 fun withFontEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, fontEvaluator: ObjectEvaluator<Font>) =
   ObjectEvaluator {
     Drawing { canvas ->
@@ -213,15 +108,6 @@ fun withFontEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, fontEvaluator:
     }
   }
 
-fun animatedWithFont(animatedDrawing: Animated<Drawing>, animatedFont: Animated<Font>) =
-  Animated(
-    withFontEvaluator(
-      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
-      animatedFont.evaluator as ObjectEvaluator<Font>
-    ),
-    ObjectEvaluator { instantAnimation }
-  )
-
 fun withCompositeEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, composite: Composite) =
   ObjectEvaluator {
     Drawing { canvas ->
@@ -231,13 +117,3 @@ fun withCompositeEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, composite
       canvas.composite = previousComposite
     }
   }
-
-fun animatedWithComposite(animatedDrawing: Animated<Drawing>, composite: Composite) =
-  Animated(
-    withCompositeEvaluator(
-      animatedDrawing.evaluator as ObjectEvaluator<Drawing>,
-      composite
-    ),
-    animatedDrawing.animation
-  )
-
