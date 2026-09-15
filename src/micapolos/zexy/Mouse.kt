@@ -12,3 +12,9 @@ object Mouse {
 }
 
 val mouse = Mouse
+
+context(_: Animation.Block)
+val Mouse.press get() = isPressed.changeTo(true)
+
+context(_: Animation.Block)
+val Mouse.release get() = isPressed.changeTo(false)

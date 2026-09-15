@@ -148,3 +148,7 @@ val Value<Integer>.change: Value<Event>
     return previous.isEqualTo(current).not().occurrence
   }
 
+context(animationBlock: Animation.Block)
+fun Value<Integer>.changeTo(integer: Value<Integer>): Value<Event> =
+  change.and(isEqualTo(integer))
+

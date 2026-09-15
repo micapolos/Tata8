@@ -40,13 +40,13 @@ fun main() {
         frameIndex set (frameIndex + 1) % spriteFrameCount
         this pause 0.15
       }
-      startOn(key.z.isPressed.integer.change.and(key.z.isPressed)) {
+      startOn(key.z.press) {
         direction set 4
       }
-      startOn(key.right.isPressed.integer.change.and(key.right.isPressed)) {
+      startOn(key.right.press) {
         direction set (direction + 1) % 8
       }
-      startOn(key.left.isPressed.integer.change.and(key.left.isPressed)) {
+      startOn(key.left.press) {
         direction set (direction + 7) % 8
       }
     }

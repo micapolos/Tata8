@@ -1,7 +1,6 @@
 package micapolos.zexy
 
 import micapolos.zexy.compiler.toInt
-import micapolos.zexy.model.Value as ModelValue
 
 class Bool internal constructor(impl: Any): Value<Bool>(impl)
 
@@ -42,3 +41,14 @@ fun Value<Bool>.loggedAs(label: String?): Value<Bool> =
 fun Value<Bool>.show() {
   noDrawing.also { logged }.show()
 }
+
+context(animationBlock: Animation.Block)
+val Value<Bool>.change: Value<Event> get() = integer.change
+
+context(animationBlock: Animation.Block)
+fun Value<Bool>.changeTo(bool: Boolean): Value<Event> =
+  changeTo(bool.value)
+
+context(animationBlock: Animation.Block)
+fun Value<Bool>.changeTo(bool: Value<Bool>): Value<Event> =
+  change.and(isEqualTo(bool))
