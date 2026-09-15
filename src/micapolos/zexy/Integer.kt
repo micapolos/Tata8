@@ -135,18 +135,16 @@ infix fun Value<Integer>.add(value: Value<Integer>) {
 }
 
 context(animationBlock: Animation.Block)
-val Value<Integer>.change: Value<Bool>
+val Value<Integer>.change: Value<Event>
   get() {
     val previous = variable(this)
     val current = variable(this)
 
     animationBlock.everyStep {
-      current.logAs("setting previous to")
       previous set current
-      this@change.logAs("setting current to")
       current set this@change
     }
 
-    return previous.isEqualTo(current)
+    return previous.isEqualTo(current).not().occurrence
   }
 

@@ -18,6 +18,7 @@ fun Compiler.runtime(animation: Animation): RuntimeAnimation =
     is Animation.Race -> race(animation.animations.map { runtime(it) })
     is Animation.RepeatWhile -> runtime(animation.animation).repeatWhile(intEvaluator(animation.condition))
     is Animation.SelectStart -> selectStartAnimation(
+      intEvaluator(animation.trigger),
       intEvaluator(animation.index),
       animation.animations.map { evaluator(it) })
     is Animation.SelectStep -> selectStepAnimation(

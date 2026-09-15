@@ -92,13 +92,12 @@ class Animation internal constructor(
       add(ModelAnimation.SelectStep(modelInteger, Block().apply { fn() }.buildAnimationModels()))
     }
 
-    infix fun Value<Integer>.selectStart(fn: Block.() -> Unit) {
-      add(ModelAnimation.SelectStart(modelInteger, Block().apply { fn() }.buildAnimationModels()))
+    fun Value<Integer>.selectStartOn(event: Value<Event>, fn: Block.() -> Unit) {
+      add(ModelAnimation.SelectStart(event.isOccurring.integer.modelInteger, modelInteger, Block().apply { fn() }.buildAnimationModels()))
     }
 
     fun startOn(event: Value<Event>, fn: Block.() -> Unit) {
-      event.isOccurring.integer.selectStart {
-        doNothing
+      0.value.selectStartOn(event) {
         sequence(fn)
       }
     }

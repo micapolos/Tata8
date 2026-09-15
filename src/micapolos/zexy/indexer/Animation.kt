@@ -13,6 +13,6 @@ fun Indexer.indexedAnimation(model: ModelAnimation): Animation =
     is ModelAnimation.Sequence -> Animation.Sequence(model.animations.map { indexedAnimation(it) })
     is ModelAnimation.Race -> Animation.Race(model.animations.map { indexedAnimation(it) })
     is ModelAnimation.RepeatWhile -> Animation.RepeatWhile(indexedAnimation(model.animation), indexed(model.condition))
-    is ModelAnimation.SelectStart -> Animation.SelectStart(indexed(model.index), model.animations.map { indexedAnimation(it) })
+    is ModelAnimation.SelectStart -> Animation.SelectStart(indexed(model.trigger), indexed(model.index), model.animations.map { indexedAnimation(it) })
     is ModelAnimation.SelectStep -> Animation.SelectStep(indexed(model.index), model.animations.map { indexedAnimation(it) })
   }
