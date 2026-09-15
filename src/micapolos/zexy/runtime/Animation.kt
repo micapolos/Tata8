@@ -161,23 +161,27 @@ fun Animation.repeatWhile(condition: () -> Boolean): Animation =
     }
   }
 
-fun selectStartAnimation(triggerEvaluator: IntEvaluator, indexEvaluator: IntEvaluator, animations: List<Evaluator<Animation>>) =
+fun startOnAnimation(triggerEvaluator: IntEvaluator, animationEvaluator: Evaluator<Animation>) =
   object : Animation {
-    var currentAnimationEvaluator: Evaluator<Animation>?  = null
+    var startedAnimationEvaluator: Evaluator<Animation>? = null
 
     override fun start() {
-      currentAnimationEvaluator = null
+      startedAnimationEvaluator = null
     }
 
     override fun step(seconds: Double): Double {
       if (triggerEvaluator.evalInt() != 0) {
-        val animationEvaluator = animations[indexEvaluator.eval()]
-        currentAnimationEvaluator = animationEvaluator
+        val animationEvaluator = animationEvaluator
         animationEvaluator.evalObject().start()
+        startedAnimationEvaluator = animationEvaluator
       }
 
-      val animationEvaluator = currentAnimationEvaluator
-      return animationEvaluator?.evalObject()?.step(seconds) ?: seconds
+      val animationEvaluator = startedAnimationEvaluator
+      if (animationEvaluator == null) {
+        return 0.0
+      } else {
+        return animationEvaluator.evalObject().step(seconds)
+      }
     }
   }
 

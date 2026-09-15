@@ -3,7 +3,6 @@ package micapolos.zexy
 import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
-import micapolos.zexy.model.Value as ModelValue
 
 class Animation internal constructor(
   internal val model: ModelAnimation,
@@ -89,18 +88,8 @@ class Animation internal constructor(
       add(ModelAnimation.RepeatWhile(animation(fn).model, true.value.integer.modelInteger))
     }
 
-    infix fun Value<Integer>.selectStep(fn: Block.() -> Unit) {
-      add(ModelAnimation.SelectStep(modelInteger, Block().apply { fn() }.buildAnimationModels()))
-    }
-
-    fun Value<Integer>.selectStartOn(event: Value<Event>, fn: Block.() -> Unit) {
-      add(ModelAnimation.SelectStart(event.isOccurring.integer.modelInteger, modelInteger, Block().apply { fn() }.buildAnimationModels()))
-    }
-
     fun startOn(event: Value<Event>, fn: Block.() -> Unit) {
-      0.value.selectStartOn(event) {
-        sequence(fn)
-      }
+      add(ModelAnimation.StartOn(event.isOccurring.integer.modelInteger, animation { fn() }.model))
     }
 
     infix fun Value<Integer>.selectAction(fn: Action.Block.() -> Unit) {
