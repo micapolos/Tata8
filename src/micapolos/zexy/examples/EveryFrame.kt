@@ -6,6 +6,6 @@ fun main() {
   animation {
     val counter = variable(100)
     everyFrame { counter add 1 }
-    counter.show2()
+    counter.showAnimated()
   }
 }

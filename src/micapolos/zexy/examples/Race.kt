@@ -11,6 +11,6 @@ fun main() {
       this pause 3
     }
 
-    counter.show2()
+    counter.showAnimated()
   }
 }

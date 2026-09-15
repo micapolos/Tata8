@@ -18,6 +18,6 @@ fun main() {
       x add rightOffset + leftOffset
     }
 
-    sprite.show2()
+    sprite.showAnimated()
   }
 }

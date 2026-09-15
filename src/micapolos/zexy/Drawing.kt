@@ -36,7 +36,7 @@ fun <T: Drawing<T>> Value<T>.show() {
 }
 
 context(animationBlock: Animation.Block)
-fun <T : Drawing<T>> Value<T>.show2() {
+fun <T : Drawing<T>> Value<T>.showAnimated() {
   with(animationBlock.build()).show()
 }
 

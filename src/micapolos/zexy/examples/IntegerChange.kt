@@ -20,6 +20,6 @@ fun main() {
       current set number
       current.logAs("set current")
     }
-    counter.show2()
+    counter.showAnimated()
   }
 }

@@ -117,7 +117,7 @@ infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
 }
 
 context(animationBlock: Animation.Block)
-fun <T : Value<T>> Value<T>.show2() {
+fun <T : Value<T>> Value<T>.showAnimated() {
   with(animationBlock.build()).show()
 }
 
