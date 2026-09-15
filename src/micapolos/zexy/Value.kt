@@ -25,6 +25,12 @@ fun <T: Value<T>> Value<T>.animated(fn: Animation.Block.() -> Unit): Animated<T>
 fun <T: Value<T>> Value<T>.with(animation: Animation): Animated<T> =
   Animated(this, animation)
 
+fun <T: Value<T>> Value<T>.withAnimation(fn: Animation.Block.(Value<T>) -> Unit): Animated<T> =
+  with(animation { fn(this@withAnimation) })
+
+fun <T: Value<T>> Value<T>.withSequence(fn: Animation.Block.(Value<T>) -> Unit): Animated<T> =
+  with(animation { sequence { fn(this@withSequence) } })
+
 fun <T : Value<T>> Value<T>.show() {
   noDrawing.also { logged }.show()
 }

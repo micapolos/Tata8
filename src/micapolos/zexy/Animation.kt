@@ -84,6 +84,10 @@ class Animation internal constructor(
       add(ModelAnimation.Sequence(Block().apply { fn() }.buildAnimationModels()))
     }
 
+    fun repeat(fn: Block.() -> Unit) {
+      add(ModelAnimation.RepeatWhile(animation(fn).model, true.value.integer.modelInteger))
+    }
+
     infix fun Value<Integer>.selectStep(fn: Block.() -> Unit) {
       add(ModelAnimation.SelectStep(modelInteger, Block().apply { fn() }.buildAnimationModels()))
     }
@@ -121,6 +125,9 @@ fun <T : Value<T>> Value<T>.showAnimated() {
 }
 
 fun animation(fn: Animation.Block.() -> Unit): Animation =
+  Animation.Block().apply(fn).build()
+
+fun sequence(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
 
 fun show(fn: Animation.Block.() -> Unit) {
