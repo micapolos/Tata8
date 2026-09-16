@@ -7,9 +7,9 @@ import micapolos.zexy.model.Variable as ModelVariable
 class Action internal constructor(model: ModelAction): ValueWithModel<Action>(model) {
   @Zexy
   class Block internal constructor() {
-    internal val modelActions: MutableList<ModelAction> = mutableListOf()
+    internal val modelActions: MutableList<ModelValue<ModelAction>> = mutableListOf()
 
-    internal fun add(modelAction: ModelAction) {
+    internal fun add(modelAction: ModelValue<ModelAction>) {
       modelActions.add(modelAction)
     }
 
@@ -17,6 +17,15 @@ class Action internal constructor(model: ModelAction): ValueWithModel<Action>(mo
 
     fun sequence(fn: Block.() -> Unit) {
       add(ModelAction.Sequence(Block().apply { fn() }.buildModelActions()))
+    }
+
+    fun ifTrue(condition: Value<Bool>, fn: Block.() -> Unit) {
+      add(
+        ModelValue.Select(
+          condition.integer.modelInteger,
+          listOf(
+            noAction.modelAction,
+            Block().apply { fn() }.buildModel())))
     }
 
     internal fun buildModelOrNull() =

@@ -1,13 +1,14 @@
 package micapolos.zexy
 
+import micapolos.zexy.Action.Block
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Value as ModelValue
 
-class Animation internal constructor(model: ModelAnimation): ValueWithModel<Animation>(model) {
+class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWithModel<Animation>(model) {
   @Zexy
   class Block internal constructor() {
-    internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
+    internal val animationModels: MutableList<ModelValue<ModelAnimation>> = mutableListOf()
     internal val actionBlock: Action.Block = Action.Block()
 
     internal fun build(): Animation = run {
@@ -32,7 +33,7 @@ class Animation internal constructor(model: ModelAnimation): ValueWithModel<Anim
       }
     }
 
-    internal fun add(animationModel: ModelAnimation) {
+    internal fun add(animationModel: ModelValue<ModelAnimation>) {
       flushActions()
       animationModels.add(animationModel)
     }
@@ -85,6 +86,10 @@ class Animation internal constructor(model: ModelAnimation): ValueWithModel<Anim
 
     fun on(event: Value<Event>, fn: Block.() -> Unit) {
       add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
+    }
+
+    fun ifTrue(condition: Value<Bool>, fn: Action.Block.() -> Unit) {
+      actionBlock.ifTrue(condition, fn)
     }
   }
 }
