@@ -7,14 +7,16 @@ object Frame
 val frame = Frame
 
 context(animationBlock: Animation.Block)
-val Frame.count: Value<Integer> get() {
-  val counter = variable(0)
-  animationBlock.everyStep {
-    counter add 1
+val Frame.count: Value<Integer>
+  get() = with(animationBlock) {
+    val counter = variable(0)
+    everyStep {
+      counter add 1
+    }
+    counter
   }
-  return counter
-}
 
 context(_: Animation.Block)
-val Frame.step: Value<Number> get() =
-  Number(ModelNumber.Apply0(ModelNumber.Op0.FRAME_TIME))
+val Frame.step: Value<Number>
+  get() =
+    Number(ModelNumber.Apply0(ModelNumber.Op0.FRAME_TIME))
