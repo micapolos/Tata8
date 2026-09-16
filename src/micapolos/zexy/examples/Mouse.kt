@@ -9,8 +9,6 @@ fun main() {
       mouse.position.y logAs "y"
       mouse.isPressed logAs "is pressed"
     }
-
-    noDrawing
   }
 }
 

@@ -17,6 +17,11 @@ fun <T: Drawing<T>> show(fn: Animation.Block.() -> Value<T>) {
   animated(fn).show()
 }
 
+@JvmName("showUnit")
+fun show(fn: Animation.Block.() -> Unit) {
+  animated { fn(); noDrawing }.show()
+}
+
 fun <T : Value<T>> Animated<T>.show() {
   game.with(noDrawing).with(parallel(animation, animation { everyStep { this@show.value.log } } )).show()
 }
