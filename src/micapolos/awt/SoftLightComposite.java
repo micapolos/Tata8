@@ -6,6 +6,7 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.lang.Math;
 
+// TODO: Does not work for non-ABGR images!!!
 public class SoftLightComposite implements Composite {
   public static final SoftLightComposite INSTANCE = new SoftLightComposite();
 

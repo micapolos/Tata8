@@ -5,6 +5,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
+// TODO: Does not work for non-ABGR images!!!
 public class MultiplyComposite implements Composite {
   public static final MultiplyComposite INSTANCE = new MultiplyComposite();
 
