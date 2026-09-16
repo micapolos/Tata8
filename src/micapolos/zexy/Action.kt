@@ -52,7 +52,7 @@ fun sequence(actions: List<Value<Action>>) =
 
 val <T: Value<T>> Value<T>.log get() = logAs(null)
 
-fun <T: Value<T>> Value<T>.logAs(label: String?) =
+infix fun <T: Value<T>> Value<T>.logAs(label: String?) =
   Action(ModelAction.Log(label, model))
 
 context(actionBlock: Action.Block)

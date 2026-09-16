@@ -75,11 +75,19 @@ class Animation internal constructor(
     }
 
     fun repeat(fn: Block.() -> Unit) {
-      add(ModelAnimation.RepeatWhile(animation(fn).model, true.value.integer.modelInteger))
+      repeatWhile(true, fn)
+    }
+
+    fun repeatWhile(condition: Boolean, fn: Block.() -> Unit) {
+      repeatWhile(condition.value, fn)
+    }
+
+    fun repeatWhile(condition: Value<Bool>, fn: Block.() -> Unit) {
+      add(ModelAnimation.RepeatWhile(animation(fn).model, condition.integer.modelInteger))
     }
 
     fun on(event: Value<Event>, fn: Block.() -> Unit) {
-      add(ModelAnimation.StartOn(event.isOccurring.integer.modelInteger, animation { fn() }.model))
+      add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.model))
     }
   }
 }
@@ -118,7 +126,7 @@ val Value<Animation>.repeat get(): Animation =
   repeatWhile(true)
 
 fun Value<Animation>.on(event: Value<Event>): Animation =
-  Animation(ModelAnimation.StartOn(event.modelInteger, modelAnimation))
+  Animation(ModelAnimation.On(event.modelInteger, modelAnimation))
 
 
 context(animationBlock: Animation.Block)

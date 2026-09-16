@@ -3,7 +3,14 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-//  variable(0) {
-//    it.add(1).then(pause(1.0)).repeat()
-//  }.show()
+  showValue {
+    val x = variable(0)
+    repeat {
+      sequence {
+        this pause 1
+        x add 1
+      }
+    }
+    x
+  }
 }

@@ -17,5 +17,5 @@ fun Compiler.runtime(animation: Animation): RuntimeAnimation =
     is Animation.Sequence -> SequenceAnimation(animation.animations.map { objectEvaluator(it) })
     is Animation.Race -> race(animation.animations.map { objectEvaluator(it) })
     is Animation.RepeatWhile -> objectEvaluator<RuntimeAnimation>(animation.animation).repeatWhile(intEvaluator(animation.condition))
-    is Animation.StartOn -> startOnAnimation(intEvaluator(animation.trigger), objectEvaluator(animation.animation))
+    is Animation.On -> onAnimation(intEvaluator(animation.trigger), objectEvaluator(animation.animation))
   }

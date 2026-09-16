@@ -9,5 +9,5 @@ sealed class Animation: Value<Animation> {
   class Race(val animations: List<Value<Animation>>): Animation()
   class Sequence(val animations: List<Value<Animation>>): Animation()
   class RepeatWhile(val animation: Value<Animation>, val condition: Value<Integer>): Animation()
-  class StartOn(val trigger: Value<Integer>, val animation: Value<Animation>): Animation()
+  class On(val trigger: Value<Integer>, val animation: Value<Animation>): Animation()
 }

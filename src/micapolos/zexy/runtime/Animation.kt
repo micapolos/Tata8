@@ -163,7 +163,7 @@ fun Evaluator<Animation>.repeatWhile(condition: () -> Boolean): Animation =
     }
   }
 
-fun startOnAnimation(triggerEvaluator: IntEvaluator, animationEvaluator: Evaluator<Animation>) =
+fun onAnimation(triggerEvaluator: IntEvaluator, animationEvaluator: Evaluator<Animation>) =
   object : Animation {
     var startedAnimationEvaluator: Evaluator<Animation>? = null
 

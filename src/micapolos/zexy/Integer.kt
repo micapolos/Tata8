@@ -134,6 +134,22 @@ infix fun Value<Integer>.add(value: Value<Integer>) {
   set(this + value)
 }
 
+context(_: Animation.Block)
+infix fun Value<Integer>.subtract(i: Int) {
+  subtract(i.value)
+}
+
+context(_: Animation.Block)
+infix fun Value<Integer>.subtract(value: Value<Integer>) {
+  set(this - value)
+}
+
+context(_: Animation.Block)
+val Value<Integer>.increment get() = add(1)
+
+context(_: Animation.Block)
+val Value<Integer>.decrement get() = subtract(1)
+
 context(animationBlock: Animation.Block)
 val Value<Integer>.change: Value<Event>
   get() {
@@ -165,3 +181,15 @@ fun Value<Integer>.elastic(ratio: Ratio<Integer>): Value<Integer> = run {
 
 context(animationBlock: Animation.Block)
 val Value<Integer>.elastic: Value<Integer> get() = elastic(3 by 4)
+
+
+context(animationBlock: Animation.Block)
+fun repeat(integer: Value<Integer>, fn: Animation.Block.() -> Unit) {
+  with(animationBlock) {
+    val counter = variable(integer)
+    repeatWhile(!counter.isEqualTo(0)) {
+      fn()
+      counter subtract 1
+    }
+  }
+}

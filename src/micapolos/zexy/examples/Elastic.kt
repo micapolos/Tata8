@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  show {
+  showDrawing {
     val x = variable(0)
     val y = variable(0)
 

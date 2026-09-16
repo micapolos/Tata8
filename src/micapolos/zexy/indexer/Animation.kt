@@ -13,5 +13,5 @@ fun Indexer.indexedAnimation(model: ModelAnimation): Animation =
     is ModelAnimation.Sequence -> Animation.Sequence(model.animations.map { indexed(it) })
     is ModelAnimation.Race -> Animation.Race(model.animations.map { indexed(it) })
     is ModelAnimation.RepeatWhile -> Animation.RepeatWhile(indexed(model.animation), indexed(model.condition))
-    is ModelAnimation.StartOn -> Animation.StartOn(indexed(model.trigger), indexed(model.animation))
+    is ModelAnimation.On -> Animation.On(indexed(model.trigger), indexed(model.animation))
   }

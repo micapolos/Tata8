@@ -3,7 +3,7 @@ package micapolos.zexy.examples
 import micapolos.zexy.*
 
 fun main() {
-  show {
+  showDrawing {
     val direction = variable(4)
     val isTalking = key.z.isPressed
     val isMoving = key.x.isPressed

@@ -8,19 +8,19 @@ fun <T: Value<T>> animated(fn: Animation.Block.() -> Value<T>): Animated<T> {
   return Animated(value, block.build())
 }
 
-fun <T: Value<T>> show(fn: Animation.Block.() -> Value<T>) {
+fun <T: Value<T>> showValue(fn: Animation.Block.() -> Value<T>) {
   animated(fn).show()
 }
 
 @JvmName("showDrawing")
-fun <T: Drawing<T>> show(fn: Animation.Block.() -> Value<T>) {
+fun <T: Drawing<T>> showDrawing(fn: Animation.Block.() -> Value<T>) {
   animated(fn).show()
 }
 
-@JvmName("showUnit")
-fun show(fn: Animation.Block.() -> Unit) {
-  animated { fn(); noDrawing }.show()
-}
+//@JvmName("showUnit")
+//fun show(fn: Animation.Block.() -> Unit) {
+//  animated { fn(); noDrawing }.show()
+//}
 
 fun <T : Value<T>> Animated<T>.show() {
   game.with(noDrawing).with(parallel(animation, animation { everyStep { this@show.value.log } } )).show()

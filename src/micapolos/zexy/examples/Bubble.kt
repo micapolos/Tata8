@@ -33,34 +33,41 @@ fun bubble(
   )
 
 fun main() {
-  val font = font("/micapolos/tata8/mica-font.png")
+  showDrawing {
+    val font = font("/micapolos/tata8/mica-font.png")
 
-  val text = """
-    Hello, my friend,
-    My name is Michal.
-    I'm very old and tired.
-    How are you?
-  """.trimIndent()
+    val text = """
+      Hello, my friend,
+      My name is Michal.
+      I'm very old and tired.
+      How are you?
+    """.trimIndent()
 
-  val x = 30.value
-  val y = 10.value
+    val revealingText = text.slice(0, frame.count.div(2).max(text.length))
 
-  val textWidth = font.width(text)
-  val textHeight = font.height(text)
+    val x = 30.value
+    val y = 10.value
 
-  val margin = 3.value
-  val width = textWidth + margin * 2 + 4
-  val height = textHeight + margin * 2 + 4
+    val textWidth = font.width(text)
+    val textHeight = font.height(revealingText)
 
-  stack(
-    sprite
-      .with(image("/micapolos/depressedChicken.png"))
-      .with(position(10, 15)),
-    bubble(x, y, width - 1, height - 1),
-    label
-      .with(text)
-      .with(position(x + margin + 2, y + margin + 2))
-      .with(color.yellow)
-      .with(font)
-  ).show()
+    val margin = 3.value
+    val width = textWidth + margin * 2 + 4
+    val height = textHeight + margin * 2 + 4
+
+    val bubbleWidth = revealingText.length.isEqualTo(0).ifTrue(8).orElse(width - 1).elastic(7 by 8)
+    val bubbleHeight = (height - 1).elastic
+
+    stack(
+      sprite
+        .with(image("/micapolos/depressedChicken.png"))
+        .with(position(10, 15)),
+      bubble(x, y, bubbleWidth, bubbleHeight),
+      label
+        .with(revealingText)
+        .with(position(x + margin + 2, y + margin + 2))
+        .with(color.yellow)
+        .with(font)
+    )
+  }
 }
