@@ -27,6 +27,16 @@ fun <T: Drawing<T>> Value<T>.with(font: Value<Font>): Value<T> =
 fun <T: Drawing<T>> Value<T>.with(color: Value<Color>): Value<T> =
   Drawing(ModelDrawing.WithColor(modelDrawing, color.modelColor))
 
+@JvmName("drawingWithClip")
+fun <T: Drawing<T>> Value<T>.with(clip: Value<Clip>): Value<T> =
+  Drawing(
+    ModelDrawing.WithClip(
+      modelDrawing,
+      clip.position.x.modelInteger,
+      clip.position.y.modelInteger,
+      clip.size.width.modelInteger,
+      clip.size.height.modelInteger))
+
 @JvmName("drawingWith")
 fun <T: Drawing<T>> Value<T>.with(composite: Composite): Value<T> =
   Drawing(ModelDrawing.WithComposite(modelDrawing, composite.model))

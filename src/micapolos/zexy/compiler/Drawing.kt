@@ -14,7 +14,7 @@ fun Compiler.drawingEvaluator(drawing: Drawing): Evaluator<RuntimeDrawing> =
 
     is Drawing.WithClip ->
       clipEvaluator(
-        objectEvaluator(drawing),
+        objectEvaluator(drawing.drawing),
         intEvaluator(drawing.x),
         intEvaluator(drawing.y),
         intEvaluator(drawing.width),

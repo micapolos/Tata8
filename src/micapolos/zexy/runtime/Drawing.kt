@@ -12,13 +12,33 @@ fun clipEvaluator(
   yEvaluator: Evaluator<Int>,
   widthEvaluator: Evaluator<Int>,
   heightEvaluator: Evaluator<Int>,
-) =
+) = run {
+  val previousFrame = IntFrame()
+  var hadClip = false
   ObjectEvaluator {
     Drawing { canvas ->
-      // TODO: set and restore clip
+      previousFrame.set(canvas.clipFrame)
+      hadClip = canvas.hasClip
+      if (hadClip) {
+        canvas.clipFrame.intersect(
+          xEvaluator.evalInt(),
+          yEvaluator.evalInt(),
+          widthEvaluator.evalInt(),
+          heightEvaluator.evalInt())
+      } else {
+        canvas.clipFrame.set(
+          xEvaluator.evalInt(),
+          yEvaluator.evalInt(),
+          widthEvaluator.evalInt(),
+          heightEvaluator.evalInt())
+      }
+      canvas.hasClip = true
       drawingEvaluator.evalObject().drawOn(canvas)
+      canvas.clipFrame.set(previousFrame)
+      canvas.hasClip = hadClip
     }
   }
+}
 
 fun pointEvaluator(
   xEvaluator: IntEvaluator,

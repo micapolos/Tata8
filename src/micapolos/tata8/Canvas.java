@@ -12,7 +12,8 @@ public final class Canvas {
   public Color color = Color.WHITE;
   public Font font = Font.mica;
   public Composite composite = Composite.NORMAL;
-  public IntFrame clipFrame = null;
+  public boolean hasClip;
+  public final IntFrame clipFrame = new IntFrame();
   public boolean textHasShadow;
 
   Canvas(BufferedImage image) {
@@ -36,7 +37,7 @@ public final class Canvas {
   }
 
   void updateClip() {
-    if (clipFrame == null) {
+    if (!hasClip) {
       graphics.setClip(null);
     } else {
       graphics.setClip(clipFrame.position.x, clipFrame.position.y, clipFrame.size.width, clipFrame.size.height);
