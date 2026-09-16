@@ -88,11 +88,11 @@ fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Int
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
-fun Value<Integer>.min(integer: Int) = min(integer.value)
-fun Value<Integer>.min(integer: Value<Integer>) = isLessThan(integer).ifTrue(integer).orElse(this)
-
 fun Value<Integer>.max(integer: Int) = max(integer.value)
-fun Value<Integer>.max(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)
+fun Value<Integer>.max(integer: Value<Integer>) = isLessThan(integer).ifTrue(integer).orElse(this)
+
+fun Value<Integer>.min(integer: Int) = min(integer.value)
+fun Value<Integer>.min(integer: Value<Integer>) = isGreaterThan(integer).ifTrue(integer).orElse(this)
 
 context(_: Action.Block)
 infix fun Value<Integer>.set(i: Int) {
