@@ -1,7 +1,5 @@
 package micapolos.zexy
 
-import micapolos.zexy.examples.Zexy
-import micapolos.zexy.model.Animation
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
