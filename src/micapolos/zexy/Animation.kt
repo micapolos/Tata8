@@ -3,6 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.examples.Zexy
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
+import micapolos.zexy.model.Value as ModelValue
 
 class Animation internal constructor(
   internal val model: ModelAnimation,
@@ -83,9 +84,42 @@ class Animation internal constructor(
   }
 }
 
+internal val Value<Animation>.modelAnimation get() = model as ModelValue<ModelAnimation>
+
 val infiniteAnimation = Animation(ModelAnimation.Infinite)
 
-val Value<Action>.instant get() = Animation(ModelAnimation.Once(modelAction as ModelAction))
+val Value<Action>.instant get() = Animation(ModelAnimation.Once(modelAction))
+
+val Value<Action>.everyStep get() = Animation(ModelAnimation.EveryStep(modelAction))
+
+fun pause(seconds: Double) = pause(seconds.value)
+
+fun pause(seconds: Value<Number>) = Animation(ModelAnimation.Pause(seconds.modelNumber))
+
+fun parallel(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
+  parallel(listOf(animation, *animations))
+
+fun parallel(animations: List<Value<Animation>>): Animation =
+  Animation(ModelAnimation.Parallel(animations.map { it.modelAnimation }))
+
+fun sequence(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
+  sequence(listOf(animation, *animations))
+
+fun sequence(animations: List<Value<Animation>>): Animation =
+  Animation(ModelAnimation.Sequence(animations.map { it.modelAnimation }))
+
+fun Value<Animation>.repeatWhile(condition: Boolean): Animation =
+  repeatWhile(condition.value)
+
+fun Value<Animation>.repeatWhile(condition: Value<Bool>): Animation =
+  Animation(ModelAnimation.RepeatWhile(modelAnimation, condition.modelInteger))
+
+val Value<Animation>.repeat get(): Animation =
+  repeatWhile(true)
+
+fun Value<Animation>.startOn(event: Value<Event>): Animation =
+  Animation(ModelAnimation.StartOn(event.modelInteger, modelAnimation))
+
 
 context(animationBlock: Animation.Block)
 infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {
@@ -113,12 +147,6 @@ fun <T: Value<T>> animated(fn: Animation.Block.() -> T): Animated<T> =run {
 
 fun sequence(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
-
-fun sequence(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
-  Animation(ModelAnimation.Sequence(listOf(animation, *animations).map { it.model as ModelAnimation }))
-
-fun parallel(animation: Value<Animation>, vararg animations: Value<Animation>): Animation =
-  Animation(ModelAnimation.Parallel(listOf(animation, *animations).map { it.model as ModelAnimation }))
 
 fun show(fn: Animation.Block.() -> Unit) {
   game.with(animation(fn)).show()

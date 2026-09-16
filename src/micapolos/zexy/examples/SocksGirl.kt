@@ -30,6 +30,7 @@ fun main() {
       )
 
   val girlSize = size(64, 64)
+
   sprite
     .with(image("/micapolos/socksgirl-sheet.png"))
     .with(position((screen.size.width - 64) / 2, 160))

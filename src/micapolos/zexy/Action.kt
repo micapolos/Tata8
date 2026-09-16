@@ -1,6 +1,7 @@
 package micapolos.zexy
 
 import micapolos.zexy.examples.Zexy
+import micapolos.zexy.model.Animation
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
@@ -34,6 +35,25 @@ class Action internal constructor(internal val model: ModelAction): Value<Action
 }
 
 internal val Value<Action>.modelAction get() = model as ModelValue<ModelAction>
+
+val noAction = Action(ModelAction.Empty)
+
+fun <T: Value<T>> Variable<T>.set(value: Value<T>) =
+  Action(ModelAction.Set(model as ModelVariable<ModelAction>, value.model))
+
+fun <T: Value<T>> Variable<T>.bind(value: Value<T>) =
+  Action(ModelAction.Bind(model as ModelVariable<ModelAction>, value.model))
+
+fun sequence(action: Value<Action>, vararg actions: Value<Action>) =
+  sequence(listOf(action, *actions))
+
+fun sequence(actions: List<Value<Action>>) =
+  Action(ModelAction.Sequence(actions.map { it.modelAction }))
+
+val <T: Value<T>> Value<T>.log get() = logAs(null)
+
+fun <T: Value<T>> Value<T>.logAs(label: String?) =
+  Action(ModelAction.Log(label, model))
 
 context(actionBlock: Action.Block)
 val Value<*>.log: Unit get() {

@@ -4,6 +4,8 @@ import micapolos.zexy.compiler.toInt
 
 class Bool internal constructor(impl: Any): Value<Bool>(impl)
 
+internal val Value<Bool>.modelInteger get() = integer.modelInteger
+
 internal val Value<Bool>.bool: Bool get() = this as Bool
 
 val Boolean.value: Value<Bool> get() = Bool(toInt().value.model)
