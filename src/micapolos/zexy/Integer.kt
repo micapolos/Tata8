@@ -152,3 +152,16 @@ context(animationBlock: Animation.Block)
 fun Value<Integer>.changeTo(integer: Value<Integer>): Value<Event> =
   change.and(isEqualTo(integer))
 
+context(animationBlock: Animation.Block)
+fun Value<Integer>.elastic(ratio: Ratio<Integer>): Value<Integer> = run {
+  val current = variable(this)
+
+  animationBlock.everyStep {
+    current set (this@elastic - (this@elastic - current) * (ratio.numerator - 1) / ratio.denominator)
+  }
+
+  return current
+}
+
+context(animationBlock: Animation.Block)
+val Value<Integer>.elastic: Value<Integer> get() = elastic(3 by 4)

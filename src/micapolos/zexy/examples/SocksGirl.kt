@@ -37,15 +37,15 @@ fun main() {
       this pause 0.15
     }
 
-    startOn(key.z.press) {
+    on(key.z.press) {
       direction set 4
     }
 
-    startOn(key.right.press) {
+    on(key.right.press) {
       direction set (direction + 1) % 8
     }
 
-    startOn(key.left.press) {
+    on(key.left.press) {
       direction set (direction + 7) % 8
     }
 

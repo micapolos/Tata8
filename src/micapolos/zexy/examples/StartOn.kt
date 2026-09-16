@@ -8,7 +8,7 @@ fun main() {
     .with(image("/micapolos/quote.png"))
     .with(position(x, 100))
     .withAnimation {
-      startOn(mouse.press) {
+      on(mouse.press) {
         everyStep { x add 1 }
       }
     }

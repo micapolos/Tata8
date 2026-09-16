@@ -78,7 +78,7 @@ class Animation internal constructor(
       add(ModelAnimation.RepeatWhile(animation(fn).model, true.value.integer.modelInteger))
     }
 
-    fun startOn(event: Value<Event>, fn: Block.() -> Unit) {
+    fun on(event: Value<Event>, fn: Block.() -> Unit) {
       add(ModelAnimation.StartOn(event.isOccurring.integer.modelInteger, animation { fn() }.model))
     }
   }
@@ -117,7 +117,7 @@ fun Value<Animation>.repeatWhile(condition: Value<Bool>): Animation =
 val Value<Animation>.repeat get(): Animation =
   repeatWhile(true)
 
-fun Value<Animation>.startOn(event: Value<Event>): Animation =
+fun Value<Animation>.on(event: Value<Event>): Animation =
   Animation(ModelAnimation.StartOn(event.modelInteger, modelAnimation))
 
 
