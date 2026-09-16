@@ -139,15 +139,5 @@ fun <T : Value<T>> Value<T>.showAnimated() {
 fun animation(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
 
-fun <T: Value<T>> animated(fn: Animation.Block.() -> T): Animated<T> =run {
-  val block = Animation.Block()
-  val value = block.fn()
-  Animated(value, block.build())
-}
-
 fun sequence(fn: Animation.Block.() -> Unit): Animation =
   Animation.Block().apply(fn).build()
-
-fun show(fn: Animation.Block.() -> Unit) {
-  game.with(animation(fn)).show()
-}
