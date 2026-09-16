@@ -4,7 +4,7 @@ import micapolos.zexy.*
 
 fun main() {
   animation {
-    once {
+    execute {
       1.value logAs "1"
       0.value.isNotZero logAs "0 is not zero"
       1.value.isNotZero logAs "1 is not zero"

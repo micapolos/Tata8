@@ -1,6 +1,5 @@
 package micapolos.zexy
 
-import micapolos.zexy.Action.Block
 import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Value as ModelValue
@@ -33,12 +32,22 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
       }
     }
 
+    @JvmName("addAction")
+    internal fun add(actionModel: ModelValue<ModelAction>) {
+      actionBlock.add(actionModel)
+    }
+
+    @JvmName("addAnimation")
     internal fun add(animationModel: ModelValue<ModelAnimation>) {
       flushActions()
       animationModels.add(animationModel)
     }
 
     val doNothing get() = sequence {  }
+
+    infix fun start(animation: Value<Animation>) {
+      add(animation.modelAnimation)
+    }
 
     infix fun pause(seconds: Int) {
       pause(seconds.toDouble())
@@ -52,15 +61,19 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
       add(ModelAnimation.Pause(seconds.modelNumber))
     }
 
-    fun once(fn: Action.Block.() -> Unit) {
-      add(ModelAnimation.Once(actionModel(fn)))
+    infix fun execute(action: Value<Action>) {
+      add(action.modelAction)
+    }
+
+    fun execute(fn: Action.Block.() -> Unit) {
+      add(actionModel(fn))
     }
 
     fun everyStep(fn: Action.Block.() -> Unit) {
       add(ModelAnimation.EveryStep(actionModel(fn)))
     }
 
-    fun parallel(fn: Block.() -> Unit) {
+    fun start(fn: Block.() -> Unit) {
       add(ModelAnimation.Parallel(Block().apply { fn() }.buildAnimationModels()))
     }
 
