@@ -97,7 +97,7 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
 
     fun whenTrue(condition: Value<Bool>, fn: Block.() -> Unit) {
       condition.integer selectFrom {
-        sequence { }
+        doNothing
         animation(fn)
       }
     }
