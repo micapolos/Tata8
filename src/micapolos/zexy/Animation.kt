@@ -11,7 +11,7 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
     internal val animationModels: MutableList<ModelValue<ModelAnimation>> = mutableListOf()
     internal val actionBlock: Action.Block = Action.Block()
 
-    internal fun build(): Animation = run {
+    internal fun build(): Value<Animation> = run {
       flushActions()
       val builtAnimationModels = buildAnimationModels()
       val builtAnimationModel = when {
@@ -88,8 +88,18 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
       add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
     }
 
-    fun ifTrue(condition: Value<Bool>, fn: Action.Block.() -> Unit) {
-      actionBlock.ifTrue(condition, fn)
+    infix fun Value<Integer>.selectFrom(fn: Block.() -> Unit) {
+      add(
+        ModelValue.Select(
+          modelInteger,
+          Block().apply { fn() }.buildAnimationModels()))
+    }
+
+    fun whenTrue(condition: Value<Bool>, fn: Block.() -> Unit) {
+      condition.integer selectFrom {
+        sequence { }
+        animation(fn)
+      }
     }
   }
 }
@@ -146,8 +156,8 @@ fun <T : Value<T>> Value<T>.showAnimated() {
   with(animationBlock.build()).show()
 }
 
-fun animation(fn: Animation.Block.() -> Unit): Animation =
+fun animation(fn: Animation.Block.() -> Unit): Value<Animation> =
   Animation.Block().apply(fn).build()
 
-fun sequence(fn: Animation.Block.() -> Unit): Animation =
+fun sequence(fn: Animation.Block.() -> Unit): Value<Animation> =
   Animation.Block().apply(fn).build()
