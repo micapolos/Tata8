@@ -2,20 +2,6 @@ package micapolos.zexy.examples
 
 import micapolos.zexy.*
 
-enum class State: Value.Mapped<State, Integer> {
-  STANDING,
-  TALKING,
-  WALKING;
-
-  override val component get() = ordinal.value
-}
-
-enum class Direction: Value.Mapped<Direction, Integer> {
-  UP, RIGHT_UP, RIGHT, RIGHT_DOWN, DOWN, LEFT_DOWN, LEFT, LEFT_UP;
-
-  override val component get() = ordinal.value
-}
-
 fun main() {
   showDrawing {
     val direction = variable(4)
