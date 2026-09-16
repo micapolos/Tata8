@@ -45,27 +45,26 @@ fun main() {
 
     val revealingText = text.slice(0, frame.count.div(2).max(text.length))
 
-    val x = 30.value
-    val y = 10.value
-
     val textWidth = font.width(text)
     val textHeight = font.height(revealingText)
 
     val margin = 3.value
-    val width = textWidth + margin * 2 + 4
-    val height = textHeight + margin * 2 + 4
+    val bubbleX = 30.value
+    val bubbleY = 10.value
+    val bubbleWidth = textWidth + margin * 2 + 4
+    val bubbleHeight = textHeight + margin * 2 + 4
 
-    val bubbleWidth = revealingText.length.isEqualTo(0).ifTrue(8).orElse(width - 1).elastic(7 by 8)
-    val bubbleHeight = (height - 1).elastic
+    val animatedBubbleWidth = revealingText.length.isEqualTo(0).ifTrue(8).orElse(bubbleWidth - 1).elastic(7 by 8)
+    val animatedBubbleHeight = (bubbleHeight - 1).elastic
 
     stack(
       sprite
         .with(image("/micapolos/depressedChicken.png"))
         .with(position(10, 15)),
-      bubble(x, y, bubbleWidth, bubbleHeight),
+      bubble(bubbleX, bubbleY, animatedBubbleWidth, animatedBubbleHeight),
       label
         .with(revealingText)
-        .with(position(x + margin + 2, y + margin + 2))
+        .with(position(bubbleX + margin + 2, bubbleY + margin + 2))
         .with(color.yellow)
         .with(font)
     )
