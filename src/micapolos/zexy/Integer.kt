@@ -88,7 +88,7 @@ fun Value<Integer>.selectFrom(firstCast: Int, vararg otherCases: Int): Value<Int
 
 val Value<Number>.integer get() = Integer(ModelInteger.FromNumber(modelNumber))
 
-fun Value<Integer>.min(integer: Int) = max(integer.value)
+fun Value<Integer>.min(integer: Int) = min(integer.value)
 fun Value<Integer>.min(integer: Value<Integer>) = isLessThan(integer).ifTrue(integer).orElse(this)
 
 fun Value<Integer>.max(integer: Int) = max(integer.value)

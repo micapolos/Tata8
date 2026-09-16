@@ -38,7 +38,7 @@ fun Value<Label>.with(position: Value<Position>): Value<Label> =
   Label(
     ModelDrawing.Label(
       modelLabel.text,
-      position.position.x.cast,
-      position.position.y.cast
+      position.position.x.modelInteger,
+      position.position.y.modelInteger
     )
   )
