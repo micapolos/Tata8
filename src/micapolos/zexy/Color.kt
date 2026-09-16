@@ -2,7 +2,7 @@ package micapolos.zexy
 
 import micapolos.zexy.model.Color as ModelColor
 
-class Color(model: ModelColor): Value<Color>(model)
+class Color(model: ModelColor): ValueWithModel<Color>(model)
 
 internal val Value<Color>.modelColor get() = model as ModelColor.Rgba
 

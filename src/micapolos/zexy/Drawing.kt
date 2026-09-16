@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Value as ModelValue
 
-open class Drawing<out T: Drawing<T>> internal constructor(model: Any) : Value<T>(model) {
+open class Drawing<out T: Drawing<T>> internal constructor(model: ModelValue<*>) : ValueWithModel<T>(model) {
   object Empty: Drawing<Empty>(ModelDrawing.Empty)
 }
 

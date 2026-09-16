@@ -4,7 +4,7 @@ import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
 
-class Action internal constructor(internal val model: ModelAction): Value<Action>(model) {
+class Action internal constructor(model: ModelAction): ValueWithModel<Action>(model) {
   @Zexy
   class Block internal constructor() {
     internal val modelActions: MutableList<ModelAction> = mutableListOf()

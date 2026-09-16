@@ -4,7 +4,7 @@ import micapolos.zexy.model.Image as ModelImage
 import micapolos.zexy.model.Integer as ModelInteger
 import micapolos.zexy.model.Value as ModelValue
 
-class Image internal constructor(model: Any): Value<Image>(model)
+class Image internal constructor(model: ModelValue<*>): ValueWithModel<Image>(model)
 
 internal val Value<Image>.modelImage get() = model as ModelValue<ModelImage>
 

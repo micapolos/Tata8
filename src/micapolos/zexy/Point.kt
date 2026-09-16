@@ -1,8 +1,9 @@
 package micapolos.zexy
 
 import micapolos.zexy.model.Drawing as ModelDrawing
+import micapolos.zexy.model.Value as ModelValue
 
-class Point(model: Any): Drawing<Point>(model)
+class Point(model: ModelValue<*>): Drawing<Point>(model)
 
 internal val Value<Point>.modelPoint get() = model as ModelDrawing.Point
 

@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Value as ModelValue
 
-class Sprite internal constructor(model: Any) : Drawing<Sprite>(model)
+class Sprite internal constructor(model: ModelValue<*>) : Drawing<Sprite>(model)
 
 internal val Value<Sprite>.modelSprite get() = model as ModelValue<ModelDrawing>
 internal val ModelValue<ModelDrawing>.sprite: ModelDrawing.Sprite get() = this as ModelDrawing.Sprite

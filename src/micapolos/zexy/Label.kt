@@ -2,8 +2,9 @@ package micapolos.zexy
 
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Text as ModelText
+import micapolos.zexy.model.Value as ModelValue
 
-class Label internal constructor(model: Any) : Drawing<Label>(model)
+class Label internal constructor(model: ModelValue<*>) : Drawing<Label>(model)
 
 internal val Value<Label>.modelLabel get() = model as ModelDrawing.Label
 

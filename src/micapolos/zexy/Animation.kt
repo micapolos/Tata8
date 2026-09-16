@@ -4,9 +4,7 @@ import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Value as ModelValue
 
-class Animation internal constructor(
-  internal val model: ModelAnimation,
-): Value<Animation>(model) {
+class Animation internal constructor(model: ModelAnimation): ValueWithModel<Animation>(model) {
   @Zexy
   class Block internal constructor() {
     internal val animationModels: MutableList<ModelAnimation> = mutableListOf()
@@ -82,11 +80,11 @@ class Animation internal constructor(
     }
 
     fun repeatWhile(condition: Value<Bool>, fn: Block.() -> Unit) {
-      add(ModelAnimation.RepeatWhile(animation(fn).model, condition.integer.modelInteger))
+      add(ModelAnimation.RepeatWhile(animation(fn).modelAnimation, condition.integer.modelInteger))
     }
 
     fun on(event: Value<Event>, fn: Block.() -> Unit) {
-      add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.model))
+      add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
     }
   }
 }
