@@ -20,10 +20,6 @@ class Action internal constructor(internal val model: ModelAction): Value<Action
       add(ModelAction.Sequence(Block().apply { fn() }.buildModelActions()))
     }
 
-    infix fun Value<Integer>.select(fn: Block.() -> Unit) {
-      add(ModelAction.Select(modelInteger, Block().apply { fn() }.buildModelActions()))
-    }
-
     internal fun buildModelOrNull() =
       if (modelActions.isEmpty()) {
         null

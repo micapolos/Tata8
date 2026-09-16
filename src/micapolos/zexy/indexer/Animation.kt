@@ -6,12 +6,12 @@ import micapolos.zexy.model.Animation as ModelAnimation
 fun Indexer.indexedAnimation(model: ModelAnimation): Animation =
   when (model) {
     ModelAnimation.Infinite -> Animation.Empty
-    is ModelAnimation.Once -> Animation.Once(indexedAction(model.action))
-    is ModelAnimation.EveryStep -> Animation.EveryStep(indexedAction(model.action))
+    is ModelAnimation.Once -> Animation.Once(indexed(model.action))
+    is ModelAnimation.EveryStep -> Animation.EveryStep(indexed(model.action))
     is ModelAnimation.Pause -> Animation.Pause(indexed(model.seconds))
-    is ModelAnimation.Parallel -> Animation.Parallel(model.animations.map { indexedAnimation(it) })
-    is ModelAnimation.Sequence -> Animation.Sequence(model.animations.map { indexedAnimation(it) })
-    is ModelAnimation.Race -> Animation.Race(model.animations.map { indexedAnimation(it) })
-    is ModelAnimation.RepeatWhile -> Animation.RepeatWhile(indexedAnimation(model.animation), indexed(model.condition))
+    is ModelAnimation.Parallel -> Animation.Parallel(model.animations.map { indexed(it) })
+    is ModelAnimation.Sequence -> Animation.Sequence(model.animations.map { indexed(it) })
+    is ModelAnimation.Race -> Animation.Race(model.animations.map { indexed(it) })
+    is ModelAnimation.RepeatWhile -> Animation.RepeatWhile(indexed(model.animation), indexed(model.condition))
     is ModelAnimation.StartOn -> Animation.StartOn(indexed(model.trigger), indexed(model.animation))
   }

@@ -13,10 +13,10 @@ val instantAnimation: Animation = object : Animation {
   override fun step(seconds: Double): Double = seconds
 }
 
-fun instantAnimation(action: Action) =
+fun instantAnimation(actionEvaluator: Evaluator<Action>) =
   object : Animation {
     override fun start() {
-      action.execute()
+      actionEvaluator.evalObject().execute()
     }
 
     override fun step(seconds: Double): Double = seconds
@@ -60,30 +60,32 @@ fun parallel(animations: List<Evaluator<Animation>>): Animation =
     }
   }
 
-fun everyStepAnimation(action: Action): Animation =
+fun everyStepAnimation(actionEvaluator: Evaluator<Action>): Animation =
   object : Animation {
     override fun start() {
     }
 
     override fun step(seconds: Double): Double {
-      action.execute()
+      actionEvaluator.evalObject().execute()
       return 0.0
     }
   }
 
-fun race(animations: List<Animation>): Animation =
+fun race(animations: List<Evaluator<Animation>>): Animation =
   object : Animation {
     var isFinished = true
 
     override fun start() {
-      animations.forEach(Animation::start)
+      animations.forEach {
+        it.evalObject().start()
+      }
       isFinished = false
     }
 
     override fun step(seconds: Double): Double {
       if (!isFinished) {
         var remainingSeconds = 0.0
-        animations.forEach { remainingSeconds = Math.max(remainingSeconds, it.step(seconds)) }
+        animations.forEach { remainingSeconds = Math.max(remainingSeconds, it.evalObject().step(seconds)) }
         isFinished = remainingSeconds != 0.0
         return remainingSeconds
       } else {
@@ -93,7 +95,7 @@ fun race(animations: List<Animation>): Animation =
   }
 
 class SequenceAnimation(
-  val animations: List<Animation>,
+  val animationEvaluators: List<Evaluator<Animation>>,
 ) : Animation {
   var index = 0
   var needsInit = true
@@ -106,15 +108,15 @@ class SequenceAnimation(
   override fun step(seconds: Double): Double {
     var remainingSeconds = seconds
     while (true) {
-      if (index == animations.size) {
+      if (index == animationEvaluators.size) {
         return remainingSeconds
       } else {
-        val animation = animations[index]
+        val animation = animationEvaluators[index]
         if (needsInit) {
-          animation.start()
+          animation.evalObject().start()
           needsInit = false
         }
-        remainingSeconds = animation.step(remainingSeconds)
+        remainingSeconds = animation.evalObject().step(remainingSeconds)
         if (remainingSeconds == 0.0) {
           return 0.0
         } else {
@@ -126,16 +128,16 @@ class SequenceAnimation(
   }
 }
 
-fun Animation.repeatWhile(conditionEvaluator: Evaluator<Int>): Animation =
+fun Evaluator<Animation>.repeatWhile(conditionEvaluator: Evaluator<Int>): Animation =
   repeatWhile { conditionEvaluator.evalInt() != 0 }
 
-fun Animation.repeatWhile(condition: () -> Boolean): Animation =
+fun Evaluator<Animation>.repeatWhile(condition: () -> Boolean): Animation =
   object : Animation {
     var done = false
 
     override fun start() {
       done = false
-      this@repeatWhile.start()
+      this@repeatWhile.evalObject().start()
     }
 
     override fun step(seconds: Double): Double {
@@ -145,11 +147,11 @@ fun Animation.repeatWhile(condition: () -> Boolean): Animation =
         if (done) {
           return remainingSeconds
         } else if (needsInit) {
-          this@repeatWhile.start()
+          this@repeatWhile.evalObject().start()
           needsInit = false
         }
 
-        remainingSeconds = this@repeatWhile.step(remainingSeconds)
+        remainingSeconds = this@repeatWhile.evalObject().step(remainingSeconds)
         if (remainingSeconds == 0.0) {
           return 0.0
         } else if (condition()) {

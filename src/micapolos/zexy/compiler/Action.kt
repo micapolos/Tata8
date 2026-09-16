@@ -11,7 +11,6 @@ fun Compiler.runtime(indexed: IndexedAction): Action =
     IndexedAction.Empty -> emptyAction
     is IndexedAction.Set<*> -> setAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
     is IndexedAction.Bind<*> -> bindAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
-    is IndexedAction.Select -> selectAction(intEvaluator(indexed.index), indexed.actions.map { evaluator(it) })
-    is IndexedAction.Sequence -> sequenceAction(indexed.actions.map { evaluator(it) })
+    is IndexedAction.Sequence -> sequenceAction(indexed.actions.map { objectEvaluator(it) })
     is IndexedAction.Log -> logAction(indexed.label, evaluator(indexed.value))
   }

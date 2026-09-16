@@ -80,10 +80,6 @@ class Animation internal constructor(
     fun startOn(event: Value<Event>, fn: Block.() -> Unit) {
       add(ModelAnimation.StartOn(event.isOccurring.integer.modelInteger, animation { fn() }.model))
     }
-
-    infix fun Value<Integer>.selectAction(fn: Action.Block.() -> Unit) {
-      with(actionBlock) { select(fn) }
-    }
   }
 }
 
