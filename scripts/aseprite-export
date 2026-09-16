@@ -9,14 +9,7 @@ find "$SRC_DIR" -type f -name "*.aseprite" | while read -r file; do
     rel_path="${file#$SRC_DIR/}"
     dir_path="$(dirname "$rel_path")"
     base="$(basename "$file" .aseprite)"
-
-    if [[ "$dir_path" == "." ]]; then
-        target_dir="$OUT_DIR"
-    else
-        target_dir="$OUT_DIR/$dir_path"
-    fi
-
+    target_dir="$OUT_DIR/$dir_path"
     mkdir -p "$target_dir"
-
     aseprite -b "$file" --sheet "$target_dir/$base.png"
 done
