@@ -101,15 +101,15 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
       add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
     }
 
-    infix fun Value<Integer>.selectFrom(fn: Block.() -> Unit) {
+    fun runSelected(index: Value<Integer>, fn: Block.() -> Unit) {
       add(
         ModelValue.Select(
-          modelInteger,
+          index.modelInteger,
           Block().apply { fn() }.buildAnimationModels()))
     }
 
     fun whenTrue(condition: Value<Bool>, fn: Block.() -> Unit) {
-      condition.integer selectFrom {
+      runSelected(condition.integer) {
         doNothing
         animation(fn)
       }
