@@ -15,17 +15,28 @@ class Action internal constructor(model: ModelAction): ValueWithModel<Action>(mo
 
     internal fun buildModelActions() = modelActions.toList()
 
+    infix fun execute(action: Value<Action>) {
+      add(action.modelAction)
+    }
+
     fun sequence(fn: Block.() -> Unit) {
       add(ModelAction.Sequence(Block().apply { fn() }.buildModelActions()))
     }
 
-    fun ifTrue(condition: Value<Bool>, fn: Block.() -> Unit) {
+    fun executeIf(condition: Value<Bool>, fn: Block.() -> Unit) {
       add(
         ModelValue.Select(
           condition.integer.modelInteger,
           listOf(
             noAction.modelAction,
             Block().apply { fn() }.buildModel())))
+    }
+
+    fun executeSelected(integer: Value<Integer>, fn: Block.() -> Unit) {
+      add(
+        ModelValue.Select(
+          integer.modelInteger,
+          Block().apply { fn() }.buildModelActions()))
     }
 
     internal fun buildModelOrNull() =

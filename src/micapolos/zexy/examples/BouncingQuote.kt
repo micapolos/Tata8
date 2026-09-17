@@ -11,11 +11,11 @@ fun main() {
     everyStep {
       x add direction * speed
 
-      ifTrue(x.isGreaterThan(screen.size.width * 3 / 4 - 32)) {
+      executeIf(x.isGreaterThan(screen.size.width * 3 / 4 - 32)) {
         direction set -1
       }
 
-      ifTrue(x.isLessThan(screen.size.width * 1 / 4)) {
+      executeIf(x.isLessThan(screen.size.width * 1 / 4)) {
         direction set 1
       }
     }
@@ -27,7 +27,7 @@ fun main() {
         .with(color.yellow),
       label
         .with("Press Z for more speed.")
-        .with(position(2, 12))
+        .with(position(2, 11))
         .with(color.yellow),
       sprite
         .with(image("/micapolos/quote.png"))
