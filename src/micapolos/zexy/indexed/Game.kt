@@ -4,6 +4,6 @@ class Game(
   val title: String,
   val width: Int,
   val height: Int,
-  val drawing: Value<Drawing>,
-  val animation: Value<Animation>,
+  val drawing: Value,
+  val animation: Value,
 )

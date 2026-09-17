@@ -7,7 +7,7 @@ import micapolos.zexy.runtime.Evaluator
 import micapolos.zexy.runtime.IntEvaluator
 import micapolos.zexy.runtime.ObjectEvaluator
 
-fun <T : Value<T>> Compiler.evaluator(value: Value<T>): Evaluator<*> =
+fun Compiler.evaluator(value: Value): Evaluator<*> =
   when (value) {
     is Variable -> variableEvaluator(value)
     is Integer -> integerEvaluator(value)

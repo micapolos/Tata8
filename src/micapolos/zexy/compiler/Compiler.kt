@@ -14,6 +14,6 @@ class Compiler(
   val tataFonts = mutableMapOf<String, Font>()
 }
 
-fun <T: Value<T>> Compiler.intEvaluator(value: Value<T>) = evaluator(value) as IntEvaluator
-fun <T: Value<T>> Compiler.doubleEvaluator(value: Value<T>) = evaluator(value) as DoubleEvaluator
-fun <O> Compiler.objectEvaluator(value: Value<*>) = evaluator(value) as ObjectEvaluator<O>
+fun Compiler.intEvaluator(value: Value) = evaluator(value) as IntEvaluator
+fun Compiler.doubleEvaluator(value: Value) = evaluator(value) as DoubleEvaluator
+fun <O> Compiler.objectEvaluator(value: Value) = evaluator(value) as ObjectEvaluator<O>

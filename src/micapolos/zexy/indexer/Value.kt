@@ -15,7 +15,7 @@ import micapolos.zexy.model.Text as ModelText
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
 
-fun <T: Value<T>> Indexer.indexed(model: ModelValue): Value<T> =
+fun Indexer.indexed(model: ModelValue): Value =
   when (model) {
     is ModelVariable -> indexedVariable(model)
     is ModelColor -> indexedColor(model)
@@ -30,4 +30,4 @@ fun <T: Value<T>> Indexer.indexed(model: ModelValue): Value<T> =
 
     is ModelValue.Logged -> Logged(model.label, indexed(model.value))
     is ModelValue.Select -> Select(indexed(model.index), model.options.map { indexed(it) })
-  } as Value<T>
+  }

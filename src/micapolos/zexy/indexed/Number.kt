@@ -1,6 +1,6 @@
 package micapolos.zexy.indexed
 
-sealed class Number : Value<Number> {
+sealed class Number : Value {
   enum class Op0 {
     FRAME_TIME,
   }
@@ -32,11 +32,11 @@ sealed class Number : Value<Number> {
 
   class Apply0(val op: Op0) : Number()
 
-  class Apply1(val op: Op1, val number: Value<Number>) : Number()
+  class Apply1(val op: Op1, val number: Value) : Number()
 
-  class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
+  class Apply2(val op: Op2, val lhs: Value, val rhs: Value) : Number()
 
-  class Test2(val pred: NumberPred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
+  class Test2(val pred: NumberPred2, val lhs: Value, val rhs: Value) : Integer()
 
-  class FromInteger(val integer: Value<Integer>) : Number()
+  class FromInteger(val integer: Value) : Number()
 }

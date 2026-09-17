@@ -1,9 +1,9 @@
 package micapolos.zexy.indexed
 
-sealed class Action: Value<Action> {
+sealed class Action: Value {
   object Empty : Action()
-  class Set<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Action()
-  class Bind<T : Value<T>>(val variable: Variable<T>, val value: Value<T>) : Action()
-  class Sequence(val actions: List<Value<Action>>) : Action()
-  class Log(val label: String?, val value: Value<*>): Action()
+  class Set(val variable: Variable, val value: Value) : Action()
+  class Bind(val variable: Variable, val value: Value) : Action()
+  class Sequence(val actions: List<Value>) : Action()
+  class Log(val label: String?, val value: Value): Action()
 }

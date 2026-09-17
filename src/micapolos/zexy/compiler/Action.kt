@@ -9,8 +9,8 @@ fun Compiler.evaluator(indexed: IndexedAction): Evaluator<Action> =
 fun Compiler.runtime(indexed: IndexedAction): Action =
   when (indexed) {
     IndexedAction.Empty -> emptyAction
-    is IndexedAction.Set<*> -> setAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
-    is IndexedAction.Bind<*> -> bindAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
+    is IndexedAction.Set -> setAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
+    is IndexedAction.Bind -> bindAction(state, indexed.variable.typedIndex, indexed.variable.index, evaluator(indexed.value))
     is IndexedAction.Sequence -> sequenceAction(indexed.actions.map { objectEvaluator(it) })
     is IndexedAction.Log -> logAction(indexed.label, evaluator(indexed.value))
   }

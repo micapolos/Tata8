@@ -1,6 +1,6 @@
 package micapolos.zexy.indexed
 
-sealed class Integer: Value<Integer> {
+sealed class Integer: Value {
   enum class Op0 {
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
@@ -31,21 +31,21 @@ sealed class Integer: Value<Integer> {
 
   class Apply0(val op: Op0): Integer()
 
-  class Apply1(val op: Op1, val integer: Value<Integer>): Integer()
+  class Apply1(val op: Op1, val integer: Value): Integer()
 
-  class Apply2(val op: Op2, val lhs: Value<Integer>, val rhs: Value<Integer>): Integer()
+  class Apply2(val op: Op2, val lhs: Value, val rhs: Value): Integer()
 
   class KeyDown(val key: Key) : Integer()
 
-  class ImageWidth(val image: Value<Image>) : Integer()
+  class ImageWidth(val image: Value) : Integer()
 
-  class ImageHeight(val image: Value<Image>) : Integer()
+  class ImageHeight(val image: Value) : Integer()
 
-  class TextLength(val text: Value<Text>) : Integer()
+  class TextLength(val text: Value) : Integer()
 
-  class TextWidth(val text: Value<Text>, val font: Value<Font>) : Integer()
+  class TextWidth(val text: Value, val font: Value) : Integer()
 
-  class TextHeight(val text: Value<Text>, val font: Value<Font>) : Integer()
+  class TextHeight(val text: Value, val font: Value) : Integer()
 
-  class FromNumber(val number: Value<Number>) : Integer()
+  class FromNumber(val number: Value) : Integer()
 }

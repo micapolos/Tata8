@@ -1,10 +1,10 @@
 package micapolos.zexy.indexed
 
-sealed class Color : Value<Color> {
+sealed class Color : Value {
   class Rgba(
-    val red: Value<Number>,
-    val green: Value<Number>,
-    val blue: Value<Number>,
-    val alpha: Value<Number>,
+    val red: Value,
+    val green: Value,
+    val blue: Value,
+    val alpha: Value,
   ) : Color()
 }
