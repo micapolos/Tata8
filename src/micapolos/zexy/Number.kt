@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.model.Number as ModelNumber
 import micapolos.zexy.model.Value as ModelValue
 
-class Number internal constructor(model: ModelValue<*>) : ValueWithModel<Number>(model)
+class Number internal constructor(model: ModelValue) : ValueWithModel<Number>(model)
 
 // TODO: Clean these up
 val Double.value get() = Number(ModelNumber.Constant(this))
@@ -12,7 +12,7 @@ val Double.number get() = value
 
 fun variable(initial: Double) = variable(initial.value)
 
-internal val <T : Value<T>> Value<T>.modelNumber get() = model as ModelValue<ModelNumber>
+internal val <T : Value<T>> Value<T>.modelNumber get() = model as ModelValue
 internal val Value<Number>.cast get() = this as Number
 
 internal fun Value<Number>.apply(op1: ModelNumber.Op1): Value<Number> =

@@ -1,5 +1,7 @@
 package micapolos.zexy.runtime
 
+import java.awt.SystemColor.text
+
 fun textLengthEvaluator(textEvaluator: Evaluator<String>): Evaluator<Int> =
   IntEvaluator { textEvaluator.evalObject().length }
 

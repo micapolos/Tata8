@@ -7,9 +7,9 @@ import micapolos.zexy.model.Variable as ModelVariable
 class Action internal constructor(model: ModelAction): ValueWithModel<Action>(model) {
   @Zexy
   class Block internal constructor() {
-    internal val modelActions: MutableList<ModelValue<ModelAction>> = mutableListOf()
+    internal val modelActions: MutableList<ModelValue> = mutableListOf()
 
-    internal fun add(modelAction: ModelValue<ModelAction>) {
+    internal fun add(modelAction: ModelValue) {
       modelActions.add(modelAction)
     }
 
@@ -52,15 +52,15 @@ class Action internal constructor(model: ModelAction): ValueWithModel<Action>(mo
   }
 }
 
-internal val Value<Action>.modelAction get() = model as ModelValue<ModelAction>
+internal val Value<Action>.modelAction get() = model as ModelValue
 
 val noAction = Action(ModelAction.Empty)
 
 fun <T: Value<T>> Variable<T>.set(value: Value<T>) =
-  Action(ModelAction.Set(model as ModelVariable<ModelAction>, value.model))
+  Action(ModelAction.Set(model as ModelVariable, value.model))
 
 fun <T: Value<T>> Variable<T>.bind(value: Value<T>) =
-  Action(ModelAction.Bind(model as ModelVariable<ModelAction>, value.model))
+  Action(ModelAction.Bind(model as ModelVariable, value.model))
 
 fun sequence(action: Value<Action>, vararg actions: Value<Action>) =
   sequence(listOf(action, *actions))
@@ -85,12 +85,12 @@ infix fun Value<*>.logAs(label: String?) {
 
 context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.bind(value: Value<T>) {
-  actionBlock.add(ModelAction.Bind(model as ModelVariable<ModelAction>, value.model))
+  actionBlock.add(ModelAction.Bind(model as ModelVariable, value.model))
 }
 
 context(actionBlock: Action.Block)
 infix fun <T : Value<T>> Value<T>.set(value: Value<T>) {
-  actionBlock.add(ModelAction.Set(model as ModelVariable<ModelAction>, value.model))
+  actionBlock.add(ModelAction.Set(model as ModelVariable, value.model))
 }
 
 fun actionModel(fn: Action.Block.() -> Unit) = Action.Block().apply { fn() }.buildModel()

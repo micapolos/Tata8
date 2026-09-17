@@ -4,7 +4,7 @@ import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Value as ModelValue
 
 sealed class Impl {
-  class WithModel internal constructor(internal val model: ModelValue<*>): Impl()
+  class WithModel internal constructor(internal val model: ModelValue): Impl()
   class WithChildren(val children: List<Value<*>>): Impl()
 }
 
@@ -17,7 +17,7 @@ interface Value<out T : Value<T>> {
   }
 }
 
-open class ValueWithModel<out T: Value<T>> internal constructor(internal val model: ModelValue<*>): Value<T> {
+open class ValueWithModel<out T: Value<T>> internal constructor(internal val model: ModelValue): Value<T> {
   override val impl: Impl get() = Impl.WithModel(model)
 }
 
@@ -25,10 +25,10 @@ open class ValueWithChildren<out T: Value<T>>(vararg val children: Value<*>): Va
   override val impl: Impl get() = Impl.WithChildren(children.toList())
 }
 
-internal val Value<*>.model get() = (impl as Impl.WithModel).model as ModelValue<ModelAction>
+internal val Value<*>.model get() = (impl as Impl.WithModel).model
 internal val Value<*>.children get() = (impl as Impl.WithChildren).children
 internal fun <T> Value<*>.children() = children as List<T>
-internal val Value<*>.safeModel: ModelValue<*> get() =
+internal val Value<*>.safeModel: ModelValue get() =
   when (val impl = this.impl) {
     is Impl.WithModel -> impl.model
     is Impl.WithChildren -> impl.children[0].model

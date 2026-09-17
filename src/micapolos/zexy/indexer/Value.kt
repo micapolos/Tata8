@@ -15,9 +15,9 @@ import micapolos.zexy.model.Text as ModelText
 import micapolos.zexy.model.Value as ModelValue
 import micapolos.zexy.model.Variable as ModelVariable
 
-fun <T: Value<T>> Indexer.indexed(model: ModelValue<*>): Value<T> =
+fun <T: Value<T>> Indexer.indexed(model: ModelValue): Value<T> =
   when (model) {
-    is ModelVariable<*> -> indexedVariable(model)
+    is ModelVariable -> indexedVariable(model)
     is ModelColor -> indexedColor(model)
     is ModelFont -> indexedFont(model)
     is ModelImage -> indexedImage(model)

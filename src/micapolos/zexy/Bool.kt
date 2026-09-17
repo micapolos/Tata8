@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.compiler.toInt
 import micapolos.zexy.model.Value as ModelValue
 
-class Bool internal constructor(impl: ModelValue<*>): ValueWithModel<Bool>(impl)
+class Bool internal constructor(impl: ModelValue): ValueWithModel<Bool>(impl)
 
 internal val Value<Bool>.modelInteger get() = integer.modelInteger
 

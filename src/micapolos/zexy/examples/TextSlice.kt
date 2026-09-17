@@ -10,6 +10,6 @@ fun main() {
       How do you like it?
     """.trimIndent()
 
-    text.slice(0, frame.count.div(5).max(text.length))
+    text.slice(0, frame.count.div(5).min(text.length))
   }
 }

@@ -4,9 +4,9 @@ import micapolos.zexy.model.Integer as ModelInteger
 import micapolos.zexy.model.Text as ModelText
 import micapolos.zexy.model.Value as ModelValue
 
-class Text internal constructor(model: ModelValue<*>): ValueWithModel<Text>(model)
+class Text internal constructor(model: ModelValue): ValueWithModel<Text>(model)
 
-internal val Value<Text>.modelText get() = model as ModelValue<ModelText>
+internal val Value<Text>.modelText get() = model
 
 fun variable(initial: String) = variable(initial.value)
 

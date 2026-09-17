@@ -30,7 +30,7 @@ fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
   copy(model = model.copy(drawing = stack(*drawings).modelDrawing))
 
 fun Game.with(animation: Value<Animation>): Game =
-  copy(model = model.copy(animation = animation.model as ModelValue<ModelAnimation>))
+  copy(model = model.copy(animation = animation.model as ModelValue))
 
 fun Game.show() {
   val indexer = Indexer()

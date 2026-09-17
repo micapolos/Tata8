@@ -43,7 +43,7 @@ fun main() {
       How are you?
     """.trimIndent()
 
-    val revealingText = text.slice(0, frame.count.div(2).max(text.length))
+    val revealingText = text.slice(0, frame.count.div(2).min(text.length))
 
     val textWidth = font.width(text)
     val textHeight = font.height(revealingText)

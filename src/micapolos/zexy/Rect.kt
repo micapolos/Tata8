@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Value as ModelValue
 
-class Rect(model: ModelValue<*>): Drawing<Rect>(model)
+class Rect(model: ModelValue): Drawing<Rect>(model)
 
 internal val Value<Rect>.modelRect get() = model as ModelDrawing.Rect
 

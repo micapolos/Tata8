@@ -1,6 +1,6 @@
 package micapolos.zexy.model
 
-sealed class Number : Value<Number> {
+sealed class Number : Value {
   enum class Op0 {
     FRAME_TIME,
   }
@@ -32,11 +32,11 @@ sealed class Number : Value<Number> {
 
   data class Apply0(val op: Op0) : Number()
 
-  data class Apply1(val op: Op1, val n: Value<Number>) : Number()
+  data class Apply1(val op: Op1, val n: Value) : Number()
 
-  data class Apply2(val op: Op2, val lhs: Value<Number>, val rhs: Value<Number>) : Number()
+  data class Apply2(val op: Op2, val lhs: Value, val rhs: Value) : Number()
 
-  data class Test2(val pred: NumberPred2, val lhs: Value<Number>, val rhs: Value<Number>) : Integer()
+  data class Test2(val pred: NumberPred2, val lhs: Value, val rhs: Value) : Integer()
 
-  data class FromInteger(val i: Value<Integer>) : Number()
+  data class FromInteger(val i: Value) : Number()
 }

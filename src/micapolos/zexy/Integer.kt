@@ -3,9 +3,9 @@ package micapolos.zexy
 import micapolos.zexy.model.Integer as ModelInteger
 import micapolos.zexy.model.Value as ModelValue
 
-class Integer internal constructor(model: ModelValue<*>) : ValueWithModel<Integer>(model)
+class Integer internal constructor(model: ModelValue) : ValueWithModel<Integer>(model)
 
-internal val Value<Integer>.modelInteger get() = model as ModelValue<ModelInteger>
+internal val Value<Integer>.modelInteger get() = model as ModelValue
 internal val Value<Integer>.cast get() = modelInteger as ModelInteger
 
 val Int.value: Value<Integer> get() = Integer(ModelInteger.Constant(this))
@@ -62,7 +62,7 @@ infix fun Value<Integer>.xor(integer: Value<Integer>) = apply(ModelInteger.Op2.X
 @JvmName("IntegerSelect")
 fun <T : Value<T>> Value<Integer>.selectFrom(values: List<Value<T>>): Value<T> =
   when (impl) {
-    is Impl.WithModel -> ValueWithModel(ModelValue.Select(model as ModelValue<ModelInteger>, values.map { it.model }))
+    is Impl.WithModel -> ValueWithModel(ModelValue.Select(model as ModelValue, values.map { it.model }))
     is Impl.WithChildren -> ValueWithChildren(*children.map { selectFrom(it.children) }.toTypedArray())
   }
 

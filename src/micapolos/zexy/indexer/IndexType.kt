@@ -4,7 +4,7 @@ import micapolos.zexy.indexed.IndexType
 import micapolos.zexy.model.*
 import micapolos.zexy.model.Number
 
-val <T : Value<T>> Value<T>.indexType: IndexType
+val Value.indexType: IndexType
   get() =
     when (this) {
       is Color -> IndexType.OBJECT
@@ -14,9 +14,9 @@ val <T : Value<T>> Value<T>.indexType: IndexType
       is Integer -> IndexType.INTEGER
       is Number -> IndexType.NUMBER
       is Text -> IndexType.OBJECT
-      is Value.Logged<*> -> value.indexType
-      is Value.Select<*> -> options.first().indexType
-      is Variable<*> -> initial.indexType
+      is Value.Logged -> value.indexType
+      is Value.Select -> options.first().indexType
+      is Variable -> initial.indexType
       is Action -> IndexType.OBJECT
       is Animation -> IndexType.OBJECT
     }

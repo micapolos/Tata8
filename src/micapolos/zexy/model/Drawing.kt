@@ -1,56 +1,56 @@
 package micapolos.zexy.model
 
-sealed class Drawing : Value<Drawing> {
+sealed class Drawing : Value {
   data object Empty : Drawing()
 
   data class Point(
-    val x: Value<Integer>,
-    val y: Value<Integer>,
+    val x: Value,
+    val y: Value,
   ) : Drawing()
 
   data class Line(
-    val x1: Value<Integer>,
-    val y1: Value<Integer>,
-    val x2: Value<Integer>,
-    val y2: Value<Integer>,
+    val x1: Value,
+    val y1: Value,
+    val x2: Value,
+    val y2: Value,
   ) : Drawing()
 
   data class Rect(
-    val x: Value<Integer>,
-    val y: Value<Integer>,
-    val width: Value<Integer>,
-    val height: Value<Integer>,
+    val x: Value,
+    val y: Value,
+    val width: Value,
+    val height: Value,
   ) : Drawing()
 
   data class Sprite(
-    val x: Value<Integer>,
-    val y: Value<Integer>,
-    val width: Value<Integer>,
-    val height: Value<Integer>,
-    val image: Value<Image>,
-    val imageX: Value<Integer>,
-    val imageY: Value<Integer>,
+    val x: Value,
+    val y: Value,
+    val width: Value,
+    val height: Value,
+    val image: Value,
+    val imageX: Value,
+    val imageY: Value,
   ) : Drawing()
 
   data class Label(
-    val text: Value<Text>,
-    val x: Value<Integer>,
-    val y: Value<Integer>,
+    val text: Value,
+    val x: Value,
+    val y: Value,
   ) : Drawing()
 
-  data class WithColor(val drawing: Value<Drawing>, val color: Value<Color>) : Drawing()
+  data class WithColor(val drawing: Value, val color: Value) : Drawing()
 
-  data class WithFont(val drawing: Value<Drawing>, val font: Value<Font>) : Drawing()
+  data class WithFont(val drawing: Value, val font: Value) : Drawing()
 
-  data class WithComposite(val drawing: Value<Drawing>, val composite: Composite) : Drawing()
+  data class WithComposite(val drawing: Value, val composite: Composite) : Drawing()
 
-  data class Stack(val drawings: List<Value<Drawing>>) : Drawing()
+  data class Stack(val drawings: List<Value>) : Drawing()
 
   data class WithClip(
-    val drawing: Value<Drawing>,
-    val x: Value<Integer>,
-    val y: Value<Integer>,
-    val width: Value<Integer>,
-    val height: Value<Integer>,
+    val drawing: Value,
+    val x: Value,
+    val y: Value,
+    val width: Value,
+    val height: Value,
   ) : Drawing()
 }

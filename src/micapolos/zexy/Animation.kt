@@ -4,10 +4,10 @@ import micapolos.zexy.model.Action as ModelAction
 import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Value as ModelValue
 
-class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWithModel<Animation>(model) {
+class Animation internal constructor(model: ModelValue): ValueWithModel<Animation>(model) {
   @Zexy
   class Block internal constructor() {
-    internal val animationModels: MutableList<ModelValue<ModelAnimation>> = mutableListOf()
+    internal val animationModels: MutableList<ModelValue> = mutableListOf()
     internal val actionBlock: Action.Block = Action.Block()
 
     internal fun build(): Value<Animation> = run {
@@ -32,13 +32,11 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
       }
     }
 
-    @JvmName("addAction")
-    internal fun add(actionModel: ModelValue<ModelAction>) {
+    internal fun addAction(actionModel: ModelValue) {
       actionBlock.add(actionModel)
     }
 
-    @JvmName("addAnimation")
-    internal fun add(animationModel: ModelValue<ModelAnimation>) {
+    internal fun addAnimation(animationModel: ModelValue) {
       flushActions()
       animationModels.add(animationModel)
     }
@@ -46,7 +44,7 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
     val doNothing get() = sequence {  }
 
     infix fun start(animation: Value<Animation>) {
-      add(animation.modelAnimation)
+      addAnimation(animation.modelAnimation)
     }
 
     infix fun pause(seconds: Int) {
@@ -58,31 +56,31 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
     }
 
     infix fun pause(seconds: Value<Number>) {
-      add(ModelAnimation.Pause(seconds.modelNumber))
+      addAnimation(ModelAnimation.Pause(seconds.modelNumber))
     }
 
     infix fun execute(action: Value<Action>) {
-      add(action.modelAction)
+      addAction(action.modelAction)
     }
 
     fun execute(fn: Action.Block.() -> Unit) {
-      add(actionModel(fn))
+      addAction(actionModel(fn))
     }
 
     fun everyStep(fn: Action.Block.() -> Unit) {
-      add(ModelAnimation.EveryStep(actionModel(fn)))
+      addAnimation(ModelAnimation.EveryStep(actionModel(fn)))
     }
 
     fun start(fn: Block.() -> Unit) {
-      add(ModelAnimation.Parallel(Block().apply { fn() }.buildAnimationModels()))
+      addAnimation(ModelAnimation.Parallel(Block().apply { fn() }.buildAnimationModels()))
     }
 
     fun race(fn: Block.() -> Unit) {
-      add(ModelAnimation.Race(Block().apply { fn() }.buildAnimationModels()))
+      addAnimation(ModelAnimation.Race(Block().apply { fn() }.buildAnimationModels()))
     }
 
     fun sequence(fn: Block.() -> Unit) {
-      add(ModelAnimation.Sequence(Block().apply { fn() }.buildAnimationModels()))
+      addAnimation(ModelAnimation.Sequence(Block().apply { fn() }.buildAnimationModels()))
     }
 
     fun repeat(fn: Block.() -> Unit) {
@@ -94,15 +92,15 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
     }
 
     fun repeatWhile(condition: Value<Bool>, fn: Block.() -> Unit) {
-      add(ModelAnimation.RepeatWhile(animation(fn).modelAnimation, condition.integer.modelInteger))
+      addAnimation(ModelAnimation.RepeatWhile(animation(fn).modelAnimation, condition.integer.modelInteger))
     }
 
     fun on(event: Value<Event>, fn: Block.() -> Unit) {
-      add(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
+      addAnimation(ModelAnimation.On(event.isOccurring.integer.modelInteger, animation { fn() }.modelAnimation))
     }
 
     fun runSelected(index: Value<Integer>, fn: Block.() -> Unit) {
-      add(
+      addAnimation(
         ModelValue.Select(
           index.modelInteger,
           Block().apply { fn() }.buildAnimationModels()))
@@ -117,7 +115,7 @@ class Animation internal constructor(model: ModelValue<ModelAnimation>): ValueWi
   }
 }
 
-internal val Value<Animation>.modelAnimation get() = model as ModelValue<ModelAnimation>
+internal val Value<Animation>.modelAnimation get() = model as ModelValue
 
 val infiniteAnimation = Animation(ModelAnimation.Infinite)
 

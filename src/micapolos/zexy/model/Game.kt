@@ -5,6 +5,6 @@ data class Game(
   val width: Int,
   val height: Int,
   @Deprecated("replaced with animation")
-  val drawing: Value<Drawing>,
-  val animation: Value<Animation>,
+  val drawing: Value,
+  val animation: Value,
 )

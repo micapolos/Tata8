@@ -3,11 +3,11 @@ package micapolos.zexy
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Value as ModelValue
 
-open class Drawing<out T: Drawing<T>> internal constructor(model: ModelValue<*>) : ValueWithModel<T>(model) {
+open class Drawing<out T: Drawing<T>> internal constructor(model: ModelValue) : ValueWithModel<T>(model) {
   object Empty: Drawing<Empty>(ModelDrawing.Empty)
 }
 
-internal val <T: Drawing<T>> Value<T>.modelDrawing get() = model as ModelValue<ModelDrawing>
+internal val <T: Drawing<T>> Value<T>.modelDrawing get() = model as ModelValue
 
 val noDrawing: Value<Drawing.Empty> get() = Drawing.Empty
 

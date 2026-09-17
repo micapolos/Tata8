@@ -4,9 +4,9 @@ import micapolos.zexy.model.Font as ModelFont
 import micapolos.zexy.model.Integer as ModelInteger
 import micapolos.zexy.model.Value as ModelValue
 
-class Font internal constructor(model: ModelValue<*>) : ValueWithModel<Font>(model)
+class Font internal constructor(model: ModelValue) : ValueWithModel<Font>(model)
 
-internal val Value<Font>.modelFont get() = model as ModelValue<ModelFont>
+internal val Value<Font>.modelFont get() = model as ModelValue
 
 fun font(fileName: String, spaceWidth: Int = 2, charSpacing: Int = 1, lineSpacing: Int = 1) =
   Font(ModelFont.Resource(fileName, spaceWidth, charSpacing, lineSpacing))

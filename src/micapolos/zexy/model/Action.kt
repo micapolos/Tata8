@@ -1,9 +1,9 @@
 package micapolos.zexy.model
 
-sealed class Action: Value<Action> {
+sealed class Action: Value {
   data object Empty : Action()
-  data class Set<T: Value<T>>(val variable: Variable<T>, val value: Value<T>): Action()
-  data class Bind<T: Value<T>>(val variable: Variable<T>, val value: Value<T>): Action()
-  data class Sequence(val actions: List<Value<Action>>): Action()
-  data class Log(val label: String?, val value: Value<*>): Action()
+  data class Set(val variable: Variable, val value: Value): Action()
+  data class Bind(val variable: Variable, val value: Value): Action()
+  data class Sequence(val actions: List<Value>): Action()
+  data class Log(val label: String?, val value: Value): Action()
 }

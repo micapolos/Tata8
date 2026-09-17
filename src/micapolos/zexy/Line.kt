@@ -3,7 +3,7 @@ package micapolos.zexy
 import micapolos.zexy.model.Drawing as ModelDrawing
 import micapolos.zexy.model.Value as ModelValue
 
-class Line(model: ModelValue<*>): Drawing<Line>(model)
+class Line(model: ModelValue): Drawing<Line>(model)
 
 internal val Value<Line>.modelLine get() = model as ModelDrawing.Line
 
