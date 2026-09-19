@@ -26,6 +26,7 @@ data class TokenWriter(
   }
 
   val mode get() = modeStack.lastOrNull() ?: Mode.BLOCK
+  val outerMode get() = if (modeStack.size > 1)  modeStack[modeStack.size - 2] else Mode.BLOCK
 
   val source
     get() = Source(fileName, startLine, startColumn, line, column).also {
@@ -133,17 +134,21 @@ data class TokenWriter(
   }
 
   private fun writeColon() {
+    if (mode != Mode.PAREN && outerMode == Mode.PAREN) {
+      invalid("colon")
+    }
     when (state) {
       State.START -> {}
       State.ATOM -> processAtom()
       State.INDENT, State.COLON, State.COMMA, State.CLOSED_PAREN -> invalid("colon")
     }
+    // Mode will be pushed after following space or newline.
     state = State.COLON
   }
 
   private fun writeOpenParen() {
     when (state) {
-      State.START -> process(beginToken)
+      State.START -> {}
       State.ATOM -> processAtom()
       State.INDENT, State.COLON, State.COMMA, State.CLOSED_PAREN -> invalid("opening parenthesis")
     }
@@ -158,7 +163,8 @@ data class TokenWriter(
     when (state) {
       State.START -> {}
       State.ATOM -> processAtom()
-      State.INDENT, State.COLON, State.COMMA, State.CLOSED_PAREN -> {
+      State.CLOSED_PAREN -> {}
+      State.INDENT, State.COLON, State.COMMA -> {
         invalid("closing parenthesis")
       }
     }
@@ -232,6 +238,13 @@ data class TokenWriter(
   }
 
   override fun done() {
+    when (state) {
+      State.START -> {}
+      State.INDENT, State.ATOM, State.COLON, State.COMMA, State.CLOSED_PAREN -> invalid("end")
+    }
+    if (depth != 0) {
+      invalid("end")
+    }
     while (modeStack.size > depth) {
       processEnd()
     }
@@ -247,10 +260,9 @@ fun main() {
   val tokenWriter = TokenWriter("file.leo") { println(it) }
   val string = source(
     """
-    point:
-      x: 10
-      y: 20
-    b, c, d(x: 10, y: 11), 11
+    circle:
+      center(point(x: 10, y: 20))
+      radius(10)
     """
   )
   print(string)
