@@ -105,7 +105,7 @@ data class TokenWriter(
               Mode.PAREN -> {}
             }
           } else {
-            invalid("indentation space")
+            invalid("indentation")
           }
         }
         state = State.INDENT
