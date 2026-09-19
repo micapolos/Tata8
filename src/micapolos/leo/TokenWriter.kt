@@ -70,10 +70,7 @@ data class TokenWriter(
   private fun processColonEnds() {
     while (true) {
       when (mode) {
-        Mode.COLON -> {
-          modeStack.removeLast()
-          process(endToken)
-        }
+        Mode.COLON -> processEnd()
         Mode.BLOCK, Mode.PAREN -> break
       }
     }
@@ -81,8 +78,7 @@ data class TokenWriter(
 
   private fun processUnclosedEnds() {
     while (modeStack.size > depth) {
-      modeStack.removeLast()
-      process(endToken)
+      processEnd()
     }
   }
 
@@ -237,8 +233,7 @@ data class TokenWriter(
 
   override fun done() {
     while (modeStack.size > depth) {
-      modeStack.removeLast()
-      process(endToken)
+      processEnd()
     }
   }
 }
