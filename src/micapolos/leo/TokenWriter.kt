@@ -4,7 +4,7 @@ data class TokenWriter(
   val fileName: String,
   var state: State = State.START,
   val atomStringBuilder: StringBuilder = StringBuilder(),
-  var modeStack: MutableList<Mode> = mutableListOf(),
+  var blockStack: MutableList<Token.Block> = mutableListOf(),
   var depth: Int = 0,
   var startLine: Int = 1,
   var startColumn: Int = 1,
@@ -21,12 +21,8 @@ data class TokenWriter(
     CLOSED_PAREN
   }
 
-  enum class Mode {
-    BLOCK, COLON, PAREN
-  }
-
-  val mode get() = modeStack.lastOrNull() ?: Mode.BLOCK
-  val outerMode get() = if (modeStack.size > 1)  modeStack[modeStack.size - 2] else Mode.BLOCK
+  val block get() = blockStack.lastOrNull() ?: Token.Block.INDENT
+  val outerMode get() = if (blockStack.size > 1)  blockStack[blockStack.size - 2] else Token.Block.INDENT
 
   val source
     get() = Source(fileName, startLine, startColumn, line, column).also {
@@ -42,12 +38,17 @@ data class TokenWriter(
   }
 
   fun processEnd() {
-    modeStack.removeLast()
+    blockStack.removeLast()
     process(endToken)
   }
 
   fun processAtom() {
     process(token(atomStringBuilder.toString()))
+    atomStringBuilder.clear()
+  }
+
+  fun processBegin(block: Token.Block) {
+    process(beginToken(atomStringBuilder.toString(), block))
     atomStringBuilder.clear()
   }
 
@@ -70,15 +71,15 @@ data class TokenWriter(
 
   private fun processColonEnds() {
     while (true) {
-      when (mode) {
-        Mode.COLON -> processEnd()
-        Mode.BLOCK, Mode.PAREN -> break
+      when (block) {
+        Token.Block.INLINE -> processEnd()
+        Token.Block.INDENT, Token.Block.PAREN -> break
       }
     }
   }
 
   private fun processUnclosedEnds() {
-    while (modeStack.size > depth) {
+    while (blockStack.size > depth) {
       processEnd()
     }
   }
@@ -99,11 +100,10 @@ data class TokenWriter(
     when (state) {
       State.START -> {
         while (true) {
-          if (depth < modeStack.size) {
-            when (modeStack[depth++]) {
-              Mode.BLOCK -> break
-              Mode.COLON -> {}
-              Mode.PAREN -> {}
+          if (depth < blockStack.size) {
+            when (blockStack[depth++]) {
+              Token.Block.INDENT -> break
+              Token.Block.INLINE, Token.Block.PAREN -> {}
             }
           } else {
             invalid("indentation")
@@ -117,9 +117,9 @@ data class TokenWriter(
       }
 
       State.COLON -> {
-        process(beginToken)
+        processBegin(Token.Block.INLINE)
         depth++
-        modeStack.add(Mode.COLON)
+        blockStack.add(Token.Block.INLINE)
         state = State.START
       }
 
@@ -134,27 +134,27 @@ data class TokenWriter(
   }
 
   private fun writeColon() {
-    if (mode != Mode.PAREN && outerMode == Mode.PAREN) {
-      invalid("colon")
+    if (block == Token.Block.INLINE && outerMode == Token.Block.PAREN) {
+      invalid("second colon after opening parenthesis")
     }
     when (state) {
       State.START -> {}
-      State.ATOM -> processAtom()
+      State.ATOM -> {}
       State.INDENT, State.COLON, State.COMMA, State.CLOSED_PAREN -> invalid("colon")
     }
-    // Mode will be pushed after following space or newline.
+    // Begin token and mode will be pushed after following space or newline.
     state = State.COLON
   }
 
   private fun writeOpenParen() {
     when (state) {
       State.START -> {}
-      State.ATOM -> processAtom()
+      State.ATOM -> {}
       State.INDENT, State.COLON, State.COMMA, State.CLOSED_PAREN -> invalid("opening parenthesis")
     }
     processUnclosedEnds()
-    modeStack.add(Mode.PAREN)
-    process(beginToken)
+    blockStack.add(Token.Block.PAREN)
+    processBegin(Token.Block.PAREN)
     depth++
     state = State.START
   }
@@ -185,17 +185,16 @@ data class TokenWriter(
   private fun writeNewLine() {
     when (state) {
       State.START -> {
-        when (mode) {
-          Mode.BLOCK -> {}
-          Mode.COLON -> invalid("new line")
-          Mode.PAREN -> invalid("new line")
+        when (block) {
+          Token.Block.INDENT -> {}
+          Token.Block.INLINE, Token.Block.PAREN -> invalid("new line")
         }
       }
 
       State.ATOM -> processAtom()
       State.COLON -> {
-        process(beginToken)
-        modeStack.add(Mode.BLOCK)
+        processBegin(Token.Block.INDENT)
+        blockStack.add(Token.Block.INDENT)
       }
 
       State.INDENT, State.COMMA -> invalid("new line")
@@ -245,7 +244,7 @@ data class TokenWriter(
     if (depth != 0) {
       invalid("end")
     }
-    while (modeStack.size > depth) {
+    while (blockStack.size > depth) {
       processEnd()
     }
   }
@@ -263,6 +262,12 @@ fun main() {
     circle:
       center(point(x: 10, y: 20))
       radius(10)
+    numbers: 10, 20, 30
+    digit names:
+      0: zero
+      1: one
+      2: two
+    letter names(a: ala, b: bartek)
     """
   )
   print(string)
