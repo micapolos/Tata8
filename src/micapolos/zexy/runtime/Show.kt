@@ -32,7 +32,7 @@ fun Game.show() {
       TataGame.background.canvas.draw(string, (TataGame.WIDTH - width) / 2, 8, Color.YELLOW, TataGame.font, true)
     }
   }
-  TataGame.screen.shader = Shader.CRT_PHOSPHOR
+  TataGame.screen.shader = Shader.LIGHT_POINT
   TataGame.start()
 }
 
