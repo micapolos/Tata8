@@ -4,6 +4,7 @@ import micapolos.zexy.model.Integer as ModelInteger
 
 class Screen internal constructor(size: Value<Size>) : ValueWithChildren<Screen>(size)
 
+@Suppress("UNCHECKED_CAST")
 val Value<Screen>.size: Value<Size> get() = children[0] as Value<Size>
 
 val screen =

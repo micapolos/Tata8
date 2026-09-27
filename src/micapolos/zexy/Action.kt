@@ -52,7 +52,7 @@ class Action internal constructor(model: ModelAction): ValueWithModel<Action>(mo
   }
 }
 
-internal val Value<Action>.modelAction get() = model as ModelValue
+internal val Value<Action>.modelAction get() = model
 
 val noAction = Action(ModelAction.Empty)
 

@@ -11,6 +11,7 @@ sealed interface Evaluator<out T> {
   fun evalDouble(): Double = error("Not double")
   fun evalObject(): T = evalBoxed()
 
+  @Suppress("UNCHECKED_CAST")
   fun logged(label: String?) =
     when (this) {
       is IntEvaluator -> loggedInt(label)

@@ -2,7 +2,10 @@ package micapolos.zexy
 
 class Size internal constructor(width: Value<Integer>, height: Value<Integer>): ValueWithChildren<Size>(width, height)
 
+@Suppress("UNCHECKED_CAST")
 val Value<Size>.width get() = children[0] as Value<Integer>
+
+@Suppress("UNCHECKED_CAST")
 val Value<Size>.height get() = children[1] as Value<Integer>
 
 fun size(width: Int, height: Int) = size(width.value, height.value)

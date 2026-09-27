@@ -16,4 +16,5 @@ class Compiler(
 
 fun Compiler.intEvaluator(value: Value) = evaluator(value) as IntEvaluator
 fun Compiler.doubleEvaluator(value: Value) = evaluator(value) as DoubleEvaluator
+@Suppress("UNCHECKED_CAST")
 fun <O> Compiler.objectEvaluator(value: Value) = evaluator(value) as ObjectEvaluator<O>

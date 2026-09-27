@@ -68,13 +68,13 @@ fun Value<Sprite>.withImagePosition(x: Value<Integer>, y: Value<Integer>): Value
 
 @JvmName("withPosition")
 fun Value<Sprite>.with(position: Value<Position>): Value<Sprite> =
-  withPosition((position as Position).x, (position as Position).y)
+  withPosition((position as Position).x, position.y)
 
 @JvmName("withSize")
 fun Value<Sprite>.with(size: Value<Size>): Value<Sprite> =
-  withSize((size as Size).width, (size as Size).height)
+  withSize((size as Size).width, size.height)
 
 @JvmName("withImagePosition")
 fun Value<Sprite>.withImage(position: Value<Position>): Value<Sprite> =
-  withImagePosition((position as Position).x, (position as Position).y)
+  withImagePosition((position as Position).x, position.y)
 

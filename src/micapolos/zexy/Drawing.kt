@@ -7,7 +7,7 @@ open class Drawing<out T: Drawing<T>> internal constructor(model: ModelValue) : 
   object Empty: Drawing<Empty>(ModelDrawing.Empty)
 }
 
-internal val <T: Drawing<T>> Value<T>.modelDrawing get() = model as ModelValue
+internal val <T: Drawing<T>> Value<T>.modelDrawing get() = model
 
 val noDrawing: Value<Drawing.Empty> get() = Drawing.Empty
 

@@ -12,7 +12,7 @@ val Double.number get() = value
 
 fun variable(initial: Double) = variable(initial.value)
 
-internal val <T : Value<T>> Value<T>.modelNumber get() = model as ModelValue
+internal val <T : Value<T>> Value<T>.modelNumber get() = model
 internal val Value<Number>.cast get() = this as Number
 
 internal fun Value<Number>.apply(op1: ModelNumber.Op1): Value<Number> =

@@ -13,7 +13,7 @@ class Indexer {
 
   @Suppress("UNCHECKED_CAST")
   fun variableOrNull(modelVariable: ModelVariable): Variable? =
-    variableMap[modelVariable] as Variable?
+    variableMap[modelVariable]
 
   @Suppress("UNCHECKED_CAST")
   fun initialValues(indexType: IndexType): MutableList<Value> =

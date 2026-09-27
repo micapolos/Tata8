@@ -115,7 +115,7 @@ class Animation internal constructor(model: ModelValue): ValueWithModel<Animatio
   }
 }
 
-internal val Value<Animation>.modelAnimation get() = model as ModelValue
+internal val Value<Animation>.modelAnimation get() = model
 
 val infiniteAnimation = Animation(ModelAnimation.Infinite)
 

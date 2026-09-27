@@ -27,6 +27,7 @@ open class ValueWithChildren<out T: Value<T>>(vararg val children: Value<*>): Va
 
 internal val Value<*>.model get() = (impl as Impl.WithModel).model
 internal val Value<*>.children get() = (impl as Impl.WithChildren).children
+@Suppress("UNCHECKED_CAST")
 internal fun <T> Value<*>.children() = children as List<T>
 internal val Value<*>.safeModel: ModelValue get() =
   when (val impl = this.impl) {

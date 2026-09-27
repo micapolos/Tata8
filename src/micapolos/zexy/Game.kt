@@ -11,7 +11,7 @@ import micapolos.zexy.runtime.show
 import kotlin.reflect.KClass
 import micapolos.zexy.model.Game as ModelGame
 
-data class Game internal constructor(
+data class Game(
   val resourcesKClass: KClass<*>,
   internal val model: ModelGame,
 )

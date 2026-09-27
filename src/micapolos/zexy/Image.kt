@@ -6,7 +6,7 @@ import micapolos.zexy.model.Value as ModelValue
 
 class Image internal constructor(model: ModelValue): ValueWithModel<Image>(model)
 
-internal val Value<Image>.modelImage get() = model as ModelValue
+internal val Value<Image>.modelImage get() = model
 
 val noImage = Image(ModelImage.Empty)
 

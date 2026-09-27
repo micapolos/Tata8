@@ -13,5 +13,5 @@ fun Compiler.textEvaluator(text: Text): Evaluator<String> =
     is Text.Slice ->
       textSliceEvaluator(objectEvaluator(text.text), intEvaluator(text.start), intEvaluator(text.length))
     is Text.Join ->
-      textJoinEvaluator(text.texts.map { evaluator(it) as Evaluator<String> }.toTypedArray())
+      textJoinEvaluator(text.texts.map { objectEvaluator<String>(it) }.toTypedArray())
   }
