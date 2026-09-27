@@ -17,10 +17,8 @@ public abstract class Line {
   }
 
   public final void println(String label, int count) {
-    IO.print(label + ": ");
     byte[] arr = new byte[count];
     write(arr, 0, arr.length);
-    IO.println(Arrays.toString(arr));
   }
 
   public final void stream(SourceDataLine line, Runnable sync) {

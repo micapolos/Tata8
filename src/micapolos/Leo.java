@@ -40,6 +40,5 @@ public final class Leo {
   }
 
   static void main() {
-    IO.println(leo("foo", leo("x", leo(0.0)), leo("y", leo(0.03))));
   }
 }

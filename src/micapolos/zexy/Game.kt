@@ -30,11 +30,11 @@ fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
 fun Game.with(animation: Value<Animation>): Game =
   copy(model = model.copy(animation = animation.model))
 
-fun Game.show() {
+fun ModelGame.show() {
   val indexer = Indexer()
-  val indexed = indexer.indexed(model)
+  val indexed = indexer.indexed(this)
   val compiler = Compiler(
-    resourcesKClass,
+    Game::class,
     State(
       IntArray(indexer.initialValuesOf(IndexType.INTEGER).size),
       DoubleArray(indexer.initialValuesOf(IndexType.NUMBER).size),
@@ -45,6 +45,10 @@ fun Game.show() {
   }
   val runtimeGame = compiler.compile(indexed)
   runtimeGame.show()
+}
+
+fun Game.show() {
+  model.show()
 }
 
 fun main() {

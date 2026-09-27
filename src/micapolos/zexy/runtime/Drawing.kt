@@ -137,3 +137,7 @@ fun withCompositeEvaluator(drawingEvaluator: ObjectEvaluator<Drawing>, composite
       canvas.composite = previousComposite
     }
   }
+
+fun Drawing.show() {
+  ObjectEvaluator { this }.show()
+}
