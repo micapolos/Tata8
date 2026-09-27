@@ -67,7 +67,3 @@ fun interface ObjectEvaluator<T> : Evaluator<T> {
       eval().also { Game.log(label, it) }
     }
 }
-
-fun Evaluator<Drawing>.show() {
-  Game(drawingEvaluator = this).show()
-}
