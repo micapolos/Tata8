@@ -9,7 +9,10 @@ import micapolos.zexy.indexer.indexed
 import micapolos.zexy.runtime.State
 import micapolos.zexy.runtime.show
 import kotlin.reflect.KClass
+import micapolos.zexy.model.Action as ModelAction
+import micapolos.zexy.model.Animation as ModelAnimation
 import micapolos.zexy.model.Game as ModelGame
+import micapolos.zexy.model.Drawing as ModelDrawing
 
 data class Game(
   val resourcesKClass: KClass<*>,
@@ -29,6 +32,15 @@ fun <T: Drawing<T>> Game.with(vararg drawings: Value<T>): Game =
 
 fun Game.with(animation: Value<Animation>): Game =
   copy(model = model.copy(animation = animation.model))
+
+fun ModelDrawing.show() {
+  ModelGame(title = "Game",
+    width=480,
+    height=256,
+    drawing = this,
+    animation = ModelAnimation.Once(ModelAction.Empty))
+    .show()
+}
 
 fun ModelGame.show() {
   val indexer = Indexer()
