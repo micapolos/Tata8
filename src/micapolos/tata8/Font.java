@@ -1,6 +1,8 @@
 package micapolos.tata8;
 
 import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Arrays;
 
 import static micapolos.Leo.*;
 
@@ -81,7 +83,7 @@ public final class Font {
       index++;
       if (index == glyphs.length) break;
     }
-    return new Font(glyphs, height, spaceWidth, glyphSpacing, lineSpacing);
+    return new Font(Arrays.copyOfRange(glyphs, 0, index), height, spaceWidth, glyphSpacing, lineSpacing);
   }
 
   private int glyphIndex(char ch) {
@@ -142,6 +144,23 @@ public final class Font {
       10, 10,
       0xff2288dd);
     Game.start();
+  }
+
+  public void writeTo(DataOutputStream stream) throws IOException {
+    stream.writeByte(height);
+    stream.writeByte(spaceWidth);
+    stream.writeByte(glyphSpacing);
+    stream.writeByte(lineSpacing);
+    stream.writeByte(glyphs.length);
+    for (int i = 0; i < glyphs.length; i++) {
+      glyphs[i].writeTo(stream);
+    }
+  }
+
+  public void writeTo(File file) throws IOException {
+    try (var stream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
+      writeTo(stream);
+    }
   }
 
   static void main() {

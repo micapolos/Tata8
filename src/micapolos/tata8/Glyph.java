@@ -1,6 +1,8 @@
 package micapolos.tata8;
 
 import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public final class Glyph {
   final int[] vLines;
@@ -9,6 +11,13 @@ public final class Glyph {
   Glyph(int[] vLines, int width) {
     this.vLines = vLines;
     this.width = width;
+  }
+
+  public void writeTo(DataOutputStream stream) throws IOException {
+    stream.writeByte(vLines.length);
+    for (int i = 0; i < vLines.length; i++) {
+      stream.writeInt(vLines[i]);
+    }
   }
 
   static Glyph read(BufferedImage image, int x, int height) {

@@ -68,6 +68,7 @@ class CaveStory {
     String title = "Cave Story by micapolos";
     int titleWidth = Font.mica.width(title);
     Game.foreground.canvas.draw(title, (Game.size.width - titleWidth) / 2, 4, Color.YELLOW, Font.mica, true);
+    Game.screen.shader = Shader.LIGHT_POINT;
   }
 
   void update() {
